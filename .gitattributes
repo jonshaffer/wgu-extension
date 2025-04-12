@@ -1,0 +1,2 @@
+data/catalogs/pdfs/*.pdf !text !filter !merge !diff
+data/catalogs/raw/*.pdf !text !filter !merge !diff
