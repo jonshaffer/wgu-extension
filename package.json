@@ -1,8 +1,8 @@
 {
-  "name": "wgu-extension",
-  "description": "manifest.json description",
-  "private": true,
-  "version": "0.0.1",
+  "name": "unofficial-wgu-extension",
+  "description": "Adds percentage to OA Test Report pages. Unofficial student made tool for WGU students. Not endorsed by WGU.",
+  "private": false,
+  "version": "0.0.2",
   "type": "module",
   "scripts": {
     "dev": "wxt",
