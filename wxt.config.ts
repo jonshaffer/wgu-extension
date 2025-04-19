@@ -1,6 +1,8 @@
 import { defineConfig } from 'wxt';
 import tailwindcss from '@tailwindcss/vite';
 
+import packageJson from "./package.json"
+
 // See https://wxt.dev/api/config.html
 export default defineConfig({
   modules: [
@@ -8,8 +10,8 @@ export default defineConfig({
     '@wxt-dev/auto-icons',
   ],
   manifest: {
-    name: 'WGU Extension',
-    description: 'Adds percentage to the OA Test Report pages on both pre-assessment and assessment.',
+    name: 'Unofficial WGU Extension',
+    description: packageJson.description,
     permissions: [
       'storage',
     ],
