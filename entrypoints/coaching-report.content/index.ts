@@ -1,6 +1,8 @@
 import { storage } from "@wxt-dev/storage";
 import { SHOW_REPORT_PERCENTAGE } from "@/utils/storage.constants";
 
+import "./printstyles.css";
+
 export default defineContentScript({
   // matches like https://my.wgu.edu/coaching-report/
   matches: ['https://my.wgu.edu/coaching-report/*'],
