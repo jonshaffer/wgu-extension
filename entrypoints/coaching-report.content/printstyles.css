@@ -1,0 +1,5 @@
+@media print {
+  .cr-question {
+    break-inside: avoid;
+  }
+}
