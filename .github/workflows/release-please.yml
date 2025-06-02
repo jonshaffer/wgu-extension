@@ -13,12 +13,97 @@ jobs:
   release-please:
     runs-on: ubuntu-latest
     steps:
-      - uses: google-github-actions/release-please-action@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          release-type: node # Assumes a node-style project for versioning and changelog
-          package-name: unofficial-wgu-extension # Matches the name in package.json
-          # You can add a GITHUB_TOKEN secret if needed, but it often works without for public repos
-          # token: ${{ secrets.GITHUB_TOKEN }}
-          # If you use a custom versioning scheme or changelog format, configure it here.
-          # For example, to include all commit types in the changelog:
-          # changelog-types: '[{"type":"feat","section":"Features","hidden":false},{"type":"fix","section":"Bug Fixes","hidden":false},{"type":"build","section":"Build System","hidden":false},{"type":"chore","section":"Chores","hidden":false},{"type":"ci","section":"Continuous Integration","hidden":false},{"type":"docs","section":"Documentation","hidden":false},{"type":"perf","section":"Performance Improvements","hidden":false},{"type":"refactor","section":"Refactors","hidden":false},{"type":"style","section":"Styles","hidden":false},{"type":"test","section":"Tests","hidden":false}]
+          bun-version-file: .tool-versions
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.bun
+          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
+          restore-keys: |
+            ${{ runner.os }}-bun-
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Run Release Please
+        id: release
+        uses: google-github-actions/release-please-action@v4
+        with:
+          config-file: .github/release-please-config.json
+
+      - name: Build and Zip Extensions
+        if: ${{ steps.release.outputs.release_created }}
+        run: |
+          bun run zip:chrome
+          bun run zip:firefox
+          bun run zip:edge
+          bun run zip:safari
+
+      - name: Upload Release Assets and Add Webstore Status Table
+        if: ${{ steps.release.outputs.release_created }}
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            .output/unofficial-wgu-extension-*
+          tag_name: ${{ steps.release.outputs.tag_name }}
+          body: |
+            ${{ steps.release.outputs.body }}
+
+            ## Webstore Status
+
+            | Browser | Status |
+            |---|---|
+            | Chrome Web Store | ⚪ Unsubmitted |
+            | Firefox Add-ons | ⚪ Unsubmitted |
+            | Edge Add-ons | ⚪ Unsubmitted |
+            | Safari Extensions | ⚪ Unsubmitted |
+
+            **Key:**
+            ⚪ Unsubmitted
+            🟡 Submitted
+            🟢 Approved
+            🔵 Available
+            🔴 Denied
+          append_body: true
+      - name: Save Release Body as JSON
+        if: ${{ steps.release.outputs.release_created }}
+        run: echo '${{ steps.release.outputs.body }}' > release_body.json
+
+      - name: Upload Release Body JSON
+        if: ${{ steps.release.outputs.release_created }}
+        uses: softprops/action-gh-release@v1
+        with:
+          files: release_body.json
+          tag_name: ${{ steps.release.outputs.tag_name }}
+          append_body: true
+      - name: Generate and Upload Store Changelogs
+        if: ${{ steps.release.outputs.release_created }}
+        run: |
+          # Create a simplified changelog for webstores
+          # Remove markdown headers, list markers, and extra newlines
+          echo "${{ steps.release.outputs.body }}" | sed -E 's/^#+ //g' | sed -E 's/^- //g' | sed -E '/^$/d' > dist/webstore_changelog.txt
+
+          # Copy for each browser, as some stores might prefer specific filenames
+          cp dist/webstore_changelog.txt dist/chrome_changelog.txt
+          cp dist/webstore_changelog.txt dist/firefox_changelog.txt
+          cp dist/webstore_changelog.txt dist/edge_changelog.txt
+          cp dist/webstore_changelog.txt dist/safari_changelog.txt
+
+      - name: Upload Store Changelog Assets
+        if: ${{ steps.release.outputs.release_created }}
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            dist/chrome_changelog.txt
+            dist/firefox_changelog.txt
+            dist/edge_changelog.txt
+            dist/safari_changelog.txt
+          tag_name: ${{ steps.release.outputs.tag_name }}
+          append_body: true

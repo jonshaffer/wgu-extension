@@ -1,0 +1,16 @@
+{
+  "release-type": "node",
+  "package-name": "unofficial-wgu-extension",
+  "changelog-types": [
+    {"type":"feat","section":"Features","hidden":false},
+    {"type":"fix","section":"Bug Fixes","hidden":false},
+    {"type":"build","section":"Build System","hidden":false},
+    {"type":"chore","section":"Chores","hidden":false},
+    {"type":"ci","section":"Continuous Integration","hidden":false},
+    {"type":"docs","section":"Documentation","hidden":false},
+    {"type":"perf","section":"Performance Improvements","hidden":false},
+    {"type":"refactor","section":"Refactors","hidden":false},
+    {"type":"style","section":"Styles","hidden":false},
+    {"type":"test","section":"Tests","hidden":false}
+  ]
+}
