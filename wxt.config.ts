@@ -15,6 +15,12 @@ export default defineConfig({
     permissions: [
       'storage',
     ],
+    web_accessible_resources: [
+      {
+        resources: ["assets/communities.json", "assets/icon.png"],
+        matches: ["https://my.wgu.edu/courses/course/*"]
+      }
+    ]
   },
   vite: () => ({
     plugins: [
