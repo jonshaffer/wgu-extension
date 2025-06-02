@@ -1,12 +1,17 @@
 // import browser from "webextension-polyfill"; // Assumed to be global by WXT
 // import { storage } from '@wxt-dev/storage'; // Alternative for storage
 
-const GITHUB_COMMUNITIES_URL = 'https://raw.githubusercontent.com/jonshaffer/wgu-extension/main/assets/communities.json';
-const CACHED_COMMUNITIES_KEY = 'cachedCommunityMappings';
-const LAST_FETCH_TIMESTAMP_KEY = 'lastFetchCommunityMappingsTimestamp';
-const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000;
+const GITHUB_COMMUNITIES_BASE_URL = 'https://raw.githubusercontent.com/jonshaffer/wgu-extension/main/assets/communities/'; // Note the trailing slash
+const CACHED_COMMUNITIES_KEY_PREFIX = 'cachedCommunityMappings_';
+const LAST_FETCH_TIMESTAMP_KEY_PREFIX = 'lastFetchTimestamp_';
+const ONE_DAY_MS = 1 * 24 * 60 * 60 * 1000;
+
+const CTA_CONTRIBUTE_URL = 'https://github.com/jonshaffer/wgu-extension/tree/main/assets/communities';
 
 // Define an interface for community link structure for clarity
+
+// Special object to indicate that a course-specific JSON file was not found (404)
+const COURSE_FILE_NOT_FOUND = { status: 'not_found_on_github' };
 interface CommunityLink {
   name: string;
   url: string;
@@ -48,58 +53,92 @@ export default defineContentScript({
       return null;
     }
 
-    async function fetchAndCacheCommunityMappings() {
-      console.log('Attempting to fetch community mappings from GitHub...');
+    async function fetchAndCacheCommunityMappings(courseCode: string): Promise<any | null | typeof COURSE_FILE_NOT_FOUND> {
+      const lowerCaseCourseCode = courseCode.toLowerCase();
+      const fetchUrl = `${GITHUB_COMMUNITIES_BASE_URL}${lowerCaseCourseCode}.json`;
+      console.log(`Attempting to fetch community mappings from: ${fetchUrl}`);
+
       try {
-        const response = await fetch(GITHUB_COMMUNITIES_URL);
-        if (!response.ok) {
-          throw new Error(`GitHub fetch failed: ${response.status} ${response.statusText}`);
+        const response = await fetch(fetchUrl);
+
+        if (response.status === 404) {
+          console.warn(`Course-specific community file not found (404) for ${courseCode} at ${fetchUrl}`);
+          // Clear any potentially stale cache for this specific course if its file is now reported as not found.
+          await browser.storage.local.remove([
+            `${CACHED_COMMUNITIES_KEY_PREFIX}${lowerCaseCourseCode}`,
+            `${LAST_FETCH_TIMESTAMP_KEY_PREFIX}${lowerCaseCourseCode}`
+          ]);
+          return COURSE_FILE_NOT_FOUND;
         }
+
+        if (!response.ok) {
+          throw new Error(`GitHub fetch failed: ${response.status} ${response.statusText} for URL: ${fetchUrl}`);
+        }
+
         const mappings = await response.json();
         await browser.storage.local.set({
-          [CACHED_COMMUNITIES_KEY]: mappings,
-          [LAST_FETCH_TIMESTAMP_KEY]: Date.now(),
+          [`${CACHED_COMMUNITIES_KEY_PREFIX}${lowerCaseCourseCode}`]: mappings,
+          [`${LAST_FETCH_TIMESTAMP_KEY_PREFIX}${lowerCaseCourseCode}`]: Date.now(),
         });
-        console.log('Successfully fetched and cached mappings from GitHub.');
+        console.log(`Successfully fetched and cached mappings for ${courseCode} from GitHub.`);
         return mappings;
       } catch (error) {
-        console.error('Error fetching community mappings from GitHub:', error);
-        return null; // Indicates fetch failure
+        console.error(`Error fetching community mappings for ${courseCode} from GitHub:`, error);
+        return null; // Indicates a general fetch failure (not a 404)
       }
     }
 
-    async function loadCommunityMappings() {
-      let cachedData;
-      let lastFetchTime;
+async function loadCommunityMappings(courseCode: string): Promise<any | null | typeof COURSE_FILE_NOT_FOUND> {
+  const lowerCaseCourseCode = courseCode.toLowerCase();
+  const cacheKey = `${CACHED_COMMUNITIES_KEY_PREFIX}${lowerCaseCourseCode}`;
+  const timestampKey = `${LAST_FETCH_TIMESTAMP_KEY_PREFIX}${lowerCaseCourseCode}`;
 
-      try {
-        const result = await browser.storage.local.get([
-          CACHED_COMMUNITIES_KEY,
-          LAST_FETCH_TIMESTAMP_KEY,
-        ]);
-        cachedData = result[CACHED_COMMUNITIES_KEY];
-        lastFetchTime = result[LAST_FETCH_TIMESTAMP_KEY];
-      } catch (e) {
-        console.error("Error reading from storage", e);
-        // Initialize to ensure flow continues, possibly attempting a fetch
-        cachedData = null;
-        lastFetchTime = 0;
-      }
+  let cachedData;
+  let lastFetchTime;
 
-      const now = Date.now();
+  try {
+    const result = await browser.storage.local.get([cacheKey, timestampKey]);
+    cachedData = result[cacheKey];
+    lastFetchTime = result[timestampKey];
+  } catch (e) {
+    console.error(`Error reading from storage for ${courseCode}:`, e);
+    // Treat as cache miss if storage read fails, initialized downstream
+  }
 
-      if (cachedData && lastFetchTime && (now - lastFetchTime < ONE_WEEK_MS)) {
-        console.log('Using cached community mappings (less than a week old).');
-        return cachedData;
-      } else if (cachedData) { // Cache exists but is stale
-        console.log('Cached community mappings are stale. Attempting refresh, but will use stale data if fetch fails.');
-        const freshMappings = await fetchAndCacheCommunityMappings();
-        return freshMappings !== null ? freshMappings : cachedData; // Return fresh if successful, else stale
-      } else { // No cache or cache was unusable (e.g. storage read failed and initialized to null)
-        console.log('No cached community mappings found or cache is unusable. Fetching from GitHub.');
-        return await fetchAndCacheCommunityMappings();
-      }
-    }
+  const now = Date.now();
+
+  if (cachedData && lastFetchTime && (now - lastFetchTime < ONE_DAY_MS)) {
+    console.log(`Using cached community mappings for ${courseCode} (less than a day old).`);
+    return cachedData;
+  }
+
+  // If cache is stale or not present, attempt to fetch
+  console.log(cachedData ? `Cached community mappings for ${courseCode} are stale.` : `No cached community mappings found for ${courseCode}. Attempting to fetch from GitHub.`);
+
+  // Pass courseCode to fetchAndCacheCommunityMappings
+  // fetchAndCacheCommunityMappings itself handles lowercasing for the URL construction.
+  const freshFetchResult = await fetchAndCacheCommunityMappings(courseCode);
+
+  if (freshFetchResult === COURSE_FILE_NOT_FOUND) {
+    console.log(`Community file not found on GitHub for ${courseCode}.`);
+    return COURSE_FILE_NOT_FOUND; // Propagate "not found" status
+  }
+
+  if (freshFetchResult !== null) { // Successfully fetched fresh data
+    console.log(`Successfully fetched fresh data for ${courseCode}.`);
+    return freshFetchResult;
+  }
+
+  // Fetch failed (freshFetchResult is null), but there might be stale data
+  if (cachedData) {
+    console.log(`GitHub fetch failed for ${courseCode}, but using stale cached data.`);
+    return cachedData;
+  }
+
+  // Fetch failed and no cache whatsoever
+  console.log(`GitHub fetch failed for ${courseCode} and no cached data available.`);
+  return null;
+}
 
     function generateLinkListItem(link: CommunityLink, iconSvg: string): string {
       return `
@@ -110,26 +149,56 @@ export default defineContentScript({
       `;
     }
 
-    function generateCommunityPanelHTML(courseId: string, mappings: CourseCommunityMappings): string {
-      let listItems = '';
-      if (mappings.discord) {
-        mappings.discord.forEach(link => {
-          listItems += generateLinkListItem(link, DISCORD_ICON_SVG);
-        });
-      }
-      if (mappings.reddit) {
-        mappings.reddit.forEach(link => {
-          listItems += generateLinkListItem(link, REDDIT_ICON_SVG);
-        });
-      }
+    function generateCommunityPanelHTML(courseId: string, mappings: CourseCommunityMappings | null | typeof COURSE_FILE_NOT_FOUND): string {
+      let panelBodyContent = '';
 
-      if (!listItems) {
-        return ''; // No links to show
+      if (mappings === COURSE_FILE_NOT_FOUND) {
+        panelBodyContent = `
+          <div _ngcontent-ng-c2827564221="" class="expansion-content" style="border-radius: 0 0 5px 5px; padding: 15px; text-align: center;">
+            <p>Community links for <strong>${courseId}</strong> haven't been added yet.</p>
+            <p><a href="${CTA_CONTRIBUTE_URL}" target="_blank" rel="noopener noreferrer" style="color: #007bff; text-decoration: underline;">Want to help? Click here to contribute!</a></p>
+          </div>
+        `;
+      } else if (mappings && (mappings.discord || mappings.reddit)) {
+        let listItems = '';
+        if (mappings.discord) {
+          mappings.discord.forEach(link => {
+            listItems += generateLinkListItem(link, DISCORD_ICON_SVG);
+          });
+        }
+        if (mappings.reddit) {
+          mappings.reddit.forEach(link => {
+            listItems += generateLinkListItem(link, REDDIT_ICON_SVG);
+          });
+        }
+
+        if (!listItems) {
+          panelBodyContent = `
+            <div _ngcontent-ng-c2827564221="" class="expansion-content" style="border-radius: 0 0 5px 5px; padding: 15px;">
+              No specific links currently listed for ${courseId}.
+            </div>
+          `;
+        } else {
+          panelBodyContent = `
+            <div _ngcontent-ng-c2827564221="" class="expansion-content" style="border-radius: 0 0 5px 5px;">
+              <ul _ngcontent-ng-c2827564221="" class="tipsAnnouncmentList">
+                ${listItems}
+              </ul>
+            </div>
+          `;
+        }
+      } else { // Mappings object exists but is empty, or other unhandled cases
+        panelBodyContent = `
+          <div _ngcontent-ng-c2827564221="" class="expansion-content" style="border-radius: 0 0 5px 5px; padding: 15px;">
+            Community link information for ${courseId} is currently unavailable.
+          </div>
+        `;
       }
 
       const panelId = `wgu-ext-community-panel-${courseId}`;
       const childId = `wgu-ext-community-child-${courseId}`;
 
+      // The overall panel structure (header) remains the same.
       return `
         <mat-expansion-panel _ngcontent-ng-c2827564221="" class="mat-expansion-panel mat-elevation-z0 mat-expansion-panel-animations-enabled mat-expanded mat-expansion-panel-spacing">
           <mat-expansion-panel-header _ngcontent-ng-c2827564221="" role="button" class="mat-expansion-panel-header mat-focus-indicator mat-expansion-toggle-indicator-after mat-expanded" id="${panelId}-header" tabindex="0" aria-controls="${childId}" aria-expanded="true" aria-disabled="false" style="height: 40px;cursor: default;border-radius: 5px 5px 0 0;">
@@ -143,11 +212,7 @@ export default defineContentScript({
           <div class="mat-expansion-panel-content-wrapper" style="visibility: visible;">
             <div role="region" class="mat-expansion-panel-content" id="${childId}" aria-labelledby="${panelId}-header">
               <div class="mat-expansion-panel-body">
-                <div _ngcontent-ng-c2827564221="" class="expansion-content" style="border-radius: 0 0 5px 5px;">
-                  <ul _ngcontent-ng-c2827564221="" class="tipsAnnouncmentList">
-                    ${listItems}
-                  </ul>
-                </div>
+                ${panelBodyContent}
               </div>
             </div>
           </div>
@@ -176,24 +241,19 @@ export default defineContentScript({
     const courseCode = extractCourseCode();
 
     if (courseCode) {
-      const communityMappings = await loadCommunityMappings(); // This now handles caching
+      const mappingResult = await loadCommunityMappings(courseCode);
 
-      if (communityMappings) { // Check if mappings is not null (i.e., fetch/cache was successful)
-        const courseSpecificMappings = communityMappings[courseCode] as CourseCommunityMappings | undefined;
-
-        if (courseSpecificMappings && (courseSpecificMappings.discord || courseSpecificMappings.reddit)) {
-          console.log(`Mappings found for ${courseCode}:`, courseSpecificMappings);
-          const panelHtml = generateCommunityPanelHTML(courseCode, courseSpecificMappings);
-          if (panelHtml) {
-            injectHTML(panelHtml);
-          } else {
-            console.log(`No actual links to display for ${courseCode} even if mapping entry exists.`);
-          }
-        } else {
-          console.log(`No specific community links found for ${courseCode} in mappings.`);
-        }
+      if (mappingResult === null) { // General fetch error, no cache
+        console.log(`No community links panel will be displayed for ${courseCode} due to fetch error and no cache.`);
       } else {
-        console.log('Failed to load community mappings (neither cache nor GitHub fetch worked). No panel will be displayed.');
+        // This includes COURSE_FILE_NOT_FOUND or actual mappings
+        // generateCommunityPanelHTML can handle COURSE_FILE_NOT_FOUND directly
+        console.log(`Displaying community panel for ${courseCode}. Status/Mappings:`, mappingResult);
+        const panelHtml = generateCommunityPanelHTML(courseCode, mappingResult);
+        // panelHtml should always be a string, even if it's an empty panel or CTA
+        // The old check `if (panelHtml)` was for when generateCommunityPanelHTML could return "" for no links.
+        // Now, it always returns a full panel structure or the CTA.
+        injectHTML(panelHtml);
       }
     }
   },
