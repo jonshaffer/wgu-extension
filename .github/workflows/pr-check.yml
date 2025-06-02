@@ -1,0 +1,27 @@
+name: PR Check
+
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read # Needed to checkout the code
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest # or specify a version
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Compile check
+        run: bun run compile
+
+      - name: Build extension
+        run: bun run build

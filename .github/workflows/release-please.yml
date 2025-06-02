@@ -1,0 +1,24 @@
+name: Release Please
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write # Allow to create/update PRs
+  pull-requests: write # Allow to create/update PRs
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: google-github-actions/release-please-action@v4
+        with:
+          release-type: node # Assumes a node-style project for versioning and changelog
+          package-name: unofficial-wgu-extension # Matches the name in package.json
+          # You can add a GITHUB_TOKEN secret if needed, but it often works without for public repos
+          # token: ${{ secrets.GITHUB_TOKEN }}
+          # If you use a custom versioning scheme or changelog format, configure it here.
+          # For example, to include all commit types in the changelog:
+          # changelog-types: '[{"type":"feat","section":"Features","hidden":false},{"type":"fix","section":"Bug Fixes","hidden":false},{"type":"build","section":"Build System","hidden":false},{"type":"chore","section":"Chores","hidden":false},{"type":"ci","section":"Continuous Integration","hidden":false},{"type":"docs","section":"Documentation","hidden":false},{"type":"perf","section":"Performance Improvements","hidden":false},{"type":"refactor","section":"Refactors","hidden":false},{"type":"style","section":"Styles","hidden":false},{"type":"test","section":"Tests","hidden":false}]
