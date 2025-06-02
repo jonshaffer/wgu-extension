@@ -17,9 +17,12 @@ export default defineConfig({
     ],
     web_accessible_resources: [
       {
-        resources: ["assets/communities.json", "assets/icon.png"],
+        resources: ["assets/icon.png"],
         matches: ["https://my.wgu.edu/courses/course/*"]
       }
+    ],
+    host_permissions: [
+      'https://raw.githubusercontent.com/*'
     ]
   },
   vite: () => ({
