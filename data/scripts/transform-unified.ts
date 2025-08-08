@@ -30,6 +30,7 @@ const DISCORD_DIR = resolve(RAW_DIR, 'discord');
 const REDDIT_DIR = resolve(RAW_DIR, 'reddit');
 const PROCESSED_DIR = resolve(process.cwd(), 'data/processed');
 const PUBLIC_DATA_DIR = resolve(process.cwd(), 'public/data');
+const PUBLIC_COURSES_DIR = resolve(PUBLIC_DATA_DIR, 'courses');
 const ASSETS_DIR = resolve(process.cwd(), 'assets/communities');
 
 /**
@@ -371,6 +372,7 @@ async function transformUnifiedData(): Promise<void> {
   );
 
   // Generate individual course files for extension use
+  await fs.mkdir(PUBLIC_COURSES_DIR, { recursive: true });
   for (const courseMapping of courseMappings) {
     const courseFormat = {
       discord: courseMapping.discord || [],
@@ -380,7 +382,7 @@ async function transformUnifiedData(): Promise<void> {
     };
     
     await fs.writeFile(
-      resolve(PUBLIC_DATA_DIR, `${courseMapping.courseCode.toLowerCase()}.json`),
+      resolve(PUBLIC_COURSES_DIR, `${courseMapping.courseCode.toLowerCase()}.json`),
       JSON.stringify(courseFormat, null, 2)
     );
   }
@@ -405,7 +407,7 @@ async function transformUnifiedData(): Promise<void> {
   console.log(`✅ Unified transformation complete`);
   console.log(`   - Processed data: ${resolve(PROCESSED_DIR, 'unified-community-data.json')}`);
   console.log(`   - Public data: ${resolve(PUBLIC_DATA_DIR, 'unified-community-data.json')}`);
-  console.log(`   - Course mappings: ${courseMappings.length} courses`);
+  console.log(`   - Course files: ${resolve(PUBLIC_COURSES_DIR)} (${courseMappings.length} courses)`);
   console.log(`   - Legacy format files: ${ASSETS_DIR}`);
 }
 
