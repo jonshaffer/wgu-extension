@@ -1,21 +1,21 @@
 {
   "subreddit": "WGU_CompSci",
-  "name": "WGU Computer Science",
-  "description": "Computer Science degree program discussions",
+  "name": "r/WGU_CompSci",
+  "description": "WGU Computer Science program subreddit",
   "hierarchy": {
     "level": "program",
     "college": "technology",
     "program": "Computer Science"
   },
   "isActive": true,
+  "tags": [
+    "computer-science",
+    "programming"
+  ],
   "relevantCourses": [
     "C950",
     "C777",
     "C482",
     "C195"
-  ],
-  "tags": [
-    "computer-science",
-    "programming"
   ]
 }

@@ -1,7 +1,7 @@
 {
   "subreddit": "WGU",
-  "name": "Western Governors University",
-  "description": "The main WGU subreddit for all students and alumni",
+  "name": "r/WGU",
+  "description": "Main Western Governors University subreddit",
   "hierarchy": {
     "level": "university"
   },
@@ -9,5 +9,6 @@
   "tags": [
     "general",
     "university"
-  ]
+  ],
+  "relevantCourses": []
 }

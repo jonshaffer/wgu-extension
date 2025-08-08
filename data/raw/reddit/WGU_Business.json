@@ -1,0 +1,15 @@
+{
+  "subreddit": "WGU_Business",
+  "name": "r/WGU_Business",
+  "description": "WGU Business programs subreddit",
+  "hierarchy": {
+    "level": "college",
+    "college": "business"
+  },
+  "isActive": true,
+  "tags": [
+    "business",
+    "majors"
+  ],
+  "relevantCourses": []
+}

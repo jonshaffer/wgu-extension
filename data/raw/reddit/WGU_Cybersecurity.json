@@ -1,7 +1,7 @@
 {
-  "subreddit": "cybersecurity",
-  "name": "Cybersecurity",
-  "description": "General cybersecurity discussions, relevant to WGU Cybersecurity students",
+  "subreddit": "WGU_Cybersecurity",
+  "name": "r/WGU_Cybersecurity",
+  "description": "WGU Cybersecurity programs subreddit",
   "hierarchy": {
     "level": "program",
     "college": "technology",
@@ -11,5 +11,10 @@
   "tags": [
     "cybersecurity",
     "infosec"
+  ],
+  "relevantCourses": [
+    "C836",
+    "C837",
+    "C838"
   ]
 }
