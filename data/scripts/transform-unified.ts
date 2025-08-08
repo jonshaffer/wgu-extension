@@ -16,6 +16,7 @@ import type {
   RedditData, 
   RedditCommunityFile,
   WguConnectData,
+  WguConnectGroupFile,
   ProcessedCommunityData,
   CourseCommunitiesMappings,
   CommunityLink,
@@ -128,12 +129,33 @@ async function loadRawData() {
     redditData = { communities: [] };
   }
 
-  const wguConnectData = await fs.readFile(resolve(RAW_DIR, 'wgu-connect.json'), 'utf-8')
-    .then(d => JSON.parse(d) as WguConnectData)
-    .catch(error => {
-      console.warn('Could not load WGU Connect data:', error);
-      return { groups: [] };
-    });
+  // Load WGU Connect data from individual files
+  let wguConnectData: WguConnectData = { groups: [] };
+  try {
+    const wguConnectDir = resolve(RAW_DIR, 'wgu-connect');
+    const wguConnectFiles = await fs.readdir(wguConnectDir);
+    const jsonFiles = wguConnectFiles.filter(f => f.endsWith('.json'));
+    
+    const groups = await Promise.all(
+      jsonFiles.map(async (filename) => {
+        const filePath = resolve(wguConnectDir, filename);
+        const content = await fs.readFile(filePath, 'utf-8');
+        const groupData: WguConnectGroupFile = JSON.parse(content);
+        
+        // Add git timestamp if available
+        const timestamp = getFileLastUpdated(filePath);
+        if (timestamp) {
+          groupData.last_updated = timestamp;
+        }
+        
+        return groupData;
+      })
+    );
+    
+    wguConnectData = { groups };
+  } catch (error) {
+    console.warn('Could not load WGU Connect data:', error);
+  }
 
   return { discordData, redditData, wguConnectData };
 }
@@ -164,8 +186,8 @@ function transformWguConnectToLinks(wguConnectData: WguConnectData): CommunityLi
     name: group.name,
     url: group.url,
     type: 'wgu-connect' as const,
-    description: group.description,
-    memberCount: group.memberCount
+    description: group.full_name,
+    lastUpdated: group.last_updated
   }));
 }
 
@@ -217,7 +239,7 @@ function createCourseMappings(
 
   // Process WGU Connect groups for course-specific mappings
   wguConnectData.groups.forEach(group => {
-    group.courseCodes.forEach(courseCode => {
+    group.course_codes.forEach((courseCode: string) => {
       if (!courseMap.has(courseCode)) {
         courseMap.set(courseCode, { courseCode, discord: [], reddit: [], wguConnect: [] });
       }
@@ -226,7 +248,8 @@ function createCourseMappings(
         name: group.name,
         url: group.url,
         type: 'wgu-connect',
-        description: group.description
+        description: group.full_name,
+        lastUpdated: group.last_updated
       });
     });
   });

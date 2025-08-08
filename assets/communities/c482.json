@@ -8,12 +8,5 @@
       "description": "Computer Science degree program discussions"
     }
   ],
-  "wguConnect": [
-    {
-      "name": "Programming Fundamentals Study Group",
-      "url": "https://my.wgu.edu/groups/programming-fundamentals",
-      "type": "wgu-connect",
-      "description": "Multi-course group for programming basics"
-    }
-  ]
+  "wguConnect": []
 }

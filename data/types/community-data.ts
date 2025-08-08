@@ -88,12 +88,19 @@ export interface RedditData {
 export interface WguConnectGroup {
   id: string;
   name: string;
-  description: string;
+  full_name: string;
+  category: string;
+  course_codes: string[]; // Multiple courses may share a group
   url: string;
-  courseCodes: string[]; // Multiple courses may share a group
-  isActive: boolean;
-  memberCount?: number;
-  lastUpdated: string;
+  discussions_url: string;
+  resources_url: string;
+  verified: boolean;
+  last_updated: string;
+}
+
+// Individual WGU Connect group file structure
+export interface WguConnectGroupFile extends WguConnectGroup {
+  // This represents a single wgu-connect/{id}.json file
 }
 
 export interface WguConnectData {

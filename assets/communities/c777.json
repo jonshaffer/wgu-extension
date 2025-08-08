@@ -8,12 +8,5 @@
       "description": "Computer Science degree program discussions"
     }
   ],
-  "wguConnect": [
-    {
-      "name": "C777 - Web Development Applications",
-      "url": "https://my.wgu.edu/groups/c777-web-development",
-      "type": "wgu-connect",
-      "description": "Study group for C777 course"
-    }
-  ]
+  "wguConnect": []
 }

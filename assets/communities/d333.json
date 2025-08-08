@@ -1,19 +1,13 @@
 {
-  "title": "Ethics in Technology",
-  "discord": [
+  "discord": [],
+  "reddit": [],
+  "wguConnect": [
     {
-      "name": "WGU CS Discord - #d333-ethics",
-      "url": "https://discord.com/channels/1063853854413836499/1072362434733539408"
-    }
-  ],
-  "reddit": [
-    {
-      "name": "r/WGU Search for D333",
-      "url": "https://www.reddit.com/r/WGU/search/?q=D333&restrict_sr=1"
-    },
-    {
-      "name": "r/WGU_CompSci Search for D333",
-      "url": "https://www.reddit.com/r/WGU_CompSci/search/?q=D333&restrict_sr=1"
+      "name": "D333 - Ethics in Technology",
+      "url": "https://wguconnect.wgu.edu/hub/wgu-connect/groups/d333-ethics-in-technology-",
+      "type": "wgu-connect",
+      "description": "Ethics in Technology",
+      "lastUpdated": "2025-08-08T18:45:29.690Z"
     }
   ]
 }
