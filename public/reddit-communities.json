@@ -1,0 +1,52 @@
+{
+  "description": "WGU-related Reddit communities where the extension should activate",
+  "communities": {
+    "WGU": {
+      "name": "r/WGU",
+      "url": "https://www.reddit.com/r/WGU/",
+      "description": "Main Western Governors University subreddit",
+      "verified": true,
+      "last_updated": "2024-08-08"
+    },
+    "WGU_CompSci": {
+      "name": "r/WGU_CompSci", 
+      "url": "https://www.reddit.com/r/WGU_CompSci/",
+      "description": "WGU Computer Science program subreddit",
+      "verified": true,
+      "last_updated": "2024-08-08"
+    },
+    "WGU_IT": {
+      "name": "r/WGU_IT",
+      "url": "https://www.reddit.com/r/WGU_IT/",
+      "description": "WGU Information Technology programs subreddit",
+      "verified": true,
+      "last_updated": "2024-08-08"
+    },
+    "WGU_Business": {
+      "name": "r/WGU_Business",
+      "url": "https://www.reddit.com/r/WGU_Business/", 
+      "description": "WGU Business programs subreddit",
+      "verified": true,
+      "last_updated": "2024-08-08"
+    },
+    "WGU_Cybersecurity": {
+      "name": "r/WGU_Cybersecurity",
+      "url": "https://www.reddit.com/r/WGU_Cybersecurity/",
+      "description": "WGU Cybersecurity programs subreddit", 
+      "verified": true,
+      "last_updated": "2024-08-08"
+    },
+    "WGU_Teachers": {
+      "name": "r/WGU_Teachers",
+      "url": "https://www.reddit.com/r/WGU_Teachers/",
+      "description": "WGU Teachers College subreddit",
+      "verified": true,
+      "last_updated": "2024-08-08"
+    }
+  },
+  "settings": {
+    "enable_reddit_integration": false,
+    "auto_detect_wgu_posts": true,
+    "require_community_whitelist": true
+  }
+}

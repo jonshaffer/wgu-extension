@@ -1,9 +1,19 @@
+import { storage } from '@wxt-dev/storage';
+import { ENABLE_DISCORD_INTEGRATION } from '@/utils/storage.constants';
+
 export default defineContentScript({
   matches: ['https://discord.com/channels/*/*'],
   runAt: 'document_end',
 
   async main(ctx) {
     console.log('WGU Extension: Discord content script loaded');
+
+    // Check if Discord integration is enabled
+    const isDiscordEnabled = await storage.getItem<boolean>(ENABLE_DISCORD_INTEGRATION);
+    if (isDiscordEnabled === false) {
+      console.log('WGU Extension: Discord integration disabled by user');
+      return;
+    }
 
     // Extract server ID and channel ID from URL
     function parseDiscordUrl(): { serverId: string; channelId: string } | null {
@@ -22,7 +32,7 @@ export default defineContentScript({
     // Load whitelist from extension assets
     async function loadWhitelist() {
       try {
-        const response = await fetch(browser.runtime.getURL('assets/discord-whitelist.json'));
+        const response = await fetch(browser.runtime.getURL('discord-whitelist.json'));
         if (!response.ok) {
           throw new Error(`Failed to load whitelist: ${response.status}`);
         }
@@ -36,7 +46,7 @@ export default defineContentScript({
     // Load Discord channels mapping from extension assets
     async function loadDiscordChannels() {
       try {
-        const response = await fetch(browser.runtime.getURL('assets/discord-channels.json'));
+        const response = await fetch(browser.runtime.getURL('discord-channels.json'));
         if (!response.ok) {
           throw new Error(`Failed to load Discord channels: ${response.status}`);
         }
@@ -155,7 +165,7 @@ export default defineContentScript({
 
       let content = `
         <div style="display: flex; align-items: center; margin-bottom: 8px;">
-          <img src="${browser.runtime.getURL('assets/icon.png')}" style="height: 20px; margin-right: 8px;">
+          <img src="${browser.runtime.getURL('icons/16.png')}" style="height: 20px; margin-right: 8px;">
           <strong>WGU Extension</strong>
         </div>
       `;
