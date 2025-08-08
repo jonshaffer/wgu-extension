@@ -1,0 +1,11 @@
+{
+  "id": "948943218063265822",
+  "name": "WGU Computer Science",
+  "description": "Official WGU Computer Science student community",
+  "inviteUrl": "https://discord.gg/westerngovernors",
+  "hierarchy": {
+    "level": "college",
+    "college": "technology"
+  },
+  "channels": []
+}
