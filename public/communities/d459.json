@@ -1,0 +1,20 @@
+{
+  "discord": [
+    {
+      "name": "WGU CS Discord - 🟩⎜𝗗𝟰𝟱𝟵-systems-thinking",
+      "url": "https://discord.gg/wgu-cs",
+      "type": "discord",
+      "description": "D459 - Introduction to Systems Thinking"
+    }
+  ],
+  "reddit": [],
+  "wguConnect": [
+    {
+      "name": "D459 - Introduction to Systems Thinking and Applications",
+      "url": "https://wguconnect.wgu.edu/hub/wgu-connect/groups/d459-introduction-to-systems-thinking-and-applications",
+      "type": "wgu-connect",
+      "description": "Introduction to Systems Thinking",
+      "lastUpdated": "2025-08-08T18:46:32.000Z"
+    }
+  ]
+}

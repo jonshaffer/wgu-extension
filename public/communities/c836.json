@@ -1,0 +1,12 @@
+{
+  "discord": [],
+  "reddit": [
+    {
+      "name": "r/WGU_Cybersecurity",
+      "url": "https://reddit.com/r/WGU_Cybersecurity",
+      "type": "reddit",
+      "description": "WGU Cybersecurity programs subreddit"
+    }
+  ],
+  "wguConnect": []
+}

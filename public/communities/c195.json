@@ -1,0 +1,19 @@
+{
+  "discord": [
+    {
+      "name": "WGU CS Discord - ⬛⎜𝗖𝟭𝟵𝟱-software-ii",
+      "url": "https://discord.gg/wgu-cs",
+      "type": "discord",
+      "description": "C195 - Software II"
+    }
+  ],
+  "reddit": [
+    {
+      "name": "r/WGU_CompSci",
+      "url": "https://reddit.com/r/WGU_CompSci",
+      "type": "reddit",
+      "description": "WGU Computer Science program subreddit"
+    }
+  ],
+  "wguConnect": []
+}

@@ -1,0 +1,20 @@
+{
+  "discord": [
+    {
+      "name": "WGU CS Discord - 🟥⎜𝗗𝟮𝟴𝟭-linux-foundations",
+      "url": "https://discord.gg/wgu-cs",
+      "type": "discord",
+      "description": "D281 - Linux Foundations"
+    }
+  ],
+  "reddit": [],
+  "wguConnect": [
+    {
+      "name": "C851/D281 - Linux Foundations",
+      "url": "https://wguconnect.wgu.edu/hub/wgu-connect/groups/c851d281-linux-foundations",
+      "type": "wgu-connect",
+      "description": "Linux Foundations",
+      "lastUpdated": "2025-08-08T18:46:32.000Z"
+    }
+  ]
+}

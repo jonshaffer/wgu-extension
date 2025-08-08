@@ -1,0 +1,20 @@
+{
+  "discord": [
+    {
+      "name": "WGU CS Discord - 🟥⎜𝗗𝟰𝟴𝟬-software-design-qa",
+      "url": "https://discord.gg/wgu-cs",
+      "type": "discord",
+      "description": "D480 - Software Design and Quality Assurance"
+    }
+  ],
+  "reddit": [],
+  "wguConnect": [
+    {
+      "name": "D480 - Software Design and Quality Assurance",
+      "url": "https://wguconnect.wgu.edu/hub/wgu-connect/groups/d480-software-design-and-quality-assurance",
+      "type": "wgu-connect",
+      "description": "Software Design and Quality Assurance",
+      "lastUpdated": "2025-08-08T18:46:32.000Z"
+    }
+  ]
+}

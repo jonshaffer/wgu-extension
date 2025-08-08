@@ -1,0 +1,12 @@
+{
+  "discord": [],
+  "reddit": [
+    {
+      "name": "r/WGU_IT",
+      "url": "https://reddit.com/r/WGU_IT",
+      "type": "reddit",
+      "description": "WGU Information Technology programs subreddit"
+    }
+  ],
+  "wguConnect": []
+}
