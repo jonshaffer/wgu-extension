@@ -60,7 +60,7 @@ export class CommunityDataManager {
       universityLevel: { discord: [], reddit: [] },
       collegeLevel: {
         technology: { discord: [], reddit: [] },
-        healthcare: { discord: [], reddit: [] },
+        health: { discord: [], reddit: [] },
         business: { discord: [], reddit: [] },
         education: { discord: [], reddit: [] }
       },

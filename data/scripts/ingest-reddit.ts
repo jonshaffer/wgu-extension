@@ -74,10 +74,10 @@ async function ingestRedditData(): Promise<void> {
       description: "General nursing discussions, relevant to WGU Nursing students",
       hierarchy: {
         level: 'college',
-        college: 'healthcare'
+        college: 'health'
       },
       isActive: true,
-      tags: ["nursing", "healthcare"]
+      tags: ["nursing", "health"]
     },
     {
       subreddit: "businessmajors",

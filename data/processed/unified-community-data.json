@@ -128,7 +128,7 @@
         "url": "https://reddit.com/r/WGU",
         "type": "reddit",
         "description": "The main WGU subreddit for all students and alumni",
-        "lastUpdated": "2025-08-08T18:31:53.268Z"
+        "lastUpdated": "2025-08-08T18:32:37.000Z"
       }
     ]
   },
@@ -140,14 +140,14 @@
           "url": "https://discord.gg/wgu-cybersecurity",
           "type": "discord",
           "description": "WGU Cybersecurity and Information Assurance students",
-          "lastUpdated": "2025-08-08T18:31:53.244Z"
+          "lastUpdated": "2025-08-08T18:32:37.000Z"
         },
         {
           "name": "WGU Computer Science",
           "url": "https://discord.gg/westerngovernors",
           "type": "discord",
           "description": "Official WGU Computer Science student community",
-          "lastUpdated": "2025-08-08T18:31:53.252Z"
+          "lastUpdated": "2025-08-08T18:32:37.000Z"
         }
       ],
       "reddit": [
@@ -156,25 +156,25 @@
           "url": "https://reddit.com/r/ITCareerQuestions",
           "type": "reddit",
           "description": "Career advice for IT professionals, relevant to WGU IT students",
-          "lastUpdated": "2025-08-08T18:31:53.260Z"
+          "lastUpdated": "2025-08-08T18:32:37.000Z"
         },
         {
           "name": "WGU Computer Science",
           "url": "https://reddit.com/r/WGU_CompSci",
           "type": "reddit",
           "description": "Computer Science degree program discussions",
-          "lastUpdated": "2025-08-08T18:31:53.284Z"
+          "lastUpdated": "2025-08-08T18:32:37.000Z"
         },
         {
           "name": "Cybersecurity",
           "url": "https://reddit.com/r/cybersecurity",
           "type": "reddit",
           "description": "General cybersecurity discussions, relevant to WGU Cybersecurity students",
-          "lastUpdated": "2025-08-08T18:31:53.276Z"
+          "lastUpdated": "2025-08-08T18:32:37.000Z"
         }
       ]
     },
-    "healthcare": {
+    "health": {
       "discord": [],
       "reddit": [
         {
@@ -182,7 +182,7 @@
           "url": "https://reddit.com/r/nursing",
           "type": "reddit",
           "description": "General nursing discussions, relevant to WGU Nursing students",
-          "lastUpdated": "2025-08-08T18:31:53.300Z"
+          "lastUpdated": "2025-08-08T18:32:37.000Z"
         }
       ]
     },
@@ -194,7 +194,7 @@
           "url": "https://reddit.com/r/businessmajors",
           "type": "reddit",
           "description": "Discussions for business students, relevant to WGU Business programs",
-          "lastUpdated": "2025-08-08T18:31:53.292Z"
+          "lastUpdated": "2025-08-08T18:32:37.000Z"
         }
       ]
     },
@@ -203,5 +203,5 @@
       "reddit": []
     }
   },
-  "lastUpdated": "2025-08-08T18:31:53.300Z"
+  "lastUpdated": "2025-08-08T18:35:03.208Z"
 }

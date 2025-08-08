@@ -11,7 +11,7 @@
 
 export type OrganizationLevel = 'university' | 'college' | 'program' | 'course';
 
-export type College = 'technology' | 'healthcare' | 'business' | 'education';
+export type College = 'technology' | 'health' | 'business' | 'education';
 
 export interface WguHierarchy {
   level: OrganizationLevel;

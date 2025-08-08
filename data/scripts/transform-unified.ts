@@ -247,7 +247,7 @@ function organizeByHierarchy(
       .map(c => transformRedditToLinks({ communities: [c] })[0])
   };
 
-  const colleges: College[] = ['technology', 'healthcare', 'business', 'education'];
+  const colleges: College[] = ['technology', 'health', 'business', 'education'];
   const collegeLevel = colleges.reduce((acc, college) => {
     acc[college] = {
       discord: discordData.communities

@@ -62,7 +62,11 @@ The data pipeline follows an **ingestion → transformation → utilization** cy
 
 All processed data follows a hierarchical structure:
 - **University Level**: Communities for all WGU students
-- **College Level**: Communities specific to colleges (IT, Business, etc.)
+- **College Level**: Communities specific to WGU's four schools:
+  - School of Technology
+  - School of Business  
+  - School of Education
+  - Leavitt School of Health
 - **Course Level**: Communities specific to individual courses
 
 ### Git-Based Timestamps
