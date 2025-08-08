@@ -10,10 +10,10 @@
   ],
   "wguConnect": [
     {
-      "name": "C777 - Web Development Applications",
-      "url": "https://my.wgu.edu/groups/c777-web-development",
+      "name": "Programming Fundamentals Study Group",
+      "url": "https://my.wgu.edu/groups/programming-fundamentals",
       "type": "wgu-connect",
-      "description": "Study group for C777 course"
+      "description": "Multi-course group for programming basics"
     }
   ]
 }

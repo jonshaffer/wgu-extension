@@ -1,0 +1,15 @@
+{
+  "subreddit": "cybersecurity",
+  "name": "Cybersecurity",
+  "description": "General cybersecurity discussions, relevant to WGU Cybersecurity students",
+  "hierarchy": {
+    "level": "program",
+    "college": "technology",
+    "program": "Cybersecurity and Information Assurance"
+  },
+  "isActive": true,
+  "tags": [
+    "cybersecurity",
+    "infosec"
+  ]
+}

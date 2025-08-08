@@ -1,0 +1,91 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop, feat/* ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Type check
+        run: npm run compile
+      
+      - name: Test development build
+        run: npm run build:dev
+      
+      - name: Test production build  
+        run: npm run build:prod
+
+  build-preview:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/heads/feat/')
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build preview
+        run: npm run build:preview
+        
+      - name: Create preview ZIPs
+        run: |
+          npm run zip:preview
+          npm run zip:firefox -- --mode preview
+      
+      - name: Upload preview artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: extension-preview
+          path: .output/*.zip
+
+  build-production:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build production
+        run: npm run build:prod
+        
+      - name: Create production ZIPs
+        run: |
+          npm run zip
+          npm run zip:firefox
+      
+      - name: Upload production artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: extension-production
+          path: .output/*.zip
+
+

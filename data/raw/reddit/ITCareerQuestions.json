@@ -1,0 +1,15 @@
+{
+  "subreddit": "ITCareerQuestions",
+  "name": "IT Career Questions",
+  "description": "Career advice for IT professionals, relevant to WGU IT students",
+  "hierarchy": {
+    "level": "college",
+    "college": "technology"
+  },
+  "isActive": true,
+  "tags": [
+    "career",
+    "it",
+    "technology"
+  ]
+}

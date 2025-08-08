@@ -10,6 +10,9 @@
     "dev:chrome": "wxt -b chrome",
     "dev:edge": "wxt -b edge",
     "build": "wxt build",
+    "build:dev": "wxt build --mode development",
+    "build:preview": "wxt build --mode preview",
+    "build:prod": "wxt build --mode production",
     "build:firefox": "wxt build -b firefox",
     "build:chrome": "wxt build -b chrome",
     "build:edge": "wxt build -b edge",
@@ -17,8 +20,15 @@
     "zip:firefox": "wxt zip -b firefox",
     "zip:chrome": "wxt zip -b chrome",
     "zip:edge": "wxt zip -b edge",
+    "zip:preview": "wxt zip --mode preview",
     "compile": "tsc --noEmit",
-    "postinstall": "wxt prepare"
+    "postinstall": "wxt prepare",
+    "release": "npm run build:prod && npm run zip && npm run zip:firefox",
+    "data:ingest": "tsx data/scripts/run-data-pipeline.ts",
+    "data:ingest:discord": "tsx data/scripts/ingest-discord.ts",
+    "data:ingest:reddit": "tsx data/scripts/ingest-reddit.ts",
+    "data:ingest:wgu-connect": "tsx data/scripts/ingest-wgu-connect.ts",
+    "data:transform": "tsx data/scripts/transform-unified.ts"
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.1.5",
@@ -44,7 +54,8 @@
     "@types/react-dom": "^19.1.2",
     "@wxt-dev/auto-icons": "^1.0.2",
     "@wxt-dev/module-react": "^1.1.3",
+    "tsx": "^4.20.3",
     "typescript": "^5.8.3",
-    "wxt": "^0.20.0"
+    "wxt": "^0.20.7"
   }
 }

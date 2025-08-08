@@ -1,0 +1,207 @@
+{
+  "courseMappings": [
+    {
+      "courseCode": "C950",
+      "discord": [],
+      "reddit": [
+        {
+          "name": "WGU Computer Science",
+          "url": "https://reddit.com/r/WGU_CompSci",
+          "type": "reddit",
+          "description": "Computer Science degree program discussions"
+        }
+      ],
+      "wguConnect": [
+        {
+          "name": "C950 - Data Structures and Algorithms",
+          "url": "https://my.wgu.edu/groups/c950-data-structures",
+          "type": "wgu-connect",
+          "description": "Study group for C950 course"
+        }
+      ]
+    },
+    {
+      "courseCode": "C777",
+      "discord": [],
+      "reddit": [
+        {
+          "name": "WGU Computer Science",
+          "url": "https://reddit.com/r/WGU_CompSci",
+          "type": "reddit",
+          "description": "Computer Science degree program discussions"
+        }
+      ],
+      "wguConnect": [
+        {
+          "name": "C777 - Web Development Applications",
+          "url": "https://my.wgu.edu/groups/c777-web-development",
+          "type": "wgu-connect",
+          "description": "Study group for C777 course"
+        }
+      ]
+    },
+    {
+      "courseCode": "C482",
+      "discord": [],
+      "reddit": [
+        {
+          "name": "WGU Computer Science",
+          "url": "https://reddit.com/r/WGU_CompSci",
+          "type": "reddit",
+          "description": "Computer Science degree program discussions"
+        }
+      ],
+      "wguConnect": [
+        {
+          "name": "Programming Fundamentals Study Group",
+          "url": "https://my.wgu.edu/groups/programming-fundamentals",
+          "type": "wgu-connect",
+          "description": "Multi-course group for programming basics"
+        }
+      ]
+    },
+    {
+      "courseCode": "C195",
+      "discord": [],
+      "reddit": [
+        {
+          "name": "WGU Computer Science",
+          "url": "https://reddit.com/r/WGU_CompSci",
+          "type": "reddit",
+          "description": "Computer Science degree program discussions"
+        }
+      ],
+      "wguConnect": [
+        {
+          "name": "Programming Fundamentals Study Group",
+          "url": "https://my.wgu.edu/groups/programming-fundamentals",
+          "type": "wgu-connect",
+          "description": "Multi-course group for programming basics"
+        }
+      ]
+    },
+    {
+      "courseCode": "C836",
+      "discord": [],
+      "reddit": [],
+      "wguConnect": [
+        {
+          "name": "Cybersecurity and Information Assurance",
+          "url": "https://my.wgu.edu/groups/cybersecurity",
+          "type": "wgu-connect",
+          "description": "Group for cybersecurity degree students"
+        }
+      ]
+    },
+    {
+      "courseCode": "C837",
+      "discord": [],
+      "reddit": [],
+      "wguConnect": [
+        {
+          "name": "Cybersecurity and Information Assurance",
+          "url": "https://my.wgu.edu/groups/cybersecurity",
+          "type": "wgu-connect",
+          "description": "Group for cybersecurity degree students"
+        }
+      ]
+    },
+    {
+      "courseCode": "C838",
+      "discord": [],
+      "reddit": [],
+      "wguConnect": [
+        {
+          "name": "Cybersecurity and Information Assurance",
+          "url": "https://my.wgu.edu/groups/cybersecurity",
+          "type": "wgu-connect",
+          "description": "Group for cybersecurity degree students"
+        }
+      ]
+    }
+  ],
+  "universityLevel": {
+    "discord": [],
+    "reddit": [
+      {
+        "name": "Western Governors University",
+        "url": "https://reddit.com/r/WGU",
+        "type": "reddit",
+        "description": "The main WGU subreddit for all students and alumni",
+        "lastUpdated": "2025-08-08T18:31:53.268Z"
+      }
+    ]
+  },
+  "collegeLevel": {
+    "technology": {
+      "discord": [
+        {
+          "name": "WGU Cybersecurity",
+          "url": "https://discord.gg/wgu-cybersecurity",
+          "type": "discord",
+          "description": "WGU Cybersecurity and Information Assurance students",
+          "lastUpdated": "2025-08-08T18:31:53.244Z"
+        },
+        {
+          "name": "WGU Computer Science",
+          "url": "https://discord.gg/westerngovernors",
+          "type": "discord",
+          "description": "Official WGU Computer Science student community",
+          "lastUpdated": "2025-08-08T18:31:53.252Z"
+        }
+      ],
+      "reddit": [
+        {
+          "name": "IT Career Questions",
+          "url": "https://reddit.com/r/ITCareerQuestions",
+          "type": "reddit",
+          "description": "Career advice for IT professionals, relevant to WGU IT students",
+          "lastUpdated": "2025-08-08T18:31:53.260Z"
+        },
+        {
+          "name": "WGU Computer Science",
+          "url": "https://reddit.com/r/WGU_CompSci",
+          "type": "reddit",
+          "description": "Computer Science degree program discussions",
+          "lastUpdated": "2025-08-08T18:31:53.284Z"
+        },
+        {
+          "name": "Cybersecurity",
+          "url": "https://reddit.com/r/cybersecurity",
+          "type": "reddit",
+          "description": "General cybersecurity discussions, relevant to WGU Cybersecurity students",
+          "lastUpdated": "2025-08-08T18:31:53.276Z"
+        }
+      ]
+    },
+    "healthcare": {
+      "discord": [],
+      "reddit": [
+        {
+          "name": "Nursing",
+          "url": "https://reddit.com/r/nursing",
+          "type": "reddit",
+          "description": "General nursing discussions, relevant to WGU Nursing students",
+          "lastUpdated": "2025-08-08T18:31:53.300Z"
+        }
+      ]
+    },
+    "business": {
+      "discord": [],
+      "reddit": [
+        {
+          "name": "Business Majors",
+          "url": "https://reddit.com/r/businessmajors",
+          "type": "reddit",
+          "description": "Discussions for business students, relevant to WGU Business programs",
+          "lastUpdated": "2025-08-08T18:31:53.292Z"
+        }
+      ]
+    },
+    "education": {
+      "discord": [],
+      "reddit": []
+    }
+  },
+  "lastUpdated": "2025-08-08T18:31:53.300Z"
+}

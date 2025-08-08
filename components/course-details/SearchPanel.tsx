@@ -1,5 +1,5 @@
 import React from 'react';
-import { SearchButton } from './course-details/SearchButton';
+import { SearchButton } from './SearchButton';
 
 interface SearchOption {
   id: string;

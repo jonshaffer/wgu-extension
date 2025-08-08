@@ -1,0 +1,51 @@
+{
+  "groups": [
+    {
+      "id": "c950-data-structures",
+      "name": "C950 - Data Structures and Algorithms",
+      "description": "Study group for C950 course",
+      "url": "https://my.wgu.edu/groups/c950-data-structures",
+      "courseCodes": [
+        "C950"
+      ],
+      "isActive": true,
+      "lastUpdated": "2025-08-08T18:31:53.229Z"
+    },
+    {
+      "id": "c777-web-development",
+      "name": "C777 - Web Development Applications",
+      "description": "Study group for C777 course",
+      "url": "https://my.wgu.edu/groups/c777-web-development",
+      "courseCodes": [
+        "C777"
+      ],
+      "isActive": true,
+      "lastUpdated": "2025-08-08T18:31:53.229Z"
+    },
+    {
+      "id": "programming-fundamentals",
+      "name": "Programming Fundamentals Study Group",
+      "description": "Multi-course group for programming basics",
+      "url": "https://my.wgu.edu/groups/programming-fundamentals",
+      "courseCodes": [
+        "C482",
+        "C195"
+      ],
+      "isActive": true,
+      "lastUpdated": "2025-08-08T18:31:53.229Z"
+    },
+    {
+      "id": "cybersecurity-specialization",
+      "name": "Cybersecurity and Information Assurance",
+      "description": "Group for cybersecurity degree students",
+      "url": "https://my.wgu.edu/groups/cybersecurity",
+      "courseCodes": [
+        "C836",
+        "C837",
+        "C838"
+      ],
+      "isActive": true,
+      "lastUpdated": "2025-08-08T18:31:53.229Z"
+    }
+  ]
+}

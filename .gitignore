@@ -32,6 +32,9 @@ result-*
 .npm-cache/
 
 # Environment files
+# Keep .env.example (template)
+# Keep .env.development and .env.production (shared configs)
+# Ignore personal overrides and sensitive data
 .env
 .env.local
 .env.*.local

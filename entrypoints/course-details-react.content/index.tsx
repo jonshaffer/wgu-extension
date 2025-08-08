@@ -2,8 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { storage } from '@wxt-dev/storage';
 import { ENABLE_COURSE_COMMUNITIES } from '@/utils/storage.constants';
-import { CommunitiesPanel } from '@/components/CommunitiesPanel';
-import { SearchPanel } from '@/components/SearchPanel';
+import { extractCourseCode } from '@/utils/course-utils';
+import { loadCommunityData } from '@/utils/community-data';
+import { CommunitiesPanel } from '@/components/course-details/CommunitiesPanel';
+import { SearchPanel } from '@/components/course-details/SearchPanel';
 
 // SVG Icons
 const DISCORD_ICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" style="height: 13px; max-width: 17px; margin-right: 4px; display: inline-block; position: relative; top: 3px; fill: #5865F2;"><path d="M524.5 69.8a1.5 1.5 0 0 0 -.8-.7A485.1 485.1 0 0 0 404.1 32a1.8 1.8 0 0 0 -1.9 .9 337.5 337.5 0 0 0 -14.9 30.6 447.8 447.8 0 0 0 -134.4 0 309.5 309.5 0 0 0 -15.1-30.6 1.9 1.9 0 0 0 -1.9-.9A483.7 483.7 0 0 0 116.1 69.1a1.7 1.7 0 0 0 -.8 .7C39.1 183.7 18.2 294.7 28.4 404.4a2 2 0 0 0 .8 1.4A487.7 487.7 0 0 0 176 479.9a1.9 1.9 0 0 0 2.1-.7A348.2 348.2 0 0 0 208.1 430.4a1.9 1.9 0 0 0 -1-2.6 321.2 321.2 0 0 1 -45.9-21.9 1.9 1.9 0 0 1 -.2-3.1c3.1-2.3 6.2-4.7 9.1-7.1a1.8 1.8 0 0 1 1.9-.3c96.2 43.9 200.4 43.9 295.5 0a1.8 1.8 0 0 1 1.9 .2c2.9 2.4 6 4.9 9.1 7.2a1.9 1.9 0 0 1 -.2 3.1 301.4 301.4 0 0 1 -45.9 21.8 1.9 1.9 0 0 0 -1 2.6 391.1 391.1 0 0 0 30 48.8 1.9 1.9 0 0 0 2.1 .7A486 486 0 0 0 610.7 405.7a1.9 1.9 0 0 0 .8-1.4C623.7 277.6 590.9 167.5 524.5 69.8zM222.5 337.6c-29 0-52.8-26.6-52.8-59.2S193.1 219.1 222.5 219.1c29.7 0 53.3 26.8 52.8 59.2C275.3 311 251.9 337.6 222.5 337.6zm195.4 0c-29 0-52.8-26.6-52.8-59.2S388.4 219.1 417.9 219.1c29.7 0 53.3 26.8 52.8 59.2C470.7 311 447.5 337.6 417.9 337.6z"></path></svg>`;
@@ -29,37 +31,6 @@ export default defineContentScript({
     if (isCommunitiesEnabled === false) {
       console.log('WGU Extension: Course communities disabled by user');
       return;
-    }
-
-    function extractCourseCode(): string | null {
-      const viewTitleElement = document.querySelector('.view-title');
-      if (viewTitleElement && viewTitleElement.textContent) {
-        const fullTitle = viewTitleElement.textContent.trim();
-        const courseCodeMatch = fullTitle.match(/(?:-|\s)\s*([A-Z0-9]{3,5})\s*$/);
-        if (courseCodeMatch && courseCodeMatch[1]) {
-          console.log('Extracted Course Code:', courseCodeMatch[1]);
-          return courseCodeMatch[1];
-        } else {
-          console.warn('Could not extract course code from title:', fullTitle);
-        }
-      } else {
-        console.warn('Could not find .view-title element or its content.');
-      }
-      return null;
-    }
-
-    async function loadExtensionCommunityData() {
-      try {
-        const [discordData, redditData, wguConnectData] = await Promise.all([
-          fetch(browser.runtime.getURL('discord-whitelist.json')).then(r => r.json()),
-          fetch(browser.runtime.getURL('reddit-communities.json')).then(r => r.json()),
-          fetch(browser.runtime.getURL('wgu-connect-groups.json')).then(r => r.json())
-        ]);
-        return { discordData, redditData, wguConnectData };
-      } catch (error) {
-        console.error('Error loading extension community data:', error);
-        return null;
-      }
     }
 
     function findRelevantCommunities(courseCode: string, communityData: any): CommunityLink[] {
@@ -173,7 +144,7 @@ export default defineContentScript({
       const originalSearchButton = rightSideContainer.querySelector('.course-btns');
       if (originalSearchButton) {
         // Replace/hide the original search button and insert our panel
-        originalSearchButton.style.display = 'none';
+        (originalSearchButton as HTMLElement).style.display = 'none';
         originalSearchButton.parentNode?.insertBefore(searchContainer, originalSearchButton.nextSibling);
       } else {
         // Just append to the end of the container
@@ -193,10 +164,13 @@ export default defineContentScript({
     }
 
     // Main execution
-    const courseCode = extractCourseCode();
+    const courseCode = await extractCourseCode();
     if (!courseCode) return;
 
-    const communityData = await loadExtensionCommunityData();
+    // Wait a bit longer for extension context to be ready
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
+    const communityData = await loadCommunityData();
     if (!communityData) return;
 
     const relevantCommunities = findRelevantCommunities(courseCode, communityData);

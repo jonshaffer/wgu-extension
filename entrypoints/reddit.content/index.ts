@@ -33,7 +33,7 @@ export default defineContentScript({
     // Load Reddit communities from extension assets
     async function loadRedditCommunities() {
       try {
-        const response = await fetch(browser.runtime.getURL('reddit-communities.json'));
+        const response = await fetch(browser.runtime.getURL('reddit-communities.json' as any));
         if (!response.ok) {
           throw new Error(`Failed to load Reddit communities: ${response.status}`);
         }
@@ -129,7 +129,7 @@ export default defineContentScript({
 
       let content = `
         <div style="display: flex; align-items: center; margin-bottom: 8px;">
-          <img src="${browser.runtime.getURL('icons/16.png')}" style="height: 20px; margin-right: 8px;">
+          <img src="${browser.runtime.getURL('icons/16.png' as any)}" style="height: 20px; margin-right: 8px;">
           <strong>WGU Extension</strong>
         </div>
       `;
