@@ -15,6 +15,11 @@ export default defineConfig({
     '@wxt-dev/module-react',
     '@wxt-dev/auto-icons',
   ],
+  webExt: {
+    startUrls: [
+      'https://my.wgu.edu'
+    ]
+  },
   manifest: {
     name: 'Unofficial WGU Extension',
     description: packageJson.description,
