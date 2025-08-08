@@ -24,3 +24,14 @@ web-ext.config.ts
 *.njsproj
 *.sln
 *.sw?
+
+# Nix and direnv
+.direnv/
+result
+result-*
+.npm-cache/
+
+# Environment files
+.env
+.env.local
+.env.*.local

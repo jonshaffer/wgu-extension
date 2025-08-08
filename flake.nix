@@ -26,9 +26,6 @@
             nodePackages.vscode-langservers-extracted
             nodePackages.prettier
             nodePackages.eslint
-
-            # Browser extension development
-            chrome-cli  # Optional: for Chrome automation
             
             # Git and version control
             git
