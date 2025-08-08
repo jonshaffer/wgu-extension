@@ -1,0 +1,261 @@
+{
+  "server_id": "1063853854413836499",
+  "server_name": "WGU CS Discord",
+  "base_url": "https://discord.com/channels/1063853854413836499/",
+  "channels": {
+    "C959_DM1": {
+      "id": "1072363154388045944",
+      "name": "🟩⎜𝗖𝟵𝟱𝟵-dm-1",
+      "full_name": "C959 - Discrete Mathematics I",
+      "category": "WGU - General Education"
+    },
+    "C960_DM2": {
+      "id": "1072363635101421648", 
+      "name": "🟩⎜𝗖𝟵𝟲𝟬-dm-2",
+      "full_name": "C960 - Discrete Mathematics II",
+      "category": "WGU - General Education"
+    },
+    "C963": {
+      "id": "1072362484322795591",
+      "name": "🟩⎜𝗖𝟵𝟲𝟯-american-politics-constitution",
+      "full_name": "C963 - American Politics and the US Constitution",
+      "category": "WGU - General Education"
+    },
+    "D268": {
+      "id": "1072362396649271316",
+      "name": "🟩⎜𝗗𝟮𝟲𝟴-intro-communication",
+      "full_name": "D268 - Introduction to Communication",
+      "category": "WGU - General Education"
+    },
+    "D270": {
+      "id": "1072353517009895485",
+      "name": "🟩⎜𝗗𝟮𝟳𝟬-composition",
+      "full_name": "D270 - Composition",
+      "category": "WGU - General Education"
+    },
+    "D333": {
+      "id": "1072362434733539408",
+      "name": "🟩⎜𝗗𝟯𝟯𝟯-ethics-tech",
+      "full_name": "D333 - Ethics in Technology",
+      "category": "WGU - General Education"
+    },
+    "D370": {
+      "id": "1072363342368354304",
+      "name": "🟩⎜𝗗𝟯𝟳𝟬-it-leadership",
+      "full_name": "D370 - IT Leadership Foundations",
+      "category": "WGU - General Education"
+    },
+    "D459": {
+      "id": "1290102272553910292",
+      "name": "🟩⎜𝗗𝟰𝟱𝟵-systems-thinking",
+      "full_name": "D459 - Introduction to Systems Thinking",
+      "category": "WGU - General Education"
+    },
+    "D276": {
+      "id": "1072362975291248721",
+      "name": "🟧⎜𝗗𝟮𝟳𝟲-web-dev-foundation",
+      "full_name": "D276 - Web Development Foundations",
+      "category": "WGU - Core"
+    },
+    "D278": {
+      "id": "1072362956744044555",
+      "name": "🟧⎜𝗗𝟮𝟳𝟴-script-prog-foundations",
+      "full_name": "D278 - Scripting and Programming Foundations",
+      "category": "WGU - Core"
+    },
+    "D315": {
+      "id": "1072362939958439956",
+      "name": "🟧⎜𝗗𝟯𝟭𝟱-net-sec-foundations",
+      "full_name": "D315 - Network and Security Foundations",
+      "category": "WGU - Core"
+    },
+    "D336": {
+      "id": "1072362996627673158",
+      "name": "🟧⎜𝗗𝟯𝟯𝟲-bus-it-apps",
+      "full_name": "D336 - Business of IT - Applications",
+      "category": "WGU - Core"
+    },
+    "D426": {
+      "id": "1072362895054229574",
+      "name": "🟧⎜𝗗𝟰𝟮𝟲-data-mgmt-foundations",
+      "full_name": "D426 - Data Management Foundations",
+      "category": "WGU - Core"
+    },
+    "C867": {
+      "id": "1072363220108578897",
+      "name": "🟥⎜𝗖𝟴𝟲𝟳-script-program-apps",
+      "full_name": "C867 - Scripting and Programming Applications",
+      "category": "WGU - Upper Division"
+    },
+    "C949": {
+      "id": "1072363237162631208",
+      "name": "🟥⎜𝗖𝟵𝟰𝟵-dsa-1",
+      "full_name": "C949 - Data Structures and Algorithms I",
+      "category": "WGU - Upper Division"
+    },
+    "C950": {
+      "id": "1072363678969634816",
+      "name": "🟥⎜𝗖𝟵𝟱𝟬-dsa-2",
+      "full_name": "C950 - Data Structures and Algorithms II",
+      "category": "WGU - Upper Division"
+    },
+    "C952": {
+      "id": "1072363304024014860",
+      "name": "🟥⎜𝗖𝟵𝟱𝟮-comp-arch",
+      "full_name": "C952 - Computer Architecture",
+      "category": "WGU - Upper Division"
+    },
+    "D197": {
+      "id": "1111117124472143903",
+      "name": "🟥⎜𝗗𝟭𝟵𝟳-version-control",
+      "full_name": "D197 - Version Control",
+      "category": "WGU - Upper Division"
+    },
+    "D281": {
+      "id": "1111116252321173515",
+      "name": "🟥⎜𝗗𝟮𝟴𝟭-linux-foundations",
+      "full_name": "D281 - Linux Foundations",
+      "category": "WGU - Upper Division"
+    },
+    "D284": {
+      "id": "1072363357866307604",
+      "name": "🟥⎜𝗗𝟮𝟴𝟰-software-engineering",
+      "full_name": "D284 - Software Engineering",
+      "category": "WGU - Upper Division"
+    },
+    "D286": {
+      "id": "1111115368061210676",
+      "name": "🟥⎜𝗗𝟮𝟴𝟲-java-fundamentals",
+      "full_name": "D286 - Java Fundamentals",
+      "category": "WGU - Upper Division"
+    },
+    "D287": {
+      "id": "1111116012973195304",
+      "name": "🟥⎜𝗗𝟮𝟴𝟳-java-frameworks",
+      "full_name": "D287 - Java Frameworks",
+      "category": "WGU - Upper Division"
+    },
+    "D288": {
+      "id": "1111116537013735464",
+      "name": "🟥⎜𝗗𝟮𝟴𝟴-backend-programming",
+      "full_name": "D288 - Back End Programming",
+      "category": "WGU - Upper Division"
+    },
+    "D387": {
+      "id": "1111116903398785025",
+      "name": "🟥⎜𝗗𝟯𝟴𝟳-advanced-java",
+      "full_name": "D387 - Advanced Java",
+      "category": "WGU - Upper Division"
+    },
+    "D427": {
+      "id": "1072363176773030009",
+      "name": "🟥⎜𝗗𝟰𝟮𝟳-data-mgmt-apps",
+      "full_name": "D427 - Data Management Applications",
+      "category": "WGU - Upper Division"
+    },
+    "D429": {
+      "id": "1290102151560953866",
+      "name": "🟥⎜𝗗𝟰𝟮𝟵-intro-to-ai",
+      "full_name": "D429 - Introduction to Artificial Intelligence",
+      "category": "WGU - Upper Division"
+    },
+    "D430": {
+      "id": "1072363252253732864",
+      "name": "🟥⎜𝗗𝟰𝟯𝟬-info-sec-fundamentals",
+      "full_name": "D430 - Information Security Fundamentals",
+      "category": "WGU - Upper Division"
+    },
+    "D480": {
+      "id": "1072363372449890374",
+      "name": "🟥⎜𝗗𝟰𝟴𝟬-software-design-qa",
+      "full_name": "D480 - Software Design and Quality Assurance",
+      "category": "WGU - Upper Division"
+    },
+    "D682": {
+      "id": "1290101792520142909",
+      "name": "🟥⎜𝗗𝟲𝟴𝟮-ai-optimization",
+      "full_name": "D682 - AI Optimization and Reasoning",
+      "category": "WGU - Upper Division"
+    },
+    "D683": {
+      "id": "1290099495031410712",
+      "name": "🟥⎜𝗗𝟲𝟴𝟯-adv-ai-ml",
+      "full_name": "D683 - Advanced Artificial Intelligence and Machine Learning",
+      "category": "WGU - Upper Division"
+    },
+    "D684": {
+      "id": "1290102048670482453",
+      "name": "🟥⎜𝗗𝟲𝟴𝟰-intro-to-cs",
+      "full_name": "D684 - Introduction to Computer Science",
+      "category": "WGU - Upper Division"
+    },
+    "D685": {
+      "id": "1290101967065976905",
+      "name": "🟥⎜𝗗𝟲𝟴𝟱-pract-prompt",
+      "full_name": "D685 - Practical Prompt Engineering",
+      "category": "WGU - Upper Division"
+    },
+    "D686": {
+      "id": "1290101894542528602",
+      "name": "🟥⎜𝗗𝟲𝟴𝟲-operating-systems",
+      "full_name": "D686 - Operating Systems for Computer Scientists",
+      "category": "WGU - Upper Division"
+    },
+    "D687": {
+      "id": "1290099240428765249",
+      "name": "🟥⎜𝗗𝟲𝟴𝟳-cs-capstone",
+      "full_name": "D687 - Computer Science Capstone",
+      "category": "WGU - Upper Division"
+    }
+  },
+  "retired_courses": {
+    "C191": {
+      "id": "1072363267160281200",
+      "name": "⬛⎜𝗖𝟭𝟵𝟭-operating-systems",
+      "full_name": "C191 - Operating Systems",
+      "category": "WGU - Retired Courses"
+    },
+    "C195": {
+      "id": "1072363410529988679",
+      "name": "⬛⎜𝗖𝟭𝟵𝟱-software-ii",
+      "full_name": "C195 - Software II",
+      "category": "WGU - Retired Courses"
+    },
+    "C482": {
+      "id": "1072363390883868722",
+      "name": "⬛⎜𝗖𝟰𝟴𝟮-software-i",
+      "full_name": "C482 - Software I",
+      "category": "WGU - Retired Courses"
+    },
+    "C857": {
+      "id": "1163441293205196881",
+      "name": "⬛⎜𝗖𝟴𝟱𝟳-software-qa",
+      "full_name": "C857 - Software Quality Assurance",
+      "category": "WGU - Retired Courses"
+    },
+    "C951": {
+      "id": "1072363324869722222",
+      "name": "⬛⎜𝗖𝟵𝟱𝟭-intro-to-ai",
+      "full_name": "C951 - Introduction to Artificial Intelligence",
+      "category": "WGU - Retired Courses"
+    },
+    "C964": {
+      "id": "1072363700956176424",
+      "name": "⬛⎜𝗖𝟵𝟲𝟰-cs-capstone",
+      "full_name": "C964 - Computer Science Capstone",
+      "category": "WGU - Retired Courses"
+    },
+    "D198": {
+      "id": "1072362414831566888",
+      "name": "⬛⎜𝗗𝟭𝟵𝟴-humanities",
+      "full_name": "D198 - Humanities",
+      "category": "WGU - Retired Courses"
+    },
+    "D199": {
+      "id": "1072362515922702417",
+      "name": "⬛⎜𝗗𝟭𝟵𝟵-intro-geography",
+      "full_name": "D199 - Introduction to Geography",
+      "category": "WGU - Retired Courses"
+    }
+  }
+}
