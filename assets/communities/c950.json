@@ -1,11 +1,18 @@
 {
-  "discord": [],
+  "discord": [
+    {
+      "name": "WGU CS Discord - 🟥⎜𝗖𝟵𝟱𝟬-dsa-2",
+      "url": "https://discord.gg/wgu-cs",
+      "type": "discord",
+      "description": "C950 - Data Structures and Algorithms II"
+    }
+  ],
   "reddit": [
     {
-      "name": "WGU Computer Science",
+      "name": "r/WGU_CompSci",
       "url": "https://reddit.com/r/WGU_CompSci",
       "type": "reddit",
-      "description": "Computer Science degree program discussions"
+      "description": "WGU Computer Science program subreddit"
     }
   ],
   "wguConnect": [
@@ -14,7 +21,7 @@
       "url": "https://wguconnect.wgu.edu/hub/wgu-connect/groups/c950-data-structures-and-algorithms-ii",
       "type": "wgu-connect",
       "description": "Data Structures and Algorithms II",
-      "lastUpdated": "2025-08-08T18:45:29.676Z"
+      "lastUpdated": "2025-08-08T18:46:32.000Z"
     }
   ]
 }

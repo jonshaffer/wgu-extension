@@ -1,5 +1,12 @@
 {
-  "discord": [],
+  "discord": [
+    {
+      "name": "WGU CS Discord - 🟥⎜𝗗𝟰𝟮𝟵-intro-to-ai",
+      "url": "https://discord.gg/wgu-cs",
+      "type": "discord",
+      "description": "D429 - Introduction to Artificial Intelligence"
+    }
+  ],
   "reddit": [],
   "wguConnect": [
     {
@@ -7,7 +14,7 @@
       "url": "https://wguconnect.wgu.edu/hub/wgu-connect/groups/d429-introduction-to-ai-for-computer-scientists",
       "type": "wgu-connect",
       "description": "Introduction to Artificial Intelligence",
-      "lastUpdated": "2025-08-08T18:45:29.698Z"
+      "lastUpdated": "2025-08-08T18:46:32.000Z"
     }
   ]
 }

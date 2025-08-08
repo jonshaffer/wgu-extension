@@ -3,10 +3,11 @@
   "name": "D429 - Introduction to AI for Computer Scientists",
   "full_name": "Introduction to Artificial Intelligence",
   "category": "Computer Science",
-  "course_codes": ["D429"],
+  "course_codes": [
+    "D429"
+  ],
   "url": "https://wguconnect.wgu.edu/hub/wgu-connect/groups/d429-introduction-to-ai-for-computer-scientists",
   "discussions_url": "https://wguconnect.wgu.edu/hub/wgu-connect/groups/d429-introduction-to-ai-for-computer-scientists/discussions",
   "resources_url": "https://wguconnect.wgu.edu/hub/wgu-connect/groups/d429-introduction-to-ai-for-computer-scientists/resources",
-  "verified": true,
-  "last_updated": "2024-08-08"
+  "verified": true
 }

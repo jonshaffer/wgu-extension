@@ -3,14 +3,13 @@
 /**
  * Reddit Data Ingestion Script
  * 
- * Ingests Reddit community data into individual {subreddit}.json files.
- * Each file contains a single subreddit community.
- * Validates subreddit existence and gathers metadata.
+ * Validates existing Reddit community data files in data/raw/reddit/
+ * To add new communities, create JSON files directly in the directory.
  */
 
 import { promises as fs } from 'fs';
 import { resolve } from 'path';
-import type { RedditData, RedditCommunityFile } from '../types/community-data.js';
+import type { RedditCommunityFile } from '../types/community-data.js';
 
 const DATA_DIR = resolve(process.cwd(), 'data/raw');
 const REDDIT_DIR = resolve(DATA_DIR, 'reddit');
@@ -18,97 +17,41 @@ const REDDIT_DIR = resolve(DATA_DIR, 'reddit');
 async function ingestRedditData(): Promise<void> {
   console.log('🔴 Starting Reddit data ingestion...');
 
-  // Manually curated Reddit communities relevant to WGU
-  // TODO: Add Reddit API integration for automated validation and metadata
-  
-  const communities: RedditCommunityFile[] = [
-    {
-      subreddit: "WGU",
-      name: "Western Governors University",
-      description: "The main WGU subreddit for all students and alumni",
-      hierarchy: {
-        level: 'university'
-      },
-      isActive: true,
-      tags: ["general", "university"]
-    },
-    {
-      subreddit: "WGU_CompSci",
-      name: "WGU Computer Science",
-      description: "Computer Science degree program discussions",
-      hierarchy: {
-        level: 'program',
-        college: 'technology',
-        program: 'Computer Science'
-      },
-      isActive: true,
-      relevantCourses: ["C950", "C777", "C482", "C195"],
-      tags: ["computer-science", "programming"]
-    },
-    {
-      subreddit: "cybersecurity",
-      name: "Cybersecurity",
-      description: "General cybersecurity discussions, relevant to WGU Cybersecurity students",
-      hierarchy: {
-        level: 'program',
-        college: 'technology',
-        program: 'Cybersecurity and Information Assurance'
-      },
-      isActive: true,
-      tags: ["cybersecurity", "infosec"]
-    },
-    {
-      subreddit: "ITCareerQuestions",
-      name: "IT Career Questions",
-      description: "Career advice for IT professionals, relevant to WGU IT students",
-      hierarchy: {
-        level: 'college',
-        college: 'technology'
-      },
-      isActive: true,
-      tags: ["career", "it", "technology"]
-    },
-    {
-      subreddit: "nursing",
-      name: "Nursing",
-      description: "General nursing discussions, relevant to WGU Nursing students",
-      hierarchy: {
-        level: 'college',
-        college: 'health'
-      },
-      isActive: true,
-      tags: ["nursing", "health"]
-    },
-    {
-      subreddit: "businessmajors",
-      name: "Business Majors",
-      description: "Discussions for business students, relevant to WGU Business programs",
-      hierarchy: {
-        level: 'college',
-        college: 'business'
-      },
-      isActive: true,
-      tags: ["business", "majors"]
-    }
-  ];
-
   // Ensure Reddit directory exists
   await fs.mkdir(REDDIT_DIR, { recursive: true });
 
-  // Write individual files for each Reddit community
-  const createdFiles: string[] = [];
+  console.log('📥 Reddit data ingestion now validates existing files');
+  console.log('💡 To add new Reddit communities, create JSON files directly in data/raw/reddit/');
   
-  for (const community of communities) {
-    const filename = `${community.subreddit}.json`;
-    const filepath = resolve(REDDIT_DIR, filename);
-    
-    await fs.writeFile(filepath, JSON.stringify(community, null, 2));
-    createdFiles.push(filename);
-  }
+  // Validate existing files
+  await validateExistingFiles();
+}
 
-  console.log(`✅ Reddit data saved:`);
-  console.log(`   - Individual files in reddit/: ${createdFiles.join(', ')}`);
-  console.log(`   - ${communities.length} communities`);
+async function validateExistingFiles(): Promise<void> {
+  try {
+    const existingFiles = await fs.readdir(REDDIT_DIR);
+    const jsonFiles = existingFiles.filter(f => f.endsWith('.json'));
+    
+    console.log(`Found ${jsonFiles.length} existing Reddit community files:`);
+    
+    for (const filename of jsonFiles) {
+      const filePath = resolve(REDDIT_DIR, filename);
+      try {
+        const content = await fs.readFile(filePath, 'utf-8');
+        const communityData: RedditCommunityFile = JSON.parse(content);
+        
+        if (!communityData.subreddit || !communityData.name || !communityData.hierarchy) {
+          console.warn(`⚠️  Warning: File ${filename} is missing required fields`);
+        } else {
+          console.log(`✅ Validated: ${communityData.name} (r/${communityData.subreddit})`);
+        }
+      } catch (error) {
+        console.error(`❌ Error validating ${filename}:`, error);
+      }
+    }
+  } catch (error) {
+    console.error('❌ Error validating existing files:', error);
+  }
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {

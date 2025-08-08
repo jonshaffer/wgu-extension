@@ -2,10 +2,8 @@
  * Utility for loading community data in both development and production
  */
 
-// Import JSON data directly for development/fallback
-import discordWhitelist from '@/public/discord-whitelist.json';
-import redditCommunities from '@/public/reddit-communities.json';
-import wguConnectGroups from '@/public/wgu-connect-groups.json';
+// Import unified JSON data directly for development/fallback
+import unifiedCommunityData from '@/public/data/unified-community-data.json';
 
 /**
  * Load community data with configurable behavior via .env files
@@ -32,44 +30,32 @@ export async function loadCommunityData() {
     
     // Use local files if configured or in development (unless forced to use extension context)
     if (useLocalFiles && !forceExtensionContext) {
-      if (debugMode) console.log('Using imported JSON data (local files)');
+      if (debugMode) console.log('Using unified community data (local files)');
       return {
-        discordData: discordWhitelist,
-        redditData: redditCommunities,
-        wguConnectData: wguConnectGroups
+        unifiedData: unifiedCommunityData
       };
     }
 
     // Try extension context (production or when forced)
     if (debugMode) {
-      console.log('Attempting to fetch from extension URLs');
+      console.log('Attempting to fetch unified data from extension URLs');
       console.log('Extension ID:', browser.runtime.id);
     }
     
-    const discordUrl = browser.runtime.getURL('discord-whitelist.json' as any);
-    const redditUrl = browser.runtime.getURL('reddit-communities.json' as any);
-    const wguConnectUrl = browser.runtime.getURL('wgu-connect-groups.json' as any);
+    const unifiedUrl = browser.runtime.getURL('data/unified-community-data.json' as any);
     
-    console.log('Discord URL:', discordUrl);
-    console.log('Reddit URL:', redditUrl);
-    console.log('WGU Connect URL:', wguConnectUrl);
+    console.log('Unified data URL:', unifiedUrl);
     
-    const [discordData, redditData, wguConnectData] = await Promise.all([
-      fetch(discordUrl).then(r => r.json()),
-      fetch(redditUrl).then(r => r.json()),
-      fetch(wguConnectUrl).then(r => r.json())
-    ]);
+    const unifiedData = await fetch(unifiedUrl).then(r => r.json());
 
-    console.log('Successfully loaded community data from extension URLs');
-    return { discordData, redditData, wguConnectData };
+    console.log('Successfully loaded unified community data from extension URLs');
+    return { unifiedData };
     
   } catch (error) {
-    console.warn('Failed to load from extension URLs, falling back to imported data:', error);
+    console.warn('Failed to load from extension URLs, falling back to imported unified data:', error);
     // Fallback to imported data if URL fetching fails
     return {
-      discordData: discordWhitelist,
-      redditData: redditCommunities,
-      wguConnectData: wguConnectGroups
+      unifiedData: unifiedCommunityData
     };
   }
 }
@@ -78,7 +64,5 @@ export async function loadCommunityData() {
  * Interface for community data structure
  */
 export interface CommunityData {
-  discordData: typeof discordWhitelist;
-  redditData: typeof redditCommunities;
-  wguConnectData: typeof wguConnectGroups;
+  unifiedData: typeof unifiedCommunityData;
 }

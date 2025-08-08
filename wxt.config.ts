@@ -9,6 +9,7 @@ export default defineConfig({
     '@wxt-dev/module-react',
     '@wxt-dev/auto-icons',
   ],
+  publicDir: 'public',
   webExt: {
     startUrls: [
       'https://my.wgu.edu'

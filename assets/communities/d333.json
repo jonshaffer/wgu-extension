@@ -1,5 +1,12 @@
 {
-  "discord": [],
+  "discord": [
+    {
+      "name": "WGU CS Discord - 🟩⎜𝗗𝟯𝟯𝟯-ethics-tech",
+      "url": "https://discord.gg/wgu-cs",
+      "type": "discord",
+      "description": "D333 - Ethics in Technology"
+    }
+  ],
   "reddit": [],
   "wguConnect": [
     {
@@ -7,7 +14,7 @@
       "url": "https://wguconnect.wgu.edu/hub/wgu-connect/groups/d333-ethics-in-technology-",
       "type": "wgu-connect",
       "description": "Ethics in Technology",
-      "lastUpdated": "2025-08-08T18:45:29.690Z"
+      "lastUpdated": "2025-08-08T18:46:32.000Z"
     }
   ]
 }

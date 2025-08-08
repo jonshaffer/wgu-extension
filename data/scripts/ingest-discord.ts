@@ -3,14 +3,13 @@
 /**
  * Discord Data Ingestion Script
  * 
- * Ingests Discord community data into individual discord.{id}.json files.
- * Each file contains a single community with an empty channels array.
- * Currently supports manual data entry with plans for Discord API integration.
+ * Ingests Discord community data from public source files and creates
+ * individual discord.{id}.json files and channel mappings.
  */
 
 import { promises as fs } from 'fs';
 import { resolve } from 'path';
-import type { DiscordCommunityFile, DiscordData } from '../types/community-data.js';
+import type { DiscordCommunityFile } from '../types/community-data.js';
 
 const DATA_DIR = resolve(process.cwd(), 'data/raw');
 const DISCORD_DIR = resolve(DATA_DIR, 'discord');
@@ -18,52 +17,41 @@ const DISCORD_DIR = resolve(DATA_DIR, 'discord');
 async function ingestDiscordData(): Promise<void> {
   console.log('🔵 Starting Discord data ingestion...');
 
-  // For now, we'll use manually curated data
-  // TODO: Integrate with Discord API for automated channel discovery
-  
-  const communities: DiscordCommunityFile[] = [
-    {
-      id: "948943218063265822",
-      name: "WGU Computer Science",
-      description: "Official WGU Computer Science student community",
-      inviteUrl: "https://discord.gg/westerngovernors",
-      hierarchy: {
-        level: 'college',
-        college: 'technology'
-      },
-      channels: [] // Start with empty channels array
-    },
-    {
-      id: "123456789012345678", // Example ID
-      name: "WGU Cybersecurity",
-      description: "WGU Cybersecurity and Information Assurance students",
-      inviteUrl: "https://discord.gg/wgu-cybersecurity",
-      hierarchy: {
-        level: 'program',
-        college: 'technology',
-        program: 'Cybersecurity and Information Assurance'
-      },
-      channels: [] // Start with empty channels array
-    }
-  ];
-
   // Ensure Discord directory exists
   await fs.mkdir(DISCORD_DIR, { recursive: true });
 
-  // Write individual files for each Discord community (clean filenames)
-  const createdFiles: string[] = [];
+  console.log('📥 Discord data ingestion now validates existing files');
+  console.log('💡 To add new Discord communities, create JSON files directly in data/raw/discord/');
   
-  for (const community of communities) {
-    const filename = `${community.id}.json`;
-    const filepath = resolve(DISCORD_DIR, filename);
-    
-    await fs.writeFile(filepath, JSON.stringify(community, null, 2));
-    createdFiles.push(filename);
-  }
+  // Validate existing files
+  await validateExistingFiles();
+}
 
-  console.log(`✅ Discord data saved:`);
-  console.log(`   - Individual files in discord/: ${createdFiles.join(', ')}`);
-  console.log(`   - ${communities.length} communities`);
+async function validateExistingFiles(): Promise<void> {
+  try {
+    const existingFiles = await fs.readdir(DISCORD_DIR);
+    const jsonFiles = existingFiles.filter(f => f.endsWith('.json'));
+    
+    console.log(`Found ${jsonFiles.length} existing Discord community files:`);
+    
+    for (const filename of jsonFiles) {
+      const filePath = resolve(DISCORD_DIR, filename);
+      try {
+        const content = await fs.readFile(filePath, 'utf-8');
+        const communityData: DiscordCommunityFile = JSON.parse(content);
+        
+        if (!communityData.id || !communityData.name || !communityData.hierarchy) {
+          console.warn(`⚠️  Warning: File ${filename} is missing required fields`);
+        } else {
+          console.log(`✅ Validated: ${communityData.name} (${communityData.channels?.length || 0} channels)`);
+        }
+      } catch (error) {
+        console.error(`❌ Error validating ${filename}:`, error);
+      }
+    }
+  } catch (error) {
+    console.error('❌ Error validating existing files:', error);
+  }
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {

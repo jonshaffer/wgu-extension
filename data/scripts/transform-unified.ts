@@ -17,6 +17,8 @@ import type {
   RedditCommunityFile,
   WguConnectData,
   WguConnectGroupFile,
+  WguStudentGroupsData,
+  WguStudentGroupFile,
   ProcessedCommunityData,
   CourseCommunitiesMappings,
   CommunityLink,
@@ -27,6 +29,7 @@ const RAW_DIR = resolve(process.cwd(), 'data/raw');
 const DISCORD_DIR = resolve(RAW_DIR, 'discord');
 const REDDIT_DIR = resolve(RAW_DIR, 'reddit');
 const PROCESSED_DIR = resolve(process.cwd(), 'data/processed');
+const PUBLIC_DATA_DIR = resolve(process.cwd(), 'public/data');
 const ASSETS_DIR = resolve(process.cwd(), 'assets/communities');
 
 /**
@@ -145,7 +148,7 @@ async function loadRawData() {
         // Add git timestamp if available
         const timestamp = getFileLastUpdated(filePath);
         if (timestamp) {
-          groupData.last_updated = timestamp;
+          groupData.lastUpdated = timestamp;
         }
         
         return groupData;
@@ -157,7 +160,35 @@ async function loadRawData() {
     console.warn('Could not load WGU Connect data:', error);
   }
 
-  return { discordData, redditData, wguConnectData };
+  // Load WGU Student Groups data from individual files
+  let wguStudentGroupsData: WguStudentGroupsData = { groups: [] };
+  try {
+    const wguStudentGroupsDir = resolve(RAW_DIR, 'wgu-student-groups');
+    const wguStudentGroupsFiles = await fs.readdir(wguStudentGroupsDir);
+    const jsonFiles = wguStudentGroupsFiles.filter(f => f.endsWith('.json'));
+    
+    const groups = await Promise.all(
+      jsonFiles.map(async (filename) => {
+        const filePath = resolve(wguStudentGroupsDir, filename);
+        const content = await fs.readFile(filePath, 'utf-8');
+        const groupData: WguStudentGroupFile = JSON.parse(content);
+        
+        // Add git timestamp if available
+        const timestamp = getFileLastUpdated(filePath);
+        if (timestamp) {
+          groupData.lastUpdated = timestamp;
+        }
+        
+        return groupData;
+      })
+    );
+    
+    wguStudentGroupsData = { groups };
+  } catch (error) {
+    console.warn('Could not load WGU Student Groups data:', error);
+  }
+
+  return { discordData, redditData, wguConnectData, wguStudentGroupsData };
 }
 
 function transformDiscordToLinks(discordData: DiscordData): CommunityLink[] {
@@ -187,14 +218,25 @@ function transformWguConnectToLinks(wguConnectData: WguConnectData): CommunityLi
     url: group.url,
     type: 'wgu-connect' as const,
     description: group.full_name,
-    lastUpdated: group.last_updated
+    lastUpdated: group.lastUpdated
+  }));
+}
+
+function transformWguStudentGroupsToLinks(wguStudentGroupsData: WguStudentGroupsData): CommunityLink[] {
+  return wguStudentGroupsData.groups.map(group => ({
+    name: group.name,
+    url: group.url,
+    type: 'wgu-student-groups' as const,
+    description: group.description,
+    lastUpdated: group.lastUpdated
   }));
 }
 
 function createCourseMappings(
   discordData: DiscordData,
   redditData: RedditData,
-  wguConnectData: WguConnectData
+  wguConnectData: WguConnectData,
+  wguStudentGroupsData: WguStudentGroupsData
 ): CourseCommunitiesMappings[] {
   const courseMap = new Map<string, CourseCommunitiesMappings>();
 
@@ -203,7 +245,7 @@ function createCourseMappings(
     if (channel.courseRelevance) {
       channel.courseRelevance.forEach(courseCode => {
         if (!courseMap.has(courseCode)) {
-          courseMap.set(courseCode, { courseCode, discord: [], reddit: [], wguConnect: [] });
+          courseMap.set(courseCode, { courseCode, discord: [], reddit: [], wguConnect: [], wguStudentGroups: [] });
         }
         
         const community = discordData.communities.find(c => c.id === channel.communityId);
@@ -224,7 +266,7 @@ function createCourseMappings(
     if (community.relevantCourses) {
       community.relevantCourses.forEach(courseCode => {
         if (!courseMap.has(courseCode)) {
-          courseMap.set(courseCode, { courseCode, discord: [], reddit: [], wguConnect: [] });
+          courseMap.set(courseCode, { courseCode, discord: [], reddit: [], wguConnect: [], wguStudentGroups: [] });
         }
         
         courseMap.get(courseCode)!.reddit!.push({
@@ -241,7 +283,7 @@ function createCourseMappings(
   wguConnectData.groups.forEach(group => {
     group.course_codes.forEach((courseCode: string) => {
       if (!courseMap.has(courseCode)) {
-        courseMap.set(courseCode, { courseCode, discord: [], reddit: [], wguConnect: [] });
+        courseMap.set(courseCode, { courseCode, discord: [], reddit: [], wguConnect: [], wguStudentGroups: [] });
       }
       
       courseMap.get(courseCode)!.wguConnect!.push({
@@ -249,17 +291,21 @@ function createCourseMappings(
         url: group.url,
         type: 'wgu-connect',
         description: group.full_name,
-        lastUpdated: group.last_updated
+        lastUpdated: group.lastUpdated
       });
     });
   });
+
+  // Note: WGU Student Groups are typically university-level and not course-specific,
+  // so they are not processed here but in the organizeByHierarchy function
 
   return Array.from(courseMap.values());
 }
 
 function organizeByHierarchy(
   discordData: DiscordData,
-  redditData: RedditData
+  redditData: RedditData,
+  wguStudentGroupsData: WguStudentGroupsData
 ) {
   const universityLevel = {
     discord: discordData.communities
@@ -267,7 +313,8 @@ function organizeByHierarchy(
       .map(c => transformDiscordToLinks({ communities: [c], channels: [] })[0]),
     reddit: redditData.communities
       .filter(c => c.hierarchy.level === 'university')
-      .map(c => transformRedditToLinks({ communities: [c] })[0])
+      .map(c => transformRedditToLinks({ communities: [c] })[0]),
+    wguStudentGroups: transformWguStudentGroupsToLinks(wguStudentGroupsData)
   };
 
   const colleges: College[] = ['technology', 'health', 'business', 'education'];
@@ -278,10 +325,11 @@ function organizeByHierarchy(
         .map(c => transformDiscordToLinks({ communities: [c], channels: [] })[0]),
       reddit: redditData.communities
         .filter(c => c.hierarchy.college === college)
-        .map(c => transformRedditToLinks({ communities: [c] })[0])
+        .map(c => transformRedditToLinks({ communities: [c] })[0]),
+      wguStudentGroups: [] // Student groups are typically university-level, not college-specific
     };
     return acc;
-  }, {} as Record<College, { discord: CommunityLink[]; reddit: CommunityLink[]; }>);
+  }, {} as Record<College, { discord: CommunityLink[]; reddit: CommunityLink[]; wguStudentGroups: CommunityLink[]; }>);
 
   return { universityLevel, collegeLevel };
 }
@@ -289,18 +337,22 @@ function organizeByHierarchy(
 async function transformUnifiedData(): Promise<void> {
   console.log('🔄 Starting unified data transformation...');
 
-  const { discordData, redditData, wguConnectData } = await loadRawData();
+  const { discordData, redditData, wguConnectData, wguStudentGroupsData } = await loadRawData();
 
   // Create course-specific mappings
-  const courseMappings = createCourseMappings(discordData, redditData, wguConnectData);
+  const courseMappings = createCourseMappings(discordData, redditData, wguConnectData, wguStudentGroupsData);
 
   // Organize by hierarchy
-  const { universityLevel, collegeLevel } = organizeByHierarchy(discordData, redditData);
+  const { universityLevel, collegeLevel } = organizeByHierarchy(discordData, redditData, wguStudentGroupsData);
+
+  // Extract Discord server IDs for content script matching
+  const discordServers = Array.from(new Set(discordData.communities.map(c => c.id)));
 
   const processedData: ProcessedCommunityData = {
     courseMappings,
     universityLevel,
     collegeLevel,
+    discordServers,
     lastUpdated: new Date().toISOString()
   };
 
@@ -311,7 +363,29 @@ async function transformUnifiedData(): Promise<void> {
     JSON.stringify(processedData, null, 2)
   );
 
-  // Generate individual course files for backward compatibility
+  // Copy unified data to public directory for extension use
+  await fs.mkdir(PUBLIC_DATA_DIR, { recursive: true });
+  await fs.writeFile(
+    resolve(PUBLIC_DATA_DIR, 'unified-community-data.json'),
+    JSON.stringify(processedData, null, 2)
+  );
+
+  // Generate individual course files for extension use
+  for (const courseMapping of courseMappings) {
+    const courseFormat = {
+      discord: courseMapping.discord || [],
+      reddit: courseMapping.reddit || [],
+      wguConnect: courseMapping.wguConnect || [],
+      wguStudentGroups: courseMapping.wguStudentGroups || []
+    };
+    
+    await fs.writeFile(
+      resolve(PUBLIC_DATA_DIR, `${courseMapping.courseCode.toLowerCase()}.json`),
+      JSON.stringify(courseFormat, null, 2)
+    );
+  }
+
+  // Generate individual course files for backward compatibility (legacy assets)
   await fs.mkdir(ASSETS_DIR, { recursive: true });
   
   for (const courseMapping of courseMappings) {
@@ -330,6 +404,7 @@ async function transformUnifiedData(): Promise<void> {
 
   console.log(`✅ Unified transformation complete`);
   console.log(`   - Processed data: ${resolve(PROCESSED_DIR, 'unified-community-data.json')}`);
+  console.log(`   - Public data: ${resolve(PUBLIC_DATA_DIR, 'unified-community-data.json')}`);
   console.log(`   - Course mappings: ${courseMappings.length} courses`);
   console.log(`   - Legacy format files: ${ASSETS_DIR}`);
 }

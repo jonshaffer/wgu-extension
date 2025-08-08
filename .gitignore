@@ -38,3 +38,6 @@ result-*
 .env
 .env.local
 .env.*.local
+
+# Generated data files
+public/data/

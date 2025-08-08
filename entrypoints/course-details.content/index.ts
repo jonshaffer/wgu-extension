@@ -248,26 +248,18 @@ async function loadCommunityMappings(courseCode: string): Promise<any | null | t
       `;
     }
 
-    // Load our extension's community data
+    // Load our extension's unified community data
     async function loadExtensionCommunityData() {
       try {
-        console.log('Loading extension community data...');
+        console.log('Loading extension unified community data...');
         console.log('Extension ID:', browser.runtime.id);
         
-        const discordUrl = browser.runtime.getURL('discord-whitelist.json' as any);
-        const redditUrl = browser.runtime.getURL('reddit-communities.json' as any);
-        const wguConnectUrl = browser.runtime.getURL('wgu-connect-groups.json' as any);
+        const unifiedUrl = browser.runtime.getURL('data/unified-community-data.json' as any);
         
-        console.log('Discord URL:', discordUrl);
-        console.log('Reddit URL:', redditUrl);
-        console.log('WGU Connect URL:', wguConnectUrl);
+        console.log('Unified data URL:', unifiedUrl);
         
-        const [discordData, redditData, wguConnectData] = await Promise.all([
-          fetch(discordUrl).then(r => r.json()),
-          fetch(redditUrl).then(r => r.json()),
-          fetch(wguConnectUrl).then(r => r.json())
-        ]);
-        return { discordData, redditData, wguConnectData };
+        const unifiedData = await fetch(unifiedUrl).then(r => r.json());
+        return { unifiedData };
       } catch (error) {
         console.error('Error loading extension community data:', error);
         return null;

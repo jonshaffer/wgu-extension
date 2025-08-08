@@ -1,5 +1,12 @@
 {
-  "discord": [],
+  "discord": [
+    {
+      "name": "WGU CS Discord - 🟥⎜𝗗𝟲𝟴𝟰-intro-to-cs",
+      "url": "https://discord.gg/wgu-cs",
+      "type": "discord",
+      "description": "D684 - Introduction to Computer Science"
+    }
+  ],
   "reddit": [],
   "wguConnect": [
     {
@@ -7,7 +14,7 @@
       "url": "https://wguconnect.wgu.edu/hub/wgu-connect/groups/d684-intro-to-computer-science",
       "type": "wgu-connect",
       "description": "Introduction to Computer Science",
-      "lastUpdated": "2025-08-08T18:45:29.735Z"
+      "lastUpdated": "2025-08-08T18:46:32.000Z"
     }
   ]
 }

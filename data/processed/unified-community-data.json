@@ -1,14 +1,255 @@
 {
   "courseMappings": [
     {
+      "courseCode": "C959",
+      "discord": [
+        {
+          "name": "WGU CS Discord - 🟩⎜𝗖𝟵𝟱𝟵-dm-1",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "C959 - Discrete Mathematics I"
+        }
+      ],
+      "reddit": [],
+      "wguConnect": [],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "C960",
+      "discord": [
+        {
+          "name": "WGU CS Discord - 🟩⎜𝗖𝟵𝟲𝟬-dm-2",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "C960 - Discrete Mathematics II"
+        }
+      ],
+      "reddit": [],
+      "wguConnect": [
+        {
+          "name": "C960/D422 - Discrete Math and Logic",
+          "url": "https://wguconnect.wgu.edu/hub/wgu-connect/groups/c960-d422-discrete-math-and-logic",
+          "type": "wgu-connect",
+          "description": "Discrete Mathematics and Logic",
+          "lastUpdated": "2025-08-08T18:46:32.000Z"
+        }
+      ],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "C963",
+      "discord": [
+        {
+          "name": "WGU CS Discord - 🟩⎜𝗖𝟵𝟲𝟯-american-politics-constitution",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "C963 - American Politics and the US Constitution"
+        }
+      ],
+      "reddit": [],
+      "wguConnect": [],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "D268",
+      "discord": [
+        {
+          "name": "WGU CS Discord - 🟩⎜𝗗𝟮𝟲𝟴-intro-communication",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "D268 - Introduction to Communication"
+        }
+      ],
+      "reddit": [],
+      "wguConnect": [],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "D270",
+      "discord": [
+        {
+          "name": "WGU CS Discord - 🟩⎜𝗗𝟮𝟳𝟬-composition",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "D270 - Composition"
+        }
+      ],
+      "reddit": [],
+      "wguConnect": [],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "D333",
+      "discord": [
+        {
+          "name": "WGU CS Discord - 🟩⎜𝗗𝟯𝟯𝟯-ethics-tech",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "D333 - Ethics in Technology"
+        }
+      ],
+      "reddit": [],
+      "wguConnect": [
+        {
+          "name": "D333 - Ethics in Technology",
+          "url": "https://wguconnect.wgu.edu/hub/wgu-connect/groups/d333-ethics-in-technology-",
+          "type": "wgu-connect",
+          "description": "Ethics in Technology",
+          "lastUpdated": "2025-08-08T18:46:32.000Z"
+        }
+      ],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "D370",
+      "discord": [
+        {
+          "name": "WGU CS Discord - 🟩⎜𝗗𝟯𝟳𝟬-it-leadership",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "D370 - IT Leadership Foundations"
+        }
+      ],
+      "reddit": [],
+      "wguConnect": [],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "D459",
+      "discord": [
+        {
+          "name": "WGU CS Discord - 🟩⎜𝗗𝟰𝟱𝟵-systems-thinking",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "D459 - Introduction to Systems Thinking"
+        }
+      ],
+      "reddit": [],
+      "wguConnect": [
+        {
+          "name": "D459 - Introduction to Systems Thinking and Applications",
+          "url": "https://wguconnect.wgu.edu/hub/wgu-connect/groups/d459-introduction-to-systems-thinking-and-applications",
+          "type": "wgu-connect",
+          "description": "Introduction to Systems Thinking",
+          "lastUpdated": "2025-08-08T18:46:32.000Z"
+        }
+      ],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "D276",
+      "discord": [
+        {
+          "name": "WGU CS Discord - 🟧⎜𝗗𝟮𝟳𝟲-web-dev-foundation",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "D276 - Web Development Foundations"
+        }
+      ],
+      "reddit": [],
+      "wguConnect": [],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "D278",
+      "discord": [
+        {
+          "name": "WGU CS Discord - 🟧⎜𝗗𝟮𝟳𝟴-script-prog-foundations",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "D278 - Scripting and Programming Foundations"
+        }
+      ],
+      "reddit": [],
+      "wguConnect": [],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "D315",
+      "discord": [
+        {
+          "name": "WGU CS Discord - 🟧⎜𝗗𝟯𝟭𝟱-net-sec-foundations",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "D315 - Network and Security Foundations"
+        }
+      ],
+      "reddit": [],
+      "wguConnect": [],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "D336",
+      "discord": [
+        {
+          "name": "WGU CS Discord - 🟧⎜𝗗𝟯𝟯𝟲-bus-it-apps",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "D336 - Business of IT - Applications"
+        }
+      ],
+      "reddit": [],
+      "wguConnect": [],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "D426",
+      "discord": [
+        {
+          "name": "WGU CS Discord - 🟧⎜𝗗𝟰𝟮𝟲-data-mgmt-foundations",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "D426 - Data Management Foundations"
+        }
+      ],
+      "reddit": [],
+      "wguConnect": [],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "C867",
+      "discord": [
+        {
+          "name": "WGU CS Discord - 🟥⎜𝗖𝟴𝟲𝟳-script-program-apps",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "C867 - Scripting and Programming Applications"
+        }
+      ],
+      "reddit": [],
+      "wguConnect": [],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "C949",
+      "discord": [
+        {
+          "name": "WGU CS Discord - 🟥⎜𝗖𝟵𝟰𝟵-dsa-1",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "C949 - Data Structures and Algorithms I"
+        }
+      ],
+      "reddit": [],
+      "wguConnect": [],
+      "wguStudentGroups": []
+    },
+    {
       "courseCode": "C950",
-      "discord": [],
+      "discord": [
+        {
+          "name": "WGU CS Discord - 🟥⎜𝗖𝟵𝟱𝟬-dsa-2",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "C950 - Data Structures and Algorithms II"
+        }
+      ],
       "reddit": [
         {
-          "name": "WGU Computer Science",
+          "name": "r/WGU_CompSci",
           "url": "https://reddit.com/r/WGU_CompSci",
           "type": "reddit",
-          "description": "Computer Science degree program discussions"
+          "description": "WGU Computer Science program subreddit"
         }
       ],
       "wguConnect": [
@@ -17,48 +258,550 @@
           "url": "https://wguconnect.wgu.edu/hub/wgu-connect/groups/c950-data-structures-and-algorithms-ii",
           "type": "wgu-connect",
           "description": "Data Structures and Algorithms II",
-          "lastUpdated": "2025-08-08T18:45:29.676Z"
+          "lastUpdated": "2025-08-08T18:46:32.000Z"
         }
-      ]
+      ],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "C952",
+      "discord": [
+        {
+          "name": "WGU CS Discord - 🟥⎜𝗖𝟵𝟱𝟮-comp-arch",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "C952 - Computer Architecture"
+        }
+      ],
+      "reddit": [],
+      "wguConnect": [],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "D197",
+      "discord": [
+        {
+          "name": "WGU CS Discord - 🟥⎜𝗗𝟭𝟵𝟳-version-control",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "D197 - Version Control"
+        }
+      ],
+      "reddit": [],
+      "wguConnect": [],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "D281",
+      "discord": [
+        {
+          "name": "WGU CS Discord - 🟥⎜𝗗𝟮𝟴𝟭-linux-foundations",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "D281 - Linux Foundations"
+        }
+      ],
+      "reddit": [],
+      "wguConnect": [
+        {
+          "name": "C851/D281 - Linux Foundations",
+          "url": "https://wguconnect.wgu.edu/hub/wgu-connect/groups/c851d281-linux-foundations",
+          "type": "wgu-connect",
+          "description": "Linux Foundations",
+          "lastUpdated": "2025-08-08T18:46:32.000Z"
+        }
+      ],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "D284",
+      "discord": [
+        {
+          "name": "WGU CS Discord - 🟥⎜𝗗𝟮𝟴𝟰-software-engineering",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "D284 - Software Engineering"
+        }
+      ],
+      "reddit": [],
+      "wguConnect": [],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "D286",
+      "discord": [
+        {
+          "name": "WGU CS Discord - 🟥⎜𝗗𝟮𝟴𝟲-java-fundamentals",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "D286 - Java Fundamentals"
+        }
+      ],
+      "reddit": [],
+      "wguConnect": [],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "D287",
+      "discord": [
+        {
+          "name": "WGU CS Discord - 🟥⎜𝗗𝟮𝟴𝟳-java-frameworks",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "D287 - Java Frameworks"
+        }
+      ],
+      "reddit": [],
+      "wguConnect": [],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "D288",
+      "discord": [
+        {
+          "name": "WGU CS Discord - 🟥⎜𝗗𝟮𝟴𝟴-backend-programming",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "D288 - Back End Programming"
+        }
+      ],
+      "reddit": [],
+      "wguConnect": [],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "D387",
+      "discord": [
+        {
+          "name": "WGU CS Discord - 🟥⎜𝗗𝟯𝟴𝟳-advanced-java",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "D387 - Advanced Java"
+        }
+      ],
+      "reddit": [],
+      "wguConnect": [
+        {
+          "name": "D387 - Advanced Java",
+          "url": "https://wguconnect.wgu.edu/hub/wgu-connect/groups/d387-advanced-java",
+          "type": "wgu-connect",
+          "description": "Advanced Java",
+          "lastUpdated": "2025-08-08T18:46:32.000Z"
+        }
+      ],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "D427",
+      "discord": [
+        {
+          "name": "WGU CS Discord - 🟥⎜𝗗𝟰𝟮𝟳-data-mgmt-apps",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "D427 - Data Management Applications"
+        }
+      ],
+      "reddit": [],
+      "wguConnect": [],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "D429",
+      "discord": [
+        {
+          "name": "WGU CS Discord - 🟥⎜𝗗𝟰𝟮𝟵-intro-to-ai",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "D429 - Introduction to Artificial Intelligence"
+        }
+      ],
+      "reddit": [],
+      "wguConnect": [
+        {
+          "name": "D429 - Introduction to AI for Computer Scientists",
+          "url": "https://wguconnect.wgu.edu/hub/wgu-connect/groups/d429-introduction-to-ai-for-computer-scientists",
+          "type": "wgu-connect",
+          "description": "Introduction to Artificial Intelligence",
+          "lastUpdated": "2025-08-08T18:46:32.000Z"
+        }
+      ],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "D430",
+      "discord": [
+        {
+          "name": "WGU CS Discord - 🟥⎜𝗗𝟰𝟯𝟬-info-sec-fundamentals",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "D430 - Information Security Fundamentals"
+        }
+      ],
+      "reddit": [],
+      "wguConnect": [],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "D480",
+      "discord": [
+        {
+          "name": "WGU CS Discord - 🟥⎜𝗗𝟰𝟴𝟬-software-design-qa",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "D480 - Software Design and Quality Assurance"
+        }
+      ],
+      "reddit": [],
+      "wguConnect": [
+        {
+          "name": "D480 - Software Design and Quality Assurance",
+          "url": "https://wguconnect.wgu.edu/hub/wgu-connect/groups/d480-software-design-and-quality-assurance",
+          "type": "wgu-connect",
+          "description": "Software Design and Quality Assurance",
+          "lastUpdated": "2025-08-08T18:46:32.000Z"
+        }
+      ],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "D682",
+      "discord": [
+        {
+          "name": "WGU CS Discord - 🟥⎜𝗗𝟲𝟴𝟮-ai-optimization",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "D682 - AI Optimization and Reasoning"
+        }
+      ],
+      "reddit": [],
+      "wguConnect": [
+        {
+          "name": "D682 - AI Optimization for Computer Scientists",
+          "url": "https://wguconnect.wgu.edu/hub/wgu-connect/groups/d682-ai-optimization-for-computer-scientists",
+          "type": "wgu-connect",
+          "description": "AI Optimization and Reasoning",
+          "lastUpdated": "2025-08-08T18:46:32.000Z"
+        }
+      ],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "D683",
+      "discord": [
+        {
+          "name": "WGU CS Discord - 🟥⎜𝗗𝟲𝟴𝟯-adv-ai-ml",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "D683 - Advanced Artificial Intelligence and Machine Learning"
+        }
+      ],
+      "reddit": [],
+      "wguConnect": [],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "D684",
+      "discord": [
+        {
+          "name": "WGU CS Discord - 🟥⎜𝗗𝟲𝟴𝟰-intro-to-cs",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "D684 - Introduction to Computer Science"
+        }
+      ],
+      "reddit": [],
+      "wguConnect": [
+        {
+          "name": "D684 - Intro to Computer Science",
+          "url": "https://wguconnect.wgu.edu/hub/wgu-connect/groups/d684-intro-to-computer-science",
+          "type": "wgu-connect",
+          "description": "Introduction to Computer Science",
+          "lastUpdated": "2025-08-08T18:46:32.000Z"
+        }
+      ],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "D685",
+      "discord": [
+        {
+          "name": "WGU CS Discord - 🟥⎜𝗗𝟲𝟴𝟱-pract-prompt",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "D685 - Practical Prompt Engineering"
+        }
+      ],
+      "reddit": [],
+      "wguConnect": [
+        {
+          "name": "D685 - Practical Applications of Prompt",
+          "url": "https://wguconnect.wgu.edu/hub/wgu-connect/groups/d685-practical-applications-of-prompt",
+          "type": "wgu-connect",
+          "description": "Practical Prompt Engineering",
+          "lastUpdated": "2025-08-08T18:46:32.000Z"
+        }
+      ],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "D686",
+      "discord": [
+        {
+          "name": "WGU CS Discord - 🟥⎜𝗗𝟲𝟴𝟲-operating-systems",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "D686 - Operating Systems for Computer Scientists"
+        }
+      ],
+      "reddit": [],
+      "wguConnect": [
+        {
+          "name": "D686 - Operating Systems for Computer Scientists",
+          "url": "https://wguconnect.wgu.edu/hub/wgu-connect/groups/d686-operating-systems-for-computer-scientists",
+          "type": "wgu-connect",
+          "description": "Operating Systems for Computer Scientists",
+          "lastUpdated": "2025-08-08T18:46:32.000Z"
+        }
+      ],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "D687",
+      "discord": [
+        {
+          "name": "WGU CS Discord - 🟥⎜𝗗𝟲𝟴𝟳-cs-capstone",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "D687 - Computer Science Capstone"
+        }
+      ],
+      "reddit": [],
+      "wguConnect": [],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "C191",
+      "discord": [
+        {
+          "name": "WGU CS Discord - ⬛⎜𝗖𝟭𝟵𝟭-operating-systems",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "C191 - Operating Systems"
+        }
+      ],
+      "reddit": [],
+      "wguConnect": [],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "C195",
+      "discord": [
+        {
+          "name": "WGU CS Discord - ⬛⎜𝗖𝟭𝟵𝟱-software-ii",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "C195 - Software II"
+        }
+      ],
+      "reddit": [
+        {
+          "name": "r/WGU_CompSci",
+          "url": "https://reddit.com/r/WGU_CompSci",
+          "type": "reddit",
+          "description": "WGU Computer Science program subreddit"
+        }
+      ],
+      "wguConnect": [],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "C482",
+      "discord": [
+        {
+          "name": "WGU CS Discord - ⬛⎜𝗖𝟰𝟴𝟮-software-i",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "C482 - Software I"
+        }
+      ],
+      "reddit": [
+        {
+          "name": "r/WGU_CompSci",
+          "url": "https://reddit.com/r/WGU_CompSci",
+          "type": "reddit",
+          "description": "WGU Computer Science program subreddit"
+        }
+      ],
+      "wguConnect": [],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "C857",
+      "discord": [
+        {
+          "name": "WGU CS Discord - ⬛⎜𝗖𝟴𝟱𝟳-software-qa",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "C857 - Software Quality Assurance"
+        }
+      ],
+      "reddit": [],
+      "wguConnect": [],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "C951",
+      "discord": [
+        {
+          "name": "WGU CS Discord - ⬛⎜𝗖𝟵𝟱𝟭-intro-to-ai",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "C951 - Introduction to Artificial Intelligence"
+        }
+      ],
+      "reddit": [],
+      "wguConnect": [],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "C964",
+      "discord": [
+        {
+          "name": "WGU CS Discord - ⬛⎜𝗖𝟵𝟲𝟰-cs-capstone",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "C964 - Computer Science Capstone"
+        }
+      ],
+      "reddit": [],
+      "wguConnect": [],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "D198",
+      "discord": [
+        {
+          "name": "WGU CS Discord - ⬛⎜𝗗𝟭𝟵𝟴-humanities",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "D198 - Humanities"
+        }
+      ],
+      "reddit": [],
+      "wguConnect": [],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "D199",
+      "discord": [
+        {
+          "name": "WGU CS Discord - ⬛⎜𝗗𝟭𝟵𝟵-intro-geography",
+          "url": "https://discord.gg/wgu-cs",
+          "type": "discord",
+          "description": "D199 - Introduction to Geography"
+        }
+      ],
+      "reddit": [],
+      "wguConnect": [],
+      "wguStudentGroups": []
     },
     {
       "courseCode": "C777",
       "discord": [],
       "reddit": [
         {
-          "name": "WGU Computer Science",
+          "name": "r/WGU_CompSci",
           "url": "https://reddit.com/r/WGU_CompSci",
           "type": "reddit",
-          "description": "Computer Science degree program discussions"
+          "description": "WGU Computer Science program subreddit"
         }
       ],
-      "wguConnect": []
+      "wguConnect": [],
+      "wguStudentGroups": []
     },
     {
-      "courseCode": "C482",
+      "courseCode": "C836",
       "discord": [],
       "reddit": [
         {
-          "name": "WGU Computer Science",
-          "url": "https://reddit.com/r/WGU_CompSci",
+          "name": "r/WGU_Cybersecurity",
+          "url": "https://reddit.com/r/WGU_Cybersecurity",
           "type": "reddit",
-          "description": "Computer Science degree program discussions"
+          "description": "WGU Cybersecurity programs subreddit"
         }
       ],
-      "wguConnect": []
+      "wguConnect": [],
+      "wguStudentGroups": []
     },
     {
-      "courseCode": "C195",
+      "courseCode": "C837",
       "discord": [],
       "reddit": [
         {
-          "name": "WGU Computer Science",
-          "url": "https://reddit.com/r/WGU_CompSci",
+          "name": "r/WGU_Cybersecurity",
+          "url": "https://reddit.com/r/WGU_Cybersecurity",
           "type": "reddit",
-          "description": "Computer Science degree program discussions"
+          "description": "WGU Cybersecurity programs subreddit"
         }
       ],
-      "wguConnect": []
+      "wguConnect": [],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "C838",
+      "discord": [],
+      "reddit": [
+        {
+          "name": "r/WGU_Cybersecurity",
+          "url": "https://reddit.com/r/WGU_Cybersecurity",
+          "type": "reddit",
+          "description": "WGU Cybersecurity programs subreddit"
+        }
+      ],
+      "wguConnect": [],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "C182",
+      "discord": [],
+      "reddit": [
+        {
+          "name": "r/WGU_IT",
+          "url": "https://reddit.com/r/WGU_IT",
+          "type": "reddit",
+          "description": "WGU Information Technology programs subreddit"
+        }
+      ],
+      "wguConnect": [],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "C480",
+      "discord": [],
+      "reddit": [
+        {
+          "name": "r/WGU_IT",
+          "url": "https://reddit.com/r/WGU_IT",
+          "type": "reddit",
+          "description": "WGU Information Technology programs subreddit"
+        }
+      ],
+      "wguConnect": [],
+      "wguStudentGroups": []
+    },
+    {
+      "courseCode": "C724",
+      "discord": [],
+      "reddit": [
+        {
+          "name": "r/WGU_IT",
+          "url": "https://reddit.com/r/WGU_IT",
+          "type": "reddit",
+          "description": "WGU Information Technology programs subreddit"
+        }
+      ],
+      "wguConnect": [],
+      "wguStudentGroups": []
     },
     {
       "courseCode": "C851",
@@ -70,37 +813,10 @@
           "url": "https://wguconnect.wgu.edu/hub/wgu-connect/groups/c851d281-linux-foundations",
           "type": "wgu-connect",
           "description": "Linux Foundations",
-          "lastUpdated": "2025-08-08T18:45:29.668Z"
+          "lastUpdated": "2025-08-08T18:46:32.000Z"
         }
-      ]
-    },
-    {
-      "courseCode": "D281",
-      "discord": [],
-      "reddit": [],
-      "wguConnect": [
-        {
-          "name": "C851/D281 - Linux Foundations",
-          "url": "https://wguconnect.wgu.edu/hub/wgu-connect/groups/c851d281-linux-foundations",
-          "type": "wgu-connect",
-          "description": "Linux Foundations",
-          "lastUpdated": "2025-08-08T18:45:29.668Z"
-        }
-      ]
-    },
-    {
-      "courseCode": "C960",
-      "discord": [],
-      "reddit": [],
-      "wguConnect": [
-        {
-          "name": "C960/D422 - Discrete Math and Logic",
-          "url": "https://wguconnect.wgu.edu/hub/wgu-connect/groups/c960-d422-discrete-math-and-logic",
-          "type": "wgu-connect",
-          "description": "Discrete Mathematics and Logic",
-          "lastUpdated": "2025-08-08T18:45:29.683Z"
-        }
-      ]
+      ],
+      "wguStudentGroups": []
     },
     {
       "courseCode": "D422",
@@ -112,146 +828,37 @@
           "url": "https://wguconnect.wgu.edu/hub/wgu-connect/groups/c960-d422-discrete-math-and-logic",
           "type": "wgu-connect",
           "description": "Discrete Mathematics and Logic",
-          "lastUpdated": "2025-08-08T18:45:29.683Z"
+          "lastUpdated": "2025-08-08T18:46:32.000Z"
         }
-      ]
-    },
-    {
-      "courseCode": "D333",
-      "discord": [],
-      "reddit": [],
-      "wguConnect": [
-        {
-          "name": "D333 - Ethics in Technology",
-          "url": "https://wguconnect.wgu.edu/hub/wgu-connect/groups/d333-ethics-in-technology-",
-          "type": "wgu-connect",
-          "description": "Ethics in Technology",
-          "lastUpdated": "2025-08-08T18:45:29.690Z"
-        }
-      ]
-    },
-    {
-      "courseCode": "D387",
-      "discord": [],
-      "reddit": [],
-      "wguConnect": [
-        {
-          "name": "D387 - Advanced Java",
-          "url": "https://wguconnect.wgu.edu/hub/wgu-connect/groups/d387-advanced-java",
-          "type": "wgu-connect",
-          "description": "Advanced Java",
-          "lastUpdated": "2025-08-08T18:45:29.705Z"
-        }
-      ]
-    },
-    {
-      "courseCode": "D429",
-      "discord": [],
-      "reddit": [],
-      "wguConnect": [
-        {
-          "name": "D429 - Introduction to AI for Computer Scientists",
-          "url": "https://wguconnect.wgu.edu/hub/wgu-connect/groups/d429-introduction-to-ai-for-computer-scientists",
-          "type": "wgu-connect",
-          "description": "Introduction to Artificial Intelligence",
-          "lastUpdated": "2025-08-08T18:45:29.698Z"
-        }
-      ]
-    },
-    {
-      "courseCode": "D459",
-      "discord": [],
-      "reddit": [],
-      "wguConnect": [
-        {
-          "name": "D459 - Introduction to Systems Thinking and Applications",
-          "url": "https://wguconnect.wgu.edu/hub/wgu-connect/groups/d459-introduction-to-systems-thinking-and-applications",
-          "type": "wgu-connect",
-          "description": "Introduction to Systems Thinking",
-          "lastUpdated": "2025-08-08T18:45:29.712Z"
-        }
-      ]
-    },
-    {
-      "courseCode": "D480",
-      "discord": [],
-      "reddit": [],
-      "wguConnect": [
-        {
-          "name": "D480 - Software Design and Quality Assurance",
-          "url": "https://wguconnect.wgu.edu/hub/wgu-connect/groups/d480-software-design-and-quality-assurance",
-          "type": "wgu-connect",
-          "description": "Software Design and Quality Assurance",
-          "lastUpdated": "2025-08-08T18:45:29.720Z"
-        }
-      ]
-    },
-    {
-      "courseCode": "D682",
-      "discord": [],
-      "reddit": [],
-      "wguConnect": [
-        {
-          "name": "D682 - AI Optimization for Computer Scientists",
-          "url": "https://wguconnect.wgu.edu/hub/wgu-connect/groups/d682-ai-optimization-for-computer-scientists",
-          "type": "wgu-connect",
-          "description": "AI Optimization and Reasoning",
-          "lastUpdated": "2025-08-08T18:45:29.727Z"
-        }
-      ]
-    },
-    {
-      "courseCode": "D684",
-      "discord": [],
-      "reddit": [],
-      "wguConnect": [
-        {
-          "name": "D684 - Intro to Computer Science",
-          "url": "https://wguconnect.wgu.edu/hub/wgu-connect/groups/d684-intro-to-computer-science",
-          "type": "wgu-connect",
-          "description": "Introduction to Computer Science",
-          "lastUpdated": "2025-08-08T18:45:29.735Z"
-        }
-      ]
-    },
-    {
-      "courseCode": "D685",
-      "discord": [],
-      "reddit": [],
-      "wguConnect": [
-        {
-          "name": "D685 - Practical Applications of Prompt",
-          "url": "https://wguconnect.wgu.edu/hub/wgu-connect/groups/d685-practical-applications-of-prompt",
-          "type": "wgu-connect",
-          "description": "Practical Prompt Engineering",
-          "lastUpdated": "2025-08-08T18:45:29.743Z"
-        }
-      ]
-    },
-    {
-      "courseCode": "D686",
-      "discord": [],
-      "reddit": [],
-      "wguConnect": [
-        {
-          "name": "D686 - Operating Systems for Computer Scientists",
-          "url": "https://wguconnect.wgu.edu/hub/wgu-connect/groups/d686-operating-systems-for-computer-scientists",
-          "type": "wgu-connect",
-          "description": "Operating Systems for Computer Scientists",
-          "lastUpdated": "2025-08-08T18:45:29.751Z"
-        }
-      ]
+      ],
+      "wguStudentGroups": []
     }
   ],
   "universityLevel": {
     "discord": [],
     "reddit": [
       {
-        "name": "Western Governors University",
+        "name": "r/WGU",
         "url": "https://reddit.com/r/WGU",
         "type": "reddit",
-        "description": "The main WGU subreddit for all students and alumni",
-        "lastUpdated": "2025-08-08T18:32:37.000Z"
+        "description": "Main Western Governors University subreddit",
+        "lastUpdated": "2025-08-08T21:42:54.000Z"
+      }
+    ],
+    "wguStudentGroups": [
+      {
+        "name": "Cybersecurity Club",
+        "url": "https://cm.wgu.edu/t5/Cyber-Security-Club/cmp-p/grouphub:cybersecurityclub",
+        "type": "wgu-student-groups",
+        "description": "A closed student group focused on cybersecurity topics, networking, and professional development for WGU cybersecurity students and alumni.",
+        "lastUpdated": "2025-08-08T21:42:54.000Z"
+      },
+      {
+        "name": "SCTA - WGU Chapters",
+        "url": "https://cm.wgu.edu/t5/SCTA-WGU-Chapters/cmp-p/grouphub:SCTAclub",
+        "type": "wgu-student-groups",
+        "description": "Student Chapter of the Technology Association for WGU students pursuing teaching careers in technology education. This is a closed group for future and current technology teachers.",
+        "lastUpdated": "2025-08-08T21:42:54.000Z"
       }
     ]
   },
@@ -259,72 +866,72 @@
     "technology": {
       "discord": [
         {
-          "name": "WGU Cybersecurity",
-          "url": "https://discord.gg/wgu-cybersecurity",
+          "name": "WGU CS Discord",
+          "url": "https://discord.gg/wgu-cs",
           "type": "discord",
-          "description": "WGU Cybersecurity and Information Assurance students",
-          "lastUpdated": "2025-08-08T18:32:37.000Z"
-        },
-        {
-          "name": "WGU Computer Science",
-          "url": "https://discord.gg/westerngovernors",
-          "type": "discord",
-          "description": "Official WGU Computer Science student community",
-          "lastUpdated": "2025-08-08T18:32:37.000Z"
+          "description": "WGU Computer Science Discord community",
+          "lastUpdated": "2025-08-08T21:54:29.552Z"
         }
       ],
       "reddit": [
         {
-          "name": "IT Career Questions",
-          "url": "https://reddit.com/r/ITCareerQuestions",
-          "type": "reddit",
-          "description": "Career advice for IT professionals, relevant to WGU IT students",
-          "lastUpdated": "2025-08-08T18:32:37.000Z"
-        },
-        {
-          "name": "WGU Computer Science",
+          "name": "r/WGU_CompSci",
           "url": "https://reddit.com/r/WGU_CompSci",
           "type": "reddit",
-          "description": "Computer Science degree program discussions",
-          "lastUpdated": "2025-08-08T18:32:37.000Z"
+          "description": "WGU Computer Science program subreddit",
+          "lastUpdated": "2025-08-08T21:42:54.000Z"
         },
         {
-          "name": "Cybersecurity",
-          "url": "https://reddit.com/r/cybersecurity",
+          "name": "r/WGU_Cybersecurity",
+          "url": "https://reddit.com/r/WGU_Cybersecurity",
           "type": "reddit",
-          "description": "General cybersecurity discussions, relevant to WGU Cybersecurity students",
-          "lastUpdated": "2025-08-08T18:32:37.000Z"
+          "description": "WGU Cybersecurity programs subreddit",
+          "lastUpdated": "2025-08-08T21:42:54.000Z"
+        },
+        {
+          "name": "r/WGU_IT",
+          "url": "https://reddit.com/r/WGU_IT",
+          "type": "reddit",
+          "description": "WGU Information Technology programs subreddit",
+          "lastUpdated": "2025-08-08T21:42:54.000Z"
         }
-      ]
+      ],
+      "wguStudentGroups": []
     },
     "health": {
       "discord": [],
-      "reddit": [
-        {
-          "name": "Nursing",
-          "url": "https://reddit.com/r/nursing",
-          "type": "reddit",
-          "description": "General nursing discussions, relevant to WGU Nursing students",
-          "lastUpdated": "2025-08-08T18:35:56.000Z"
-        }
-      ]
+      "reddit": [],
+      "wguStudentGroups": []
     },
     "business": {
       "discord": [],
       "reddit": [
         {
-          "name": "Business Majors",
-          "url": "https://reddit.com/r/businessmajors",
+          "name": "r/WGU_Business",
+          "url": "https://reddit.com/r/WGU_Business",
           "type": "reddit",
-          "description": "Discussions for business students, relevant to WGU Business programs",
-          "lastUpdated": "2025-08-08T18:32:37.000Z"
+          "description": "WGU Business programs subreddit",
+          "lastUpdated": "2025-08-08T21:42:54.000Z"
         }
-      ]
+      ],
+      "wguStudentGroups": []
     },
     "education": {
       "discord": [],
-      "reddit": []
+      "reddit": [
+        {
+          "name": "r/WGU_Teachers",
+          "url": "https://reddit.com/r/WGU_Teachers",
+          "type": "reddit",
+          "description": "WGU Teachers College subreddit",
+          "lastUpdated": "2025-08-08T21:42:54.000Z"
+        }
+      ],
+      "wguStudentGroups": []
     }
   },
-  "lastUpdated": "2025-08-08T18:45:29.751Z"
+  "discordServers": [
+    "1063853854413836499"
+  ],
+  "lastUpdated": "2025-08-08T21:54:29.706Z"
 }

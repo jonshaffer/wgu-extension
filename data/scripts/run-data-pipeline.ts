@@ -9,6 +9,7 @@
 import { ingestDiscordData } from './ingest-discord.js';
 import { ingestRedditData } from './ingest-reddit.js';
 import { ingestWguConnectData } from './ingest-wgu-connect.js';
+import { ingestWguStudentGroupsData } from './ingest-wgu-student-groups.js';
 import { transformUnifiedData } from './transform-unified.js';
 
 async function runDataPipeline(): Promise<void> {
@@ -20,7 +21,8 @@ async function runDataPipeline(): Promise<void> {
     await Promise.all([
       ingestDiscordData(),
       ingestRedditData(),
-      ingestWguConnectData()
+      ingestWguConnectData(),
+      ingestWguStudentGroupsData()
     ]);
     console.log('✅ Ingestion complete\n');
 
@@ -31,9 +33,8 @@ async function runDataPipeline(): Promise<void> {
 
     console.log('🎉 Community Data Pipeline completed successfully!');
     console.log('\nNext steps:');
-    console.log('  - Review generated files in data/processed/');
-    console.log('  - Check assets/communities/ for course-specific files');
-    console.log('  - Update extension to use new data structure');
+    console.log('  - Review generated files in public/');
+    console.log('  - Extension can now use unified-community-data.json');
 
   } catch (error) {
     console.error('❌ Pipeline failed:', error);

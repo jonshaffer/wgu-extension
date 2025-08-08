@@ -43,27 +43,28 @@ export class CommunityDataManager {
     }
 
     try {
-      // Try to load from processed data first
-      const response = await fetch(browser.runtime.getURL('data/processed/unified-community-data.json' as any));
+      // Load from the unified community data in public directory
+      const response = await fetch(browser.runtime.getURL('data/unified-community-data.json' as any));
       if (response.ok) {
         this.processedData = await response.json();
         this.lastLoaded = now;
         return this.processedData!;
       }
     } catch (error) {
-      console.warn('Could not load processed community data:', error);
+      console.warn('Could not load unified community data:', error);
     }
 
     // Fallback: create basic structure
     this.processedData = {
       courseMappings: [],
-      universityLevel: { discord: [], reddit: [] },
+      universityLevel: { discord: [], reddit: [], wguStudentGroups: [] },
       collegeLevel: {
-        technology: { discord: [], reddit: [] },
-        health: { discord: [], reddit: [] },
-        business: { discord: [], reddit: [] },
-        education: { discord: [], reddit: [] }
+        technology: { discord: [], reddit: [], wguStudentGroups: [] },
+        health: { discord: [], reddit: [], wguStudentGroups: [] },
+        business: { discord: [], reddit: [], wguStudentGroups: [] },
+        education: { discord: [], reddit: [], wguStudentGroups: [] }
       },
+      discordServers: [],
       lastUpdated: new Date().toISOString()
     };
 

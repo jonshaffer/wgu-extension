@@ -95,7 +95,7 @@ export interface WguConnectGroup {
   discussions_url: string;
   resources_url: string;
   verified: boolean;
-  last_updated: string;
+  lastUpdated?: string; // Added during processing from git history
 }
 
 // Individual WGU Connect group file structure
@@ -108,13 +108,38 @@ export interface WguConnectData {
 }
 
 // ===============================
+// WGU Student Groups Data Types
+// ===============================
+
+export interface WguStudentGroup {
+  id: string;
+  name: string;
+  description: string;
+  category: string;
+  url: string;
+  type: 'open' | 'closed'; // Whether group is open to all students or has restrictions
+  access_requirements?: string; // Description of requirements for closed groups
+  target_audience?: string; // Description of who the group is for
+  lastUpdated?: string; // Added during processing from git history
+}
+
+// Individual WGU Student Group file structure
+export interface WguStudentGroupFile extends WguStudentGroup {
+  // This represents a single wgu-student-groups/{id}.json file
+}
+
+export interface WguStudentGroupsData {
+  groups: WguStudentGroup[];
+}
+
+// ===============================
 // Unified/Processed Data Types
 // ===============================
 
 export interface CommunityLink {
   name: string;
   url: string;
-  type: 'discord' | 'reddit' | 'wgu-connect';
+  type: 'discord' | 'reddit' | 'wgu-connect' | 'wgu-student-groups';
   description?: string;
   memberCount?: number;
   lastUpdated?: string; // Added during processing from git history
@@ -125,6 +150,7 @@ export interface CourseCommunitiesMappings {
   discord?: CommunityLink[];
   reddit?: CommunityLink[];
   wguConnect?: CommunityLink[];
+  wguStudentGroups?: CommunityLink[];
 }
 
 export interface ProcessedCommunityData {
@@ -132,11 +158,14 @@ export interface ProcessedCommunityData {
   universityLevel: {
     discord: CommunityLink[];
     reddit: CommunityLink[];
+    wguStudentGroups: CommunityLink[];
   };
   collegeLevel: Record<College, {
     discord: CommunityLink[];
     reddit: CommunityLink[];
+    wguStudentGroups: CommunityLink[];
   }>;
+  discordServers: string[]; // Array of Discord server IDs for content script matching
   lastUpdated: string;
 }
 
@@ -148,6 +177,7 @@ export interface RawDataContainer {
   discord: DiscordData;
   reddit: RedditData;
   wguConnect: WguConnectData;
+  wguStudentGroups: WguStudentGroupsData;
   metadata: {
     lastIngestion: string;
     version: string;
@@ -170,6 +200,10 @@ export interface IngestionConfig {
       subreddits: string[]; // Subreddits to validate
     };
     wguConnect: {
+      enabled: boolean;
+      manualMode: boolean; // Whether to use manual data entry vs scraping
+    };
+    wguStudentGroups: {
       enabled: boolean;
       manualMode: boolean; // Whether to use manual data entry vs scraping
     };
