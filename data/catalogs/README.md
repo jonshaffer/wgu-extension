@@ -4,6 +4,16 @@
 
 Production-ready system for extracting, parsing, and maintaining Western Governors University's academic catalog data. Provides both historical catalog preservation (2017-2025) and live catalog monitoring capabilities.
 
+## 📁 Directory Structure
+
+- `raw/` - Raw catalog files for testing and development
+- `historical/` - Complete historical catalog collection (2017-2025)
+  - `pdfs/` - 101+ catalog PDF files via Git LFS
+  - `parsed/` - Processed JSON catalog data
+- `core/` - Core parsing infrastructure and utilities
+- `scripts/` - Processing and ingestion scripts
+- `catalog-data.ts` - TypeScript type definitions
+
 ## 🎯 Current Status (August 2025)
 
 - ✅ **Complete Historical Dataset**: 117 catalogs (116 historical + 1 current)
