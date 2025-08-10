@@ -24,9 +24,12 @@ export default defineConfig({
       description: packageJson.description,
       permissions: [
         'storage',
+        'activeTab'
       ],
       host_permissions: [
-        'https://raw.githubusercontent.com/jonshaffer/wgu-extension/*'
+        'https://raw.githubusercontent.com/jonshaffer/wgu-extension/*',
+        '*://discord.com/*',
+        '*://wguconnect.wgu.edu/*'
       ]
     };
   },

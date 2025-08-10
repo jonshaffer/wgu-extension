@@ -1,5 +1,7 @@
 import { storage } from '@wxt-dev/storage';
 import { ENABLE_WGU_CONNECT_INTEGRATION } from '@/utils/storage.constants';
+import { wguConnectCollectionEnabled, wguConnectData } from '../utils/storage';
+import { WGUConnectExtractor } from '../../data/wgu-connect/collect/wgu-connect-extractor';
 
 export default defineContentScript({
   matches: ['https://wguconnect.wgu.edu/*'],
@@ -387,5 +389,123 @@ export default defineContentScript({
 
     // Initial load
     initialize();
-  },
+
+    // Initialize data collection if enabled
+    await initializeDataCollection(ctx);
+
+    // Data collection functionality
+    async function initializeDataCollection(ctx: any) {
+    const collectionEnabled = await wguConnectCollectionEnabled.getValue();
+    if (!collectionEnabled) {
+      console.log('WGU Extension: WGU Connect data collection disabled');
+      return;
+    }
+
+    console.log('WGU Extension: Initializing WGU Connect data collection');
+
+    // Create WGU Connect extractor
+    const extractor = new WGUConnectExtractor();
+    
+    // Set up periodic collection (every 15 seconds with 2-minute cooldown)
+    let collectionInterval: number | null = null;
+    let lastCollectionTime = 0;
+    let lastUrl = '';
+    const COLLECTION_COOLDOWN = 2 * 60 * 1000; // 2 minutes
+
+    const collectData = async () => {
+      const now = Date.now();
+      const currentUrl = window.location.href;
+      
+      // Skip if too soon since last collection or URL hasn't changed significantly
+      if (now - lastCollectionTime < COLLECTION_COOLDOWN && currentUrl === lastUrl) {
+        return;
+      }
+
+      // Only collect from resource pages
+      if (!extractor.isResourcesPage()) {
+        return;
+      }
+
+      try {
+        const resourceData = extractor.extractResourceData();
+        if (!resourceData || resourceData.resources.length === 0) {
+          console.log('WGU Extension: No WGU Connect resource data to collect');
+          return;
+        }
+
+        console.log('WGU Extension: Collecting WGU Connect resource data', resourceData);
+
+        // Save to storage
+        const currentData = await wguConnectData.getValue();
+        const groupKey = resourceData.groupId;
+        const tabKey = resourceData.activeTab;
+
+        const updatedData = {
+          ...currentData,
+          groups: {
+            ...currentData.groups,
+            [groupKey]: {
+              ...currentData.groups[groupKey],
+              groupName: resourceData.groupName,
+              tabs: {
+                ...currentData.groups[groupKey]?.tabs,
+                [tabKey]: {
+                  resources: resourceData.resources,
+                  lastUpdated: resourceData.extractedAt,
+                  url: resourceData.url
+                }
+              }
+            }
+          },
+          lastCollection: new Date().toISOString()
+        };
+
+        await wguConnectData.setValue(updatedData);
+
+        // Notify background script
+        if (typeof chrome !== 'undefined' && chrome.runtime) {
+          chrome.runtime.sendMessage({
+            type: 'WGU_CONNECT_DATA_COLLECTED',
+            data: {
+              groupId: resourceData.groupId,
+              groupName: resourceData.groupName,
+              activeTab: resourceData.activeTab,
+              resourceCount: resourceData.resources.length,
+              collectedAt: resourceData.extractedAt
+            }
+          }).catch(() => {
+            // Background script might not be listening, that's OK
+          });
+        }
+
+        lastCollectionTime = now;
+        lastUrl = currentUrl;
+      } catch (error) {
+        console.error('WGU Extension: Error collecting WGU Connect data:', error);
+      }
+    };
+
+    // Set up mutation observer for SPA tab changes
+    extractor.setupTabChangeObserver((data) => {
+      if (data) {
+        console.log('WGU Extension: Tab changed in WGU Connect, collecting data');
+        collectData();
+      }
+    });
+
+    // Initial collection after a short delay
+    ctx.setTimeout(() => collectData(), 3000);
+
+    // Set up periodic collection
+    collectionInterval = ctx.setInterval(collectData, 15000);
+
+    // Clean up on context invalidation
+    ctx.onInvalidated(() => {
+      if (collectionInterval) {
+        clearInterval(collectionInterval);
+      }
+      extractor.stopObserver();
+    });
+    }
+  }
 });
