@@ -41,3 +41,4 @@ result-*
 
 # Generated data files
 public/data/
+# data/**/*.pdf

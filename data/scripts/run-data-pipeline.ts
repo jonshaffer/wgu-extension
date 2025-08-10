@@ -10,6 +10,7 @@ import { ingestDiscordData } from './ingest-discord.js';
 import { ingestRedditData } from './ingest-reddit.js';
 import { ingestWguConnectData } from './ingest-wgu-connect.js';
 import { ingestWguStudentGroupsData } from './ingest-wgu-student-groups.js';
+import { ingestCatalogData } from './ingest-catalog.js';
 import { transformUnifiedData } from './transform-unified.js';
 
 async function runDataPipeline(): Promise<void> {
@@ -22,7 +23,8 @@ async function runDataPipeline(): Promise<void> {
       ingestDiscordData(),
       ingestRedditData(),
       ingestWguConnectData(),
-      ingestWguStudentGroupsData()
+      ingestWguStudentGroupsData(),
+      ingestCatalogData()
     ]);
     console.log('✅ Ingestion complete\n');
 
