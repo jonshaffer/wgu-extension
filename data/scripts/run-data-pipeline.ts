@@ -6,12 +6,12 @@
  * Runs the complete data pipeline: ingestion → transformation → output
  */
 
-import { ingestDiscordData } from './ingest-discord.js';
-import { ingestRedditData } from './ingest-reddit.js';
-import { ingestWguConnectData } from './ingest-wgu-connect.js';
-import { ingestWguStudentGroupsData } from './ingest-wgu-student-groups.js';
+import { ingestDiscordData } from '../discord/scripts/ingest-discord.js';
+import { ingestRedditData } from '../reddit/scripts/ingest-reddit.js';
+import { ingestWguConnectData } from '../wgu-connect/scripts/ingest-wgu-connect.js';
+import { ingestWguStudentGroupsData } from '../wgu-student-groups/scripts/ingest-wgu-student-groups.js';
 import { ingestCatalogData } from './ingest-catalog.js';
-import { transformUnifiedData } from './transform-unified.js';
+import { transformUnifiedData } from '../unified/scripts/transform-unified.js';
 
 async function runDataPipeline(): Promise<void> {
   console.log('🚀 Starting Community Data Pipeline...\n');
