@@ -1,0 +1,3436 @@
+{
+  "courses": {
+    "C100": {
+      "courseCode": "C100",
+      "courseName": "Introduction to Humanities",
+      "ccn": "HUMN 1010",
+      "competencyUnits": 3,
+      "description": "This introductory humanities course allows students to practice essential writing, communication, and critical"
+    },
+    "C104": {
+      "courseCode": "C104",
+      "courseName": "Elementary Social Studies Methods",
+      "ccn": "EDUC 4250",
+      "competencyUnits": 3,
+      "description": "Elementary Social Studies Methods helps students learn how to implement effective social studies"
+    },
+    "C105": {
+      "courseCode": "C105",
+      "courseName": "Elementary Visual and Performing Arts Methods",
+      "ccn": "EDUC 4260",
+      "competencyUnits": 3,
+      "description": "Elementary Visual and Performing Arts Methods helps students learn how to implement"
+    },
+    "C107": {
+      "courseCode": "C107",
+      "courseName": "Anatomy and Physiology I",
+      "ccn": "BIO 2010",
+      "competencyUnits": 4,
+      "description": "Anatomy and Physiology I examines the structures and functions of the human body. The course is designed to"
+    },
+    "C108": {
+      "courseCode": "C108",
+      "courseName": "Elementary Science Methods",
+      "ccn": "EDUC 4240",
+      "competencyUnits": 3,
+      "description": "Elementary Science Methods helps students learn how to implement effective science instruction in the"
+    },
+    "C109": {
+      "courseCode": "C109",
+      "courseName": "Elementary Mathematics Methods",
+      "ccn": "EDUC 4230",
+      "competencyUnits": 3,
+      "description": "Elementary Mathematics Methods helps students learn how to implement effective math instruction in"
+    },
+    "C113": {
+      "courseCode": "C113",
+      "courseName": "Instructional Planning and Presentation in Mathematics",
+      "ccn": "EDUC 3221",
+      "competencyUnits": 3,
+      "description": "Students will continue to build instructional planning skills with a focus on"
+    },
+    "C121": {
+      "courseCode": "C121",
+      "courseName": "Survey of United States History",
+      "ccn": "HIST 1010",
+      "competencyUnits": 3,
+      "description": "This course presents a broad and thematic survey of U.S. history from European colonization to the mid-"
+    },
+    "C128": {
+      "courseCode": "C128",
+      "courseName": "Advanced Professional Roles and Values",
+      "ccn": "NURS 5010",
+      "competencyUnits": 2,
+      "description": "The Advanced Professional Roles and Values course bridges the undergraduate nurse to higher"
+    },
+    "C133": {
+      "courseCode": "C133",
+      "courseName": "Instructional Planning and Presentation in Elementary and Special Education",
+      "ccn": "EDUC 3223",
+      "competencyUnits": 3,
+      "description": "Instructional Planning and Presentation assists students"
+    },
+    "C141": {
+      "courseCode": "C141",
+      "courseName": "Instructional Planning and Presentation in Elementary Education",
+      "ccn": "EDUC 5220",
+      "competencyUnits": 2,
+      "description": "Instructional Planning and Presentation assists students as they"
+    },
+    "C142": {
+      "courseCode": "C142",
+      "courseName": "Instructional Planning and Presentation in Mathematics",
+      "ccn": "EDUC 5221",
+      "competencyUnits": 2,
+      "description": "Instructional Planning and Presentation assists students as they continue to build"
+    },
+    "C143": {
+      "courseCode": "C143",
+      "courseName": "Instructional Planning and Presentation in Science",
+      "ccn": "EDUC 5222",
+      "competencyUnits": 2,
+      "description": "Instructional Planning and Presentation assists students as they continue to build"
+    },
+    "C155": {
+      "courseCode": "C155",
+      "courseName": "Pathopharmacological Foundations for Advanced Nursing Practice",
+      "ccn": "NURS 5130",
+      "competencyUnits": 3,
+      "description": "In Pathopharmacological Foundations for Advanced Nursing"
+    },
+    "C157": {
+      "courseCode": "C157",
+      "courseName": "Essentials of Advanced Nursing Practice Field Experience",
+      "ccn": "NURS 5520",
+      "competencyUnits": 2,
+      "description": "The Essentials of Advanced Nursing Practice Field Experience course gives"
+    },
+    "C158": {
+      "courseCode": "C158",
+      "courseName": "Organizational Leadership and Interprofessional Team Development",
+      "ccn": "NURS 5600",
+      "competencyUnits": 3,
+      "description": "This graduate-level course builds on baccalaureate-level leadership"
+    },
+    "C159": {
+      "courseCode": "C159",
+      "courseName": "Policy, Politics, and Global Health Trends",
+      "ccn": "NURS 5610",
+      "competencyUnits": 3,
+      "description": "Social, political, and economic factors influence policies that impact health outcomes in acute"
+    },
+    "C161": {
+      "courseCode": "C161",
+      "courseName": "Principles of Organizational Performance Management",
+      "ccn": "NURS 6400",
+      "competencyUnits": 2,
+      "description": "This is the first specialization course in the nursing leadership and management"
+    },
+    "C162": {
+      "courseCode": "C162",
+      "courseName": "Principles of Healthcare Business and Financial Management",
+      "ccn": "NURS 6420",
+      "competencyUnits": 3,
+      "description": "Business and financial healthcare practices have a significant impact on"
+    },
+    "C163": {
+      "courseCode": "C163",
+      "courseName": "Strategic Leadership and Future Delivery Models",
+      "ccn": "NURS 6430",
+      "competencyUnits": 2,
+      "description": "This graduate-level course emphasizes strategic leadership in healthcare, focusing on"
+    },
+    "C165": {
+      "courseCode": "C165",
+      "courseName": "Integrated Physical Sciences",
+      "ccn": "SCIE 1020",
+      "competencyUnits": 3,
+      "description": "This course provides students with an overview of the basic principles and unifying ideas of the physical"
+    },
+    "C168": {
+      "courseCode": "C168",
+      "courseName": "Critical Thinking and Logic",
+      "ccn": "PHIL 3010",
+      "competencyUnits": 3,
+      "description": "Reasoning and Problem Solving helps students internalize a systematic process for exploring issues that takes"
+    },
+    "C170": {
+      "courseCode": "C170",
+      "courseName": "Data Management",
+      "ccn": "ITEC 2204",
+      "competencyUnits": 4,
+      "description": "Applications - This course covers conceptual data modeling and provides an introduction to MySQL. Students will learn"
+    },
+    "C172": {
+      "courseCode": "C172",
+      "courseName": "Network and Security",
+      "ccn": "ITEC 2102",
+      "competencyUnits": 3,
+      "description": "Foundations - Network and Security - Foundations introduces students to the components of a computer network"
+    },
+    "C173": {
+      "courseCode": "C173",
+      "courseName": "Scripting and Programming",
+      "ccn": "ITEC 2103",
+      "competencyUnits": 3,
+      "description": "Foundations - Scripting and Programming - Foundations provides an introduction to programming, covering"
+    },
+    "C175": {
+      "courseCode": "C175",
+      "courseName": "Data Management",
+      "ccn": "ITEC 2104",
+      "competencyUnits": 3,
+      "description": "Foundations - This course introduces students to the concepts and terminology used in the field of data management."
+    },
+    "C176": {
+      "courseCode": "C176",
+      "courseName": "Business of IT",
+      "ccn": "ITEC 2105",
+      "competencyUnits": 4,
+      "description": "Project Management - In this course, students will build on industry standard concepts, techniques, and processes to"
+    },
+    "C178": {
+      "courseCode": "C178",
+      "courseName": "Network and Security",
+      "ccn": "ITEC 2202",
+      "competencyUnits": 4,
+      "description": "Applications - Network and Security - Applications prepares students for the CompTIA Security+ certification exam."
+    },
+    "C179": {
+      "courseCode": "C179",
+      "courseName": "Business of IT",
+      "ccn": "ITEC 2205",
+      "competencyUnits": 4,
+      "description": "Applications - This course introduces IT students to information systems (IS). The course includes important topics related"
+    },
+    "C180": {
+      "courseCode": "C180",
+      "courseName": "Introduction to Psychology",
+      "ccn": "PSYC 1010",
+      "competencyUnits": 3,
+      "description": "In this course, students will develop an understanding of psychology and how it helps them better understand"
+    },
+    "C181": {
+      "courseCode": "C181",
+      "courseName": "Survey of United States Constitution and Government",
+      "ccn": "POLS 1020",
+      "competencyUnits": 3,
+      "description": "This course is an introduction to the U.S. Constitution and the U.S. government."
+    },
+    "C182": {
+      "courseCode": "C182",
+      "courseName": "Introduction to IT",
+      "ccn": "ITEC 2001",
+      "competencyUnits": 4,
+      "description": "Introduction to IT examines information technology as a discipline and the various roles and functions of the IT department"
+    },
+    "C185": {
+      "courseCode": "C185",
+      "courseName": "Network Policies and Services Management",
+      "ccn": "ITEC 3311",
+      "competencyUnits": 6,
+      "description": "This course prepares students for the following certification exam: MCSA: Installing and"
+    },
+    "C187": {
+      "courseCode": "C187",
+      "courseName": "Network Reliability and Fault Tolerance",
+      "ccn": "ITEC 3341",
+      "competencyUnits": 6,
+      "description": "This course prepares students for the following certification exam: MCSA: Configuring Advanced"
+    },
+    "C188": {
+      "courseCode": "C188",
+      "courseName": "Software Engineering",
+      "ccn": "ITEC 2213",
+      "competencyUnits": 4,
+      "description": "This course introduces the concepts of software engineering to students who have completed the core courses in programming and project"
+    },
+    "C190": {
+      "courseCode": "C190",
+      "courseName": "Introduction to Biology",
+      "ccn": "BIO 1010",
+      "competencyUnits": 3,
+      "description": "This course is a foundational introduction to the biological sciences. The overarching theories of life from biological"
+    },
+    "C191": {
+      "courseCode": "C191",
+      "courseName": "Operating Systems for Programmers",
+      "ccn": "ITEC 2211",
+      "competencyUnits": 3,
+      "description": "This course covers operating systems from the perspective of a programmer including the placement"
+    },
+    "C196": {
+      "courseCode": "C196",
+      "courseName": "Mobile Application Development",
+      "description": "This course introduces students to programming for mobile devices using a Software Development Kit"
+    },
+    "C200": {
+      "courseCode": "C200",
+      "courseName": "Managing Organizations and Leading People",
+      "ccn": "MGMT 5000",
+      "competencyUnits": 3,
+      "description": "This course covers principles of effective management and leadership that maximize"
+    },
+    "C201": {
+      "courseCode": "C201",
+      "courseName": "Business Acumen",
+      "ccn": "BUS 5000",
+      "competencyUnits": 3,
+      "description": "The Business Acumen course introduces you to the operation of the business enterprise and the role of management in"
+    },
+    "C202": {
+      "courseCode": "C202",
+      "courseName": "Managing Human Capital",
+      "ccn": "HRM 5010",
+      "competencyUnits": 3,
+      "description": "This course focuses on strategies and tools that managers use to maximize employee contribution and create"
+    },
+    "C203": {
+      "courseCode": "C203",
+      "courseName": "Becoming an Effective Leader",
+      "ccn": "MGMT 5020",
+      "competencyUnits": 3,
+      "description": "This course explores major theories and approaches to leadership, leadership style evaluation, and personal"
+    },
+    "C204": {
+      "courseCode": "C204",
+      "courseName": "Management Communication",
+      "ccn": "MGMT 5010",
+      "competencyUnits": 3,
+      "description": "This course prepares you for the communication challenges in organizations. Topics examined include:"
+    },
+    "C206": {
+      "courseCode": "C206",
+      "courseName": "Ethical Leadership",
+      "ccn": "MGMT 6000",
+      "competencyUnits": 3,
+      "description": "This course examines the ethical issues and dilemmas managers face. This course provides a framework for analysis of"
+    },
+    "C208": {
+      "courseCode": "C208",
+      "courseName": "Change Management and Innovation",
+      "ccn": "MGMT 6040",
+      "competencyUnits": 3,
+      "description": "This course provides an overview of change theories and innovation practices. This course will"
+    },
+    "C209": {
+      "courseCode": "C209",
+      "courseName": "Strategic Management",
+      "ccn": "MGMT 6050",
+      "competencyUnits": 3,
+      "description": "This course focuses on models and practices of strategic management including developing and implementing both"
+    },
+    "C210": {
+      "courseCode": "C210",
+      "courseName": "Management and Leadership Capstone",
+      "ccn": "MGMT 6910",
+      "competencyUnits": 4,
+      "description": "This course is the culminating assessment of the MSML curriculum and requires you to synthesize"
+    },
+    "C211": {
+      "courseCode": "C211",
+      "courseName": "Global Economics for Managers",
+      "ccn": "ECON 5000",
+      "competencyUnits": 3,
+      "description": "This course examines how economic tools, techniques, and indicators can be used for solving"
+    },
+    "C213": {
+      "courseCode": "C213",
+      "courseName": "Accounting for Decision Makers",
+      "ccn": "ACCT 5000",
+      "competencyUnits": 3,
+      "description": "This course provides you with the accounting knowledge and skills to assess and manage a business."
+    },
+    "C214": {
+      "courseCode": "C214",
+      "courseName": "Financial Management",
+      "ccn": "FINC 6000",
+      "competencyUnits": 3,
+      "description": "This course covers practical approaches to analysis and decision making in the administration of corporate funds,"
+    },
+    "C215": {
+      "courseCode": "C215",
+      "courseName": "Operations Management",
+      "ccn": "MGMT 6020",
+      "competencyUnits": 3,
+      "description": "This course focuses on the strategic importance of operations management to overall performance. This course"
+    },
+    "C217": {
+      "courseCode": "C217",
+      "courseName": "Human Growth and Development Across the Lifespan",
+      "ccn": "PSYC 2010",
+      "competencyUnits": 3,
+      "description": "This course introduces students to human development across the lifespan. This"
+    },
+    "C218": {
+      "courseCode": "C218",
+      "courseName": "MBA, Information Technology Management Capstone",
+      "description": "This course is the culminating assessment of the MBA, IT Management curriculum"
+    },
+    "C219": {
+      "courseCode": "C219",
+      "courseName": "MBA, Healthcare Management Capstone",
+      "description": "This course is the culminating assessment of the MBA, Healthcare Management curriculum and"
+    },
+    "C224": {
+      "courseCode": "C224",
+      "courseName": "Research Foundations",
+      "ccn": "EDUC 5111",
+      "competencyUnits": 2,
+      "description": "The Research Foundations course focuses on the essential concepts of four major research approaches, including"
+    },
+    "C225": {
+      "courseCode": "C225",
+      "courseName": "Research Questions and Literature Review",
+      "ccn": "EDUC 5112",
+      "competencyUnits": 2,
+      "description": "The Research Questions and Literature Reviews course focuses on how to conduct a thorough"
+    },
+    "C226": {
+      "courseCode": "C226",
+      "courseName": "Research Design and Analysis",
+      "ccn": "EDUC 5113",
+      "competencyUnits": 2,
+      "description": "The Research Design and Analysis course focuses on applying strategies for effective design of empirical"
+    },
+    "C227": {
+      "courseCode": "C227",
+      "courseName": "Research Proposals",
+      "ccn": "EDUC 5114",
+      "competencyUnits": 2,
+      "description": "Research Proposals focuses on planning and writing a well-organized and complete research proposal. The"
+    },
+    "C228": {
+      "courseCode": "C228",
+      "courseName": "Community Health and Population",
+      "ccn": "NURS 3418",
+      "competencyUnits": 3,
+      "description": "Focused Nursing - Community Health and Population-Focused Nursing will assist students in becoming"
+    },
+    "C229": {
+      "courseCode": "C229",
+      "courseName": "Community Health and Population",
+      "ccn": "NURS 3419",
+      "competencyUnits": 2,
+      "description": "Focused Nursing Field Experience -  This course will assist students to become familiar with clinical"
+    },
+    "C230": {
+      "courseCode": "C230",
+      "courseName": "Community Health and Population",
+      "ccn": "NURS 3420",
+      "competencyUnits": 2,
+      "description": "Focused Nursing Clinical - This course will assist students to become familiar with clinical aspects of"
+    },
+    "C232": {
+      "courseCode": "C232",
+      "courseName": "Introduction to Human Resource Management",
+      "ccn": "HRM 2100",
+      "competencyUnits": 3,
+      "description": "The course provides an introduction to the management of human resources, the function"
+    },
+    "C233": {
+      "courseCode": "C233",
+      "courseName": "Employment Law",
+      "ccn": "HRM 3100",
+      "competencyUnits": 3,
+      "description": "This course reviews the legal and regulatory framework surrounding employment, including recruitment, termination, and"
+    },
+    "C234": {
+      "courseCode": "C234",
+      "courseName": "Workforce Planning: Recruitment and Selection",
+      "ccn": "HRM 3200",
+      "description": "This course focuses on building a highly skilled workforce by using effective strategies"
+    },
+    "C235": {
+      "courseCode": "C235",
+      "courseName": "Training and Development",
+      "ccn": "HRM 3500",
+      "competencyUnits": 3,
+      "description": "Training and Development focuses on the development of human capital (i.e., growing talent) by applying"
+    },
+    "C236": {
+      "courseCode": "C236",
+      "courseName": "Compensation and Benefits",
+      "ccn": "HRM 3600",
+      "competencyUnits": 3,
+      "description": "Compensation and Benefits develops competence in the design and implementation of compensation and"
+    },
+    "C239": {
+      "courseCode": "C239",
+      "courseName": "Advanced Tax Concepts",
+      "ccn": "ACCT 6100",
+      "competencyUnits": 3,
+      "description": "This course is designed to enhance your awareness of the complexities and sources of tax law and to measure"
+    },
+    "C241": {
+      "courseCode": "C241",
+      "courseName": "Business Law for Accountants",
+      "ccn": "ACCT 4650",
+      "competencyUnits": 3,
+      "description": "Welcome to Business Law for Accountants! While you may have had exposure to other law or even"
+    },
+    "C242": {
+      "courseCode": "C242",
+      "courseName": "Accounting Information Systems",
+      "ccn": "ACCT 3640",
+      "competencyUnits": 3,
+      "description": "Welcome to Accounting Information Systems! This course introduces a variety of accounting information"
+    },
+    "C243": {
+      "courseCode": "C243",
+      "courseName": "Advanced Financial Accounting",
+      "ccn": "ACCT 5100",
+      "competencyUnits": 3,
+      "description": "This course builds upon your accounting knowledge by focusing on advanced financial accounting topics"
+    },
+    "C244": {
+      "courseCode": "C244",
+      "courseName": "Advanced Auditing",
+      "ccn": "ACCT 6200",
+      "competencyUnits": 3,
+      "description": "This course introduces the basic concepts, standards, procedures, and practices of auditing, the changing role of the"
+    },
+    "C245": {
+      "courseCode": "C245",
+      "courseName": "Accounting Research",
+      "ccn": "ACCT 6300",
+      "competencyUnits": 3,
+      "description": "The Accounting Research course is an upper level course that builds research application skills through identification"
+    },
+    "C246": {
+      "courseCode": "C246",
+      "courseName": "Fundamentals of Interconnecting Network Devices",
+      "ccn": "ITEC 3731",
+      "competencyUnits": 6,
+      "description": "This course prepares students for the Cisco CCENT certification exam,"
+    },
+    "C247": {
+      "courseCode": "C247",
+      "courseName": "Interconnecting Network Devices",
+      "ccn": "ITEC 3751",
+      "competencyUnits": 6,
+      "description": "This course prepares students for the second Cisco CCNA certification exam, Interconnecting Cisco"
+    },
+    "C248": {
+      "courseCode": "C248",
+      "courseName": "Intermediate Accounting I",
+      "ccn": "ACCT 3610",
+      "competencyUnits": 3,
+      "description": "This is the first of two courses encompassing more advanced accounting concepts. It will offer a more"
+    },
+    "C249": {
+      "courseCode": "C249",
+      "courseName": "Intermediate Accounting II",
+      "ccn": "ACCT 3620",
+      "competencyUnits": 3,
+      "description": "This is the second of two intermediate accounting courses. This course provides a more comprehensive"
+    },
+    "C250": {
+      "courseCode": "C250",
+      "courseName": "Cost and Managerial Accounting",
+      "ccn": "ACCT 3660",
+      "description": "The Cost and Managerial Accounting course will cover managerial accounting as part of the information"
+    },
+    "C251": {
+      "courseCode": "C251",
+      "courseName": "Accounting Capstone",
+      "ccn": "ACCT 4900",
+      "description": "This course is the culminating assessment of the accounting curriculum and requires students to synthesize core"
+    },
+    "C252": {
+      "courseCode": "C252",
+      "courseName": "Governmental and Nonprofit Accounting",
+      "ccn": "ACCT 5200",
+      "competencyUnits": 3,
+      "description": "This course is designed to be an introduction to the theory and practice of accounting in"
+    },
+    "C253": {
+      "courseCode": "C253",
+      "courseName": "Advanced Managerial Accounting",
+      "ccn": "ACCT 5300",
+      "competencyUnits": 3,
+      "description": "This course introduces the complexity and functionality of managerial accounting systems within an"
+    },
+    "C254": {
+      "courseCode": "C254",
+      "courseName": "Fraud and Forensic Accounting",
+      "ccn": "ACCT 6000",
+      "competencyUnits": 3,
+      "description": "This course provides a framework for detecting and preventing financial statement fraud.  Topics include"
+    },
+    "C255": {
+      "courseCode": "C255",
+      "courseName": "Introduction to Geography",
+      "ccn": "GEOG 1311",
+      "competencyUnits": 3,
+      "description": "This course will discuss geographic concepts, places and regions, physical and human systems and the"
+    },
+    "C263": {
+      "courseCode": "C263",
+      "courseName": "The Ocean Systems",
+      "ccn": "EDUC 3511",
+      "competencyUnits": 4,
+      "description": "In this course, learners investigate the complex ocean system by looking at the way its components—atmosphere,"
+    },
+    "C264": {
+      "courseCode": "C264",
+      "courseName": "Climate Change",
+      "ccn": "EDUC 3512",
+      "competencyUnits": 4,
+      "description": "This course explores the science of climate change. Students will learn how the climate system works; what factors cause"
+    },
+    "C266": {
+      "courseCode": "C266",
+      "courseName": "The Ocean Systems",
+      "ccn": "EDUC 5511",
+      "competencyUnits": 3,
+      "description": "In this course, learners investigate the complex ocean system by looking at the way its components—atmosphere,"
+    },
+    "C267": {
+      "courseCode": "C267",
+      "courseName": "Climate Change",
+      "ccn": "EDUC 5512",
+      "competencyUnits": 3,
+      "description": "This course explores the science of climate change. Students will learn how the climate system works; what factors cause"
+    },
+    "C272": {
+      "courseCode": "C272",
+      "courseName": "Foundational Perspectives of Education",
+      "ccn": "EDUC 2210",
+      "competencyUnits": 3,
+      "description": "This course provides an introduction to the historical, legal, and philosophical foundations of"
+    },
+    "C273": {
+      "courseCode": "C273",
+      "courseName": "Introduction to Sociology",
+      "ccn": "SOCG 1010",
+      "competencyUnits": 3,
+      "description": "This course teaches students to think like sociologists, in other words, to see and understand the hidden rules, or"
+    },
+    "C277": {
+      "courseCode": "C277",
+      "courseName": "Finite Mathematics",
+      "ccn": "MATH 1709",
+      "competencyUnits": 4,
+      "description": "Finite Mathematics covers the knowledge and skills necessary to apply discrete mathematics and properties of number"
+    },
+    "C278": {
+      "courseCode": "C278",
+      "courseName": "College Algebra",
+      "ccn": "MATH 1015",
+      "competencyUnits": 4,
+      "description": "This course provides further application and analysis of algebraic concepts and functions through mathematical modeling of"
+    },
+    "C280": {
+      "courseCode": "C280",
+      "courseName": "Probability and Statistics I",
+      "ccn": "MATH 2505",
+      "competencyUnits": 4,
+      "description": "Probability and Statistics I covers the knowledge and skills necessary to apply basic probability, descriptive"
+    },
+    "C284": {
+      "courseCode": "C284",
+      "courseName": "Mathematics Learning and Teaching",
+      "ccn": "EDUC 4315",
+      "competencyUnits": 4,
+      "description": "Mathematics Learning and Teaching will help you develop the knowledge and skills necessary to"
+    },
+    "C285": {
+      "courseCode": "C285",
+      "courseName": "Mathematics History and Technology",
+      "ccn": "EDUC 4305",
+      "competencyUnits": 4,
+      "description": "In this course, you will learn about a variety of technological tools for doing mathematics, and"
+    },
+    "C299": {
+      "courseCode": "C299",
+      "courseName": "Designing Customized Security",
+      "ccn": "ITEC 3831",
+      "competencyUnits": 6,
+      "description": "The course provides an introduction to the core security concepts and skills needed for the installation,"
+    },
+    "C301": {
+      "courseCode": "C301",
+      "courseName": "Translational Research for Practice and Populations",
+      "ccn": "NURS 5110",
+      "competencyUnits": 2,
+      "description": "This graduate-level course builds on your baccalaureate-level statistical knowledge"
+    },
+    "C304": {
+      "courseCode": "C304",
+      "courseName": "Professional Roles and Values",
+      "ccn": "NURS 2015",
+      "competencyUnits": 3,
+      "description": "This course explores the unique role nurses play in healthcare, beginning with the history and evolution of"
+    },
+    "C306": {
+      "courseCode": "C306",
+      "courseName": "Finite Mathematics",
+      "ccn": "MATH 2708",
+      "competencyUnits": 4,
+      "description": "Finite Mathematics covers the knowledge and skills necessary to apply discrete mathematics and properties of number"
+    },
+    "C307": {
+      "courseCode": "C307",
+      "courseName": "Supervised Demonstration Teaching in Elementary Education, Observations 1 and 2",
+      "ccn": "EDUC 4921",
+      "description": "Supervised Demonstration Teaching in"
+    },
+    "C309": {
+      "courseCode": "C309",
+      "courseName": "Supervised Demonstration Teaching in Elementary Education, Observations 4 and 5",
+      "ccn": "EDUC 4923",
+      "description": "Supervised Demonstration Teaching in"
+    },
+    "C315": {
+      "courseCode": "C315",
+      "courseName": "Supervised Demonstration Teaching in Mathematics, Observations 1 and 2",
+      "ccn": "EDUC 4932",
+      "description": "Supervised Demonstration Teaching in Mathematics"
+    },
+    "C316": {
+      "courseCode": "C316",
+      "courseName": "Supervised Demonstration Teaching in Mathematics, Observation 3 and Midterm",
+      "ccn": "EDUC 4933",
+      "description": "Supervised Demonstration Teaching in Mathematics"
+    },
+    "C317": {
+      "courseCode": "C317",
+      "courseName": "Supervised Demonstration Teaching in Mathematics, Observations 4 and 5",
+      "ccn": "EDUC 4934",
+      "description": "Supervised Demonstration Teaching in Mathematics"
+    },
+    "C318": {
+      "courseCode": "C318",
+      "courseName": "Supervised Demonstration Teaching in Mathematics, Observation 6 and Final",
+      "ccn": "EDUC 4935",
+      "description": "Supervised Demonstration Teaching in Mathematics"
+    },
+    "C319": {
+      "courseCode": "C319",
+      "courseName": "Supervised Demonstration Teaching in Science, Observations 1 and 2",
+      "ccn": "EDUC 4945",
+      "description": "Supervised Demonstration Teaching in Science involves a series"
+    },
+    "C320": {
+      "courseCode": "C320",
+      "courseName": "Supervised Demonstration Teaching in Science, Observation 3 and Midterm",
+      "ccn": "EDUC 4946",
+      "description": "Supervised Demonstration Teaching in Science involves a"
+    },
+    "C321": {
+      "courseCode": "C321",
+      "courseName": "Supervised Demonstration Teaching in Science, Observations 4 and 5",
+      "ccn": "EDUC 4947",
+      "description": "Supervised Demonstration Teaching in Science involves a series"
+    },
+    "C322": {
+      "courseCode": "C322",
+      "courseName": "Supervised Demonstration Teaching in Science, Observation 6 and Final",
+      "ccn": "EDUC 4948",
+      "description": "Supervised Demonstration Teaching in Science involves a"
+    },
+    "C323": {
+      "courseCode": "C323",
+      "courseName": "Supervised Demonstration Teaching in Elementary Education, Observations 1 and 2",
+      "ccn": "EDUC 6921",
+      "description": "Supervised Demonstration Teaching in"
+    },
+    "C325": {
+      "courseCode": "C325",
+      "courseName": "Supervised Demonstration Teaching in Elementary Education, Observations 4 and 5",
+      "ccn": "EDUC 6923",
+      "description": "Supervised Demonstration Teaching in"
+    },
+    "C327": {
+      "courseCode": "C327",
+      "courseName": "Supervised Demonstration Teaching in Mathematics, Observations 1 and 2",
+      "ccn": "EDUC 6932",
+      "description": "Supervised Demonstration Teaching in Mathematics"
+    },
+    "C328": {
+      "courseCode": "C328",
+      "courseName": "Supervised Demonstration Teaching in Mathematics, Observation 3 and Midterm",
+      "ccn": "EDUC 6933",
+      "description": "Supervised Demonstration Teaching in Mathematics"
+    },
+    "C329": {
+      "courseCode": "C329",
+      "courseName": "Supervised Demonstration Teaching in Mathematics, Observations 4 and 5",
+      "ccn": "EDUC 6934",
+      "description": "Supervised Demonstration Teaching in Mathematics"
+    },
+    "C330": {
+      "courseCode": "C330",
+      "courseName": "Supervised Demonstration Teaching in Mathematics, Observation 6 and Final",
+      "ccn": "EDUC 6935",
+      "description": "Supervised Demonstration Teaching in Mathematics"
+    },
+    "C331": {
+      "courseCode": "C331",
+      "courseName": "Supervised Demonstration Teaching in Science, Observations 1 and 2",
+      "ccn": "EDUC 6942",
+      "description": "Supervised Demonstration Teaching in Science involves a series"
+    },
+    "C332": {
+      "courseCode": "C332",
+      "courseName": "Supervised Demonstration Teaching in Science, Observation 3 and Midterm",
+      "ccn": "EDUC 6943",
+      "description": "Supervised Demonstration Teaching in Science involves a"
+    },
+    "C333": {
+      "courseCode": "C333",
+      "courseName": "Supervised Demonstration Teaching in Science, Observations 4 and 5",
+      "ccn": "EDUC 6944",
+      "description": "Supervised Demonstration Teaching in Science involves a series"
+    },
+    "C334": {
+      "courseCode": "C334",
+      "courseName": "Supervised Demonstration Teaching in Science, Observation 6 and Final",
+      "ccn": "EDUC 6945",
+      "description": "Supervised Demonstration Teaching in Science involves a"
+    },
+    "C339": {
+      "courseCode": "C339",
+      "courseName": "Cohort Seminar",
+      "ccn": "EDUC 5253",
+      "competencyUnits": 1,
+      "description": "Cohort Seminar provides mentoring and supports teacher candidates during their demonstration teaching period by"
+    },
+    "C340": {
+      "courseCode": "C340",
+      "courseName": "Cohort Seminar in Special Education",
+      "ccn": "EDUC 4989",
+      "description": "Cohort Seminar in Special Education provides mentoring and supports teacher candidates during"
+    },
+    "C341": {
+      "courseCode": "C341",
+      "courseName": "Cohort Seminar",
+      "ccn": "EDUC 4990",
+      "competencyUnits": 3,
+      "description": "Cohort Seminar provides mentoring and supports teacher candidates during their demonstration teaching period by"
+    },
+    "C347": {
+      "courseCode": "C347",
+      "courseName": "Professional Portfolio",
+      "ccn": "EDUC 5255",
+      "competencyUnits": 1,
+      "description": "You will create an online teaching portfolio that includes professional artifacts (e.g., resume and Philosophy of"
+    },
+    "C348": {
+      "courseCode": "C348",
+      "courseName": "Professional Portfolio",
+      "ccn": "EDUC 4960",
+      "competencyUnits": 11,
+      "description": "You will create an online teaching portfolio that includes professional artifacts (e.g., resume and Philosophy of"
+    },
+    "C349": {
+      "courseCode": "C349",
+      "courseName": "Health Assessment",
+      "ccn": "NURS 3112",
+      "competencyUnits": 3,
+      "description": "The Health Assessment course is designed to enhance students’ knowledge and skills in health promotion, the early"
+    },
+    "C350": {
+      "courseCode": "C350",
+      "courseName": "Comprehensive Health Assessment for Patients and Populations",
+      "ccn": "NURS 5495",
+      "competencyUnits": 3,
+      "description": "In this course, students will learn about the principles of health"
+    },
+    "C351": {
+      "courseCode": "C351",
+      "courseName": "Professional Presence and Influence",
+      "ccn": "NURS 5121",
+      "competencyUnits": 2,
+      "description": "Who we are and how we behave affects others. Our professional presence in therapeutic settings"
+    },
+    "C352": {
+      "courseCode": "C352",
+      "courseName": "Contemporary Pharmacotherapeutics",
+      "ccn": "NURS 5621",
+      "competencyUnits": 2,
+      "description": "This course provides the opportunity to acquire advanced knowledge and skills in the therapeutic"
+    },
+    "C360": {
+      "courseCode": "C360",
+      "courseName": "Teacher Work Sample in English Language Learning",
+      "ccn": "EDUC 6754",
+      "competencyUnits": 1,
+      "description": "The Teacher Work Sample is a culmination of the wide variety of skills learned"
+    },
+    "C361": {
+      "courseCode": "C361",
+      "courseName": "Evidence Based Practice and Applied Nursing Research",
+      "ccn": "NURS 4011",
+      "competencyUnits": 3,
+      "description": "The Evidence Based Practice and Applied Nursing Research course will help"
+    },
+    "C365": {
+      "courseCode": "C365",
+      "courseName": "Language Arts Instruction and Intervention",
+      "ccn": "EDUC 4220",
+      "competencyUnits": 3,
+      "description": "Language Arts Instruction and Intervention helps students learn how to implement effective"
+    },
+    "C367": {
+      "courseCode": "C367",
+      "courseName": "Elementary Physical Education and Health Methods",
+      "ccn": "EDUC 4270",
+      "competencyUnits": 3,
+      "description": "Elementary Physical Education and Health Methods helps students learn how to"
+    },
+    "C368": {
+      "courseCode": "C368",
+      "courseName": "Instructional Planning and Presentation in Elementary Education",
+      "ccn": "EDUC 3220",
+      "competencyUnits": 3,
+      "description": "Instructional Planning and Presentation assists students as they"
+    },
+    "C369": {
+      "courseCode": "C369",
+      "courseName": "Instructional Planning and Presentation in Science",
+      "ccn": "EDUC 3222",
+      "competencyUnits": 3,
+      "description": "Students will continue to build instructional planning skills with a focus on selecting"
+    },
+    "C371": {
+      "courseCode": "C371",
+      "courseName": "Concepts in Science",
+      "ccn": "SCIE 2025",
+      "competencyUnits": 2,
+      "description": "Concepts in Science for undergraduates provides students seeking a bachelor’s degree and initial teacher licensure in"
+    },
+    "C373": {
+      "courseCode": "C373",
+      "courseName": "General Chemistry I with Lab",
+      "ccn": "CHEM 2110",
+      "competencyUnits": 4,
+      "description": "General Chemistry I with Lab for undergraduates provides students seeking initial teacher licensure in"
+    },
+    "C374": {
+      "courseCode": "C374",
+      "courseName": "General Chemistry II with Lab",
+      "ccn": "CHEM 2210",
+      "competencyUnits": 4,
+      "description": "C374: General Chemistry II with Lab for undergraduates continues the study of general chemistry for"
+    },
+    "C375": {
+      "courseCode": "C375",
+      "courseName": "Survey of World History",
+      "ccn": "HIST 1310",
+      "competencyUnits": 3,
+      "description": "Through a thematic approach, this course explores the history of human societies over 5,000 years. Students"
+    },
+    "C380": {
+      "courseCode": "C380",
+      "courseName": "Language Arts Instruction and Intervention",
+      "ccn": "EDUC 6380",
+      "competencyUnits": 2,
+      "description": "Language Arts Instruction and Intervention helps students learn how to implement effective"
+    },
+    "C381": {
+      "courseCode": "C381",
+      "courseName": "Elementary Mathematics Methods",
+      "ccn": "EDUC 6202",
+      "competencyUnits": 2,
+      "description": "Elementary Mathematics Methods helps students learn how to implement effective math instruction in"
+    },
+    "C382": {
+      "courseCode": "C382",
+      "courseName": "Elementary Science Methods",
+      "ccn": "EDUC 6203",
+      "competencyUnits": 2,
+      "description": "Elementary Science Methods helps students learn how to implement effective science instruction in the"
+    },
+    "C388": {
+      "courseCode": "C388",
+      "courseName": "Science, Technology, and Society",
+      "ccn": "EDUC 4409",
+      "competencyUnits": 5,
+      "description": "Science, Technology, and Society explores the ways in which science influences and is influenced by"
+    },
+    "C389": {
+      "courseCode": "C389",
+      "courseName": "Science, Technology, and Society",
+      "ccn": "EDUC 5409",
+      "competencyUnits": 2,
+      "description": "Science, Technology, and Society explores the ways in which science influences and is influenced by"
+    },
+    "C393": {
+      "courseCode": "C393",
+      "courseName": "IT Foundations",
+      "description": "IT Foundations is the first course in a two-part series preparatory for the CompTIA A+ exam, Part I. Students will gain an"
+    },
+    "C395": {
+      "courseCode": "C395",
+      "courseName": "Instructional Planning and Presentation in English",
+      "ccn": "EDUC 5246",
+      "competencyUnits": 2,
+      "description": "Applications in Instructional Planning and Presentation in English, as a continuation of"
+    },
+    "C396": {
+      "courseCode": "C396",
+      "courseName": "English Pedagogy",
+      "ccn": "EDUC 5347",
+      "competencyUnits": 3,
+      "description": "English Pedagogy examines pedagogical applications for the teaching of reading, literature, composition, and related"
+    },
+    "C398": {
+      "courseCode": "C398",
+      "courseName": "Supervised Demonstration Teaching in English, Observations 1 and 2",
+      "ccn": "EDUC 5348",
+      "description": "Supervised Demonstration Teaching in English involves a series"
+    },
+    "C399": {
+      "courseCode": "C399",
+      "courseName": "Supervised Demonstration Teaching in English, Observation 3 and Midterm",
+      "ccn": "EDUC 5349",
+      "description": "Supervised Demonstration Teaching in English involves a"
+    },
+    "C400": {
+      "courseCode": "C400",
+      "courseName": "Supervised Demonstration Teaching in English, Observations 4 and 5",
+      "ccn": "EDUC 5350",
+      "description": "Supervised Demonstration Teaching in English involves a series"
+    },
+    "C401": {
+      "courseCode": "C401",
+      "courseName": "Supervised Demonstration Teaching in English, Observation 6 and Final",
+      "ccn": "EDUC 5351",
+      "description": "Supervised Demonstration Teaching in English involves a"
+    },
+    "C405": {
+      "courseCode": "C405",
+      "courseName": "Anatomy and Physiology II",
+      "ccn": "BIO 2011",
+      "competencyUnits": 4,
+      "description": "This course introduces advanced concepts of human anatomy and physiology, through the investigation of the"
+    },
+    "C425": {
+      "courseCode": "C425",
+      "courseName": "Healthcare Delivery Systems, Regulation, and Compliance",
+      "ccn": "HCM 2110",
+      "competencyUnits": 3,
+      "description": "This course provides an overview of the U.S. healthcare system and focuses"
+    },
+    "C426": {
+      "courseCode": "C426",
+      "courseName": "Healthcare Values and Ethics",
+      "ccn": "HCM 2210",
+      "competencyUnits": 3,
+      "description": "This course explores ethical standards and considerations common to the healthcare environment such as"
+    },
+    "C427": {
+      "courseCode": "C427",
+      "courseName": "Technology Applications in Healthcare",
+      "ccn": "HCM 2310",
+      "competencyUnits": 3,
+      "description": "This course explores how technology continues to change and influence the healthcare industry."
+    },
+    "C428": {
+      "courseCode": "C428",
+      "courseName": "Financial Resource Management in Healthcare",
+      "ccn": "HCM 3110",
+      "description": "This course examines the financial environment of the healthcare industry including"
+    },
+    "C429": {
+      "courseCode": "C429",
+      "courseName": "Healthcare Operations Management",
+      "ccn": "HCM 3210",
+      "competencyUnits": 3,
+      "description": "This course builds upon basic principles of management, organizational behavior, and leadership."
+    },
+    "C430": {
+      "courseCode": "C430",
+      "courseName": "Healthcare Quality Improvement and Risk Management",
+      "ccn": "HCM 3310",
+      "competencyUnits": 3,
+      "description": "This course emphasizes principles of quality management and risk management"
+    },
+    "C431": {
+      "courseCode": "C431",
+      "courseName": "Healthcare Research and Statistics",
+      "ccn": "HCM 3410",
+      "competencyUnits": 3,
+      "description": "This course builds upon an understanding of research methods and quantitative analysis. Concepts of"
+    },
+    "C432": {
+      "courseCode": "C432",
+      "courseName": "Healthcare Management and Strategy",
+      "ccn": "HCM 3510",
+      "description": "This course builds upon basic principles of strategic management and explores healthcare"
+    },
+    "C439": {
+      "courseCode": "C439",
+      "courseName": "Healthcare Management Capstone",
+      "ccn": "HCM 2910",
+      "description": "This course is the culminating experience and assessment of healthcare business administration. This"
+    },
+    "C453": {
+      "courseCode": "C453",
+      "courseName": "Clinical Microbiology",
+      "ccn": "NURS 2300",
+      "competencyUnits": 4,
+      "description": "Clinical Microbiology introduces general concepts, methods, and applications of microbiology from a health sciences"
+    },
+    "C455": {
+      "courseCode": "C455",
+      "courseName": "English Composition I",
+      "ccn": "ENGL 1010",
+      "competencyUnits": 3,
+      "description": "English Composition I introduces learners to the types of writing and thinking that are valued in college and beyond."
+    },
+    "C456": {
+      "courseCode": "C456",
+      "courseName": "English Composition II",
+      "ccn": "ENGL 1020",
+      "competencyUnits": 3,
+      "description": "English Composition II introduces undergraduate students to research writing. It is a foundational course designed to"
+    },
+    "C458": {
+      "courseCode": "C458",
+      "courseName": "Health, Fitness and Wellness",
+      "ccn": "HLTH 1010",
+      "competencyUnits": 4,
+      "description": "Health, Fitness and Wellness focuses on the importance and foundations of good health and physical fitness,"
+    },
+    "C459": {
+      "courseCode": "C459",
+      "courseName": "Introduction to Probability and Statistics",
+      "ccn": "MATH 1030",
+      "competencyUnits": 3,
+      "description": "In this course, students demonstrate competency in the basic concepts, logic, and issues"
+    },
+    "C460": {
+      "courseCode": "C460",
+      "courseName": "Mathematics for Elementary Educators I",
+      "ccn": "MATH 1310",
+      "competencyUnits": 3,
+      "description": "Mathematics for Elementary Educators I engages pre-service elementary teachers in"
+    },
+    "C461": {
+      "courseCode": "C461",
+      "courseName": "Mathematics for Elementary Educators II",
+      "ccn": "MATH 1320",
+      "competencyUnits": 3,
+      "description": "This course engages pre-service elementary teachers in mathematical practices based on deep"
+    },
+    "C462": {
+      "courseCode": "C462",
+      "courseName": "Mathematics for Elementary Educators III",
+      "ccn": "MATH 1330",
+      "competencyUnits": 3,
+      "description": "Mathematics for Elementary Educators III engages pre-service elementary teachers in"
+    },
+    "C463": {
+      "courseCode": "C463",
+      "courseName": "Intermediate Algebra",
+      "ccn": "MATH 1010",
+      "competencyUnits": 3,
+      "description": "This course provides an introduction of algebraic concepts and the development of the essential groundwork for"
+    },
+    "C464": {
+      "courseCode": "C464",
+      "courseName": "Introduction to Communication",
+      "ccn": "COMM 1011",
+      "competencyUnits": 3,
+      "description": "This introductory communication course allows students to become familiar with the fundamental"
+    },
+    "C465": {
+      "courseCode": "C465",
+      "courseName": "Care of the Developing Family",
+      "ccn": "NURS 3310",
+      "competencyUnits": 4,
+      "description": "The Care of the Developing Family Clinical and Simulation course includes all aspects of clinical learning"
+    },
+    "C466": {
+      "courseCode": "C466",
+      "courseName": "Medication Dosage Calculations",
+      "ccn": "NURS 2710",
+      "competencyUnits": 1,
+      "description": "In Medication Dosage Calculations, students learn about individualized drug dosing concepts, including:"
+    },
+    "C468": {
+      "courseCode": "C468",
+      "courseName": "Information Management and the Application of Technology",
+      "ccn": "NURS 3510",
+      "competencyUnits": 3,
+      "description": "Information Management and the Application of Technology helps the"
+    },
+    "C469": {
+      "courseCode": "C469",
+      "courseName": "Caring Arts and Science Across the Lifespan Part I",
+      "ccn": "NURS 3210",
+      "competencyUnits": 4,
+      "description": "Caring Arts and Science Across the Lifespan Part I introduces nursing fundamentals"
+    },
+    "C470": {
+      "courseCode": "C470",
+      "courseName": "Caring Arts and Science Across the Lifespan Part I Clinical Learning",
+      "ccn": "NURS 3215",
+      "competencyUnits": 2,
+      "description": "Caring Arts and Science Across the Lifespan Part I Clinical"
+    },
+    "C471": {
+      "courseCode": "C471",
+      "courseName": "Caring Arts and Science Across the Lifespan Part II",
+      "ccn": "NURS 3220",
+      "competencyUnits": 4,
+      "description": "Caring Arts and Science Across the Lifespan Part II topics include management of"
+    },
+    "C472": {
+      "courseCode": "C472",
+      "courseName": "Caring Arts and Science Across the Lifespan Part II Clinical Learning",
+      "ccn": "NURS 3225",
+      "competencyUnits": 2,
+      "description": "The clinical learning course for CASAL II includes all aspects of"
+    },
+    "C473": {
+      "courseCode": "C473",
+      "courseName": "Care of Adults with Complex Illnesses",
+      "ccn": "NURS 3230",
+      "competencyUnits": 3,
+      "description": "The Care of Adults with Complex Illnesses course builds on prior knowledge of medical surgical"
+    },
+    "C474": {
+      "courseCode": "C474",
+      "courseName": "Clinical Learning for Complex Illnesses in Adults",
+      "ccn": "NURS 3235",
+      "competencyUnits": 3,
+      "description": "Clinical Care of Adults with Complex Illnesses   includes all aspects of clinical learning"
+    },
+    "C475": {
+      "courseCode": "C475",
+      "courseName": "Care of the Older Adult",
+      "ccn": "NURS 3330",
+      "competencyUnits": 3,
+      "description": "Care of the Older Adult adapts the concepts from prior coursework to the care of older adults. An understanding of"
+    },
+    "C476": {
+      "courseCode": "C476",
+      "courseName": "Psychiatric and Mental Health Nursing",
+      "ccn": "NURS 4250",
+      "competencyUnits": 3,
+      "description": "In Psych/Mental Health, students will discover the many faces of mental illness and the role that the"
+    },
+    "C477": {
+      "courseCode": "C477",
+      "courseName": "Nursing Care of Children",
+      "ccn": "NURS 3320",
+      "competencyUnits": 4,
+      "description": "Nursing Care of Children explores the many facets of the pediatric population. The course materials cover the"
+    },
+    "C478": {
+      "courseCode": "C478",
+      "courseName": "Critical Care Nursing Clinical Learning",
+      "ccn": "NURS 4225",
+      "competencyUnits": 2,
+      "description": "Critical care environments are not limited to the intensive care unit, but can occur in emergency"
+    },
+    "C484": {
+      "courseCode": "C484",
+      "courseName": "Organizational Behavior and Leadership",
+      "ccn": "BUS 2001",
+      "competencyUnits": 3,
+      "description": "Organizational Behavior and Leadership explores how to lead and manage effectively in diverse"
+    },
+    "C486": {
+      "courseCode": "C486",
+      "courseName": "Organizational Systems: Safety and Regulation",
+      "ccn": "NURS 2410",
+      "description": "The Organizational Systems course of study presents the required sequence of learning"
+    },
+    "C487": {
+      "courseCode": "C487",
+      "courseName": "Psych/Mental Health Clinical",
+      "ccn": "NURS 4251",
+      "description": "The clinical experience for psychiatric/mental health differs from other clinical intensives. Students are"
+    },
+    "C488": {
+      "courseCode": "C488",
+      "courseName": "Critical Care Nursing",
+      "ccn": "NURS 4220",
+      "competencyUnits": 4,
+      "description": "Critical care environments are not limited to the intensive care unit, but can occur in emergency departments, surgery,"
+    },
+    "C489": {
+      "courseCode": "C489",
+      "courseName": "Organizational Systems and Quality Leadership",
+      "ccn": "NURS 4210",
+      "competencyUnits": 3,
+      "description": "Nurses serve as clinicians, managers, and mentors to shape the future of healthcare and"
+    },
+    "C490": {
+      "courseCode": "C490",
+      "courseName": "Professional Nursing Role Transition",
+      "ccn": "NURS 4911",
+      "competencyUnits": 3,
+      "description": "This course is a three-part course: preparing for the NCLEX; leadership learning experience; and"
+    },
+    "C491": {
+      "courseCode": "C491",
+      "courseName": "Nursing Clinical Practicum",
+      "ccn": "NURS 4800",
+      "description": "Before graduating, nursing students need to experience clinical as an independent member of the nursing team"
+    },
+    "C492": {
+      "courseCode": "C492",
+      "courseName": "Physical Assessment",
+      "ccn": "NURS 3100",
+      "competencyUnits": 4,
+      "description": "The physical assessment course is designed to help students build a cognitive understanding of a physical"
+    },
+    "C493": {
+      "courseCode": "C493",
+      "courseName": "Leadership and Professional Image",
+      "ccn": "NURS 4910",
+      "competencyUnits": 2,
+      "description": "Nursing is a practice discipline that includes direct and indirect care activities that affect health"
+    },
+    "C494": {
+      "courseCode": "C494",
+      "courseName": "Advanced Standing for RN License",
+      "ccn": "NURS 2000",
+      "description": "Advanced Standing for RN License"
+    },
+    "C498": {
+      "courseCode": "C498",
+      "courseName": "MS, Information Technology Management Capstone",
+      "description": "MSITM Capstone course challenges students to demonstrate mastery of all the"
+    },
+    "C504": {
+      "courseCode": "C504",
+      "courseName": "Professional Practice Experience and Portfolio",
+      "ccn": "HLTH 4504",
+      "competencyUnits": 4,
+      "description": "Management Level - This course supports the assessment for Professional Practice:"
+    },
+    "C509": {
+      "courseCode": "C509",
+      "courseName": "Professional Practice Experience and Portfolio",
+      "ccn": "HLTH 4509",
+      "description": "Technical Level - The Professional Practice Experience (PPE) is your opportunity to put"
+    },
+    "C540": {
+      "courseCode": "C540",
+      "courseName": "MS SPED Teacher Work Sample",
+      "description": "The capstone of the MSSP is a 240-hour practicum. The hours for the practicum activities have been"
+    },
+    "C551": {
+      "courseCode": "C551",
+      "courseName": "Foundational Perspectives of Education",
+      "ccn": "EDUC 5006",
+      "competencyUnits": 2,
+      "description": "This course provides an introduction to the historical, legal, and philosophical foundations of"
+    },
+    "C553": {
+      "courseCode": "C553",
+      "courseName": "Classroom Management, Engagement, and Motivation",
+      "ccn": "EDUC 5008",
+      "competencyUnits": 2,
+      "description": "Students will learn the foundations for effective classroom management as well as"
+    },
+    "C554": {
+      "courseCode": "C554",
+      "courseName": "Educational Assessment",
+      "ccn": "EDUC 5009",
+      "competencyUnits": 2,
+      "description": "Educational Assessment assists students in making appropriate data-driven instructional decisions by exploring"
+    },
+    "C561": {
+      "courseCode": "C561",
+      "courseName": "MS, Curriculum and Instruction Capstone",
+      "description": "MS, Curriculum and Instruction Capstone takes the student through the steps of planning and"
+    },
+    "C572": {
+      "courseCode": "C572",
+      "courseName": "Classroom Management, Engagement, and Motivation",
+      "ccn": "EDUC 2416",
+      "competencyUnits": 4,
+      "description": "Students will learn the foundations for effective classroom management as well as"
+    },
+    "C612": {
+      "courseCode": "C612",
+      "courseName": "Mathematics: Content Knowledge",
+      "ccn": "MATH 6331",
+      "description": "Mathematics: Content Knowledge is designed to help candidates refine and integrate the mathematics"
+    },
+    "C613": {
+      "courseCode": "C613",
+      "courseName": "Middle School Mathematics: Content Knowledge",
+      "ccn": "MATH 6711",
+      "description": "Mathematics: Middle School Content Knowledge is designed to help candidates refine"
+    },
+    "C614": {
+      "courseCode": "C614",
+      "courseName": "Biology: Content Knowledge",
+      "ccn": "BIO 6405",
+      "description": "This comprehensive course examines a student’s conceptual understanding of a broad range of biology"
+    },
+    "C615": {
+      "courseCode": "C615",
+      "courseName": "Physics: Content Knowledge",
+      "ccn": "PHYS 6405",
+      "description": "Physics: Content Knowledge covers the advanced content knowledge that a secondary physics teacher is"
+    },
+    "C616": {
+      "courseCode": "C616",
+      "courseName": "Middle School Science: Content Knowledge",
+      "ccn": "SCIE 6405",
+      "description": "This course covers the content knowledge that a middle-level science teacher is expected to"
+    },
+    "C617": {
+      "courseCode": "C617",
+      "courseName": "Chemistry: Content Knowledge",
+      "ccn": "CHEM 6405",
+      "description": "Chemistry: Content Knowledge provides advanced instruction in the main areas of chemistry for which"
+    },
+    "C618": {
+      "courseCode": "C618",
+      "courseName": "Earth Science: Content Knowledge",
+      "ccn": "GEOS 6405",
+      "description": "This course covers the advanced content knowledge that a secondary earth/space science teacher is"
+    },
+    "C626": {
+      "courseCode": "C626",
+      "courseName": "MED, Learning and Technology Capstone",
+      "description": "MED, Learning and Technology Capstone takes the student through the steps of planning and"
+    },
+    "C635": {
+      "courseCode": "C635",
+      "courseName": "MA, Mathematics Education (K",
+      "description": "6) Capstone - MA, Mathematics Education (K-6) Capstone Written Project takes the student through the"
+    },
+    "C636": {
+      "courseCode": "C636",
+      "courseName": "MED, Instructional Design Capstone",
+      "description": "MED, Instructional Design Capstone Written Project is the culminating assessment where learners"
+    },
+    "C645": {
+      "courseCode": "C645",
+      "courseName": "Science Methods",
+      "ccn": "EDUC 5041",
+      "competencyUnits": 3,
+      "description": "Science Methods provides an introduction to teaching methods specific to science for graduate students seeking initial"
+    },
+    "C646": {
+      "courseCode": "C646",
+      "courseName": "Trigonometry and Precalculus",
+      "ccn": "MATH 3321",
+      "competencyUnits": 4,
+      "description": "Trigonometry and Precalculus covers the knowledge and skills necessary to apply trigonometry, complex"
+    },
+    "C647": {
+      "courseCode": "C647",
+      "courseName": "Trigonometry and Precalculus",
+      "ccn": "MATH 6321",
+      "competencyUnits": 2,
+      "description": "Trigonometry and Precalculus covers the knowledge and skills necessary to apply trigonometry, complex"
+    },
+    "C649": {
+      "courseCode": "C649",
+      "courseName": "Geology I: Physical",
+      "ccn": "GEOS 2101",
+      "description": "Geology I: Physical provides undergraduate students seeking initial licensure or endorsement in secondary science"
+    },
+    "C650": {
+      "courseCode": "C650",
+      "courseName": "Geology I: Physical",
+      "ccn": "GEOS 5101",
+      "description": "Geology I: Physical provides graduate students seeking initial licensure or endorsement and/or to earn their MA degree"
+    },
+    "C652": {
+      "courseCode": "C652",
+      "courseName": "Heredity and Genetics",
+      "ccn": "BIO 3105",
+      "competencyUnits": 3,
+      "description": "Heredity and Genetics is an introductory course for undergraduate students seeking initial licensure or endorsement"
+    },
+    "C653": {
+      "courseCode": "C653",
+      "courseName": "Heredity and Genetics",
+      "ccn": "BIO 5105",
+      "competencyUnits": 2,
+      "description": "Heredity and Genetics is an introductory course for graduate students seeking initial licensure or endorsement and/or"
+    },
+    "C659": {
+      "courseCode": "C659",
+      "courseName": "Conceptual Physics",
+      "ccn": "PHYS 5101",
+      "competencyUnits": 3,
+      "description": "Conceptual Physics provides a broad, conceptual overview of the main principles of physics, including mechanics,"
+    },
+    "C670": {
+      "courseCode": "C670",
+      "courseName": "Concepts in Science",
+      "ccn": "SCIE 5408",
+      "competencyUnits": 1,
+      "description": "Concepts in Science for graduates provides already-licensed teachers seeking an additional license or endorsement in"
+    },
+    "C672": {
+      "courseCode": "C672",
+      "courseName": "General Chemistry I with Lab",
+      "ccn": "CHEM 5409",
+      "competencyUnits": 3,
+      "description": "General Chemistry I with Lab for graduates provides already-licensed teachers seeking an additional license"
+    },
+    "C673": {
+      "courseCode": "C673",
+      "courseName": "General Chemistry II with Lab",
+      "ccn": "CHEM 5410",
+      "competencyUnits": 3,
+      "description": "C673: General Chemistry II with Lab for graduates continues the study of general chemistry for already-"
+    },
+    "C682": {
+      "courseCode": "C682",
+      "courseName": "Mathematics for Elementary Educators",
+      "ccn": "MATH 5010",
+      "competencyUnits": 3,
+      "description": "Mathematics for Elementary Educators III engages pre-service elementary teachers in"
+    },
+    "C683": {
+      "courseCode": "C683",
+      "courseName": "Natural Science Lab",
+      "ccn": "SCIE 1001",
+      "competencyUnits": 2,
+      "description": "This course gives you an introduction to using the scientific method and engaging in scientific research to reach"
+    },
+    "C697": {
+      "courseCode": "C697",
+      "courseName": "Operating Systems I",
+      "ccn": "ITEC 3659",
+      "competencyUnits": 4,
+      "description": "This course prepares students for the following certification exam: CompTIA Linux+ Part I."
+    },
+    "C698": {
+      "courseCode": "C698",
+      "courseName": "Operating Systems II",
+      "ccn": "ITEC 3669",
+      "competencyUnits": 4,
+      "description": "This course prepares students for the following certification exam: CompTIA Linux+ Part II."
+    },
+    "C700": {
+      "courseCode": "C700",
+      "courseName": "Secure Network Design",
+      "ccn": "ITSA 5220",
+      "competencyUnits": 3,
+      "description": "Secure Network Design covers topics for designing and protecting computer networks. Course topics emphasize"
+    },
+    "C701": {
+      "courseCode": "C701",
+      "courseName": "Ethical Hacking",
+      "ccn": "ITAS 5300",
+      "competencyUnits": 4,
+      "description": "Ethical Hacking builds the skills necessary to protect an organization's information system from unauthorized access and"
+    },
+    "C702": {
+      "courseCode": "C702",
+      "courseName": "Forensics and Network Intrusion",
+      "ccn": "ITAS 6300",
+      "competencyUnits": 4,
+      "description": "Forensics and Network Intrusion builds proficiency in detecting hacking attacks and properly extracting"
+    },
+    "C706": {
+      "courseCode": "C706",
+      "courseName": "Secure Software Design",
+      "ccn": "ITAS 5230",
+      "competencyUnits": 2,
+      "description": "Secure Software Design focuses on the variety of elements needed to address and implement secure software"
+    },
+    "C708": {
+      "courseCode": "C708",
+      "courseName": "Principles of Finance",
+      "ccn": "FINC 3000",
+      "competencyUnits": 3,
+      "description": "Principles of Finance is an introductory course that provides an overview of time-honored business financial concepts"
+    },
+    "C712": {
+      "courseCode": "C712",
+      "courseName": "Marketing Fundamentals",
+      "ccn": "MKTG 3000",
+      "competencyUnits": 3,
+      "description": "Marketing Fundamentals introduces students to principles of the marketing environment, social media, consumer"
+    },
+    "C714": {
+      "courseCode": "C714",
+      "courseName": "Business Strategy",
+      "ccn": "MGMT 4800",
+      "competencyUnits": 3,
+      "description": "Strategy, Change and Organizational Behavior Concepts addresses complex material in the areas of organizational"
+    },
+    "C715": {
+      "courseCode": "C715",
+      "courseName": "Organizational Behavior",
+      "ccn": "MGMT 3000",
+      "competencyUnits": 3,
+      "description": "Organizational Behavior and Leadership explores how to lead and manage effectively in diverse business"
+    },
+    "C716": {
+      "courseCode": "C716",
+      "courseName": "Business Communication",
+      "ccn": "BUS 2600",
+      "competencyUnits": 3,
+      "description": "Business Communication is a survey course of communication skills needed in the business environment."
+    },
+    "C717": {
+      "courseCode": "C717",
+      "courseName": "Business Ethics",
+      "ccn": "BUS 3000",
+      "competencyUnits": 3,
+      "description": "Business Ethics is designed to enable students to identify the ethical and socially responsible courses of actions available"
+    },
+    "C718": {
+      "courseCode": "C718",
+      "courseName": "Microeconomics",
+      "ccn": "ECON 2000",
+      "competencyUnits": 3,
+      "description": "Microeconomics introduces undergraduate students to foundational economic concepts. Students will learn how"
+    },
+    "C719": {
+      "courseCode": "C719",
+      "courseName": "Macroeconomics",
+      "ccn": "ECON 2100",
+      "competencyUnits": 3,
+      "description": "Macroeconomics provides you with an in-depth overview of the economy as a whole. The course covers market structure,"
+    },
+    "C720": {
+      "courseCode": "C720",
+      "courseName": "Operations and Supply Chain Management",
+      "ccn": "MGMT 4100",
+      "competencyUnits": 3,
+      "description": "Operations and Supply Chain Management provides a streamlined introduction to how"
+    },
+    "C721": {
+      "courseCode": "C721",
+      "courseName": "Change Management",
+      "ccn": "MGMT 4400",
+      "competencyUnits": 3,
+      "description": "Change Management provides an understanding of change and an overview of successfully managing change using"
+    },
+    "C722": {
+      "courseCode": "C722",
+      "courseName": "Project Management",
+      "ccn": "MGMT 3400",
+      "competencyUnits": 3,
+      "description": "Project Management prepares you to manage projects from start to finish within any organizational structure. The"
+    },
+    "C723": {
+      "courseCode": "C723",
+      "courseName": "Quantitative Analysis For Business",
+      "ccn": "BUS 3100",
+      "competencyUnits": 3,
+      "description": "Quantitative Analysis for Business explores various decision-making models, including expected value"
+    },
+    "C724": {
+      "courseCode": "C724",
+      "courseName": "Information Systems Management",
+      "ccn": "BUIT 3000",
+      "competencyUnits": 3,
+      "description": "Information Systems Management provides an overview of many facets of information systems"
+    },
+    "C725": {
+      "courseCode": "C725",
+      "courseName": "Information Security and Assurance",
+      "ccn": "ITAS 5010",
+      "competencyUnits": 2,
+      "description": "Information Security and Assurance explores the many facets of the information security landscape."
+    },
+    "C726": {
+      "courseCode": "C726",
+      "courseName": "Cybersecurity Architecture and Engineering",
+      "ccn": "ITAS 5290",
+      "competencyUnits": 4,
+      "description": "Cybersecurity Architecture and Engineering prepares students to implement and manage"
+    },
+    "C727": {
+      "courseCode": "C727",
+      "courseName": "Cybersecurity Management I",
+      "ccn": "ITAS 6310",
+      "competencyUnits": 4,
+      "description": "Strategic - Cybersecurity Management I - Strategic focuses on the strategic and long-term alignment of an"
+    },
+    "C728": {
+      "courseCode": "C728",
+      "courseName": "Secondary Disciplinary Literacy",
+      "ccn": "EDUC 3275",
+      "competencyUnits": 3,
+      "description": "Secondary Disciplinary Literacy examines teaching strategies designed to help learners in middle and high"
+    },
+    "C729": {
+      "courseCode": "C729",
+      "courseName": "Secondary Disciplinary Literacy",
+      "ccn": "EDUC 5275",
+      "competencyUnits": 3,
+      "description": "Secondary Disciplinary Literacy examines teaching strategies designed to help learners in middle and high"
+    },
+    "C730": {
+      "courseCode": "C730",
+      "courseName": "Secondary Reading Instruction and Interventions",
+      "ccn": "EDUC 3276",
+      "competencyUnits": 3,
+      "description": "Secondary Reading Instruction and Intervention explores the comprehensive, student-"
+    },
+    "C731": {
+      "courseCode": "C731",
+      "courseName": "Secondary Reading Instruction and Interventions",
+      "ccn": "EDUC 5276",
+      "competencyUnits": 3,
+      "description": "Secondary Reading Instruction and Intervention explores the comprehensive, student-"
+    },
+    "C732": {
+      "courseCode": "C732",
+      "courseName": "Elementary Disciplinary Literacy",
+      "ccn": "EDUC 3277",
+      "competencyUnits": 3,
+      "description": "Elementary Disciplinary Literacy examines teaching strategies designed to help learners in grades K–6"
+    },
+    "C733": {
+      "courseCode": "C733",
+      "courseName": "Elementary Disciplinary Literacy",
+      "ccn": "EDUC 5277",
+      "competencyUnits": 3,
+      "description": "Elementary Disciplinary Literacy examines teaching strategies designed to help learners in grades K–6"
+    },
+    "C738": {
+      "courseCode": "C738",
+      "courseName": "Space, Time and Motion",
+      "ccn": "PHYS 3262",
+      "competencyUnits": 4,
+      "description": "Throughout history, humans have grappled with questions about the origin, workings, and behavior of the universe."
+    },
+    "C739": {
+      "courseCode": "C739",
+      "courseName": "Space, Time and Motion",
+      "ccn": "PHYS 5248",
+      "competencyUnits": 3,
+      "description": "Throughout history, humans have grappled with questions about the origin, workings, and behavior of the universe."
+    },
+    "C740": {
+      "courseCode": "C740",
+      "courseName": "Fundamentals of Data Analytics",
+      "ccn": "DTAN 5110",
+      "competencyUnits": 2,
+      "description": "This courses provides an introduction to a variety of tools and techniques used in the field of data"
+    },
+    "C741": {
+      "courseCode": "C741",
+      "courseName": "Statistics for Data Analysis",
+      "ccn": "MATH 5720",
+      "competencyUnits": 3,
+      "description": "This course covers a broad range of statistical techniques and methods applied in real-world settings. Topics"
+    },
+    "C743": {
+      "courseCode": "C743",
+      "courseName": "Data Mining and Analytics I",
+      "ccn": "DTAN 5210",
+      "competencyUnits": 3,
+      "description": "This course is an introduction to data mining and exploratory data analysis, including text and web mining."
+    },
+    "C744": {
+      "courseCode": "C744",
+      "courseName": "Data Mining and Analytics II",
+      "ccn": "DTAN 6220",
+      "competencyUnits": 3,
+      "description": "This course examines the application of descriptive and predictive data mining techniques to reveal information"
+    },
+    "C745": {
+      "courseCode": "C745",
+      "courseName": "Advanced Data Visualization",
+      "ccn": "DTAN 6110",
+      "competencyUnits": 3,
+      "description": "The focus of this course is visualizing and telling stories with data. This course begins with a description of the"
+    },
+    "C747": {
+      "courseCode": "C747",
+      "courseName": "SAS Programming I: Fundamentals",
+      "description": "This course prepares the student for the Base Programmer for SAS 9 Certification (A00-211). Students"
+    },
+    "C748": {
+      "courseCode": "C748",
+      "courseName": "SAS Programming II: Business Analysis Applications",
+      "description": "This course prepares the student for the SAS Statistical Business Analyst for SAS"
+    },
+    "C749": {
+      "courseCode": "C749",
+      "courseName": "Introduction to Data Science",
+      "ccn": "DTSC 3210",
+      "competencyUnits": 4,
+      "description": "This Introduction to Data Science course introduces the data analysis process and common statistical"
+    },
+    "C750": {
+      "courseCode": "C750",
+      "courseName": "Data Wrangling with MongoDB",
+      "ccn": "DTMG 3210",
+      "competencyUnits": 3,
+      "description": "This course elaborates on concepts covered in Introduction to Data Science, helping to develop skills"
+    },
+    "C751": {
+      "courseCode": "C751",
+      "courseName": "Data Analysis with R",
+      "ccn": "DTAN 3210",
+      "competencyUnits": 2,
+      "description": "This course focuses on exploratory data analysis (EDA) utilizing R. EDA is an approach for summarizing and"
+    },
+    "C753": {
+      "courseCode": "C753",
+      "courseName": "Machine Learning",
+      "ccn": "DTSC 3220",
+      "competencyUnits": 3,
+      "description": "This course presents the end-to-end process of investigating data through a machine learning lens. Topics covered"
+    },
+    "C755": {
+      "courseCode": "C755",
+      "courseName": "Database Server Administration",
+      "ccn": "DTSC 3320",
+      "competencyUnits": 6,
+      "description": "This course covers the installation, configuration, and administration of database servers. Students will be"
+    },
+    "C756": {
+      "courseCode": "C756",
+      "courseName": "Data Analytics",
+      "ccn": "DTAN 4020",
+      "competencyUnits": 4,
+      "description": "This course covers the most common tools, techniques, and procedures involved in data analytics. Students will review all"
+    },
+    "C762": {
+      "courseCode": "C762",
+      "courseName": "Teacher Performance Assessment in Science",
+      "ccn": "EDUC 4795",
+      "competencyUnits": 2,
+      "description": "The Teacher Performance Assessment is a culmination of the wide variety of skills learned"
+    },
+    "C768": {
+      "courseCode": "C768",
+      "courseName": "Technical Communication",
+      "ccn": "ITEC 2220",
+      "competencyUnits": 3,
+      "description": "This course covers basic elements of technical communication, including professional written communication"
+    },
+    "C769": {
+      "courseCode": "C769",
+      "courseName": "IT Capstone Written Project",
+      "description": "The capstone project consists of a technical work proposal, the proposal’s implementation, and a post-"
+    },
+    "C772": {
+      "courseCode": "C772",
+      "courseName": "Data Analytics Graduate Capstone",
+      "ccn": "DTAN 6410",
+      "competencyUnits": 3,
+      "description": "The Data Analytics Graduate Capstone course allows the student to demonstrate their application of the"
+    },
+    "C773": {
+      "courseCode": "C773",
+      "courseName": "User Interface Design",
+      "ccn": "ITWD 3110",
+      "competencyUnits": 4,
+      "description": "This course covers tools and techniques employed in user interface design including web and mobile applications."
+    },
+    "C777": {
+      "courseCode": "C777",
+      "courseName": "Web Development Applications",
+      "ccn": "ITWD 3120",
+      "competencyUnits": 6,
+      "description": "This course prepares students for the CIW Advanced HTML5 and CSS3 Specialist certification exam. This"
+    },
+    "C779": {
+      "courseCode": "C779",
+      "courseName": "Web Development Foundations",
+      "ccn": "ITWD 3100",
+      "competencyUnits": 3,
+      "description": "This course prepares students for the CIW Site Development Associate certification. The course introduces"
+    },
+    "C783": {
+      "courseCode": "C783",
+      "courseName": "Project Management",
+      "ccn": "ITEC 5320",
+      "competencyUnits": 4,
+      "description": "Project Management is for students seeking the Certified Associate in Project Management (CAPM) credential. The"
+    },
+    "C784": {
+      "courseCode": "C784",
+      "courseName": "Applied Healthcare Statistics",
+      "ccn": "MATH 1100",
+      "competencyUnits": 4,
+      "description": "Applied Healthcare Probability and Statistics is designed to help you develop competence in the fundamental"
+    },
+    "C787": {
+      "courseCode": "C787",
+      "courseName": "Health and Wellness Through Nutritional Science",
+      "ccn": "NURS 2035",
+      "competencyUnits": 3,
+      "description": "Nutritional ignorance or misunderstandings are at the root of the health problems that"
+    },
+    "C790": {
+      "courseCode": "C790",
+      "courseName": "Foundations in Nursing Informatics",
+      "ccn": "NURS 5745",
+      "competencyUnits": 2,
+      "description": "This course addresses the integration of technology to improve and support nursing practice. It"
+    },
+    "C791": {
+      "courseCode": "C791",
+      "courseName": "Advanced Information Management and the Application of Technology",
+      "ccn": "NURS 5510",
+      "competencyUnits": 3,
+      "description": "In this course you will examine complementary roles of master’s"
+    },
+    "C792": {
+      "courseCode": "C792",
+      "courseName": "Data Modeling and Database Management Systems",
+      "ccn": "NURS 6010",
+      "competencyUnits": 2,
+      "description": "This graduate course is designed to engage the student in planning, analyzing, and"
+    },
+    "C795": {
+      "courseCode": "C795",
+      "courseName": "Cybersecurity Management II",
+      "ccn": "ITAS 6330",
+      "competencyUnits": 4,
+      "description": "Tactical - Cybersecurity Management II - Tactical provides students the opportunity to examine tactical"
+    },
+    "C796": {
+      "courseCode": "C796",
+      "courseName": "Cybersecurity Graduate Capstone",
+      "ccn": "ITAS 6450",
+      "competencyUnits": 3,
+      "description": "The Master of Science in Cybersecurity and Information Assurance (MSCSIA) Capstone project allows"
+    },
+    "C797": {
+      "courseCode": "C797",
+      "courseName": "Data Science and Analytics",
+      "ccn": "NURS 6701",
+      "competencyUnits": 2,
+      "description": "This course addresses the interdisciplinary and emerging field of data science in healthcare. Students will learn"
+    },
+    "C798": {
+      "courseCode": "C798",
+      "courseName": "Informatics System Analysis and Design",
+      "ccn": "NURS 6702",
+      "competencyUnits": 3,
+      "description": "In Informatics System Analysis and Design, a broad understanding of data systems is covered to"
+    },
+    "C799": {
+      "courseCode": "C799",
+      "courseName": "Healthcare Ecosystems",
+      "ccn": "HIM 2011",
+      "competencyUnits": 3,
+      "description": "Healthcare Ecosystems explores the history and state of healthcare organizations in an ever-changing"
+    },
+    "C800": {
+      "courseCode": "C800",
+      "courseName": "Introduction to Healthcare IT Systems",
+      "ccn": "HIM 2001",
+      "competencyUnits": 4,
+      "description": "Introduction to Healthcare IT Systems introduces students to information technology as a discipline."
+    },
+    "C801": {
+      "courseCode": "C801",
+      "courseName": "Health Information Law and Regulations",
+      "ccn": "HIM 2215",
+      "competencyUnits": 4,
+      "description": "Health Information Law and Regulations prepares students to manage health information in"
+    },
+    "C802": {
+      "courseCode": "C802",
+      "courseName": "Foundations in Healthcare Information Management",
+      "ccn": "HLTH 3501",
+      "competencyUnits": 4,
+      "description": "Foundations in Healthcare Information Management applies theories from business,"
+    },
+    "C803": {
+      "courseCode": "C803",
+      "courseName": "Data Analytics and Information Governance",
+      "ccn": "HLTH 3315",
+      "competencyUnits": 4,
+      "description": "Data Analytics and Information Governance explores the structure, methods, and approaches"
+    },
+    "C804": {
+      "courseCode": "C804",
+      "courseName": "Medical Terminology",
+      "ccn": "HIM 2150",
+      "competencyUnits": 3,
+      "description": "Medical Terminology focuses on the basic components of medical terminology and how terminology is used when"
+    },
+    "C805": {
+      "courseCode": "C805",
+      "courseName": "Pathophysiology",
+      "ccn": "HCM 2507",
+      "competencyUnits": 3,
+      "description": "Pathophysiology is an overview of the pathology and treatment of diseases in the human body and its systems. This"
+    },
+    "C806": {
+      "courseCode": "C806",
+      "courseName": "Introduction to Pharmacology",
+      "ccn": "HIM 2421",
+      "competencyUnits": 3,
+      "description": "Introduction to Pharmacology provides information about drug development and approvals, pharmaceutical"
+    },
+    "C807": {
+      "courseCode": "C807",
+      "courseName": "Healthcare Compliance",
+      "ccn": "HIM 3215",
+      "competencyUnits": 3,
+      "description": "Healthcare Compliance examines the role of the coding professional within healthcare information management."
+    },
+    "C808": {
+      "courseCode": "C808",
+      "courseName": "Classification Systems",
+      "ccn": "HIM 2515",
+      "competencyUnits": 4,
+      "description": "Classification Systems provides a comprehensive approach to learning about medical coding classification, coding"
+    },
+    "C810": {
+      "courseCode": "C810",
+      "courseName": "Foundations in Healthcare Data Management",
+      "ccn": "HIM 2104",
+      "competencyUnits": 3,
+      "description": "Foundations in Healthcare Data Management introduces students to the concepts and"
+    },
+    "C811": {
+      "courseCode": "C811",
+      "courseName": "Healthcare Financial Resource Management",
+      "ccn": "HIM 3701",
+      "competencyUnits": 4,
+      "description": "Healthcare Financial Resource Management examines financial practices within healthcare"
+    },
+    "C812": {
+      "courseCode": "C812",
+      "courseName": "Healthcare Reimbursement",
+      "ccn": "HIM 4610",
+      "competencyUnits": 4,
+      "description": "Healthcare Reimbursement explores financial practices within the healthcare industry as they relate to"
+    },
+    "C813": {
+      "courseCode": "C813",
+      "courseName": "Healthcare Statistics and Research",
+      "ccn": "HIM 4502",
+      "competencyUnits": 3,
+      "description": "Healthcare Statistics and Research explores the use of statistical data to support process improvement"
+    },
+    "C815": {
+      "courseCode": "C815",
+      "courseName": "Quality and Performance Management and Methods",
+      "ccn": "HIM 4511",
+      "competencyUnits": 4,
+      "description": "Quality and Performance Management and Methods examines quality initiatives"
+    },
+    "C816": {
+      "courseCode": "C816",
+      "courseName": "Healthcare System Applications",
+      "ccn": "HIM 3205",
+      "competencyUnits": 4,
+      "description": "Healthcare System Applications introduces students to information systems. This course includes"
+    },
+    "C818": {
+      "courseCode": "C818",
+      "courseName": "Health Information Management Capstone",
+      "ccn": "HIM 4506",
+      "description": "Health Information Management Capstone Project is the culmination of the student's degree"
+    },
+    "C820": {
+      "courseCode": "C820",
+      "courseName": "Professional Leadership and Communication for Healthcare",
+      "ccn": "COMM 3113",
+      "competencyUnits": 2,
+      "description": "The Professional Communication and Leadership in Healthcare course is"
+    },
+    "C823": {
+      "courseCode": "C823",
+      "courseName": "Nursing Leadership and Management Field Experience",
+      "ccn": "NURS 6501",
+      "competencyUnits": 4,
+      "description": "Today’s rapidly changing healthcare delivery environment requires nurse"
+    },
+    "C824": {
+      "courseCode": "C824",
+      "courseName": "Nursing Leadership and Management Capstone",
+      "ccn": "NURS 6601",
+      "competencyUnits": 2,
+      "description": "The Nursing Leadership and Management capstone course provides the student with an"
+    },
+    "C825": {
+      "courseCode": "C825",
+      "courseName": "Introduction to Nursing Arts and Science",
+      "ccn": "NURS 2211",
+      "competencyUnits": 3,
+      "description": "Introduction to Nursing Arts and Science is an introduction to the nursing process as well as"
+    },
+    "C826": {
+      "courseCode": "C826",
+      "courseName": "Community Health and Population",
+      "ccn": "NURS 3418",
+      "competencyUnits": 3,
+      "description": "Focused Nursing - Community Health and Population-Focused Nursing will assist students in becoming"
+    },
+    "C828": {
+      "courseCode": "C828",
+      "courseName": "Teacher Performance Assessment in Elementary Education",
+      "ccn": "EDUC 4750",
+      "description": "The Teacher Performance Assessment is a culmination of the wide variety of"
+    },
+    "C829": {
+      "courseCode": "C829",
+      "courseName": "Teacher Performance Assessment in Elementary and Special Education",
+      "ccn": "EDUC 4751",
+      "description": "The Teacher Performance Assessment is a culmination of the"
+    },
+    "C830": {
+      "courseCode": "C830",
+      "courseName": "Teacher Performance Assessment in Mathematics Education",
+      "ccn": "EDUC 4752",
+      "competencyUnits": 2,
+      "description": "The Teacher Performance Assessment is a culmination of the wide variety"
+    },
+    "C832": {
+      "courseCode": "C832",
+      "courseName": "Chemistry with Lab",
+      "ccn": "CHEM 2111",
+      "competencyUnits": 4,
+      "description": "Chemistry with Lab for undergraduates provides students seeking initial teacher licensure in middle grades science or"
+    },
+    "C833": {
+      "courseCode": "C833",
+      "courseName": "Chemistry with Lab",
+      "ccn": "CHEM 5107",
+      "competencyUnits": 3,
+      "description": "Chemistry with Lab for graduates provides already licensed teachers seeking an additional license or endorsement in"
+    },
+    "C836": {
+      "courseCode": "C836",
+      "courseName": "Fundamentals of Information Security",
+      "ccn": "ITAS 2010",
+      "competencyUnits": 3,
+      "description": "This course lays the foundation for understanding terminology, principles, processes and best"
+    },
+    "C837": {
+      "courseCode": "C837",
+      "courseName": "Managing Web Security",
+      "ccn": "ITAS 2020",
+      "competencyUnits": 4,
+      "description": "Almost all businesses and organizations require a web presence. The security needs, demands, and defenses for"
+    },
+    "C838": {
+      "courseCode": "C838",
+      "courseName": "Managing Cloud Security",
+      "ccn": "ITAS 3031",
+      "competencyUnits": 4,
+      "description": "Managing Cloud Security will prepare students to design solutions for cloud-based platforms and operations that"
+    },
+    "C839": {
+      "courseCode": "C839",
+      "courseName": "Introduction to Cryptography",
+      "ccn": "ITAS 2040",
+      "competencyUnits": 4,
+      "description": "This course provides students with knowledge of cryptographic algorithms, protocols, and their uses in the"
+    },
+    "C840": {
+      "courseCode": "C840",
+      "courseName": "Digital Forensics in Cybersecurity",
+      "ccn": "ITAS 2050",
+      "competencyUnits": 4,
+      "description": "Digital forensics, the science of investigating cybercrimes, seeks evidence that reveals who, what, when,"
+    },
+    "C841": {
+      "courseCode": "C841",
+      "courseName": "Legal Issues in Information Security",
+      "ccn": "ITAS 3010",
+      "competencyUnits": 4,
+      "description": "Security information professionals have the role and responsibility for knowing and applying ethical"
+    },
+    "C842": {
+      "courseCode": "C842",
+      "courseName": "Cyber Defense and Countermeasures",
+      "ccn": "ITAS 3020",
+      "competencyUnits": 4,
+      "description": "Traditional defenses such as firewalls, security protocols, and encryption sometimes fail to stop"
+    },
+    "C843": {
+      "courseCode": "C843",
+      "courseName": "Managing Information Security",
+      "ccn": "ITAS 3030",
+      "competencyUnits": 6,
+      "description": "This course expands on fundamentals of information security by providing an in-depth analysis of the"
+    },
+    "C844": {
+      "courseCode": "C844",
+      "courseName": "Emerging Technologies in Cybersecurity",
+      "ccn": "ITAS 3040",
+      "competencyUnits": 4,
+      "description": "The continual evolution of technology means that cybersecurity professionals must be able to"
+    },
+    "C845": {
+      "courseCode": "C845",
+      "courseName": "Information Systems Security",
+      "ccn": "ITAS 3050",
+      "competencyUnits": 4,
+      "description": "IT security professionals must be prepared for the operational demands and responsibilities of security"
+    },
+    "C846": {
+      "courseCode": "C846",
+      "courseName": "Business of IT",
+      "ccn": "ITEC 2205",
+      "competencyUnits": 4,
+      "description": "Applications - Business of IT – Applications examines Information Technology Infrastructure Library ( ITIL®) terminology,"
+    },
+    "C847": {
+      "courseCode": "C847",
+      "courseName": "Fundamentals of Diversity, Inclusion, and Exceptional Learners",
+      "ccn": "EDUC 2311",
+      "competencyUnits": 4,
+      "description": "Fundamentals of Diversity, Inclusion, and Exceptional Learners prepares"
+    },
+    "C848": {
+      "courseCode": "C848",
+      "courseName": "Fundamentals of Diversity, Inclusion, and Exceptional Learners",
+      "ccn": "EDUC 5310",
+      "competencyUnits": 2,
+      "description": "Fundamentals of Diversity, Inclusion, and Exceptional Learners prepares"
+    },
+    "C849": {
+      "courseCode": "C849",
+      "courseName": "Cloud Foundations",
+      "ccn": "ITEC 2901",
+      "competencyUnits": 3,
+      "description": "More and more companies are shifting to a cloud computing model of doing business. The Cloud Foundations course"
+    },
+    "C850": {
+      "courseCode": "C850",
+      "courseName": "Emerging Technologies",
+      "ccn": "ITEC 2950",
+      "competencyUnits": 2,
+      "description": "The Emerging Technology course examines emerging technologies, identifies the benefits and drawbacks of"
+    },
+    "C851": {
+      "courseCode": "C851",
+      "courseName": "Linux Foundations",
+      "ccn": "ITEC 3655",
+      "competencyUnits": 3,
+      "description": "Linux Foundations is an introduction to Linux as an operating system as well as an introduction to open source concepts"
+    },
+    "C853": {
+      "courseCode": "C853",
+      "courseName": "Teacher Performance Assessment in English",
+      "ccn": "EDUC 5252",
+      "competencyUnits": 1,
+      "description": "The Teacher Performance Assessment serves as the final, culminating project in your"
+    },
+    "C854": {
+      "courseCode": "C854",
+      "courseName": "Nursing Informatics Field Experience",
+      "ccn": "NURS 6020",
+      "competencyUnits": 4,
+      "description": "Nursing Informatics Field Experience requires students to complete clinical/practice experiences in"
+    },
+    "C855": {
+      "courseCode": "C855",
+      "courseName": "Nursing Informatics Capstone",
+      "ccn": "NURS 6030",
+      "competencyUnits": 2,
+      "description": "Nursing Informatics Capstone requires students to complete clinical/practice experiences (CPE) and finalize"
+    },
+    "C856": {
+      "courseCode": "C856",
+      "courseName": "User Experience Design",
+      "ccn": "ITSW 3110",
+      "competencyUnits": 3,
+      "description": "User Experience Design explores multiple tools and techniques used in user experience design. Students are"
+    },
+    "C857": {
+      "courseCode": "C857",
+      "courseName": "Software Quality Assurance",
+      "ccn": "ITSW 3150",
+      "competencyUnits": 3,
+      "description": "Software Quality Assurance applies a QA focus to every phase of the software development life cycle. This"
+    },
+    "C859": {
+      "courseCode": "C859",
+      "courseName": "Introduction to Programming in Python",
+      "ccn": "ITSW 3121",
+      "competencyUnits": 3,
+      "description": "Introduction to Programming in Python provides the fundamentals of the Python language and its"
+    },
+    "C867": {
+      "courseCode": "C867",
+      "courseName": "Scripting and Programming",
+      "ccn": "ITSW 2130",
+      "competencyUnits": 4,
+      "description": "Applications - Scripting and Programming - Applications for undergraduates explores the various aspects of"
+    },
+    "C868": {
+      "courseCode": "C868",
+      "courseName": "Software Development Capstone",
+      "ccn": "ITEC 4904",
+      "competencyUnits": 4,
+      "description": "The capstone assessment challenges students to demonstrate mastery of all the BSITSW program"
+    },
+    "C870": {
+      "courseCode": "C870",
+      "courseName": "Human Anatomy and Physiology",
+      "ccn": "BIO 5120",
+      "competencyUnits": 3,
+      "description": "This course examines the structures and functions of the human body and covers anatomical"
+    },
+    "C871": {
+      "courseCode": "C871",
+      "courseName": "MA, Science Education Teacher Performance Assessment",
+      "description": "MA, Science Education Teacher Performance Assessment contains a"
+    },
+    "C873": {
+      "courseCode": "C873",
+      "courseName": "Teacher Performance Assessment in Elementary Education",
+      "ccn": "EDUC 6751",
+      "competencyUnits": 1,
+      "description": "The Teacher Performance Assessment  is a culmination of the wide variety"
+    },
+    "C874": {
+      "courseCode": "C874",
+      "courseName": "MA, Mathematics Education (5",
+      "description": "12) Teacher Performance Assessment - MA, Mathematics Education (5-12) Teacher Performance"
+    },
+    "C875": {
+      "courseCode": "C875",
+      "courseName": "Human Anatomy and Physiology",
+      "ccn": "BIO 2012",
+      "competencyUnits": 4,
+      "description": "This course examines the structures and functions of the human body and covers anatomical"
+    },
+    "C876": {
+      "courseCode": "C876",
+      "courseName": "Conceptual Physics",
+      "ccn": "PHYS 2102",
+      "competencyUnits": 5,
+      "description": "Conceptual Physics provides a broad, conceptual overview of the main principles of physics, including mechanics,"
+    },
+    "C877": {
+      "courseCode": "C877",
+      "courseName": "Mathematical Modeling and Applications",
+      "ccn": "MATH 3100",
+      "competencyUnits": 3,
+      "description": "Mathematical Modeling and Applications applies mathematics, such as differential equations,"
+    },
+    "C878": {
+      "courseCode": "C878",
+      "courseName": "Mathematical Modeling and Applications",
+      "ccn": "MATH 5100",
+      "competencyUnits": 2,
+      "description": "Mathematical Modeling and Applications applies mathematics, such as differential equations,"
+    },
+    "C879": {
+      "courseCode": "C879",
+      "courseName": "Algebra for Secondary Mathematics Teaching",
+      "ccn": "EDUC 3101",
+      "competencyUnits": 3,
+      "description": "Algebra for Secondary Mathematics Teaching explores important conceptual"
+    },
+    "C880": {
+      "courseCode": "C880",
+      "courseName": "Algebra for Secondary Mathematics Teaching",
+      "ccn": "EDUC 5101",
+      "competencyUnits": 2,
+      "description": "Algebra for Secondary Mathematics Teaching explores important conceptual"
+    },
+    "C881": {
+      "courseCode": "C881",
+      "courseName": "Geometry for Secondary Mathematics Teaching",
+      "ccn": "EDUC 3102",
+      "competencyUnits": 3,
+      "description": "Geometry for Secondary Mathematics Teaching explores important conceptual"
+    },
+    "C882": {
+      "courseCode": "C882",
+      "courseName": "Geometry for Secondary Mathematics Teaching",
+      "ccn": "EDUC 5102",
+      "competencyUnits": 2,
+      "description": "Geometry for Secondary Mathematics Teaching explores important conceptual"
+    },
+    "C883": {
+      "courseCode": "C883",
+      "courseName": "Statistics and Probability for Secondary Mathematics Teaching",
+      "ccn": "EDUC 3103",
+      "competencyUnits": 3,
+      "description": "Statistics and Probability for Secondary Mathematics Teaching explores"
+    },
+    "C884": {
+      "courseCode": "C884",
+      "courseName": "Statistics and Probability for Secondary Mathematics Teaching",
+      "ccn": "EDUC 5103",
+      "competencyUnits": 2,
+      "description": "Statistics and Probability for Secondary Mathematics Teaching explores"
+    },
+    "C885": {
+      "courseCode": "C885",
+      "courseName": "Advanced Calculus",
+      "ccn": "MATH 3104",
+      "competencyUnits": 3,
+      "description": "Advanced Calculus examines rigorous reconsideration and proofs involving calculus. Topics include real-number"
+    },
+    "C886": {
+      "courseCode": "C886",
+      "courseName": "Advanced Calculus",
+      "ccn": "MATH 5104",
+      "competencyUnits": 2,
+      "description": "Advanced Calculus examines rigorous reconsideration and proofs involving calculus. Topics include real-number"
+    },
+    "C887": {
+      "courseCode": "C887",
+      "courseName": "MA, Mathematics Education (5",
+      "description": "9) Teacher Performance Assessment - MA, Mathematics Education (5-9) Teacher Performance"
+    },
+    "C888": {
+      "courseCode": "C888",
+      "courseName": "Molecular and Cellular Biology",
+      "ccn": "BIO 2102",
+      "competencyUnits": 4,
+      "description": "Molecular and Cellular Biology provides undergraduate students seeking initial licensure or endorsement in"
+    },
+    "C889": {
+      "courseCode": "C889",
+      "courseName": "Molecular and Cellular Biology",
+      "ccn": "BIO 5106",
+      "competencyUnits": 3,
+      "description": "Molecular and Cellular Biology provides graduate students seeking initial licensure or endorsement and/or"
+    },
+    "C890": {
+      "courseCode": "C890",
+      "courseName": "Ecology and Environmental Science",
+      "ccn": "GEOS 2102",
+      "competencyUnits": 3,
+      "description": "Ecology and Environmental Science is an introductory course for undergraduate students seeking"
+    },
+    "C891": {
+      "courseCode": "C891",
+      "courseName": "Ecology and Environmental Science",
+      "ccn": "GEOS 5102",
+      "competencyUnits": 2,
+      "description": "Ecology and Environmental Science is an introductory course for graduate students seeking initial"
+    },
+    "C892": {
+      "courseCode": "C892",
+      "courseName": "Geology II: Earth Systems",
+      "ccn": "GEOS 2103",
+      "description": "Geology II: Earth Systems provides undergraduate students seeking licensure or endorsement in secondary"
+    },
+    "C893": {
+      "courseCode": "C893",
+      "courseName": "Geology II: Earth Systems",
+      "ccn": "GEOS 5103",
+      "description": "Geology II: Earth Systems provides graduate students seeking licensure or endorsement and/or to earn their MA"
+    },
+    "C897": {
+      "courseCode": "C897",
+      "courseName": "Mathematics: Content Knowledge",
+      "ccn": "MATH 4315",
+      "description": "Mathematics: Content Knowledge is designed to help candidates refine and integrate the mathematics"
+    },
+    "C898": {
+      "courseCode": "C898",
+      "courseName": "Earth Science: Content Knowledge",
+      "ccn": "GEOS 4405",
+      "description": "This course covers the advanced content knowledge that a secondary Earth Science teachers is"
+    },
+    "C900": {
+      "courseCode": "C900",
+      "courseName": "Biology: Content Knowledge",
+      "ccn": "BIO 4405",
+      "description": "This comprehensive course examines a student’s conceptual understanding of a broad range of biology"
+    },
+    "C901": {
+      "courseCode": "C901",
+      "courseName": "Physics: Content Knowledge",
+      "ccn": "PHYS 4405",
+      "description": "Physics: Content Knowledge covers the advanced content knowledge that a secondary physics teacher is"
+    },
+    "C902": {
+      "courseCode": "C902",
+      "courseName": "Middle School Science: Content Knowledge",
+      "ccn": "SCIE 4405",
+      "description": "This course covers the content knowledge that a middle-level science teacher is expected to"
+    },
+    "C903": {
+      "courseCode": "C903",
+      "courseName": "Middle School Mathematics: Content Knowledge",
+      "ccn": "MATH 4305",
+      "description": "Mathematics: Middle School Content Knowledge is designed to help candidates refine"
+    },
+    "C904": {
+      "courseCode": "C904",
+      "courseName": "Teacher Performance Assessment in Science",
+      "ccn": "EDUC 6903",
+      "competencyUnits": 1,
+      "description": "The Teacher Performance Assessment in Science is culmination of the wide variety of skills"
+    },
+    "C907": {
+      "courseCode": "C907",
+      "courseName": "Introduction to Biology",
+      "ccn": "BIO 5111",
+      "competencyUnits": 2,
+      "description": "This course is a foundational introduction to the biological sciences. The overarching theories of life from biological"
+    },
+    "C908": {
+      "courseCode": "C908",
+      "courseName": "Integrated Physical Sciences",
+      "ccn": "SCIE 5020",
+      "competencyUnits": 2,
+      "description": "This course provides students with an overview of the basic principles and unifying ideas of the physical"
+    },
+    "C909": {
+      "courseCode": "C909",
+      "courseName": "Elementary Reading Methods and Interventions",
+      "ccn": "EDUC 4211",
+      "competencyUnits": 3,
+      "description": "Elementary Reading Methods and Interventions provides candidates with an in-depth look"
+    },
+    "C910": {
+      "courseCode": "C910",
+      "courseName": "Elementary Reading Methods and Interventions",
+      "ccn": "EDUC 6207",
+      "competencyUnits": 2,
+      "description": "Elementary Reading Methods and Interventions provides students seeking initial teacher"
+    },
+    "C912": {
+      "courseCode": "C912",
+      "courseName": "College Algebra",
+      "ccn": "MATH 5015",
+      "competencyUnits": 3,
+      "description": "This course provides further application and analysis of algebraic concepts and functions through mathematical modeling of"
+    },
+    "C913": {
+      "courseCode": "C913",
+      "courseName": "Psychology for Educators",
+      "ccn": "EDUC 3260",
+      "competencyUnits": 4,
+      "description": "This course prepares candidates to meet the expectations of society and prepares future educators to support"
+    },
+    "C914": {
+      "courseCode": "C914",
+      "courseName": "Teacher Performance Assessment in Mathematics Education",
+      "ccn": "EDUC 6902",
+      "competencyUnits": 1,
+      "description": "The Teacher Performance Assessment is a culmination of the wide variety"
+    },
+    "C915": {
+      "courseCode": "C915",
+      "courseName": "Chemistry: Content Knowledge",
+      "ccn": "CHEM 4405",
+      "description": "Chemistry: Content Knowledge provides advanced instruction in the main areas of chemistry for which"
+    },
+    "C916": {
+      "courseCode": "C916",
+      "courseName": "Scripting and Automation",
+      "ccn": "ITSW 3160",
+      "competencyUnits": 2,
+      "description": "Scripting and Automation is the foundation for automating tasks in operating systems. Students will learn how to"
+    },
+    "C917": {
+      "courseCode": "C917",
+      "courseName": "Network Design Foundations",
+      "ccn": "ITNW 3000",
+      "competencyUnits": 4,
+      "description": "Network Design Foundations explores enterprise environments that require networks designed for"
+    },
+    "C918": {
+      "courseCode": "C918",
+      "courseName": "Evolving Roles of Nurse Educators in Diverse Environments",
+      "ccn": "NURS 6101",
+      "competencyUnits": 2,
+      "description": "Evolving Roles of Nurse Educators examines the multidimensional roles of"
+    },
+    "C919": {
+      "courseCode": "C919",
+      "courseName": "Facilitation of Context",
+      "ccn": "NURS 6002",
+      "competencyUnits": 2,
+      "description": "Based Student-Centered Learning - Facilitation of Context-Based Student-Centered Learning explores how the"
+    },
+    "C920": {
+      "courseCode": "C920",
+      "courseName": "Contemporary Curriculum Design and Development in Nursing Education",
+      "ccn": "NURS 6003",
+      "competencyUnits": 2,
+      "description": "Contemporary Curriculum Design and Development in"
+    },
+    "C921": {
+      "courseCode": "C921",
+      "courseName": "Assessment and Evaluation Strategies for Measuring Student Learning",
+      "ccn": "NURS 6004",
+      "competencyUnits": 3,
+      "description": "Assessment and Evaluation Strategies for Measuring Student"
+    },
+    "C922": {
+      "courseCode": "C922",
+      "courseName": "Emerging Trends and Challenges in 21st Century Nursing Education",
+      "ccn": "NURS 6005",
+      "competencyUnits": 2,
+      "description": "Emerging Trends and Challenges in 21st Century Nursing"
+    },
+    "C923": {
+      "courseCode": "C923",
+      "courseName": "Cloud Applications",
+      "ccn": "ITEC 3901",
+      "competencyUnits": 3,
+      "description": "Cloud Applications teaches students to implement and maintain cloud technologies and enables them to jump into a"
+    },
+    "C924": {
+      "courseCode": "C924",
+      "courseName": "Cloud Deployment and Operations",
+      "ccn": "ITEC 3902",
+      "competencyUnits": 3,
+      "description": "Cloud Deployment and Operations provides students with the technical skills in deployment,"
+    },
+    "C925": {
+      "courseCode": "C925",
+      "courseName": "Earth: Inside and Out",
+      "ccn": "GEOS 3513",
+      "description": "Earth: Inside and Out  explores the ways in which our dynamic planet evolved, and the processes and systems that"
+    },
+    "C926": {
+      "courseCode": "C926",
+      "courseName": "Earth: Inside and Out",
+      "ccn": "GEOS 5513",
+      "description": "Earth: Inside and Out  explores the ways in which our dynamic planet evolved, and the processes and systems that"
+    },
+    "C927": {
+      "courseCode": "C927",
+      "courseName": "Managing Technology Operations and Innovation",
+      "ccn": "ITIM 6500",
+      "competencyUnits": 3,
+      "description": "Managing Technical Operations and Innovations explores the importance of innovation"
+    },
+    "C928": {
+      "courseCode": "C928",
+      "courseName": "Financial Management for IT Professionals",
+      "ccn": "ITIM 6510",
+      "competencyUnits": 2,
+      "description": "Financial Management for IT Professionals develops learners’ skills in financial management,"
+    },
+    "C929": {
+      "courseCode": "C929",
+      "courseName": "IT Sourcing and Development in a Global Economy",
+      "description": "IT Sourcing and Development in a Global Economy examines the practice of sourcing"
+    },
+    "C930": {
+      "courseCode": "C930",
+      "courseName": "Preclinical Experiences in Mathematics",
+      "ccn": "EDUC 3411",
+      "competencyUnits": 3,
+      "description": "Preclinical Experiences in Mathematics provides students the opportunity to observe and"
+    },
+    "C931": {
+      "courseCode": "C931",
+      "courseName": "Preclinical Experiences in Mathematics",
+      "ccn": "EDUC 5303",
+      "competencyUnits": 2,
+      "description": "Preclinical Experiences in Mathematics provides students the opportunity to observe and"
+    },
+    "C932": {
+      "courseCode": "C932",
+      "courseName": "Preclinical Experiences in Mathematics",
+      "ccn": "EDUC 3414",
+      "competencyUnits": 3,
+      "description": "Preclinical Experiences in Mathematics provides students the opportunity to observe and"
+    },
+    "C933": {
+      "courseCode": "C933",
+      "courseName": "Preclinical Experiences in Mathematics",
+      "ccn": "EDUC 5306",
+      "competencyUnits": 2,
+      "description": "Preclinical Experiences in Mathematics provides students the opportunity to observe and"
+    },
+    "C934": {
+      "courseCode": "C934",
+      "courseName": "Preclinical Experiences in Elementary and Special Education",
+      "ccn": "EDUC 3413",
+      "description": "Preclinical Experiences in Elementary and Special Education provides"
+    },
+    "C935": {
+      "courseCode": "C935",
+      "courseName": "Preclinical Experiences in Elementary Education",
+      "ccn": "EDUC 3410",
+      "competencyUnits": 3,
+      "description": "Preclinical Experiences in Elementary provides students the opportunity to observe and"
+    },
+    "C936": {
+      "courseCode": "C936",
+      "courseName": "Preclinical Experiences in Elementary Education",
+      "ccn": "EDUC 5302",
+      "competencyUnits": 2,
+      "description": "Preclinical Experiences in Elementary provides students the opportunity to observe and"
+    },
+    "C937": {
+      "courseCode": "C937",
+      "courseName": "Preclinical Experiences in Science",
+      "ccn": "EDUC 3412",
+      "competencyUnits": 3,
+      "description": "Preclinical Experiences in Science provides students the opportunity to observe and participate in a"
+    },
+    "C938": {
+      "courseCode": "C938",
+      "courseName": "Preclinical Experiences in Science",
+      "ccn": "EDUC 5304",
+      "competencyUnits": 2,
+      "description": "Preclinical Experiences in Science provides students the opportunity to observe and participate in a"
+    },
+    "C939": {
+      "courseCode": "C939",
+      "courseName": "Data Visualization",
+      "ccn": "DTAN 3220",
+      "competencyUnits": 2,
+      "description": "Data Visualization covers the application of design principles, human perception, color theory, and effective storytelling in"
+    },
+    "C940": {
+      "courseCode": "C940",
+      "courseName": "Science Methods—Secondary Biology",
+      "ccn": "EDUC 4113",
+      "description": "Science Methods—Secondary Biology provides an introduction to teaching methods specific to"
+    },
+    "C941": {
+      "courseCode": "C941",
+      "courseName": "Science Methods—Secondary Chemistry",
+      "ccn": "EDUC 4114",
+      "description": "Science Methods—Secondary Chemistry provides an introduction to teaching methods specific"
+    },
+    "C942": {
+      "courseCode": "C942",
+      "courseName": "Science Methods—Secondary Earth Science",
+      "ccn": "EDUC 4115",
+      "description": "Science Methods—Secondary Earth Science provides an introduction to teaching methods"
+    },
+    "C943": {
+      "courseCode": "C943",
+      "courseName": "Science Methods—Secondary Physics",
+      "ccn": "EDUC 4116",
+      "description": "Science Methods—Secondary Physics provides an introduction to teaching methods specific to"
+    },
+    "C945": {
+      "courseCode": "C945",
+      "courseName": "Preclinical Experiences in English",
+      "ccn": "EDUC 5256",
+      "competencyUnits": 2,
+      "description": "Preclinical Experiences in English provides students the opportunity to observe and participate in a wide"
+    },
+    "C946": {
+      "courseCode": "C946",
+      "courseName": "Nursing Education Field Experience",
+      "ccn": "NURS 6201",
+      "competencyUnits": 2,
+      "description": "The Nursing Education Field Experience provides the academic nurse educator student an"
+    },
+    "C947": {
+      "courseCode": "C947",
+      "courseName": "Nursing Education Capstone",
+      "ccn": "NURS 6107",
+      "competencyUnits": 2,
+      "description": "The Nursing Education Capstone course provides the Academic Nurse Educator student an opportunity to"
+    },
+    "C948": {
+      "courseCode": "C948",
+      "courseName": "Technical Communication",
+      "ccn": "ITEC 6500",
+      "competencyUnits": 3,
+      "description": "Technical Communication examines communication types and strategies that information technology executives"
+    },
+    "C949": {
+      "courseCode": "C949",
+      "courseName": "Data Structures and Algorithms I",
+      "ccn": "ICSC 2100",
+      "competencyUnits": 4,
+      "description": "Data Structures and Algorithms I covers the fundamentals of dynamic data structures, such as bags, lists,"
+    },
+    "C950": {
+      "courseCode": "C950",
+      "courseName": "Data Structures and Algorithms II",
+      "ccn": "ICSC 3100",
+      "competencyUnits": 4,
+      "description": "Data Structures and Algorithms II explores the analysis and implementation of high-performance data"
+    },
+    "C951": {
+      "courseCode": "C951",
+      "courseName": "Introduction to Artificial Intelligence",
+      "ccn": "ICSC 3110",
+      "competencyUnits": 3,
+      "description": "Introduction to Artificial Intelligence explores the foundational principles and practices of artificial"
+    },
+    "C952": {
+      "courseCode": "C952",
+      "courseName": "Computer Architecture",
+      "ccn": "ICSC 3120",
+      "competencyUnits": 3,
+      "description": "Computer Architecture introduces students to concepts and characteristics of organization and architecture applied"
+    },
+    "C954": {
+      "courseCode": "C954",
+      "courseName": "Information Technology Management",
+      "ccn": "ITIM 5530",
+      "competencyUnits": 3,
+      "description": "IT Management introduces the key topics and skills needed to lead next-generation technology"
+    },
+    "C955": {
+      "courseCode": "C955",
+      "courseName": "Applied Probability and Statistics",
+      "ccn": "MATH 1101",
+      "competencyUnits": 3,
+      "description": "Applied Probability and Statistics is designed to help students develop competence in the fundamental"
+    },
+    "C957": {
+      "courseCode": "C957",
+      "courseName": "Applied Algebra",
+      "ccn": "MATH 1200",
+      "competencyUnits": 3,
+      "description": "Applied Algebra is designed to help you develop competence in working with functions, the algebra of functions, and using"
+    },
+    "C959": {
+      "courseCode": "C959",
+      "courseName": "Discrete Mathematics I",
+      "ccn": "MATH 2800",
+      "competencyUnits": 4,
+      "description": "Discrete Mathematics 1 is designed to help students develop competence in the use of abstract discrete structures"
+    },
+    "C960": {
+      "courseCode": "C960",
+      "courseName": "Discrete Mathematics II",
+      "ccn": "MATH 2810",
+      "competencyUnits": 4,
+      "description": "Discrete Mathematics II addresses abstract discrete computational methods used in computer science. In particular,"
+    },
+    "C961": {
+      "courseCode": "C961",
+      "courseName": "Ethics in Technology",
+      "ccn": "HUMN 3100",
+      "competencyUnits": 3,
+      "description": "Ethics in Technology examines the ethical considerations of technology in each of four categories: privacy, accuracy,"
+    },
+    "C962": {
+      "courseCode": "C962",
+      "courseName": "Current and Emerging Technology",
+      "ccn": "INTE 5200",
+      "competencyUnits": 3,
+      "description": "Current and Emerging Technology explores organizational leadership trends, practices, processes, and"
+    },
+    "C963": {
+      "courseCode": "C963",
+      "courseName": "American Politics and the US Constitution",
+      "ccn": "POLS 1030",
+      "competencyUnits": 3,
+      "description": "American Politics and the US Constitution examines the evolution of representative government"
+    },
+    "C964": {
+      "courseCode": "C964",
+      "courseName": "Computer Science Capstone",
+      "ccn": "ICSC 3130",
+      "competencyUnits": 4,
+      "description": "The Computer Science Capstone course allows the student to demonstrate their application of the academic"
+    },
+    "C965": {
+      "courseCode": "C965",
+      "courseName": "Teaching in the Middle School",
+      "ccn": "EDUC 4112",
+      "competencyUnits": 2,
+      "description": "Teaching in the Middle School examines the guiding principles and best teaching practices for educating"
+    },
+    "C966": {
+      "courseCode": "C966",
+      "courseName": "Teaching in the Middle School",
+      "ccn": "EDUC 5043",
+      "competencyUnits": 2,
+      "description": "Teaching in the Middle School examines the guiding principles and best teaching practices for educating"
+    },
+    "C968": {
+      "courseCode": "C968",
+      "courseName": "Software I – C#",
+      "ccn": "ITSW 3215",
+      "description": "Software I builds object-oriented programming expertise and introduces powerful new tools for C# application development."
+    },
+    "C969": {
+      "courseCode": "C969",
+      "courseName": "Software II – Advanced C#",
+      "ccn": "ITSW 3225",
+      "description": "Software II - Advanced C# refines object-oriented programming expertise and builds database and file server"
+    },
+    "C970": {
+      "courseCode": "C970",
+      "courseName": "Children’s Literature",
+      "ccn": "EDUC 3211",
+      "description": "This course is an introduction to and exploration of children's literature. Students will consider and analyze children's"
+    },
+    "C971": {
+      "courseCode": "C971",
+      "courseName": "Mobile Application Development Using C#",
+      "ccn": "ITSW 3015",
+      "description": "Mobile Application Development Using C# introduces students to programming for mobile"
+    },
+    "C972": {
+      "courseCode": "C972",
+      "courseName": "College Geometry",
+      "ccn": "MATH 3610",
+      "competencyUnits": 4,
+      "description": "College Geometry covers the knowledge and skills necessary to use dynamic technology to explore geometry, to use"
+    },
+    "C973": {
+      "courseCode": "C973",
+      "courseName": "Principles of Psychology, Child and Adolescent Development for Educators",
+      "ccn": "EDUC 5039",
+      "competencyUnits": 3,
+      "description": "This course prepares candidates to support classroom"
+    },
+    "C974": {
+      "courseCode": "C974",
+      "courseName": "Science Methods—Middle Grades General Science",
+      "ccn": "EDUC 4117",
+      "description": "Science Methods—Middle Grades General Science provides an introduction to"
+    },
+    "C975": {
+      "courseCode": "C975",
+      "courseName": "Science Methods—Middle Grades General Science",
+      "ccn": "EDUC 5048",
+      "description": "Science Methods—Middle Grades General Science focuses on teaching methods"
+    },
+    "C976": {
+      "courseCode": "C976",
+      "courseName": "Science Methods—Secondary Biology",
+      "ccn": "EDUC 5044",
+      "description": "Science Methods—Secondary Biology focuses on teaching methods specific to science for"
+    },
+    "C977": {
+      "courseCode": "C977",
+      "courseName": "Science Methods—Secondary Chemistry",
+      "ccn": "EDUC 5045",
+      "description": "Science Methods—Secondary Chemistry focuses on teaching methods specific to science for"
+    },
+    "C978": {
+      "courseCode": "C978",
+      "courseName": "Science Methods—Secondary Earth Science",
+      "ccn": "EDUC 5046",
+      "description": "Science Methods—Secondary Earth Science focuses on teaching methods specific to"
+    },
+    "C979": {
+      "courseCode": "C979",
+      "courseName": "Science Methods—Secondary Physics",
+      "ccn": "EDUC 5052",
+      "description": "Science Methods—Secondary Physics focuses on teaching methods specific to science for"
+    },
+    "C980": {
+      "courseCode": "C980",
+      "courseName": "Innovative Solutions in Health Leadership",
+      "ccn": "MHL 5110",
+      "competencyUnits": 3,
+      "description": "Innovative Solutions in Health Leadership provides an opportunity to explore healthcare"
+    },
+    "C981": {
+      "courseCode": "C981",
+      "courseName": "Collaborative Leadership",
+      "ccn": "MHL 5210",
+      "competencyUnits": 3,
+      "description": "Collaborative Leadership provides an opportunity to apply collaborative leadership skills to better serve diverse"
+    },
+    "C982": {
+      "courseCode": "C982",
+      "courseName": "Healthcare Models and Systems",
+      "ccn": "MHL 5310",
+      "competencyUnits": 2,
+      "description": "Healthcare Models and Systems provides an opportunity to analyze the evolution of healthcare models"
+    },
+    "C983": {
+      "courseCode": "C983",
+      "courseName": "Quality Improvement in Healthcare",
+      "ccn": "MHL 5410",
+      "competencyUnits": 3,
+      "description": "Quality Improvement in Healthcare provides an opportunity to apply quality improvement principles and"
+    },
+    "C984": {
+      "courseCode": "C984",
+      "courseName": "Healthcare Financial Management",
+      "ccn": "MHL 5510",
+      "competencyUnits": 3,
+      "description": "Healthcare Financial Management provides an opportunity to apply strategic change management"
+    },
+    "C985": {
+      "courseCode": "C985",
+      "courseName": "Analytical Methods of Health Leaders",
+      "ccn": "MHL 5600",
+      "competencyUnits": 2,
+      "description": "Analytical Methods of Health Leaders provides an opportunity to explore the use of predictive"
+    },
+    "C986": {
+      "courseCode": "C986",
+      "courseName": "Enterprise Risk Management",
+      "ccn": "MHL 6210",
+      "competencyUnits": 3,
+      "description": "Enterprise Risk Management provides an opportunity to examine risk exposure, and response, and risk"
+    },
+    "C987": {
+      "courseCode": "C987",
+      "courseName": "Healthcare Information Technology",
+      "ccn": "MHL 6310",
+      "competencyUnits": 2,
+      "description": "Healthcare Information Technology provides an opportunity to examine the use of technology in data"
+    },
+    "C988": {
+      "courseCode": "C988",
+      "courseName": "Population Healthcare Coordination",
+      "ccn": "MHL 6410",
+      "competencyUnits": 3,
+      "description": "Population Healthcare Coordination provides an opportunity to examine population healthcare"
+    },
+    "C989": {
+      "courseCode": "C989",
+      "courseName": "Challenges in Community Healthcare",
+      "ccn": "MHL 6510",
+      "competencyUnits": 3,
+      "description": "Challenges in Community Healthcare provides an opportunity to explore organizational leadership"
+    },
+    "C990": {
+      "courseCode": "C990",
+      "courseName": "Integrated Health Leadership",
+      "ccn": "MHL 6610",
+      "competencyUnits": 3,
+      "description": "Integrated Health Leadership provides an opportunity to examine integrated healthcare delivery systems and"
+    },
+    "C991": {
+      "courseCode": "C991",
+      "courseName": "Health Leadership Capstone",
+      "ccn": "MHL 6910",
+      "competencyUnits": 4,
+      "description": "The capstone is a student-designed project intended to illustrate the student’s ability to effect change in the"
+    },
+    "C992": {
+      "courseCode": "C992",
+      "courseName": "College Geometry",
+      "ccn": "MATH 5030",
+      "competencyUnits": 2,
+      "description": "College Geometry covers the knowledge and skills necessary to use dynamic technology to explore geometry, to use"
+    },
+    "C993": {
+      "courseCode": "C993",
+      "courseName": "Structured Query Language",
+      "ccn": "DTMG 3310",
+      "competencyUnits": 4,
+      "description": "This course prepares the student for the Oracle Database SQL (1Z0-071) certification exam. Students will"
+    },
+    "C994": {
+      "courseCode": "C994",
+      "courseName": "Fundamentals for Success in Business",
+      "ccn": "BUS 2100",
+      "competencyUnits": 3,
+      "description": "Fundamentals for Success in Business is an introductory course that provides an overview of the"
+    },
+    "C995": {
+      "courseCode": "C995",
+      "courseName": "SQL for Data Analysis",
+      "description": "SQL for Data Analysis provides students the knowledge and tools necessary to master the SQL language. With a"
+    },
+    "C996": {
+      "courseCode": "C996",
+      "courseName": "Programming in Python",
+      "ccn": "ITSW 5100",
+      "competencyUnits": 2,
+      "description": "Programming in Python provides an overview of the Python programming language to graduate students in the"
+    },
+    "C997": {
+      "courseCode": "C997",
+      "courseName": "R for Data Analysts",
+      "description": "R for Data Analysts presents the R language, which provides a wide range of statistical functions. The course covers"
+    },
+    "D001": {
+      "courseCode": "D001",
+      "courseName": "Behavioral Support Strategies for K",
+      "ccn": "SPED 4512",
+      "competencyUnits": 1,
+      "description": "12 Learners with Mild to Moderate Exceptionalities - Behavioral Support Strategies for K–12"
+    },
+    "D002": {
+      "courseCode": "D002",
+      "courseName": "Professional, Ethical, and Legal Practices for Special Education",
+      "ccn": "SPED 4513",
+      "competencyUnits": 3,
+      "description": "Professional, Ethical, and Legal Practices for Special Education"
+    },
+    "D003": {
+      "courseCode": "D003",
+      "courseName": "Assessment in Special Education",
+      "ccn": "SPED 4514",
+      "competencyUnits": 3,
+      "description": "Assessment in Special Education prepares candidates to use multiple methods of assessment and data"
+    },
+    "D004": {
+      "courseCode": "D004",
+      "courseName": "Collaborating with Partners for Student Success",
+      "ccn": "SPED 4515",
+      "competencyUnits": 3,
+      "description": "Collaborating with Partners for Student Success prepares candidates to apply team"
+    },
+    "D008": {
+      "courseCode": "D008",
+      "courseName": "Teacher Performance Assessment in Special Education",
+      "ccn": "EDUC 4754",
+      "description": "Teacher Performance Assessment in Special Education is a culmination of the"
+    },
+    "D009": {
+      "courseCode": "D009",
+      "courseName": "Preclinical Experiences in Special Education",
+      "ccn": "EDUC 3420",
+      "competencyUnits": 3,
+      "description": "Pre-Clinical Experiences in Special Education provides candidates the opportunity to"
+    },
+    "D010": {
+      "courseCode": "D010",
+      "courseName": "Disciplinary Literacy",
+      "ccn": "EDUC 3279",
+      "competencyUnits": 3,
+      "description": "Disciplinary Literacy examines teaching strategies designed to help candidates to develop the literacy skills necessary"
+    },
+    "D011": {
+      "courseCode": "D011",
+      "courseName": "Instructional Planning and Presentation in Special Education",
+      "ccn": "EDUC 3224",
+      "competencyUnits": 3,
+      "description": "Instructional Planning and Presentation for Special Education builds upon"
+    },
+    "D012": {
+      "courseCode": "D012",
+      "courseName": "Supervised Demonstration Teaching in Special Education, Obs 1 and 2",
+      "ccn": "EDUC 4047",
+      "description": "Supervised Demonstration Teaching in Special Education, Obs"
+    },
+    "D013": {
+      "courseCode": "D013",
+      "courseName": "Supervised Demonstration Teaching in Special Education, Obs 3 and Midterm",
+      "ccn": "EDUC 4049",
+      "description": "Supervised Demonstration Teaching in Special"
+    },
+    "D014": {
+      "courseCode": "D014",
+      "courseName": "Supervised Demonstration Teaching in Special Education, Obs 4 and 5",
+      "ccn": "EDUC 4050",
+      "description": "Supervised Demonstration Teaching in Special Education, Obs"
+    },
+    "D015": {
+      "courseCode": "D015",
+      "courseName": "Supervised Demonstration Teaching in Special Education, Obs 6 and Final",
+      "ccn": "EDUC 4051",
+      "description": "Supervised Demonstration Teaching in Special Education,"
+    },
+    "D016": {
+      "courseCode": "D016",
+      "courseName": "Leadership Foundations and Ethics",
+      "ccn": "EDUC 5288",
+      "competencyUnits": 3,
+      "description": "Leadership Foundations and Ethics presents candidates with a variety of leadership theories and"
+    },
+    "D018": {
+      "courseCode": "D018",
+      "courseName": "Leading Inclusive Schools",
+      "ccn": "EDUC 5290",
+      "competencyUnits": 3,
+      "description": "Leading Inclusive Schools covers a variety of topics that directly affect students who have been assessed and"
+    },
+    "D019": {
+      "courseCode": "D019",
+      "courseName": "Data Literacy and Evidence",
+      "ccn": "EDUC 5291",
+      "competencyUnits": 3,
+      "description": "Based Practices - Data Literacy and Evidence-Based Practices focuses on the development of data literacy"
+    },
+    "D020": {
+      "courseCode": "D020",
+      "courseName": "Cultural Competency and Social",
+      "ccn": "EDUC 5292",
+      "competencyUnits": 3,
+      "description": "Emotional Learning - Cultural Competency and Social-Emotional Learning focuses on fostering cultural"
+    },
+    "D021": {
+      "courseCode": "D021",
+      "courseName": "Leadership of Curriculum Design and Instruction",
+      "ccn": "EDUC 5293",
+      "competencyUnits": 3,
+      "description": "Leadership of Curriculum Design and Instruction prepares candidates to evaluate and"
+    },
+    "D022": {
+      "courseCode": "D022",
+      "courseName": "People and Talent in Educational Leadership",
+      "ccn": "EDUC 5294",
+      "competencyUnits": 3,
+      "description": "People and Talent in Educational Leadership prepares candidates to understand and"
+    },
+    "D023": {
+      "courseCode": "D023",
+      "courseName": "School Financial Leadership",
+      "ccn": "EDUC 5295",
+      "competencyUnits": 3,
+      "description": "School Financial Leadership focuses on financial policies, practices, and issues connected to P–12 school"
+    },
+    "D033": {
+      "courseCode": "D033",
+      "courseName": "Healthcare Information Systems Management",
+      "ccn": "HLTH 2100",
+      "competencyUnits": 3,
+      "description": "Healthcare Information Systems Management provides an overview of many facets of"
+    },
+    "D034": {
+      "courseCode": "D034",
+      "courseName": "Systems Management and School Operations",
+      "ccn": "EDUC 5296",
+      "competencyUnits": 3,
+      "description": "Systems management and school operations instruct candidates on the operational aspects"
+    },
+    "D035": {
+      "courseCode": "D035",
+      "courseName": "Educational Inquiry",
+      "ccn": "EDUC 5297",
+      "competencyUnits": 3,
+      "description": "Educational Inquiry focuses on practical problem solving. Candidates completing this course will learn to use scholarly"
+    },
+    "D036": {
+      "courseCode": "D036",
+      "courseName": "Practicum in Educational Leadership",
+      "ccn": "EDUC 5298",
+      "competencyUnits": 3,
+      "description": "Focus on Professional Practices - Practicum in Educational Leadership - Focus on Professional"
+    },
+    "D037": {
+      "courseCode": "D037",
+      "courseName": "Practicum in Educational Leadership",
+      "ccn": "EDUC 5299",
+      "competencyUnits": 3,
+      "description": "Focus on Instruction and Operations - Practicum in Educational Leadership - Focus on Instruction"
+    },
+    "D038": {
+      "courseCode": "D038",
+      "courseName": "Educational Leadership Capstone",
+      "ccn": "EDUC 5300",
+      "competencyUnits": 3,
+      "description": "Educational Leadership Capstone serves as the culminating experience of this degree program, uniting"
+    }
+  },
+  "degreePlans": {
+    "plan_0": {
+      "name": "Bachelor of Science, Business Management",
+      "title": "Bachelor of Science, Business Management",
+      "description": "The Bachelor of Science in Business Management is a competency-based program that enables leaders and managers in organizations to earn a Bachelor of Science degree. The B.S. in Business Management is great preparation for a variety of careers in the business field. This program consists of twelve balanced areas of study, WGU competency-based assessments, and a capstone project. This program focuses on b.",
+      "courses": [],
+      "totalCUs": 120
+    },
+    "plan_1": {
+      "name": "Bachelor of Science, Business - Healthcare Management",
+      "title": "Bachelor of Science, Business - Healthcare Management",
+      "description": "The Bachelor of Science, Business - Healthcare Management degree requires completion of courses focused on healthcare management areas in addition to our existing general education and business core curriculum. This program is designed to prepare WGU graduates for a variety of entry level managerial positions in healthcare organizations. The BS, Business - Healthcare Management degree program prepares you with the knowledge and skills to serve in a variety of non-clinical or health care services roles at skilled nursing facilities, residential care facilities, small to medium healthcare facilities, and coordination specialist, managers for Accountable Care Organizations, insurance companies, or community health organizations. In addition, you would have the ability to join other organizations focused on developing, manufacturing, and providing medical related products or services such as pharmaceutical and medical device companies, case management organizations and the financial services sector of the healthcare industry. You will learn the factors affecting complex medical systems and organizational integration of the Patient Protection and Affordable Care Act (ACA) with its complex rules and compliance standards. You will be able to utilize healthcare data and make appropriate recommendations to improve patient outcomes and satisfaction. Additionally, you will learn care coordination to improve organizational efficiencies and operations. This program focuses on b.",
+      "courses": [],
+      "totalCUs": 124
+    },
+    "plan_2": {
+      "name": "Bachelor of Science, Business - Human Resource Management",
+      "title": "Bachelor of Science, Business - Human Resource Management",
+      "description": "The Bachelor of Science in Business- Human Resource Management is a competency-based program that enables students to earn a Bachelor of Science degree that is tailored to the student's professional HR experience. The Business- Human Resource Management degree is great preparation for a career as a human resource manager or personnel director. This program consists of twelve balanced areas of study, development of a comprehensive portfolio, WGU competency-based assessments, and a capstone project. In addition, this program is aligned with and will help you prepare for the Professional in Human Resources (PHR)* Certification Exam and the Assurance of Learning Exam should you decide to pursue either of these on your own. *Other experience requirements apply to undertake this exams. This program focuses on b.",
+      "courses": [],
+      "totalCUs": 120
+    },
+    "plan_3": {
+      "name": "Bachelor of Science, Business - Information Technology Management",
+      "title": "Bachelor of Science, Business - Information Technology Management",
+      "description": "The Bachelor of Science in Business- Information Technology Management is a competency-based program that enables information technology professionals to earn a Bachelor of Science degree. The Bachelor of Science in Business- Information Technology Management degree is great preparation for a career as an IT project manager, director of customer service, data center manager, or equivalent position. This program consists of eight balanced areas of study, development of a comprehensive portfolio, WGU competency-based assessments, and a capstone project. This program focuses on b.",
+      "courses": [],
+      "totalCUs": 120
+    },
+    "plan_4": {
+      "name": "Bachelor of Science, Marketing Management",
+      "title": "Bachelor of Science, Marketing Management",
+      "description": "The Bachelor of Science in Marketing Management is a competency-based program that enables marketing and sales professionals to earn a Bachelor of Science degree. The B.S. in Marketing Management is great preparation for a variety of careers in marketing, promotion, and sales management. This program consists of twelve balanced areas of study (domains), WGU competency-based assessments, and a capstone project. This program focuses on m.",
+      "courses": [],
+      "totalCUs": 120
+    },
+    "plan_5": {
+      "name": "Bachelor of Science, Accounting",
+      "title": "Bachelor of Science, Accounting",
+      "description": "The Bachelor of Science in Accounting is a competency-based program that enables professionals in accounting to earn a Bachelor of Science degree. The Accounting degree is great preparation for a career in accounting in a public company, non-profit entity, or other organization. This program consists of twelve balanced areas of study, WGU competency-based assessments, and a capstone project. This program focuses on a.",
+      "courses": [],
+      "totalCUs": 122
+    },
+    "plan_6": {
+      "name": "Master of Science, Management and Leadership",
+      "title": "Master of Science, Management and Leadership",
+      "description": "The Master of Science, Management and Leadership degree program focuses on management and leadership skills that can be applied to multiple settings, including business, government, non-profit, or education. The program prepares you with knowledge and skills to lead through collaboration, team building, interpersonal communication and virtual environments. You will learn applicable leadership skills to foster creativity, innovation and change. The program includes topics such as organizational planning, leadership, conflict resolution and negotiation, communication and other management skills. You will enhance your ability to manage in a dynamic business environment that promotes growth, creativity and innovation. You will demonstrate the essential leadership practices of inspiring a vision, encouraging others to act, data-driven strategic planning, ethical reasoning, negotiation, critical thinking, and complex problem solving, which are all necessary to be successful leaders. This program focuses on m.",
+      "courses": [],
+      "totalCUs": 34
+    },
+    "plan_7": {
+      "name": "Master of Science, Accounting",
+      "title": "Master of Science, Accounting",
+      "description": "The Master of Science in Accounting (MAcc) degree provides the advanced accounting knowledge and skills that you need for a successful career as a professional accountant in public accounting, industry, government and non-profit organizations. A primary objective of the masters program is to build on the knowledge gained in an undergraduate accounting program and help prepare you to sit for the CPA (Certified Public Accountant) exam*, the Certified Management Accounting (CMA) exam, and the Certified Internal Auditor (CIA) exam. This program focuses not only on the technical and analytical skills necessary for accounting positions, but also incorporates critical communication and strategic skills required in todays fast changing world. You will learn to assess complex transactions and determine the proper treatment of those transactions in conformance with generally accepted accounting principles (GAAP). You will also learn advanced auditing skills to be able to enhance internal controls of an organization and identify material weaknesses in those controls. You will develop and be able to apply advanced managerial accounting techniques in real-world situations as well as become familiar with the accounting for governmental and nonprofit organizations. At the end of this program, you will have gained necessary analytical skills to address complex financial information and make appropriate recommendations to management. * Students may need to meet additional state- specific requirements to be eligible to sit for the CPA exam. This program focuses on a.",
+      "courses": [],
+      "totalCUs": 30
+    },
+    "plan_8": {
+      "name": "Bachelor of Science, Nursing",
+      "title": "Bachelor of Science, Nursing",
+      "description": "The prelicensure BSN degree focuses on contemporary nursing practices to build nursing skills and competencies using technology-based learning. It is structured to develop competent, BSN nurses in a program that is sustainable, scalable, and nationally relevant. The prelicensure BSN program includes a strategic partnership between the Western Governors University Nursing Program and healthcare employers who provide practice sites and clinical coaches. Graduates are prepared to function in new roles as members of healthcare teams in many settings. The prelicensure BSN program includes the study of medical-surgical (including critical care), psychiatric/mental health, pediatrics, obstetrics, and community health nursing and includes courses on evidence-based practice, research, leadership, nursing informatics, and professional nursing roles and values. Graduates are eligible to apply to take the NCLEX-RN exam for state licensure and be prepared to seek nursing positions for military, U.S. Public Health, and VA appointments as well as assume roles in school, community, and occupational health, and other acute and non-acute care settings. BSN graduates are also prepared to enter MS, Nursing programs. This degree program includes online and distance learning plus high fidelity simulation labs and hands on clinical experiences. The WGU prelicensure BS, Nursing program is evidence-based and developed according to The Essentials of Baccalaureate Education for Professional Practice from the American Association of Colleges of Nursing (2008) (click here to view). In addition, it incorporates competencies and standards from professional organizations and state regulations. This program focuses on n.",
+      "courses": [],
+      "totalCUs": 120
+    },
+    "plan_9": {
+      "name": "Bachelor of Science, Health Information Management",
+      "title": "Bachelor of Science, Health Information Management",
+      "description": "The Bachelor of Science in Health Information Management provides a solid foundation in computer information systems and technologies for healthcare organizations including healthcare regulation, project management of health systems, databases, and security. In addition to the health information management content, the degree program includes a broad collegiate education. The program is designed for those who have some technical or clinical knowledge in a health care environment and are ready to move to increased levels of expertise and knowledge in the health information management field. The health information management component of the Bachelor of Science program consists of the following areas of study: Healthcare Data, Health Information Technology, Medical Terminology, Pathophysiology and Pharmacology. There are a number of other areas of study that students master including Fundamentals of IT in Healthcare, Legal and Ethical Considerations in Healthcare, Leadership and Management, Anatomy and Physiology, Healthcare Compliance and Coding, Project Management, Financial Resource Management, and Healthcare Statistics. There are two professional practice experiences required with a portfolio project in each. At the end of the program students complete a capstone project. This program focuses on h.",
+      "courses": [],
+      "totalCUs": 121
+    },
+    "plan_10": {
+      "name": "Bachelor of Science, Computer Science",
+      "title": "Bachelor of Science, Computer Science",
+      "description": "The Bachelor of Science in Computer Science prepares students for a career in the high demand field of Computer Science. Upon program completion, students will apply their learned knowledge and skills in the designing, developing and optimizing of systems to meet current and future industry needs. The curriculum includes innovative courses in programming and logic, architecture and systems, data structures, project management, artificial intelligence, along with the theory and science of computing. This program focuses on c.",
+      "courses": [],
+      "totalCUs": 120
+    },
+    "plan_11": {
+      "name": "Bachelor of Science, Information Technology",
+      "title": "Bachelor of Science, Information Technology",
+      "description": "The WGU Bachelor of Science in Information Technology (IT) program provides a solid foundation in computer information systems and technologies. In addition to the IT content, the degree program includes a broad collegiate- level education. The program is primarily designed for those seeking a career or to advance their current career as information technology professionals by developing levels of expertise required for increased responsibility in the information technology field. The foundation of the Bachelor of Science program consists of six domains of study: systems and services, networking and security, scripting and programming, data management, business of IT, and web development. At the end of the program, students develop a comprehensive portfolio and complete a capstone project. This program focuses on i.",
+      "courses": [],
+      "totalCUs": 121
+    },
+    "plan_12": {
+      "name": "Bachelor of Science, Software Development",
+      "title": "Bachelor of Science, Software Development",
+      "description": "The B.S. in Software Development program is designed to meet this growing need while preparing experienced information technology professionals for successful careers as software designers and developers. The program focuses on software application development and it is offered in two tracks that utilize either Java or C# to achieve similar objectives. This program focuses on s.",
+      "courses": [],
+      "totalCUs": 122
+    },
+    "plan_13": {
+      "name": "Master of Science, Cybersecurity and Information Assurance",
+      "title": "Master of Science, Cybersecurity and Information Assurance",
+      "description": "The Master of Science in Cybersecurity and Information Assurance prepares security professionals to protect an organization's operations in the cyberspace by providing them with the tools, techniques, and standards required to prevent, detect, and counteract cyberattacks. The program not only focuses on keeping infrastructure safe but also the assurance of information covering subjects ranging from cryptography to business continuity planning and disaster recovery This program focuses on c.",
+      "courses": [],
+      "totalCUs": 30
+    },
+    "plan_14": {
+      "name": "Master of Science, Data Analytics",
+      "title": "Master of Science, Data Analytics",
+      "description": "The MS Data Analytics degree prepares statisticians, analysts, data managers, programmers, and other business and IT professionals for successful and rewarding careers in the high-demand field of data analytics through cutting-edge This program focuses on d.",
+      "courses": [],
+      "totalCUs": 32
+    },
+    "plan_15": {
+      "name": "Master of Science, Information Technology Management",
+      "title": "Master of Science, Information Technology Management",
+      "description": "The Master of Science in Information Technology Management is a competency-based degree program that represents a path for successful IT professionals to launch their careers and build them to an executive level. The graduate will advance his or her knowledge and skills through a practical, real-world program based on sound principles of Information Technology revolving around three primary themes: communication, technical competence and strategic vision: effective communication as essential to management at all levels, in all areas of human endeavor; and strategic vision that takes individuals and organizations beyond immediate difficulties and successes to a perception of future challenges and preparations to meet those challenges. This program focuses on i.",
+      "courses": [],
+      "totalCUs": 30
+    },
+    "plan_16": {
+      "name": "Bachelor of Arts, Elementary Education",
+      "title": "Bachelor of Arts, Elementary Education",
+      "description": "The Bachelor of Arts in Elementary Education is a competency-based program that enables teacher candidates to earn a Bachelor of Arts degree and a K-8 teaching certificate online (except for demonstration teaching, which is an in- classroom component and options for in-classroom field experiences prior to demonstration teaching). This program consists of four balanced areas of study (domains), competency-based assessments, and the creation of a professional portfolio. This program includes clinical experiences that prepare teacher candidates for the classroom. Candidates develop and refine their teaching skills through a series of sequential experiences beginning with video- based observations of classroom instruction. Observations prepare candidates for an authentic, collaborative preclinical teaching experiences in K-12 settings. Clinical experiences culminate with supervised demonstration teaching in a real classroom. This program focuses on e.",
+      "courses": [],
+      "totalCUs": 120
+    },
+    "plan_17": {
+      "name": "Bachelor of Arts, Special Education, Mild to Moderate",
+      "title": "Bachelor of Arts, Special Education, Mild to Moderate",
+      "description": "The Bachelor of Arts, Special Education, Mild-to-Moderate is a competency-based program that enables teacher candidates to earn a Bachelor of Arts, Special Education, Mild to Moderate Exceptionalities (BASPMM) degree which can lead to an initial licensure in Special Education (K-12). The Special Education, Mild to Moderate Exceptionalities is a specifically designed program for the preparation of prospective teachers to work with students with mild to moderate disabilities in a variety of educational settings, including inclusionary K-12 classrooms, resource rooms or self- contained classrooms. This program consists of online courses which take the learner from general education, through methods of instruction, assessment, and classroom management to special education courses for teaching students with exceptionalities. Candidates develop and refine their skills through a series of sequential field-based experiences beginning with video-based observations of classroom instruction, followed by an authentic, collaborative pre-clinical teaching experience in a K-12 setting, and culminating with a supervised teaching experience that consists of two placements, one in an elementary special education and another in a secondary level special education setting. Both placements support the academic needs of students with mild-to-moderate disabilities.With the successful completion of program expectations and required assessments in the major area of teaching, the candidate can receive institutional recommendation for certification in special education. This program focuses on s.",
+      "courses": [],
+      "totalCUs": 124
+    },
+    "plan_18": {
+      "name": "Master of Arts in Teaching, Elementary Education",
+      "title": "Master of Arts in Teaching, Elementary Education",
+      "description": "The Master of Arts in TeachingElementary Educationis a competency-based degree program that prepares students at the graduate level both to be licensed to teachin an elementary settingand to develop significant skills in curriculum development, design, and evaluation. All work in this degree program is online with the exception of the demonstration teaching and in-classroom field experience components. Students enter this program with a significant background in education and then proceed through studies in Foundations of Teaching, Elementary Education Methods, Instructional Planning and Presentation and Research Fundamentals. This program includes clinical experiences that prepare teacher candidates for the classroom. Candidates develop and refine their teaching skills through a series of sequential experiences beginning with video-based observations of classroom instruction. Observations prepare candidates for an authentic, collaborative pre-clinical teaching experiences in K-12 settings. Clinical experiences culminate with supervised demonstration teaching in a real classroom. This program is designed for students pursuing careers in t.",
+      "courses": [],
+      "totalCUs": 49
+    },
+    "plan_19": {
+      "name": "Master of Science, Curriculum and Instruction",
+      "title": "Master of Science, Curriculum and Instruction",
+      "description": "The Master of Science degree in Curriculum and Instruction is a competency-based program and represents a path for K-12 educators and corporate trainers wishing to advance their knowledge and skills in the application of sound, empirically-based principles of education to their instructional setting: curriculum content and pedagogy. Intended to be practical, real-world, and application-based, the program revolves around four primary themes: Design, Evaluation, Problem-solving, and Instructional Leadership. These four pillars are the foundations of a sound, empirically based education that meet the needs of educational leaders in the 21st century. The principal competencies of this program area focus on knowledge, skills, and abilities in curriculum, instruction, and research fundamentals. This program focuses on c.",
+      "courses": [],
+      "totalCUs": 30
+    },
+    "plan_20": {
+      "name": "Master of Science, Special Education",
+      "title": "Master of Science, Special Education",
+      "description": "The Master of Science in Special Education (MSSP) is a competency-based program that enables students to earn a Master of Science in Special Education degree online. The MSSP includes content knowledge related to teaching special education K-12 as well as research and instructional design. The capstone of the MSSP is a 240-hour practicum. The hours for the practicum activities have been predetermined and are included in the MSSP Practicum Log. Activities include: interviews, observations, IEP development and meetings, professional growth, professional development readings, video reflections, teacher work sample (TWS aka Teacher Performance or TPA), and six supervised observations. The most important aspect of this program is that it provides an avenue for professionals currently engaged in a teaching career, whose content and pedagogy backgrounds are significant, to serve in our country's elementary, middle, and high schools by teaching in special education in grades K-12. In order to matriculate into the M.S. Special Education degree, students must have a valid teaching certificate. This program focuses on s.",
+      "courses": [],
+      "totalCUs": 31
+    },
+    "plan_21": {
+      "name": "Master of Science, Educational Leadership",
+      "title": "Master of Science, Educational Leadership",
+      "description": "The Master of Science in Educational Leadership is a competency-based degree program that prepares qualified K-12 educators to become state-licensed school principals. The foundation of the program's philosophy is to create innovative instructional leaders for today's schools. The program is aligned to the NELP, SPA, and PSEL standards. The candidate learns contemporary theories while engaging in practices related to leading in 21st century schools, applying new learning at local practicum sites. Graduates of this program enter the field having demonstrated competencies in leadership practices and ethics, school law, exceptional child services, leading in inclusive schools with diverse populations, instructional leadership, human resource leadership, school financial management, systems and operations management, strategic planning, data literacy, and educational inquiry. The candidate is guided through the program by qualified program mentors, course instructors, and school leaders. The cumulative program activity consists of a capstone action research project that is conducted in the K-12 school setting. This program focuses on e.",
+      "courses": [],
+      "totalCUs": 39
+    },
+    "plan_22": {
+      "name": "Master of Science in D",
+      "title": "Master of Science in D",
+      "courses": [
+        "C993",
+        "C994",
+        "C995",
+        "C996",
+        "C997",
+        "D001"
+      ]
+    },
+    "plan_23": {
+      "name": "associated with the healthcare industry, as well as the values of professionalism.",
+      "courses": [
+        "C426",
+        "C427",
+        "C428",
+        "C429",
+        "C430",
+        "C431",
+        "C432",
+        "C439"
+      ]
+    },
+    "plan_24": {
+      "name": "mastery of advanced levels of the key behaviors for clinical practice of medical surgical nursing.",
+      "courses": [
+        "C475",
+        "C476",
+        "C477",
+        "C478"
+      ]
+    },
+    "plan_25": {
+      "name": "mastery of advanced competencies particularly in patient safety in quality improvement science.",
+      "courses": [
+        "C490",
+        "C491",
+        "C492"
+      ]
+    },
+    "plan_26": {
+      "name": "Master of Science in Cybersecurity and Information Assurance",
+      "title": "Master of Science in Cybersecurity and Information Assurance",
+      "courses": [
+        "C795",
+        "C796",
+        "C797",
+        "C798",
+        "C799"
+      ]
+    },
+    "plan_27": {
+      "name": "Master of Science in Data Analytics",
+      "title": "Master of Science in Data Analytics",
+      "courses": [
+        "C995",
+        "C996",
+        "C997"
+      ]
+    }
+  },
+  "metadata": {
+    "catalogDate": "2019 (Legacy)",
+    "parserVersion": "v1.0-legacy",
+    "parsedAt": "2025-08-09T08:08:46.910Z",
+    "totalPages": 195,
+    "parsingTimeMs": 301,
+    "statistics": {
+      "coursesFound": 474,
+      "degreePlansFound": 28,
+      "ccnCoverage": 96,
+      "cuCoverage": 79
+    }
+  }
+}
