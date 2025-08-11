@@ -30,6 +30,12 @@ export default defineConfig({
         'https://raw.githubusercontent.com/jonshaffer/wgu-extension/*',
         '*://discord.com/*',
         '*://wguconnect.wgu.edu/*'
+      ],
+      web_accessible_resources: [
+        {
+          resources: ['data/communities/*.json', 'data/courses/*.json', 'data/*.json', 'data/reddit/processed/*.json', 'icons/128.png'],
+          matches: ['https://my.wgu.edu/*']
+        }
       ]
     };
   },
