@@ -34,6 +34,7 @@ jobs:
           set -euo pipefail
           mkdir -p \
             site/data/discord/raw \
+            site/data/discord/processed \
             site/data/reddit/raw \
             site/data/wgu-connect/raw \
             site/data/wgu-student-groups/raw \
@@ -42,6 +43,9 @@ jobs:
           # Copy whitelisted raw data only
           if [ -d "extension/data/discord/raw" ]; then
             cp -R extension/data/discord/raw/. site/data/discord/raw/
+          fi
+          if [ -d "extension/data/discord/processed" ]; then
+            cp -R extension/data/discord/processed/. site/data/discord/processed/
           fi
           if [ -d "extension/data/reddit/raw" ]; then
             cp -R extension/data/reddit/raw/. site/data/reddit/raw/
@@ -61,6 +65,7 @@ jobs:
           for f in \
             extension/data/catalogs/types/catalog-data.schema.json \
             extension/data/discord/types/discord-community.schema.json \
+            extension/data/discord/types/discord-communities.schema.json \
             extension/data/reddit/types/reddit-community.schema.json; do
             if [ -f "$f" ]; then
               cp "$f" site/schemas/
@@ -79,6 +84,7 @@ jobs:
             const tree = {};
             const bases = [
               "site/data/discord/raw",
+              "site/data/discord/processed",
               "site/data/reddit/raw",
               "site/data/wgu-connect/raw",
               "site/data/wgu-student-groups/raw",
@@ -88,12 +94,18 @@ jobs:
             for (const base of bases) {
               let key = base.split("/")[2]; // discord, reddit, catalogs, or site
               if (key === "site") key = "schemas";
-              tree[key] = list(base);
+              const last = base.split("/").slice(-1)[0];
+              if (!tree[key]) tree[key] = {};
+              if (key === "discord") {
+                tree[key][last] = list(base);
+              } else {
+                tree[key] = list(base);
+              }
             }
             const payload = {
               generatedAt: new Date().toISOString(),
               basePaths: {
-                discord: "/data/discord/raw",
+                discord: { raw: "/data/discord/raw", processed: "/data/discord/processed" },
                 reddit: "/data/reddit/raw",
                 wguConnect: "/data/wgu-connect/raw",
                 wguStudentGroups: "/data/wgu-student-groups/raw",

@@ -30,7 +30,7 @@
     "postinstall": "wxt prepare",
     "release": "npm run build:prod && npm run zip && npm run zip:firefox",
     "data:ingest": "tsx data/run-data-pipeline.ts",
-    "data:ingest:discord": "tsx data/scripts/ingest-discord.ts",
+  "data:ingest:discord": "tsx data/discord/scripts/ingest-discord.ts",
     "data:ingest:reddit": "tsx data/scripts/ingest-reddit.ts",
     "data:validate:discord": "tsx data/discord/scripts/validate-raw.ts --check-invites",
     "data:check:discord-invites": "tsx data/discord/scripts/validate-raw.ts --check-invites",
