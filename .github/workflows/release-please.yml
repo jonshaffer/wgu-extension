@@ -47,6 +47,7 @@ jobs:
           npm run build:prod
           npm run zip
           npm run zip:firefox
+          npm run zip:edge
       
       - name: Upload release artifacts
         env:
@@ -76,18 +77,48 @@ jobs:
           npm run build:prod
           npm run zip
           npm run zip:firefox
-      
-      - name: Submit to extension stores
+          npm run zip:edge
+
+      - name: Submit to Chrome Web Store (optional)
         run: |
-          npx wxt submit \
-            --chrome-zip .output/*-chrome.zip \
-            --firefox-zip .output/*-firefox.zip \
-            --firefox-sources-zip .output/*-sources.zip
+          if [ -n "${CHROME_EXTENSION_ID}" ] && [ -n "${CHROME_CLIENT_ID}" ] && [ -n "${CHROME_CLIENT_SECRET}" ] && [ -n "${CHROME_REFRESH_TOKEN}" ]; then
+            npx wxt submit --chrome-zip .output/*-chrome.zip
+          else
+            echo "Chrome Web Store secrets not set; skipping."
+          fi
         env:
           CHROME_EXTENSION_ID: ${{ secrets.CHROME_EXTENSION_ID }}
           CHROME_CLIENT_ID: ${{ secrets.CHROME_CLIENT_ID }}
           CHROME_CLIENT_SECRET: ${{ secrets.CHROME_CLIENT_SECRET }}
           CHROME_REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
+
+      - name: Submit to Firefox Add-ons (optional)
+        run: |
+          if [ -n "${FIREFOX_EXTENSION_ID}" ] && [ -n "${FIREFOX_JWT_ISSUER}" ] && [ -n "${FIREFOX_JWT_SECRET}" ]; then
+            npx wxt submit --firefox-zip .output/*-firefox.zip --firefox-sources-zip .output/*-sources.zip
+          else
+            echo "Firefox Add-ons secrets not set; skipping."
+          fi
+        env:
           FIREFOX_EXTENSION_ID: ${{ secrets.FIREFOX_EXTENSION_ID }}
           FIREFOX_JWT_ISSUER: ${{ secrets.FIREFOX_JWT_ISSUER }}
           FIREFOX_JWT_SECRET: ${{ secrets.FIREFOX_JWT_SECRET }}
+
+      - name: Submit to Microsoft Edge Add-ons (optional)
+        run: |
+          if [ -n "${EDGE_PRODUCT_ID}" ] && [ -n "${EDGE_CLIENT_ID}" ] && [ -n "${EDGE_CLIENT_SECRET}" ] && [ -n "${EDGE_TENANT_ID}" ]; then
+            npm exec --yes edge-addons-cli@1.12.0 upload \
+              --product-id "${EDGE_PRODUCT_ID}" \
+              --zip ".output/*-edge.zip" \
+              --client-id "${EDGE_CLIENT_ID}" \
+              --client-secret "${EDGE_CLIENT_SECRET}" \
+              --access-token-url "https://login.microsoftonline.com/${EDGE_TENANT_ID}/oauth2/v2.0/token" \
+              --wait-for-publish
+          else
+            echo "Edge Add-ons secrets not set; skipping."
+          fi
+        env:
+          EDGE_PRODUCT_ID: ${{ secrets.EDGE_PRODUCT_ID }}
+          EDGE_CLIENT_ID: ${{ secrets.EDGE_CLIENT_ID }}
+          EDGE_CLIENT_SECRET: ${{ secrets.EDGE_CLIENT_SECRET }}
+          EDGE_TENANT_ID: ${{ secrets.EDGE_TENANT_ID }}

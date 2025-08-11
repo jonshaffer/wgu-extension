@@ -1,0 +1,104 @@
+name: Publish to Web Stores
+
+on:
+  workflow_dispatch:
+    inputs:
+      chrome:
+        description: Publish to Chrome Web Store
+        required: true
+        default: true
+        type: boolean
+      firefox:
+        description: Publish to Firefox Add-ons (AMO)
+        required: true
+        default: true
+        type: boolean
+      edge:
+        description: Publish to Microsoft Edge Add-ons
+        required: true
+        default: false
+        type: boolean
+      mode:
+        description: Build mode (production|preview|development)
+        required: true
+        default: production
+        type: choice
+        options:
+          - production
+          - preview
+          - development
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build and zip artifacts
+        run: |
+          if [ "${{ inputs.mode }}" = "production" ]; then
+            npm run build:prod
+          elif [ "${{ inputs.mode }}" = "preview" ]; then
+            npm run build:preview
+          else
+            npm run build:dev
+          fi
+          npm run zip
+          npm run zip:firefox
+          npm run zip:edge
+
+      - name: Submit to Chrome Web Store
+        if: ${{ inputs.chrome }}
+        run: |
+          if [ -z "${CHROME_EXTENSION_ID}" ] || [ -z "${CHROME_CLIENT_ID}" ] || [ -z "${CHROME_CLIENT_SECRET}" ] || [ -z "${CHROME_REFRESH_TOKEN}" ]; then
+            echo "Chrome Web Store secrets not configured; skipping."
+            exit 0
+          fi
+          npx wxt submit --chrome-zip .output/*-chrome.zip
+        env:
+          CHROME_EXTENSION_ID: ${{ secrets.CHROME_EXTENSION_ID }}
+          CHROME_CLIENT_ID: ${{ secrets.CHROME_CLIENT_ID }}
+          CHROME_CLIENT_SECRET: ${{ secrets.CHROME_CLIENT_SECRET }}
+          CHROME_REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
+
+      - name: Submit to Firefox Add-ons
+        if: ${{ inputs.firefox }}
+        run: |
+          if [ -z "${FIREFOX_EXTENSION_ID}" ] || [ -z "${FIREFOX_JWT_ISSUER}" ] || [ -z "${FIREFOX_JWT_SECRET}" ]; then
+            echo "Firefox Add-ons secrets not configured; skipping."
+            exit 0
+          fi
+          npx wxt submit --firefox-zip .output/*-firefox.zip --firefox-sources-zip .output/*-sources.zip
+        env:
+          FIREFOX_EXTENSION_ID: ${{ secrets.FIREFOX_EXTENSION_ID }}
+          FIREFOX_JWT_ISSUER: ${{ secrets.FIREFOX_JWT_ISSUER }}
+          FIREFOX_JWT_SECRET: ${{ secrets.FIREFOX_JWT_SECRET }}
+
+      - name: Submit to Microsoft Edge Add-ons
+        if: ${{ inputs.edge }}
+        run: |
+          if [ -z "${EDGE_PRODUCT_ID}" ] || [ -z "${EDGE_CLIENT_ID}" ] || [ -z "${EDGE_CLIENT_SECRET}" ] || [ -z "${EDGE_TENANT_ID}" ]; then
+            echo "Edge Add-ons secrets not configured; skipping."
+            exit 0
+          fi
+          npm exec --yes edge-addons-cli@1.12.0 upload \
+            --product-id "${EDGE_PRODUCT_ID}" \
+            --zip ".output/*-edge.zip" \
+            --client-id "${EDGE_CLIENT_ID}" \
+            --client-secret "${EDGE_CLIENT_SECRET}" \
+            --access-token-url "https://login.microsoftonline.com/${EDGE_TENANT_ID}/oauth2/v2.0/token" \
+            --wait-for-publish
+        env:
+          EDGE_PRODUCT_ID: ${{ secrets.EDGE_PRODUCT_ID }}
+          EDGE_CLIENT_ID: ${{ secrets.EDGE_CLIENT_ID }}
+          EDGE_CLIENT_SECRET: ${{ secrets.EDGE_CLIENT_SECRET }}
+          EDGE_TENANT_ID: ${{ secrets.EDGE_TENANT_ID }}

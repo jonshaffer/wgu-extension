@@ -7,7 +7,7 @@ This project uses [Release Please](https://github.com/googleapis/release-please)
 1. **Conventional Commits**: Use conventional commit messages for all changes
 2. **Automated PRs**: Release Please automatically creates release PRs when new commits are pushed to `main`
 3. **Version Bumping**: Semantic versions are automatically calculated based on commit types
-4. **Store Submission**: When a release is created, the extension is automatically built and submitted to Chrome Web Store and Firefox Add-ons
+4. **Store Submission**: When a release is created, the extension is automatically built and submitted to Chrome Web Store and Firefox Add-ons. Microsoft Edge Add-ons submission is supported and runs when secrets are configured.
 
 ## Commit Message Format
 
@@ -77,6 +77,7 @@ git commit -m "build: update WXT to latest version"
    - A GitHub release is created
    - Extension artifacts are built and attached
    - The extension is automatically submitted to Chrome and Firefox stores
+   - If Edge Add-ons credentials are configured, the Edge package is uploaded and published
 
 ## Manual Operations
 
@@ -111,6 +112,30 @@ The following GitHub secrets are required for automatic store submission:
 - `FIREFOX_EXTENSION_ID`
 - `FIREFOX_JWT_ISSUER`
 - `FIREFOX_JWT_SECRET`
+
+### Microsoft Edge Add-ons (optional)
+- `EDGE_PRODUCT_ID`
+- `EDGE_CLIENT_ID`
+- `EDGE_CLIENT_SECRET`
+- `EDGE_TENANT_ID`
+
+Notes:
+- Edge submission uses the official edge-addons-cli. The access token URL is constructed from your Azure AD tenant ID.
+- All store submissions run under the `production` environment in GitHub for extra protection.
+
+## Manual Publish Workflow
+
+You can manually trigger store submissions with the "Publish to Web Stores" workflow. This is useful for hotfixes, re-submissions, or testing.
+
+Inputs:
+- `chrome` (boolean): Submit to Chrome Web Store
+- `firefox` (boolean): Submit to Firefox Add-ons
+- `edge` (boolean): Submit to Microsoft Edge Add-ons
+- `mode` (choice): Build mode (`production`, `preview`, `development`)
+
+Behavior:
+- The workflow builds and zips artifacts for Chrome, Firefox, and Edge.
+- Each submission step checks whether the necessary secrets are configured; if not, it skips gracefully.
 
 ## Environment Protection
 

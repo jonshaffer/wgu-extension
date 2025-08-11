@@ -2,8 +2,8 @@ name: WGU Catalog Check
 
 on:
   schedule:
-    # Run on the 1st day of every month at 9:00 AM UTC
-    - cron: '0 9 1 * *'
+    # Run on the 5th day of every month at 9:00 AM UTC
+    - cron: '0 9 5 * *'
   workflow_dispatch:
     # Allow manual triggering
 
