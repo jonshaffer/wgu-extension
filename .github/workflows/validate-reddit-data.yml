@@ -52,7 +52,7 @@ jobs:
       - name: Run TypeScript validation script
         run: |
           echo "Running TypeScript validation script..."
-          npx tsx data/reddit/scripts/validate_raw.ts --validate-only
+          npx tsx data/reddit/scripts/validate-raw.ts --validate-only
           
       - name: Check for required fields
         run: |

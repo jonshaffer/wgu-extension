@@ -9,7 +9,8 @@
 
 import { promises as fs } from 'fs';
 import { resolve } from 'path';
-import type { DiscordCommunityFile } from '../types/community-data.js';
+import type { DiscordCommunityFile } from '../types/raw-discord.ts';
+import { isDiscordCommunityFile } from '../types/raw-discord.ts';
 
 const DATA_DIR = resolve(process.cwd(), 'data/raw');
 const DISCORD_DIR = resolve(DATA_DIR, 'discord');
@@ -38,13 +39,13 @@ async function validateExistingFiles(): Promise<void> {
       const filePath = resolve(DISCORD_DIR, filename);
       try {
         const content = await fs.readFile(filePath, 'utf-8');
-        const communityData: DiscordCommunityFile = JSON.parse(content);
-        
-        if (!communityData.id || !communityData.name || !communityData.hierarchy) {
-          console.warn(`⚠️  Warning: File ${filename} is missing required fields`);
-        } else {
-          console.log(`✅ Validated: ${communityData.name} (${communityData.channels?.length || 0} channels)`);
+        const parsed = JSON.parse(content);
+        if (!isDiscordCommunityFile(parsed)) {
+          console.warn(`⚠️  Warning: File ${filename} is missing required fields or has invalid structure`);
+          continue;
         }
+        const communityData: DiscordCommunityFile = parsed;
+        console.log(`✅ Validated: ${communityData.name} (${communityData.channels?.length || 0} channels)`);
       } catch (error) {
         console.error(`❌ Error validating ${filename}:`, error);
       }

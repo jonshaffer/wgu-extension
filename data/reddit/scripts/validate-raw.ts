@@ -403,7 +403,7 @@ if (isMainModule) {
     console.log(`
 🔍 Reddit Raw Data Validator
 
-Usage: tsx validate_raw.ts [options]
+Usage: tsx validate-raw.ts [options]
 
 Options:
   --validate-only            Schema validation only (no API calls, for CI)
@@ -412,10 +412,10 @@ Options:
   --help, -h                 Show this help message
 
 Examples:
-  tsx validate_raw.ts                    # Basic validation only
-  tsx validate_raw.ts --validate-only   # Schema validation only (for CI)
-  tsx validate_raw.ts --reddit          # Validate + check Reddit API
-  tsx validate_raw.ts --reddit --update # Validate + update from Reddit API
+  tsx validate-raw.ts                    # Basic validation only
+  tsx validate-raw.ts --validate-only   # Schema validation only (for CI)
+  tsx validate-raw.ts --reddit          # Validate + check Reddit API
+  tsx validate-raw.ts --reddit --update # Validate + update from Reddit API
 `);
     process.exit(0);
   }

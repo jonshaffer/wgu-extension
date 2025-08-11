@@ -1,0 +1,90 @@
+name: Validate Discord Data
+
+on:
+  pull_request:
+    paths:
+      - 'data/discord/raw/**'
+      - 'data/discord/types/**'
+      - 'data/discord/scripts/**'
+  push:
+    branches: [main]
+    paths:
+      - 'data/discord/raw/**'
+      - 'data/discord/types/**'
+      - 'data/discord/scripts/**'
+
+jobs:
+  validate-discord-data:
+    name: Validate Discord Raw Data
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Install AJV CLI for JSON Schema validation
+        run: npm install -g ajv-cli
+        
+      - name: Validate JSON Schema
+        run: |
+          echo "Validating JSON schema syntax..."
+          ajv compile -s data/discord/types/discord-community.schema.json
+          
+      - name: Validate Discord raw data files against schema
+        run: |
+          echo "Validating all Discord raw data files against schema..."
+          for file in data/discord/raw/*.json; do
+            if [ -f "$file" ]; then
+              echo "Validating $file..."
+              ajv validate -s data/discord/types/discord-community.schema.json -d "$file" --verbose || exit 1
+            fi
+          done
+          
+      - name: Run TypeScript validation script
+        run: |
+          echo "Running TypeScript validation script..."
+          npx tsx data/discord/scripts/validate-raw.ts --check-invites
+      
+          
+      - name: Check file naming convention
+        run: |
+          echo "Checking file naming conventions..."
+          for file in data/discord/raw/*.json; do
+            if [ -f "$file" ]; then
+              filename=$(basename "$file")
+              filename_lower=$(echo "$filename" | tr '[:upper:]' '[:lower:]')
+              
+              # Check if filename is lowercase
+              if [ "$filename" != "$filename_lower" ]; then
+                echo "❌ File should be lowercase: $filename should be $filename_lower"
+                exit 1
+              fi
+              
+              # Check filename matches id field
+              id=$(jq -r '.id' "$file")
+              if [ -n "$id" ]; then
+                if [ "$(basename "$file" .json)" != "$id" ]; then
+                  echo "❌ File naming mismatch: $file should be named ${id}.json"
+                  exit 1
+                fi
+              fi
+              
+              echo "✅ $file naming convention correct"
+            fi
+          done
+          
+      - name: Summary
+        run: |
+          raw_count=$(find data/discord/raw -name "*.json" | wc -l)
+          echo "✅ Successfully validated Discord community data"
+          echo "   Raw files: $raw_count"
+          echo "   All files passed JSON Schema validation and naming conventions"
