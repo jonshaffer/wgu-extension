@@ -8,9 +8,9 @@
     "composite": false,
     "noEmit": false,
   "allowImportingTsExtensions": false,
-    "module": "ESNext",
-    "target": "ES2020",
-    "moduleResolution": "Bundler",
+  "module": "NodeNext",
+  "target": "ES2020",
+  "moduleResolution": "NodeNext",
     "isolatedModules": true,
     "strict": true,
     "skipLibCheck": true
