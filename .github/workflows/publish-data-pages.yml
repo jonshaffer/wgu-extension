@@ -29,10 +29,10 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Prepare site content (discord + reddit only)
+      - name: Prepare site content (discord + reddit + catalogs)
         run: |
           set -euo pipefail
-          mkdir -p site/data/discord/raw site/data/reddit/raw
+          mkdir -p site/data/discord/raw site/data/reddit/raw site/data/catalogs/parsed site/schemas
           # Copy whitelisted raw data only
           if [ -d "extension/data/discord/raw" ]; then
             cp -R extension/data/discord/raw/. site/data/discord/raw/
@@ -40,6 +40,20 @@ jobs:
           if [ -d "extension/data/reddit/raw" ]; then
             cp -R extension/data/reddit/raw/. site/data/reddit/raw/
           fi
+          # Copy parsed catalogs (JSON only)
+          if [ -d "extension/data/catalogs/parsed" ]; then
+            cp -R extension/data/catalogs/parsed/. site/data/catalogs/parsed/
+          fi
+
+          # Copy relevant JSON Schemas
+          for f in \
+            extension/data/catalogs/types/catalog-data.schema.json \
+            extension/data/discord/types/discord-community.schema.json \
+            extension/data/reddit/types/reddit-community.schema.json; do
+            if [ -f "$f" ]; then
+              cp "$f" site/schemas/
+            fi
+          done
           # Create .nojekyll to prevent Jekyll processing
           touch site/.nojekyll
           # Optional: add a simple index.json to browse available raw data
@@ -51,12 +65,27 @@ jobs:
               return entries.map(e=> e.isDirectory()? {name:e.name, type:"dir"} : {name:e.name, type:"file"});
             }
             const tree = {};
-            const bases = ["site/data/discord/raw", "site/data/reddit/raw"];
+            const bases = [
+              "site/data/discord/raw",
+              "site/data/reddit/raw",
+              "site/data/catalogs/parsed",
+              "site/schemas"
+            ];
             for (const base of bases) {
-              const key = base.split("/")[2]; // discord or reddit
+              let key = base.split("/")[2]; // discord, reddit, catalogs, or site
+              if (key === "site") key = "schemas";
               tree[key] = list(base);
             }
-            const payload = { generatedAt: new Date().toISOString(), basePath: "/data", rawDirectories: tree };
+            const payload = {
+              generatedAt: new Date().toISOString(),
+              basePaths: {
+                discord: "/data/discord/raw",
+                reddit: "/data/reddit/raw",
+                catalogs: "/data/catalogs/parsed",
+                schemas: "/schemas"
+              },
+              directories: tree
+            };
             fs.writeFileSync("site/index.json", JSON.stringify(payload,null,2));
           '
 
