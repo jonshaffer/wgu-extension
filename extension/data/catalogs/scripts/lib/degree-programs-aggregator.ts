@@ -137,7 +137,8 @@ export function generateDegreeProgramsAggregate(
   
   // Load all parsed catalog files
   const files = readdirSync(parsedDir)
-    .filter((f: string) => f.endsWith('.json'))
+    // Only include parsed catalog files, e.g., catalog-YYYY-MM.json
+    .filter((f: string) => f.endsWith('.json') && /^catalog-\d{4}-\d{2}\.json$/.test(f))
     .sort();
     
   for (const file of files) {

@@ -13,6 +13,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { getIngestStrategy, type IngestKind } from './lib/ingest-types.js';
 import { generateDegreeProgramsAggregate } from './lib/degree-programs-aggregator.js';
+import { generateCoursesAggregate } from './lib/courses-aggregator.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -89,7 +90,8 @@ async function main() {
     console.log(`\n🎓 Generating degree programs aggregate...`);
     try {
       const parsedDir = path.join(__dirname, '..', 'parsed');
-      const outputFile = path.join(__dirname, '..', '..', '..', 'public', 'data', 'degree-programs.json');
+  // Write the aggregate alongside other parsed artifacts
+  const outputFile = path.join(parsedDir, 'degree-programs.json');
       
       const result = generateDegreeProgramsAggregate(parsedDir, outputFile);
       
@@ -99,6 +101,14 @@ async function main() {
       // Show sample degree keys
       const sampleKeys = Object.keys(result.degrees).slice(0, 3);
       console.log(`📋 Sample keys: ${sampleKeys.map(k => `"${k}"`).join(', ')}`);
+
+      // Also generate courses aggregate
+      const coursesFile = path.join(parsedDir, 'courses.json');
+      const coursesResult = generateCoursesAggregate(parsedDir, coursesFile);
+      console.log(`✅ Generated courses: ${coursesFile}`);
+      console.log(`📊 Courses summary: ${coursesResult.metadata.totalCourses} courses from ${coursesResult.metadata.catalogVersionsIncluded.length} catalogs`);
+      const sampleCourseKeys = Object.keys(coursesResult.courses).slice(0, 5);
+      console.log(`📋 Sample course ids: ${sampleCourseKeys.map(k => `"${k}"`).join(', ')}`);
     } catch (error) {
       console.error(`❌ Failed to generate degree programs: ${error}`);
       // Don't fail the whole process for this
