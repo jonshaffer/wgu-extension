@@ -22,8 +22,9 @@ jobs:
       - uses: googleapis/release-please-action@v4
         id: release
         with:
-          release-type: node
-          package-name: unofficial-wgu-extension
+          token: ${{ secrets.GITHUB_TOKEN }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
 
   # Build and attach extension artifacts when a release is created
   build-release:

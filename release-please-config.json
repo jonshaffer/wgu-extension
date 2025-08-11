@@ -1,17 +1,25 @@
 {
-  "release-type": "node",
-  "package-name": "unofficial-wgu-extension",
+  "packages": {
+    ".": {
+      "release-type": "node",
+      "package-name": "unofficial-wgu-extension"
+    },
+    "packages/types": {
+      "release-type": "node",
+      "package-name": "@wgu-extension/types"
+    }
+  },
   "changelog-sections": [
-    {"type": "feat", "section": "Features"},
-    {"type": "fix", "section": "Bug Fixes"},
-    {"type": "perf", "section": "Performance Improvements"},
-    {"type": "deps", "section": "Dependencies"},
-    {"type": "docs", "section": "Documentation"},
-    {"type": "style", "section": "Styles"},
-    {"type": "refactor", "section": "Code Refactoring"},
-    {"type": "test", "section": "Tests"},
-    {"type": "build", "section": "Build System"},
-    {"type": "ci", "section": "Continuous Integration"}
+    { "type": "feat", "section": "Features" },
+    { "type": "fix", "section": "Bug Fixes" },
+    { "type": "perf", "section": "Performance Improvements" },
+    { "type": "deps", "section": "Dependencies" },
+    { "type": "docs", "section": "Documentation" },
+    { "type": "style", "section": "Styles" },
+    { "type": "refactor", "section": "Code Refactoring" },
+    { "type": "test", "section": "Tests" },
+    { "type": "build", "section": "Build System" },
+    { "type": "ci", "section": "Continuous Integration" }
   ],
   "release-search-depth": 100,
   "commit-search-depth": 500
