@@ -70,10 +70,15 @@ async function publishTypesLocal(isDryRun: boolean = false) {
 
   // Check if local version already exists (only if package exists on npm)
   try {
-    runCommand(`npm view ${packageJson.name} version`);
+    execSync(`npm view ${packageJson.name} version`, { 
+      stdio: ['ignore', 'ignore', 'ignore']
+    });
     // Package exists, check specific version
     try {
-      const existingVersion = runCommand(`npm view ${packageJson.name}@${localVersion} version`).trim();
+      const existingVersion = execSync(`npm view ${packageJson.name}@${localVersion} version`, {
+        encoding: 'utf-8',
+        stdio: ['ignore', 'pipe', 'ignore']
+      }).trim();
       if (existingVersion) {
         console.log(`⚠️  Version ${localVersion} already exists on npm, skipping...`);
         return;
