@@ -11,7 +11,22 @@ SearchDoc is intentionally excluded; define it within your site app.
 
 ## Install
 
+```bash
+# Install latest stable release
 npm install @wgu-extension/types zod
+
+# Install prerelease version (from PRs)
+npm install @wgu-extension/types@next zod
+
+# Install local development version
+npm install @wgu-extension/types@local zod
+```
+
+## Version Tags
+
+- **`latest`** - Stable releases (default)
+- **`next`** - Prerelease versions from release PRs (`{version}-next.{sha}`)  
+- **`local`** - Local development builds (`{version}-local.{timestamp}`)
 
 ## Usage
 

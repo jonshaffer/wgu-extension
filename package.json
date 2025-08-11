@@ -36,6 +36,7 @@
   "data:check:discord-invites": "tsx data/discord/scripts/validate-raw.ts --check-invites",
   "data:validate:reddit": "tsx data/reddit/scripts/validate-raw.ts",
   "data:validate:reddit:live": "tsx data/reddit/scripts/validate-raw.ts --reddit",
+  "data:test:wgu-student-groups": "tsx data/wgu-student-groups/collect/test-extraction.ts",
   "data:update:reddit": "tsx data/reddit/scripts/validate-raw.ts --reddit --update",
     "data:ingest:wgu-connect": "tsx data/scripts/ingest-wgu-connect.ts",
     "catalog:check": "tsx scripts/check-wgu-catalog.ts",
@@ -51,7 +52,10 @@
     "test:catalog:generate": "tsx data/catalogs/generate-samples.ts",
     "catalog:download": "tsx data/catalogs/download-catalogs.ts",
     "catalog:summary": "tsx data/catalogs/download-catalogs.ts --summary",
-    "catalog:pipeline": "tsx data/catalogs/catalog-pipeline.ts"
+    "catalog:pipeline": "tsx data/catalogs/catalog-pipeline.ts",
+    "types:build": "npm -w @wgu-extension/types run build",
+    "types:publish:local": "tsx scripts/publish-types-local.ts",
+    "types:publish:local:dry": "tsx scripts/publish-types-local.ts --dry-run"
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.1.5",
@@ -84,6 +88,8 @@
     "@wxt-dev/module-react": "^1.1.3",
     "tsx": "^4.20.3",
     "typescript": "^5.8.3",
-    "wxt": "^0.20.7"
+  "wxt": "^0.20.7",
+  "jsdom": "^26.1.0",
+  "@types/jsdom": "^21.1.7"
   }
 }

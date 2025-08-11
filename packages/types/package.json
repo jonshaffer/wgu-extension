@@ -35,8 +35,10 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "clean": "rm -rf dist",
-  "prepublishOnly": "npm run build",
-  "postbuild": "cp src/canonical-raw.d.ts dist/canonical-raw.d.ts"
+    "dev": "tsc -p tsconfig.json --watch",
+    "prepublishOnly": "npm run build",
+    "postbuild": "cp src/canonical-raw.d.ts dist/canonical-raw.d.ts",
+    "version:check": "npm view @wgu-extension/types versions --json"
   },
   "dependencies": {
     "zod": "^3.23.8"
