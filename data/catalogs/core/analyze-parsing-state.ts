@@ -24,7 +24,7 @@ async function analyzeParsingState() {
   console.log('🔍 Analyzing Current Parsing State');
   console.log('=' .repeat(60));
   
-  // Get all parsed JSON files from historical/parsed directory
+  // Get all parsed JSON files from parsed directory
   const parsedDir = join(__dirname, '..', 'historical', 'parsed');
   const files = readdirSync(parsedDir)
     .filter(f => f.endsWith('-parsed.json'))

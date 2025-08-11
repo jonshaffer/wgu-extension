@@ -71,12 +71,12 @@ jobs:
               echo "HAS_NEW_CATALOGS=true" >> $GITHUB_ENV
               
               # Parse and process new catalogs if we have the parsing tools
-              if [ -d "data/catalogs/historical/pdfs" ] && [ -f "data/catalogs/core/catalog-parser-unified.ts" ]; then
+              if [ -d "data/catalogs/pdfs" ] && [ -f "data/catalogs/core/catalog-parser-unified.ts" ]; then
                 echo "🔄 Processing new catalogs..."
                 cd data/catalogs
                 
                 # Run the parser on new catalogs
-                for catalog in historical/pdfs/catalog-*.pdf; do
+                for catalog in pdfs/catalog-*.pdf; do
                   if [ -f "$catalog" ]; then
                     catalog_name=$(basename "$catalog")
                     # Check if this is a newly downloaded catalog
@@ -181,5 +181,5 @@ jobs:
             catalog-comparison-report.md
             catalog-page-check-results.json
             catalog-page-check-report.md
-            data/catalogs/historical/pdfs/*.pdf
+            data/catalogs/pdfs/*.pdf
           retention-days: 30

@@ -45,7 +45,7 @@ npx tsx core/analyze-parsing-state.ts
 ### Parse Historical Catalogs
 ```bash
 # Parse a specific catalog
-npx tsx core/catalog-parser-unified.ts historical/pdfs/catalog-2024-10.pdf
+npx tsx core/catalog-parser-unified.ts pdfs/catalog-2024-10.pdf
 
 # Batch parse all catalogs
 npx tsx scripts/batch-parse-all.ts
@@ -201,7 +201,7 @@ The parsed JSON data is ready for direct integration:
 
 ```typescript
 // Load parsed catalog data
-const catalogData = JSON.parse(fs.readFileSync('historical/parsed/catalog-2024-10-parsed.json', 'utf-8'));
+const catalogData = JSON.parse(fs.readFileSync('parsed/catalog-2024-10-parsed.json', 'utf-8'));
 
 // Access courses
 const courses = catalogData.courses;

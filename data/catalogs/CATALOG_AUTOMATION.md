@@ -46,7 +46,7 @@ Before checking for catalogs, the system:
 
 ### 3. Automated Processing
 When new catalogs are found:
-1. Downloads PDFs to `data/catalogs/historical/pdfs/`
+1. Downloads PDFs to `data/catalogs/pdfs/`
 2. Runs the unified catalog parser to extract course and degree data
 3. **Generates detailed comparison with the previous catalog**
 4. Creates a pull request with the new catalog(s) and comparison report
@@ -130,7 +130,7 @@ The checker creates `catalog-check-results.json` and `catalog-comparison-report.
 
 ### File Locations
 - **Downloaded catalogs**: `data/catalogs/`
-- **Parsed data**: `data/catalogs/historical/parsed/`
+- **Parsed data**: `data/catalogs/parsed/`
 - **Results**: `catalog-check-results.json` (temporary)
 
 ## 📝 Maintenance

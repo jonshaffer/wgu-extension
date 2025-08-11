@@ -90,7 +90,7 @@ function parseFilenameDate(filename: string): Date | null {
  */
 async function loadCatalogData(filename: string): Promise<CatalogData | null> {
   const pdfName = filename.replace('.pdf', '');
-  const jsonPath = resolve('./data/catalogs/historical/parsed', `${pdfName}.json`);
+  const jsonPath = resolve('./data/catalogs/parsed', `${pdfName}.json`);
   
   try {
     const content = await fs.readFile(jsonPath, 'utf-8');
@@ -113,7 +113,7 @@ async function loadCatalogData(filename: string): Promise<CatalogData | null> {
  * Find the most recent catalog before the new ones
  */
 async function findMostRecentCatalog(excludeFiles: string[]): Promise<string | null> {
-  const catalogDir = './data/catalogs/historical/pdfs';
+  const catalogDir = './data/catalogs/pdfs';
   const files = await fs.readdir(catalogDir);
   
   const catalogFiles = files

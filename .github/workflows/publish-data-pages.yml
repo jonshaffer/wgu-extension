@@ -1,0 +1,77 @@
+name: Publish Raw Data to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'data/**'
+      - '.github/workflows/publish-data-pages.yml'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Prepare site content (discord + reddit only)
+        run: |
+          set -euo pipefail
+          mkdir -p site/data/discord/raw site/data/reddit/raw
+          # Copy whitelisted raw data only
+          if [ -d "data/discord/raw" ]; then
+            cp -R data/discord/raw/. site/data/discord/raw/
+          fi
+          if [ -d "data/reddit/raw" ]; then
+            cp -R data/reddit/raw/. site/data/reddit/raw/
+          fi
+          # Create .nojekyll to prevent Jekyll processing
+          touch site/.nojekyll
+          # Optional: add a simple index.json to browse available raw data
+          node -e '
+            const fs=require("fs");
+            function list(dir){
+              if(!fs.existsSync(dir)) return [];
+              const entries=fs.readdirSync(dir,{withFileTypes:true});
+              return entries.map(e=> e.isDirectory()? {name:e.name, type:"dir"} : {name:e.name, type:"file"});
+            }
+            const tree = {};
+            const bases = ["site/data/discord/raw", "site/data/reddit/raw"];
+            for (const base of bases) {
+              const key = base.split("/")[2]; // discord or reddit
+              tree[key] = list(base);
+            }
+            const payload = { generatedAt: new Date().toISOString(), basePath: "/data", rawDirectories: tree };
+            fs.writeFileSync("site/index.json", JSON.stringify(payload,null,2));
+          '
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

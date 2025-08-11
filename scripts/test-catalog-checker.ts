@@ -14,7 +14,7 @@ async function testCatalogChecker() {
   // Test with a known good catalog URL (January 2025)
   const testUrl = 'https://www.wgu.edu/content/dam/wgu-65-assets/western-governors/documents/institutional-catalog/2025/catalog-january2025.pdf';
   const testFilename = 'test-catalog-january2025.pdf';
-  const testPath = resolve('./data/catalogs/historical/pdfs', testFilename);
+  const testPath = resolve('./data/catalogs/pdfs', testFilename);
   
   // First, check if the test file already exists and remove it
   try {
