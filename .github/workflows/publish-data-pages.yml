@@ -29,36 +29,36 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Prepare site content (discord + reddit + wgu-connect + wgu-student-groups + catalogs)
+      - name: Prepare Pages content (discord + reddit + wgu-connect + wgu-student-groups + catalogs)
         run: |
           set -euo pipefail
           mkdir -p \
-            site/data/discord/raw \
-            site/data/discord/processed \
-            site/data/reddit/raw \
-            site/data/wgu-connect/raw \
-            site/data/wgu-student-groups/raw \
-            site/data/catalogs/parsed \
-            site/schemas
+            pages-data/data/discord/raw \
+            pages-data/data/discord/processed \
+            pages-data/data/reddit/raw \
+            pages-data/data/wgu-connect/raw \
+            pages-data/data/wgu-student-groups/raw \
+            pages-data/data/catalogs/parsed \
+            pages-data/schemas
           # Copy whitelisted raw data only
           if [ -d "extension/data/discord/raw" ]; then
-            cp -R extension/data/discord/raw/. site/data/discord/raw/
+            cp -R extension/data/discord/raw/. pages-data/data/discord/raw/
           fi
           if [ -d "extension/data/discord/processed" ]; then
-            cp -R extension/data/discord/processed/. site/data/discord/processed/
+            cp -R extension/data/discord/processed/. pages-data/data/discord/processed/
           fi
           if [ -d "extension/data/reddit/raw" ]; then
-            cp -R extension/data/reddit/raw/. site/data/reddit/raw/
+            cp -R extension/data/reddit/raw/. pages-data/data/reddit/raw/
           fi
           if [ -d "extension/data/wgu-connect/raw" ]; then
-            cp -R extension/data/wgu-connect/raw/. site/data/wgu-connect/raw/
+            cp -R extension/data/wgu-connect/raw/. pages-data/data/wgu-connect/raw/
           fi
           if [ -d "extension/data/wgu-student-groups/raw" ]; then
-            cp -R extension/data/wgu-student-groups/raw/. site/data/wgu-student-groups/raw/
+            cp -R extension/data/wgu-student-groups/raw/. pages-data/data/wgu-student-groups/raw/
           fi
           # Copy parsed catalogs (JSON only)
           if [ -d "extension/data/catalogs/parsed" ]; then
-            cp -R extension/data/catalogs/parsed/. site/data/catalogs/parsed/
+            cp -R extension/data/catalogs/parsed/. pages-data/data/catalogs/parsed/
           fi
 
           # Copy relevant JSON Schemas
@@ -68,11 +68,11 @@ jobs:
             extension/data/discord/types/discord-communities.schema.json \
             extension/data/reddit/types/reddit-community.schema.json; do
             if [ -f "$f" ]; then
-              cp "$f" site/schemas/
+              cp "$f" pages-data/schemas/
             fi
           done
           # Create .nojekyll to prevent Jekyll processing
-          touch site/.nojekyll
+          touch pages-data/.nojekyll
           # Optional: add a simple index.json to browse available raw data
           node -e '
             const fs=require("fs");
@@ -83,21 +83,29 @@ jobs:
             }
             const tree = {};
             const bases = [
-              "site/data/discord/raw",
-              "site/data/discord/processed",
-              "site/data/reddit/raw",
-              "site/data/wgu-connect/raw",
-              "site/data/wgu-student-groups/raw",
-              "site/data/catalogs/parsed",
-              "site/schemas"
+              "pages-data/data/discord/raw",
+              "pages-data/data/discord/processed",
+              "pages-data/data/reddit/raw",
+              "pages-data/data/wgu-connect/raw",
+              "pages-data/data/wgu-student-groups/raw",
+              "pages-data/data/catalogs/parsed",
+              "pages-data/schemas"
             ];
             for (const base of bases) {
-              let key = base.split("/")[2]; // discord, reddit, catalogs, or site
-              if (key === "site") key = "schemas";
-              const last = base.split("/").slice(-1)[0];
+              const rel = base.replace(/^pages-data\//, "");
+              const parts = rel.split("/");
+              let key;
+              if (parts[0] === "data") {
+                key = parts[1]; // discord, reddit, wgu-connect, wgu-student-groups, catalogs
+              } else {
+                key = "schemas";
+              }
+              const last = parts[parts.length-1];
               if (!tree[key]) tree[key] = {};
-              if (key === "discord") {
+              if (key === "discord" && (last === "raw" || last === "processed")) {
                 tree[key][last] = list(base);
+              } else if (key === "schemas") {
+                tree[key] = list(base);
               } else {
                 tree[key] = list(base);
               }
@@ -114,13 +122,13 @@ jobs:
               },
               directories: tree
             };
-            fs.writeFileSync("site/index.json", JSON.stringify(payload,null,2));
+            fs.writeFileSync("pages-data/index.json", JSON.stringify(payload,null,2));
           '
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: site
+          path: pages-data
 
   deploy:
     runs-on: ubuntu-latest

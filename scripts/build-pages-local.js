@@ -24,7 +24,7 @@ function listDir(dir) {
 }
 
 async function main() {
-  const siteDir = path.resolve(process.cwd(), 'site');
+  const siteDir = path.resolve(process.cwd(), 'pages-data');
   const outDirs = [
     'data/discord/raw',
     'data/discord/processed',
@@ -75,7 +75,7 @@ async function main() {
     path.join(siteDir, 'schemas'),
   ];
   for (const base of bases) {
-    let key = base.split(path.sep)[base.split(path.sep).indexOf('site') + 1]; // discord, reddit, catalogs, or schemas
+  let key = base.split(path.sep)[base.split(path.sep).indexOf('pages-data') + 1]; // discord, reddit, catalogs, or schemas
     if (key === 'schemas') {
       tree.schemas = listDir(base);
       continue;
