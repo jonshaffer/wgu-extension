@@ -12,6 +12,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { getIngestStrategy, type IngestKind } from './lib/ingest-types.js';
+import { generateDegreeProgramsAggregate } from './lib/degree-programs-aggregator.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -82,6 +83,28 @@ async function main() {
   }
 
   console.log(`\nDone. Success: ${ok}  Failed: ${fail}`);
+  
+  // Generate degree programs aggregate from all parsed catalogs
+  if (ok > 0) {
+    console.log(`\n🎓 Generating degree programs aggregate...`);
+    try {
+      const parsedDir = path.join(__dirname, '..', 'parsed');
+      const outputFile = path.join(__dirname, '..', '..', '..', 'public', 'data', 'degree-programs.json');
+      
+      const result = generateDegreeProgramsAggregate(parsedDir, outputFile);
+      
+      console.log(`✅ Generated degree programs: ${outputFile}`);
+      console.log(`📊 Summary: ${result.metadata.totalPrograms} degrees from ${result.metadata.catalogVersionsIncluded.length} catalogs`);
+      
+      // Show sample degree keys
+      const sampleKeys = Object.keys(result.degrees).slice(0, 3);
+      console.log(`📋 Sample keys: ${sampleKeys.map(k => `"${k}"`).join(', ')}`);
+    } catch (error) {
+      console.error(`❌ Failed to generate degree programs: ${error}`);
+      // Don't fail the whole process for this
+    }
+  }
+  
   process.exit(fail > 0 ? 1 : 0);
 }
 
