@@ -1,0 +1,302 @@
+{
+  "communities": [
+    {
+      "subreddit": "WGU",
+      "name": "r/WGU",
+      "description": "Place for Western Governors University students, faculty and alumni to offer positive discussions and positive support for each other.",
+      "hierarchy": {
+        "level": "university"
+      },
+      "isActive": true,
+      "tags": [
+        "general",
+        "university"
+      ],
+      "relevantCourses": [],
+      "memberCount": 154393,
+      "lastUpdated": "2025-08-11T06:50:35.300Z",
+      "verified": true
+    },
+    {
+      "subreddit": "WGU_Business",
+      "name": "r/WGU_Business",
+      "description": "WGU Business Subreddit. A New Subreddit for All things Business and Business Related Degrees at WGU!",
+      "hierarchy": {
+        "level": "college",
+        "college": "business"
+      },
+      "isActive": true,
+      "tags": [
+        "business",
+        "majors"
+      ],
+      "relevantCourses": [],
+      "memberCount": 3567,
+      "lastUpdated": "2025-08-11T06:50:38.175Z",
+      "verified": true
+    },
+    {
+      "subreddit": "wgueducation",
+      "name": "r/wgueducation",
+      "description": "**WGU Education Reddit Community.**\n\nWhere student teachers (prospective, current, and alumni) share insights, ask questions, and discuss specific courses, field experiences, creating study groups, or anything related to WGU's Teachers College.",
+      "hierarchy": {
+        "level": "college"
+      },
+      "isActive": true,
+      "tags": [
+        "education",
+        "teaching",
+        "college"
+      ],
+      "relevantCourses": [],
+      "memberCount": 7104,
+      "lastUpdated": "2025-08-11T06:50:43.511Z",
+      "verified": true
+    },
+    {
+      "subreddit": "WGUIT",
+      "name": "r/WGUIT",
+      "description": "WGU subreddit specializing in degrees in the College of IT.",
+      "hierarchy": {
+        "level": "college"
+      },
+      "isActive": true,
+      "tags": [
+        "IT",
+        "information technology",
+        "college"
+      ],
+      "relevantCourses": [],
+      "memberCount": 17919,
+      "lastUpdated": "2025-08-11T06:50:37.022Z",
+      "verified": true
+    },
+    {
+      "subreddit": "WGUTeachersCollege",
+      "name": "r/WGUTeachersCollege",
+      "description": "Unofficial subreddit for WGU Teachers College.",
+      "hierarchy": {
+        "level": "college"
+      },
+      "isActive": true,
+      "tags": [
+        "education",
+        "teaching",
+        "college"
+      ],
+      "relevantCourses": [],
+      "memberCount": 3857,
+      "lastUpdated": "2025-08-11T06:54:28.233Z",
+      "verified": true
+    },
+    {
+      "subreddit": "WGU_CompSci",
+      "name": "r/WGU_CompSci",
+      "description": "This is the unofficial subreddit for the Western Governors University's Computer Science Bachelors and Masters programs.",
+      "hierarchy": {
+        "level": "program",
+        "college": "technology",
+        "program": "Computer Science"
+      },
+      "isActive": true,
+      "tags": [
+        "computer-science",
+        "programming"
+      ],
+      "relevantCourses": [
+        "C950",
+        "C777",
+        "C482",
+        "C195"
+      ],
+      "memberCount": 23983,
+      "lastUpdated": "2025-08-11T06:50:39.321Z",
+      "verified": true
+    },
+    {
+      "subreddit": "WGU_CSA",
+      "name": "r/WGU_CSA",
+      "description": "WGU's B.S. Cloud Computing (formerly Cloud and Systems Administration) subreddit is for current and former students to help, share experience, or comment on anything related to cloud and systems administration.",
+      "hierarchy": {
+        "level": "program"
+      },
+      "isActive": true,
+      "tags": [
+        "cloud",
+        "systems administration",
+        "IT",
+        "program"
+      ],
+      "relevantCourses": [],
+      "memberCount": 2824,
+      "lastUpdated": "2025-08-11T06:50:38.753Z",
+      "verified": true
+    },
+    {
+      "subreddit": "WGU_MBA",
+      "name": "r/WGU_MBA",
+      "description": "A New Subreddit for Western Governors University MBA Degree (Master of Business Administration) with all concentrations welcome!",
+      "hierarchy": {
+        "level": "program"
+      },
+      "isActive": true,
+      "tags": [
+        "MBA",
+        "master's",
+        "business",
+        "program"
+      ],
+      "relevantCourses": [],
+      "memberCount": 8280,
+      "lastUpdated": "2025-08-11T06:50:39.907Z",
+      "verified": true
+    },
+    {
+      "subreddit": "WGU_MSDA",
+      "name": "r/WGU_MSDA",
+      "description": "This is the unofficial community for the MS in Data Analytics at Western Governors University.",
+      "hierarchy": {
+        "level": "program"
+      },
+      "isActive": true,
+      "tags": [
+        "data analytics",
+        "master's",
+        "program"
+      ],
+      "relevantCourses": [],
+      "memberCount": 3454,
+      "lastUpdated": "2025-08-11T06:50:40.481Z",
+      "verified": true
+    },
+    {
+      "subreddit": "wguaccounting",
+      "name": "r/wguaccounting",
+      "description": "An unofficial resource, r/WGUAccounting’s mission is to support WGU Accounting students and alumni through shared resources, guidance, and community- spanning every stage from enrollment to graduation, CPA prep, professional growth, and beyond.",
+      "hierarchy": {
+        "level": "program"
+      },
+      "isActive": true,
+      "tags": [
+        "accounting",
+        "business",
+        "program"
+      ],
+      "relevantCourses": [],
+      "memberCount": 10681,
+      "lastUpdated": "2025-08-11T06:50:42.936Z",
+      "verified": true
+    },
+    {
+      "subreddit": "WGUBusinessManagement",
+      "name": "r/WGUBusinessManagement",
+      "description": "A place where we can help one another/vent/network/etc...",
+      "hierarchy": {
+        "level": "program"
+      },
+      "isActive": true,
+      "tags": [
+        "business",
+        "management",
+        "program"
+      ],
+      "relevantCourses": [],
+      "memberCount": 2934,
+      "lastUpdated": "2025-08-11T06:50:35.879Z",
+      "verified": true
+    },
+    {
+      "subreddit": "WGUCyberSecurity",
+      "name": "r/WGUCyberSecurity",
+      "description": "Place for Western Governors University students in CyberSecurity and Information Assurance",
+      "hierarchy": {
+        "level": "program"
+      },
+      "isActive": true,
+      "tags": [
+        "cybersecurity",
+        "IT",
+        "program"
+      ],
+      "relevantCourses": [],
+      "memberCount": 21941,
+      "lastUpdated": "2025-08-11T06:50:36.450Z",
+      "verified": true
+    },
+    {
+      "subreddit": "WGU_Accelerators",
+      "name": "r/WGU_Accelerators",
+      "description": "Go Fast\nGet Done\nDon't Cheat",
+      "hierarchy": {
+        "level": "community"
+      },
+      "isActive": true,
+      "tags": [
+        "acceleration",
+        "study tips",
+        "community"
+      ],
+      "relevantCourses": [],
+      "memberCount": 4451,
+      "lastUpdated": "2025-08-11T06:50:37.604Z",
+      "verified": true
+    },
+    {
+      "subreddit": "wgu_devs",
+      "name": "r/wgu_devs",
+      "description": "This subreddit was started to support WGU students and alumni who have started or completed either the BS in Software Engineering or the BS in Software Development, but we'd like it to be a resource and community for anyone who is taking, has taken, or is planning on taking software courses at WGU.",
+      "hierarchy": {
+        "level": "community"
+      },
+      "isActive": true,
+      "tags": [
+        "development",
+        "programming",
+        "community"
+      ],
+      "relevantCourses": [],
+      "memberCount": 9789,
+      "lastUpdated": "2025-08-11T06:50:42.360Z",
+      "verified": true
+    },
+    {
+      "subreddit": "WGU_Military",
+      "name": "r/WGU_Military",
+      "description": "For current students, potential students, and alumni of Western Governors University serving / have served in any branch of the US Military.",
+      "hierarchy": {
+        "level": "community"
+      },
+      "isActive": true,
+      "tags": [
+        "military",
+        "veterans",
+        "community"
+      ],
+      "relevantCourses": [],
+      "memberCount": 5843,
+      "lastUpdated": "2025-08-11T06:50:41.068Z",
+      "verified": true
+    }
+  ],
+  "metadata": {
+    "totalCommunities": 15,
+    "lastProcessed": "2025-08-11T07:03:46.911Z",
+    "sourceFiles": [
+      "wgu.json",
+      "wgu_accelerators.json",
+      "wgu_business.json",
+      "wgu_compsci.json",
+      "wgu_csa.json",
+      "wgu_devs.json",
+      "wgu_mba.json",
+      "wgu_military.json",
+      "wgu_msda.json",
+      "wguaccounting.json",
+      "wgubusinessmanagement.json",
+      "wgucybersecurity.json",
+      "wgueducation.json",
+      "wguit.json",
+      "wguteacherscollege.json"
+    ]
+  }
+}
