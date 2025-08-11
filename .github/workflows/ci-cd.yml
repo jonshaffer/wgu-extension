@@ -3,9 +3,24 @@ name: CI/CD Pipeline
 on:
   push:
     branches: [ main, develop, feat/* ]
+    paths-ignore:
+      - 'docs/**'
+      - '**/*.md'
+      - '.github/ISSUE_TEMPLATE/**'
   pull_request:
     branches: [ main, develop ]
+    paths-ignore:
+      - 'docs/**'
+      - '**/*.md'
+      - '.github/ISSUE_TEMPLATE/**'
   workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   test:
@@ -15,7 +30,7 @@ jobs:
       
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
       
       - name: Install dependencies
@@ -39,7 +54,7 @@ jobs:
       
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
       
       - name: Install dependencies
@@ -52,12 +67,14 @@ jobs:
         run: |
           npm run zip:preview
           npm run zip:firefox -- --mode preview
+          npm run zip:edge -- --mode preview
       
       - name: Upload preview artifacts
         uses: actions/upload-artifact@v4
         with:
           name: extension-preview
           path: .output/*.zip
+          retention-days: 7
 
   build-production:
     runs-on: ubuntu-latest
@@ -68,7 +85,7 @@ jobs:
       
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
       
       - name: Install dependencies
@@ -81,11 +98,13 @@ jobs:
         run: |
           npm run zip
           npm run zip:firefox
+          npm run zip:edge
       
       - name: Upload production artifacts
         uses: actions/upload-artifact@v4
         with:
           name: extension-production
           path: .output/*.zip
+          retention-days: 7
 
 
