@@ -2,6 +2,8 @@ import { onCall, HttpsError } from "firebase-functions/v2/https";
 import * as logger from "firebase-functions/logger";
 export { ingestDiscord } from "./http/ingest-discord";
 export { ingestWguConnectCollection } from "./http/ingest-wgu-connect-collection";
+export { graphql } from "./http/graphql.js";
+export { ingestPagesData } from "./scheduled/ingest-pages.js";
 
 export const searchFirestore = onCall(async (request: any) => {
   const query = request.data.query; // Access data from request.data
