@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "wgu-connect-group.schema.json",
+  "title": "WGU Connect Group",
+  "description": "Schema for WGU Connect Group raw files (data/wgu-connect/raw/*.json)",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "name": { "type": "string", "minLength": 1 },
+    "full_name": { "type": "string" },
+    "category": { "type": "string" },
+    "course_codes": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+    "url": { "type": "string", "format": "uri" },
+    "discussions_url": { "type": "string", "format": "uri" },
+    "resources_url": { "type": "string", "format": "uri" },
+    "verified": { "type": "boolean" }
+  },
+  "required": ["id", "name", "url"],
+  "additionalProperties": false
+}

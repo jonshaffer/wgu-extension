@@ -66,7 +66,9 @@ jobs:
             extension/data/catalogs/types/catalog-data.schema.json \
             extension/data/discord/types/discord-community.schema.json \
             extension/data/discord/types/discord-communities.schema.json \
-            extension/data/reddit/types/reddit-community.schema.json; do
+            extension/data/reddit/types/reddit-community.schema.json \
+            extension/data/wgu-student-groups/types/wgu-student-group.schema.json \
+            extension/data/wgu-connect/types/wgu-connect-group.schema.json; do
             if [ -f "$f" ]; then
               cp "$f" pages-data/schemas/
             fi
