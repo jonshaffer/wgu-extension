@@ -2,6 +2,7 @@ import { storage } from '@wxt-dev/storage';
 import { ENABLE_WGU_CONNECT_INTEGRATION } from '@/utils/storage.constants';
 import { wguConnectCollectionEnabled, wguConnectData } from '../../utils/storage';
 import { WGUConnectExtractor } from '../../data/wgu-connect/collect/wgu-connect-extractor';
+import { loadCommunityData } from '@/utils/community-data';
 
 export default defineContentScript({
   matches: ['https://wguconnect.wgu.edu/*'],
@@ -17,16 +18,13 @@ export default defineContentScript({
       return;
     }
 
-    // Load WGU Connect groups from extension assets
-    async function loadWguConnectGroups() {
+    // Load unified dataset remotely
+    async function loadUnified() {
       try {
-        const response = await fetch(browser.runtime.getURL('wgu-connect-groups.json' as any));
-        if (!response.ok) {
-          throw new Error(`Failed to load WGU Connect groups: ${response.status}`);
-        }
-        return await response.json();
+        const { unifiedData } = await loadCommunityData();
+        return unifiedData;
       } catch (error) {
-        console.error('WGU Extension: Error loading WGU Connect groups:', error);
+        console.error('WGU Extension: Error loading unified data:', error);
         return null;
       }
     }
@@ -77,8 +75,8 @@ export default defineContentScript({
         if (currentUrl.includes(groupId)) return;
 
         // Check if any detected course code matches this group's course codes
-        const hasMatchingCourse = groupData.course_codes?.some((code: string) => 
-          courseCodes.includes(code.toUpperCase())
+        const hasMatchingCourse = Array.isArray(groupData?.course_codes) && groupData.course_codes.some((code: string) => 
+          courseCodes.includes(String(code || '').toUpperCase())
         );
 
         if (hasMatchingCourse) {
@@ -347,17 +345,15 @@ export default defineContentScript({
     async function initialize() {
       console.log('WGU Extension: Activating on WGU Connect');
       
-      const wguConnectGroups = await loadWguConnectGroups();
-      if (!wguConnectGroups) {
-        console.error('WGU Extension: Could not load WGU Connect groups data');
-        return;
-      }
+      // Try to load the unified dataset. WGU Connect groups may not be present yet; handle gracefully.
+      const unified = await loadUnified();
+      const wguConnectGroups = unified?.wguConnect || null;
 
       // Wait for Connect to load content
       setTimeout(() => {
         const courseCodes = detectCourseCodes();
         const context = getConnectContext();
-        const currentGroup = getCurrentGroupInfo(wguConnectGroups);
+  const currentGroup = getCurrentGroupInfo(wguConnectGroups);
         
         // If we're in a group, use its course codes; otherwise use detected ones
         let effectiveCourseCodes = courseCodes;
@@ -365,7 +361,7 @@ export default defineContentScript({
           effectiveCourseCodes = [...new Set([...courseCodes, ...currentGroup.groupData.course_codes])];
         }
         
-        const relatedGroups = findRelatedGroups(effectiveCourseCodes, wguConnectGroups);
+  const relatedGroups = wguConnectGroups ? findRelatedGroups(effectiveCourseCodes, wguConnectGroups) : [];
         
         createWguConnectPanel(effectiveCourseCodes, context, currentGroup, relatedGroups);
         highlightCourseCodes();

@@ -1,5 +1,6 @@
 import { storage } from '@wxt-dev/storage';
 import { ENABLE_REDDIT_INTEGRATION } from '@/utils/storage.constants';
+import { loadCommunityData } from '@/utils/community-data';
 
 export default defineContentScript({
   matches: ['https://www.reddit.com/r/WGU*', 'https://old.reddit.com/r/WGU*', 'https://new.reddit.com/r/WGU*'],
@@ -30,36 +31,37 @@ export default defineContentScript({
       };
     }
 
-    // Load Reddit communities from extension assets
+    // Load Reddit communities from remote unified dataset
     async function loadRedditCommunities() {
       try {
-        const response = await fetch(browser.runtime.getURL('reddit-communities.json' as any));
-        if (!response.ok) {
-          throw new Error(`Failed to load Reddit communities: ${response.status}`);
-        }
-        return await response.json();
+        const { unifiedData } = await loadCommunityData();
+        return unifiedData;
       } catch (error) {
-        console.error('WGU Extension: Error loading Reddit communities:', error);
+        console.error('WGU Extension: Error loading unified communities:', error);
         return null;
       }
     }
 
     // Check if current subreddit is whitelisted
-    function isWhitelisted(subreddit: string, communities: any): boolean {
-      if (!communities?.settings?.enable_reddit_integration) {
-        console.log('WGU Extension: Reddit integration disabled in config');
-        return false;
-      }
-
-      if (communities.settings.require_community_whitelist) {
-        const isAllowed = Object.values(communities.communities || {}).some((community: any) => 
-          community.name === `r/${subreddit}`
-        );
-        console.log(`WGU Extension: Subreddit r/${subreddit} ${isAllowed ? 'is' : 'is not'} whitelisted`);
-        return isAllowed;
-      }
-
-      return true;
+    function isWhitelisted(subreddit: string, unified: any): boolean {
+      if (!unified) return false;
+      const allowSet = new Set<string>();
+      try {
+        // University-level reddit links
+        (unified.universityLevel?.reddit || []).forEach((link: any) => {
+          if (typeof link?.name === 'string') allowSet.add(link.name.toLowerCase());
+        });
+        // Course-level reddit links
+        (unified.courseMappings || []).forEach((m: any) => {
+          (m.reddit || []).forEach((link: any) => {
+            if (typeof link?.name === 'string') allowSet.add(link.name.toLowerCase());
+          });
+        });
+      } catch {}
+      const key = `r/${subreddit}`.toLowerCase();
+      const isAllowed = allowSet.has(key);
+      console.log(`WGU Extension: Subreddit r/${subreddit} ${isAllowed ? 'is' : 'is not'} whitelisted`);
+      return isAllowed;
     }
 
     // Detect course codes in Reddit posts and comments
@@ -224,13 +226,13 @@ export default defineContentScript({
         return;
       }
 
-      const redditCommunities = await loadRedditCommunities();
-      if (!redditCommunities) {
+  const unified = await loadRedditCommunities();
+  if (!unified) {
         console.error('WGU Extension: Could not load Reddit communities');
         return;
       }
 
-      if (!isWhitelisted(urlInfo.subreddit, redditCommunities)) {
+  if (!isWhitelisted(urlInfo.subreddit, unified)) {
         console.log('WGU Extension: Subreddit not whitelisted, extension inactive');
         return;
       }

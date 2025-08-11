@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { SearchButton } from './SearchButton';
+import { loadCommunityData } from '@/utils/community-data';
 
 interface SearchOption {
   id: string;
@@ -50,19 +51,22 @@ export function SearchPanel({
   const [courseData, setCourseData] = useState<CourseData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Load course-specific community data
+  // Load course-specific community data from unified dataset
   useEffect(() => {
     async function loadCourseData() {
       try {
         setIsLoading(true);
-        const courseUrl = browser.runtime.getURL(`data/courses/${courseCode.toLowerCase()}.json` as any);
-        const response = await fetch(courseUrl);
-        
-        if (response.ok) {
-          const data = await response.json();
-          setCourseData(data);
+        const { unifiedData } = await loadCommunityData();
+        const mapping = (unifiedData?.courseMappings || []).find((m: any) => (m.courseCode || '').toLowerCase() === courseCode.toLowerCase());
+        if (mapping) {
+          setCourseData({
+            discord: mapping.discord || [],
+            reddit: mapping.reddit || [],
+            wguConnect: mapping.wguConnect || [],
+            wguStudentGroups: mapping.wguStudentGroups || [],
+          });
         } else {
-          console.log(`No specific community data found for ${courseCode}`);
+          console.log(`No unified mapping found for ${courseCode}`);
           setCourseData({ discord: [], reddit: [], wguConnect: [], wguStudentGroups: [] });
         }
       } catch (error) {

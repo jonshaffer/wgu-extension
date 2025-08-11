@@ -45,9 +45,8 @@ export default defineContentScript({
       const accordion = document.querySelector('mat-accordion');
       if (accordion) {
         // Create and inject the communities panel
-        const dataUrl = browser.runtime.getURL(`data/communities/${courseCode.toLowerCase()}.json`);
-        const iconUrl = browser.runtime.getURL('icons/128.png');
-        const communitiesPanel = await createCommunitiesPanel(courseCode, dataUrl, iconUrl);
+  const iconUrl = browser.runtime.getURL('/icons/128.png');
+        const communitiesPanel = await createCommunitiesPanel(courseCode, undefined, iconUrl);
         accordion.appendChild(communitiesPanel);
         console.log('Communities panel injected into sidebar.');
       }

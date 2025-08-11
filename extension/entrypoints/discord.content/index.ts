@@ -1,15 +1,11 @@
 import { storage } from '@wxt-dev/storage';
 import { ENABLE_DISCORD_INTEGRATION } from '@/utils/storage.constants';
-import unifiedData from '@/public/data/unified-community-data.json';
 import { discordCollectionEnabled, discordData } from '../../utils/storage';
-import { DiscordExtractor } from '../../data/discord/collect/discord-extractor';
+import { DiscordExtractor, isWGUDiscordServer } from '../../data/discord/collect/discord-extractor';
+import { loadCommunityData } from '@/utils/community-data';
 
-// Extract Discord server IDs from unified data
-const KNOWN_DISCORD_SERVERS = unifiedData.discordServers;
-
-const discordCommunities = KNOWN_DISCORD_SERVERS.map(serverId => 
-  `https://discord.com/channels/${serverId}/*`
-);
+// Use a permissive match and gate via whitelist at runtime
+const discordCommunities = ['https://discord.com/channels/*/*'];
 
 export default defineContentScript({
   matches: [...discordCommunities],
@@ -39,14 +35,11 @@ export default defineContentScript({
       };
     }
 
-    // Load unified community data from extension assets
+    // Load unified community data remotely
     async function loadUnifiedData() {
       try {
-        const response = await fetch(browser.runtime.getURL('data/unified-community-data.json' as any));
-        if (!response.ok) {
-          throw new Error(`Failed to load unified data: ${response.status}`);
-        }
-        return await response.json();
+        const { unifiedData } = await loadCommunityData();
+        return unifiedData;
       } catch (error) {
         console.error('WGU Extension: Error loading unified community data:', error);
         return null;
@@ -55,7 +48,9 @@ export default defineContentScript({
 
     // Check if current server is whitelisted
     async function isServerWhitelisted(serverId: string): Promise<boolean> {
-      return KNOWN_DISCORD_SERVERS.includes(serverId);
+      const unified = await loadUnifiedData();
+      const servers: string[] = unified?.discordServers || [];
+      return servers.includes(serverId);
     }
 
     console.log('WGU Extension: Discord integration loaded, basic functionality active');
@@ -105,8 +100,8 @@ export default defineContentScript({
           return;
         }
 
-        // Only collect if this appears to be a WGU-related server
-        if (!extractor.isWGURelatedServer()) {
+  // Only collect if this appears to be a WGU-related server
+  if (!isWGUDiscordServer()) {
           console.log('WGU Extension: Server does not appear WGU-related');
           return;
         }
@@ -130,18 +125,29 @@ export default defineContentScript({
         await discordData.setValue(updatedData);
 
         // Notify background script
-        if (typeof chrome !== 'undefined' && chrome.runtime) {
-          chrome.runtime.sendMessage({
+        if (typeof browser !== 'undefined' && browser.runtime) {
+          browser.runtime.sendMessage({
             type: 'DISCORD_DATA_COLLECTED',
             data: {
               serverId: serverData.serverId,
               serverName: serverData.serverName,
               channelCount: serverData.channels.length,
-              memberCount: serverData.memberCount,
+              memberCount: serverData.members.length,
               collectedAt: new Date().toISOString()
             }
           }).catch(() => {
             // Background script might not be listening, that's OK
+          });
+        } else if ((globalThis as any).chrome?.runtime) {
+          (globalThis as any).chrome.runtime.sendMessage({
+            type: 'DISCORD_DATA_COLLECTED',
+            data: {
+              serverId: serverData.serverId,
+              serverName: serverData.serverName,
+              channelCount: serverData.channels.length,
+              memberCount: serverData.members.length,
+              collectedAt: new Date().toISOString()
+            }
           });
         }
 

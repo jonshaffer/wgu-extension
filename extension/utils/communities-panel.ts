@@ -1,3 +1,5 @@
+import { loadCommunityData as loadUnifiedCommunityData } from '@/utils/community-data';
+
 interface CommunityLink {
   type: 'discord' | 'reddit' | 'wgu-connect' | 'wgu-student-groups';
   name: string;
@@ -61,23 +63,16 @@ export async function createCommunitiesPanel(courseCode: string, dataUrl?: strin
 
   // Load community data
   if (dataUrl) {
-    loadCommunityData(dataUrl, wrapper, courseCode);
+    loadFromUrl(dataUrl, wrapper, courseCode);
   } else {
-    // Fallback - try to get URL from global browser
-    try {
-      const courseUrl = (globalThis as any).browser?.runtime?.getURL(`data/communities/${courseCode.toLowerCase()}.json`);
-      if (courseUrl) {
-        loadCommunityData(courseUrl, wrapper, courseCode);
-      }
-    } catch (e) {
-      console.error('Failed to get data URL:', e);
-    }
+    // Use unified dataset remotely
+    loadFromUnified(wrapper, courseCode);
   }
   
   return wrapper;
 }
 
-async function loadCommunityData(dataUrl: string, wrapper: HTMLElement, courseCode: string) {
+async function loadFromUrl(dataUrl: string, wrapper: HTMLElement, courseCode: string) {
   const contentDiv = wrapper.querySelector('#community-content');
   if (!contentDiv) return;
 
@@ -129,6 +124,57 @@ async function loadCommunityData(dataUrl: string, wrapper: HTMLElement, courseCo
     }
   } catch (error) {
     console.error(`Error loading community data for ${courseCode}:`, error);
+    contentDiv.innerHTML = `
+      <div style="text-align: center; margin-left: 20px;">
+        <p style="font-size: 14px;">Unable to load community data for <strong>${courseCode}</strong>.</p>
+        <p style="font-size: 14px;">Check the Communities panel above for available resources.</p>
+      </div>
+    `;
+  }
+}
+
+async function loadFromUnified(wrapper: HTMLElement, courseCode: string) {
+  const contentDiv = wrapper.querySelector('#community-content');
+  if (!contentDiv) return;
+
+  try {
+    const { unifiedData } = await loadUnifiedCommunityData();
+    const mapping = (unifiedData?.courseMappings || []).find((m: any) => (m.courseCode || '').toLowerCase() === courseCode.toLowerCase());
+    const data: Partial<{ discord: CommunityLink[]; reddit: CommunityLink[]; wguConnect: CommunityLink[]; wguStudentGroups: CommunityLink[]; }> = mapping || {};
+
+    const allLinks = [
+      ...(data.discord || []),
+      ...(data.reddit || []),
+      ...(data.wguConnect || []),
+      ...(data.wguStudentGroups || [])
+    ];
+
+    if (allLinks.length > 0) {
+      const linksHtml = allLinks.map(link => `
+        <div style="margin-bottom: 6px;">
+          <a href="${link.url}" target="_blank" rel="noopener noreferrer" style="color: #1976d2; text-decoration: none; display: flex; align-items: center; padding: 2px 0; line-height: 1.4;">
+            ${getIconForCommunityType(link.type)}
+            <span style="font-size: 13px;">${link.name}</span>
+          </a>
+        </div>
+      `).join('');
+
+      contentDiv.innerHTML = `
+        <div style="text-align: left; margin-left: 20px;">
+          <p style="margin: 0 0 10px 0; font-weight: 500; font-size: 14px;">Community Resources for <strong>${courseCode}</strong>:</p>
+          ${linksHtml}
+        </div>
+      `;
+    } else {
+      contentDiv.innerHTML = `
+        <div style="text-align: center; margin-left: 20px;">
+          <p style="font-size: 14px;">No community links found for <strong>${courseCode}</strong>.</p>
+          <p style="font-size: 14px;">Check the Communities panel above for available resources.</p>
+        </div>
+      `;
+    }
+  } catch (error) {
+    console.error(`Error loading unified community data for ${courseCode}:`, error);
     contentDiv.innerHTML = `
       <div style="text-align: center; margin-left: 20px;">
         <p style="font-size: 14px;">Unable to load community data for <strong>${courseCode}</strong>.</p>
