@@ -26,7 +26,7 @@
     "types:publish:local": "cd extension && npm run types:publish:local",
   "types:publish:local:dry": "cd extension && npm run types:publish:local:dry",
   "pages:build:local": "node scripts/build-pages-local.js",
-  "pages:serve:local": "npx http-server site -p 4175 -c-1"
+  "pages:serve:local": "npx http-server pages-data -p 4175 -c-1"
   },
   "devDependencies": {
   "typescript": "^5.8.3",
