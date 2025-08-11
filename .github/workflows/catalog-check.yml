@@ -31,13 +31,13 @@ jobs:
           cache: 'npm'
           
       - name: Install dependencies
-        run: npm ci
+        run: cd extension && npm ci
         
       - name: Check catalog page structure
         id: page_check
         run: |
           echo "🔍 Validating WGU catalog page structure..."
-          npx tsx scripts/check-wgu-catalog-page.ts
+          cd extension && npx tsx scripts/check-wgu-catalog-page.ts
           
           # Check if page validation passed
           if [ $? -eq 0 ]; then
@@ -53,7 +53,7 @@ jobs:
           
       - name: Run catalog check
         id: catalog_check
-        run: npx tsx scripts/check-wgu-catalog.ts
+        run: cd extension && npx tsx scripts/check-wgu-catalog.ts
         
       - name: Process new catalogs
         if: success()
@@ -71,23 +71,23 @@ jobs:
               echo "HAS_NEW_CATALOGS=true" >> $GITHUB_ENV
               
               # Parse and process new catalogs if we have the parsing tools
-              if [ -d "data/catalogs/pdfs" ] && [ -f "data/catalogs/scripts/catalog-parser-unified.ts" ]; then
+              if [ -d "extension/data/catalogs/pdfs" ] && [ -f "extension/data/catalogs/scripts/catalog-parser-unified.ts" ]; then
                 echo "🔄 Processing new catalogs..."
-                cd data/catalogs
+                cd extension/data/catalogs
                 
                 # Run the parser on new catalogs
                 for catalog in pdfs/catalog-*.pdf; do
                   if [ -f "$catalog" ]; then
                     catalog_name=$(basename "$catalog")
                     # Check if this is a newly downloaded catalog
-                    if grep -q "$catalog_name" ../../catalog-check-results.json 2>/dev/null; then
+                    if grep -q "$catalog_name" ../../../catalog-check-results.json 2>/dev/null; then
                       echo "📄 Processing $(basename "$catalog")"
                       npx tsx scripts/catalog-parser-unified.ts "$catalog_name" || echo "⚠️ Failed to process $catalog_name"
                     fi
                   fi
                 done
                 
-                cd ../..
+                cd ../../..
               fi
             else
               echo "✅ No new catalogs found"
@@ -110,9 +110,9 @@ jobs:
             echo "🔍 Comparing catalogs: $NEW_CATALOG_LIST"
             
             # Generate comparison report
-            npx tsx scripts/compare-catalogs.ts $NEW_CATALOG_LIST > catalog-comparison-report.md 2>/dev/null || {
-              echo "⚠️ Could not generate comparison report" > catalog-comparison-report.md
-              echo "The catalog comparison tool encountered an error. Manual review may be needed." >> catalog-comparison-report.md
+            cd extension && npx tsx scripts/compare-catalogs.ts $NEW_CATALOG_LIST > ../catalog-comparison-report.md 2>/dev/null || {
+              echo "⚠️ Could not generate comparison report" > ../catalog-comparison-report.md
+              echo "The catalog comparison tool encountered an error. Manual review may be needed." >> ../catalog-comparison-report.md
             }
             
             echo "✅ Comparison report generated"
@@ -181,5 +181,5 @@ jobs:
             catalog-comparison-report.md
             catalog-page-check-results.json
             catalog-page-check-report.md
-            data/catalogs/pdfs/*.pdf
+            extension/data/catalogs/pdfs/*.pdf
           retention-days: 30

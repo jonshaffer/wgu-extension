@@ -4,7 +4,7 @@ on:
   push:
     branches: [ main ]
     paths:
-      - 'data/**'
+      - 'extension/data/**'
       - '.github/workflows/publish-data-pages.yml'
   workflow_dispatch: {}
 
@@ -34,11 +34,11 @@ jobs:
           set -euo pipefail
           mkdir -p site/data/discord/raw site/data/reddit/raw
           # Copy whitelisted raw data only
-          if [ -d "data/discord/raw" ]; then
-            cp -R data/discord/raw/. site/data/discord/raw/
+          if [ -d "extension/data/discord/raw" ]; then
+            cp -R extension/data/discord/raw/. site/data/discord/raw/
           fi
-          if [ -d "data/reddit/raw" ]; then
-            cp -R data/reddit/raw/. site/data/reddit/raw/
+          if [ -d "extension/data/reddit/raw" ]; then
+            cp -R extension/data/reddit/raw/. site/data/reddit/raw/
           fi
           # Create .nojekyll to prevent Jekyll processing
           touch site/.nojekyll

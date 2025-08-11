@@ -1,4 +1,6 @@
 {
-  ".": "0.1.0",
-  "packages/types": "0.0.1"
+  "extension": "0.1.0",
+  "extension/packages/types": "0.0.1",
+  "functions": "0.1.0",
+  "site": "0.1.0"
 }

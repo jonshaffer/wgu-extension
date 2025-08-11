@@ -1,13 +1,21 @@
 {
   "$schema": "https://raw.githubusercontent.com/googleapis/release-please/refs/heads/main/schemas/config.json",
   "packages": {
-    ".": {
+    "extension": {
       "release-type": "node",
       "package-name": "unofficial-wgu-extension"
     },
-    "packages/types": {
+    "extension/packages/types": {
       "release-type": "node",
       "package-name": "@wgu-extension/types"
+    },
+    "functions": {
+      "release-type": "node",
+      "package-name": "wgu-extension-functions"
+    },
+    "site": {
+      "release-type": "node", 
+      "package-name": "wgu-extension-site"
     }
   },
   "changelog-sections": [

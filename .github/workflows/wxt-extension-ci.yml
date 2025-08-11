@@ -3,16 +3,26 @@ name: WXT Extension CI
 on:
   push:
     branches: [ main, develop, feat/* ]
+    paths:
+      - 'extension/**'
+      - '!extension/**/*.md'
     paths-ignore:
       - 'docs/**'
       - '**/*.md'
       - '.github/ISSUE_TEMPLATE/**'
+      - 'functions/**'
+      - 'site/**'
   pull_request:
     branches: [ main, develop ]
+    paths:
+      - 'extension/**'
+      - '!extension/**/*.md'
     paths-ignore:
       - 'docs/**'
       - '**/*.md'
       - '.github/ISSUE_TEMPLATE/**'
+      - 'functions/**'
+      - 'site/**'
   workflow_dispatch:
 
 permissions:
@@ -37,13 +47,13 @@ jobs:
         run: npm ci
       
       - name: Type check
-        run: npm run compile
+        run: npm run typecheck --workspace=extension
       
       - name: Test development build
-        run: npm run build:dev
+        run: npm run build:dev --workspace=extension
       
       - name: Test production build  
-        run: npm run build:prod
+        run: npm run build:prod --workspace=extension
 
   build-preview:
     runs-on: ubuntu-latest
@@ -61,19 +71,19 @@ jobs:
         run: npm ci
       
       - name: Build preview
-        run: npm run build:preview
+        run: npm run build:preview --workspace=extension
         
       - name: Create preview ZIPs
         run: |
-          npm run zip:preview
-          npm run zip:firefox -- --mode preview
-          npm run zip:edge -- --mode preview
+          npm run zip:preview --workspace=extension
+          npm run zip:firefox --workspace=extension -- --mode preview
+          npm run zip:edge --workspace=extension -- --mode preview
       
       - name: Upload preview artifacts
         uses: actions/upload-artifact@v4
         with:
           name: extension-preview
-          path: .output/*.zip
+          path: extension/.output/*.zip
           retention-days: 7
 
   build-production:
@@ -92,19 +102,19 @@ jobs:
         run: npm ci
       
       - name: Build production
-        run: npm run build:prod
+        run: npm run build:prod --workspace=extension
         
       - name: Create production ZIPs
         run: |
-          npm run zip
-          npm run zip:firefox
-          npm run zip:edge
+          npm run zip --workspace=extension
+          npm run zip:firefox --workspace=extension
+          npm run zip:edge --workspace=extension
       
       - name: Upload production artifacts
         uses: actions/upload-artifact@v4
         with:
           name: extension-production
-          path: .output/*.zip
+          path: extension/.output/*.zip
           retention-days: 7
 
 

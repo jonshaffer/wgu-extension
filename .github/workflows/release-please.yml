@@ -44,16 +44,16 @@ jobs:
       
       - name: Build production extensions
         run: |
-          npm run build:prod
-          npm run zip
-          npm run zip:firefox
-          npm run zip:edge
+          npm run build:prod --workspace=extension
+          npm run zip --workspace=extension
+          npm run zip:firefox --workspace=extension
+          npm run zip:edge --workspace=extension
       
       - name: Upload release artifacts
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release upload ${{ needs.release-please.outputs.tag_name }} .output/*.zip
+          gh release upload ${{ needs.release-please.outputs.tag_name }} extension/.output/*.zip
 
   publish-types-final:
     runs-on: ubuntu-latest
@@ -71,18 +71,18 @@ jobs:
         run: npm ci
 
       - name: Build @wgu-extension/types
-        run: npm -w @wgu-extension/types run build
+        run: npm run build --workspace=extension/packages/types
 
       - name: Publish @wgu-extension/types to npm (final)
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          VERSION=$(node -p "require('./packages/types/package.json').version")
+          VERSION=$(node -p "require('./extension/packages/types/package.json').version")
           if npm view @wgu-extension/types@"${VERSION}" version >/dev/null 2>&1; then
             echo "Version ${VERSION} already published; skipping."
             exit 0
           fi
-          npm -w @wgu-extension/types publish --access public
+          npm publish --workspace=extension/packages/types --access public
 
   # Automatically submit to extension stores when a release is created
   store-submission:
@@ -103,15 +103,15 @@ jobs:
       
       - name: Build and zip for stores
         run: |
-          npm run build:prod
-          npm run zip
-          npm run zip:firefox
-          npm run zip:edge
+          npm run build:prod --workspace=extension
+          npm run zip --workspace=extension
+          npm run zip:firefox --workspace=extension
+          npm run zip:edge --workspace=extension
 
       - name: Submit to Chrome Web Store (optional)
         run: |
           if [ -n "${CHROME_EXTENSION_ID}" ] && [ -n "${CHROME_CLIENT_ID}" ] && [ -n "${CHROME_CLIENT_SECRET}" ] && [ -n "${CHROME_REFRESH_TOKEN}" ]; then
-            npx wxt submit --chrome-zip .output/*-chrome.zip
+            cd extension && npx wxt submit --chrome-zip .output/*-chrome.zip
           else
             echo "Chrome Web Store secrets not set; skipping."
           fi
@@ -124,7 +124,7 @@ jobs:
       - name: Submit to Firefox Add-ons (optional)
         run: |
           if [ -n "${FIREFOX_EXTENSION_ID}" ] && [ -n "${FIREFOX_JWT_ISSUER}" ] && [ -n "${FIREFOX_JWT_SECRET}" ]; then
-            npx wxt submit --firefox-zip .output/*-firefox.zip --firefox-sources-zip .output/*-sources.zip
+            cd extension && npx wxt submit --firefox-zip .output/*-firefox.zip --firefox-sources-zip .output/*-sources.zip
           else
             echo "Firefox Add-ons secrets not set; skipping."
           fi
@@ -136,7 +136,7 @@ jobs:
       - name: Submit to Microsoft Edge Add-ons (optional)
         run: |
           if [ -n "${EDGE_PRODUCT_ID}" ] && [ -n "${EDGE_CLIENT_ID}" ] && [ -n "${EDGE_CLIENT_SECRET}" ] && [ -n "${EDGE_TENANT_ID}" ]; then
-            npm exec --yes edge-addons-cli@1.12.0 upload \
+            cd extension && npm exec --yes edge-addons-cli@1.12.0 upload \
               --product-id "${EDGE_PRODUCT_ID}" \
               --zip ".output/*-edge.zip" \
               --client-id "${EDGE_CLIENT_ID}" \

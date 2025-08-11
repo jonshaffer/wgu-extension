@@ -5,7 +5,7 @@ on:
     types: [opened, synchronize, reopened]
     branches: [ main ]
     paths:
-      - 'packages/types/**'
+      - 'extension/packages/types/**'
       - '.release-please-manifest.json'
 
 permissions:
@@ -30,19 +30,21 @@ jobs:
         run: npm ci
 
       - name: Build @wgu-extension/types
-        run: npm -w @wgu-extension/types run build
+        run: npm run build --workspace=extension/packages/types
 
       - name: Compute prerelease version (-next.<sha>)
         id: semver
         run: |
-          ORIG=$(node -p "require('./packages/types/package.json').version")
+          ORIG=$(node -p "require('./extension/packages/types/package.json').version")
           SHORT_SHA=${GITHUB_SHA::7}
           PRE="${ORIG}-next.${SHORT_SHA}"
           echo "orig=${ORIG}" >> $GITHUB_OUTPUT
           echo "pre=${PRE}" >> $GITHUB_OUTPUT
 
       - name: Bump to prerelease version (no git tag)
-        run: npm -w @wgu-extension/types version "${{ steps.semver.outputs.pre }}" --no-git-tag-version
+        run: |
+          cd extension/packages/types
+          npm version "${{ steps.semver.outputs.pre }}" --no-git-tag-version
 
       - name: Publish prerelease to npm (tag=next)
         env:
@@ -53,4 +55,4 @@ jobs:
             echo "Prerelease version ${{ steps.semver.outputs.pre }} already exists; skipping."
             exit 0
           fi
-          npm -w @wgu-extension/types publish --access public --tag next
+          npm publish --workspace=extension/packages/types --access public --tag next
