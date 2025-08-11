@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { SearchButton } from './SearchButton';
 
 interface SearchOption {
@@ -9,10 +9,25 @@ interface SearchOption {
   color?: string;
 }
 
+interface CommunityLink {
+  type: 'discord' | 'reddit' | 'wgu-connect' | 'wgu-student-groups';
+  name: string;
+  url: string;
+  description?: string;
+}
+
+interface CourseData {
+  discord: CommunityLink[];
+  reddit: CommunityLink[];
+  wguConnect: CommunityLink[];
+  wguStudentGroups: CommunityLink[];
+}
+
 interface SearchPanelProps {
   courseCode: string;
   searchOptions?: SearchOption[];
   showDefaultSearch?: boolean;
+  showCourseSpecificSearch?: boolean;
   style?: React.CSSProperties;
 }
 
@@ -29,8 +44,77 @@ export function SearchPanel({
   courseCode, 
   searchOptions = [], 
   showDefaultSearch = true,
+  showCourseSpecificSearch = true,
   style = {}
 }: SearchPanelProps) {
+  const [courseData, setCourseData] = useState<CourseData | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Load course-specific community data
+  useEffect(() => {
+    async function loadCourseData() {
+      try {
+        setIsLoading(true);
+        const courseUrl = browser.runtime.getURL(`data/courses/${courseCode.toLowerCase()}.json` as any);
+        const response = await fetch(courseUrl);
+        
+        if (response.ok) {
+          const data = await response.json();
+          setCourseData(data);
+        } else {
+          console.log(`No specific community data found for ${courseCode}`);
+          setCourseData({ discord: [], reddit: [], wguConnect: [], wguStudentGroups: [] });
+        }
+      } catch (error) {
+        console.error(`Error loading course data for ${courseCode}:`, error);
+        setCourseData({ discord: [], reddit: [], wguConnect: [], wguStudentGroups: [] });
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    loadCourseData();
+  }, [courseCode]);
+  // Generate course-specific search options based on available communities
+  const generateCourseSpecificSearchOptions = (): SearchOption[] => {
+    if (!courseData) return [];
+    
+    const options: SearchOption[] = [];
+    
+    // Discord channel searches (if course has Discord channels)
+    if (courseData.discord && courseData.discord.length > 0) {
+      courseData.discord.forEach((discord, index) => {
+        // Extract server ID and channel ID from Discord URL
+        const serverMatch = discord.url.match(/discord\.gg\/(.+)/) || discord.url.match(/discord\.com\/channels\/(\d+)/);
+        if (serverMatch) {
+          const serverId = serverMatch[1] === 'wgu-cs' ? '1063853854413836499' : serverMatch[1];
+          options.push({
+            id: `discord-${index}`,
+            name: `Search ${discord.name}`,
+            url: `https://discord.com/channels/${serverId}`,
+            icon: DISCORD_SEARCH_ICON_SVG,
+            color: '#5865F2'
+          });
+        }
+      });
+    }
+    
+    // WGU Connect searches (direct links to groups)
+    if (courseData.wguConnect && courseData.wguConnect.length > 0) {
+      courseData.wguConnect.forEach((wguConnect, index) => {
+        options.push({
+          id: `wgu-connect-${index}`,
+          name: `Open ${wguConnect.name}`,
+          url: wguConnect.url,
+          icon: WGU_CONNECT_SEARCH_ICON_SVG,
+          color: '#0073e6'
+        });
+      });
+    }
+    
+    return options;
+  };
+
   const defaultSearchOptions: SearchOption[] = [
     {
       id: 'wgu-course-search',
@@ -40,13 +124,6 @@ export function SearchPanel({
       color: '#0073e6'
     },
     {
-      id: 'discord-search',
-      name: 'Search Discord',
-      url: `https://discord.com/channels/1063853854413836499`,
-      icon: DISCORD_SEARCH_ICON_SVG,
-      color: '#5865F2'
-    },
-    {
       id: 'reddit-search',
       name: 'Search Reddit',
       url: `https://www.reddit.com/r/WGU/search/?q=${courseCode}&type=link&cId=8a50c45c-fe21-4584-8009-f4c7b5c6b5a9&iId=87bfd7c2-63bf-469a-9d98-f4b50c6b4c84`,
@@ -54,7 +131,7 @@ export function SearchPanel({
       color: '#FF4500'
     },
     {
-      id: 'wgu-connect-search',
+      id: 'wgu-connect-general-search',
       name: 'Search Connect',
       url: `https://wguconnect.wgu.edu/search?q=${courseCode}`,
       icon: WGU_CONNECT_SEARCH_ICON_SVG,
@@ -62,10 +139,13 @@ export function SearchPanel({
     }
   ];
 
-  // Combine default and custom search options
-  const allSearchOptions = showDefaultSearch 
-    ? [...defaultSearchOptions, ...searchOptions]
-    : searchOptions;
+  // Combine all search options
+  const courseSpecificOptions = showCourseSpecificSearch ? generateCourseSpecificSearchOptions() : [];
+  const allSearchOptions = [
+    ...(showDefaultSearch ? defaultSearchOptions : []),
+    ...courseSpecificOptions,
+    ...searchOptions
+  ];
 
   const containerStyle: React.CSSProperties = {
     display: 'flex',
@@ -77,8 +157,34 @@ export function SearchPanel({
     ...style
   };
 
+  if (isLoading) {
+    return (
+      <div style={containerStyle}>
+        <div style={{ 
+          padding: '16px', 
+          textAlign: 'center', 
+          color: '#666', 
+          fontSize: '14px' 
+        }}>
+          Loading search options...
+        </div>
+      </div>
+    );
+  }
+
   if (allSearchOptions.length === 0) {
-    return null;
+    return (
+      <div style={containerStyle}>
+        <div style={{ 
+          padding: '16px', 
+          textAlign: 'center', 
+          color: '#666', 
+          fontSize: '14px' 
+        }}>
+          No search options available for {courseCode}
+        </div>
+      </div>
+    );
   }
 
   return (
