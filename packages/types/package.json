@@ -1,0 +1,40 @@
+{
+  "name": "@wgu-extension/types",
+  "version": "0.0.1",
+  "private": false,
+  "description": "Shared TypeScript types and Zod schemas for WGU Extension data (Discord, Reddit, etc.)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonshaffer/wgu-extension.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jonshaffer/wgu-extension/issues"
+  },
+  "homepage": "https://github.com/jonshaffer/wgu-extension#readme",
+  "type": "module",
+  "sideEffects": false,
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
+}
