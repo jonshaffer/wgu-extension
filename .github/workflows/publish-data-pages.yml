@@ -29,16 +29,28 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Prepare site content (discord + reddit + catalogs)
+      - name: Prepare site content (discord + reddit + wgu-connect + wgu-student-groups + catalogs)
         run: |
           set -euo pipefail
-          mkdir -p site/data/discord/raw site/data/reddit/raw site/data/catalogs/parsed site/schemas
+          mkdir -p \
+            site/data/discord/raw \
+            site/data/reddit/raw \
+            site/data/wgu-connect/raw \
+            site/data/wgu-student-groups/raw \
+            site/data/catalogs/parsed \
+            site/schemas
           # Copy whitelisted raw data only
           if [ -d "extension/data/discord/raw" ]; then
             cp -R extension/data/discord/raw/. site/data/discord/raw/
           fi
           if [ -d "extension/data/reddit/raw" ]; then
             cp -R extension/data/reddit/raw/. site/data/reddit/raw/
+          fi
+          if [ -d "extension/data/wgu-connect/raw" ]; then
+            cp -R extension/data/wgu-connect/raw/. site/data/wgu-connect/raw/
+          fi
+          if [ -d "extension/data/wgu-student-groups/raw" ]; then
+            cp -R extension/data/wgu-student-groups/raw/. site/data/wgu-student-groups/raw/
           fi
           # Copy parsed catalogs (JSON only)
           if [ -d "extension/data/catalogs/parsed" ]; then
@@ -68,6 +80,8 @@ jobs:
             const bases = [
               "site/data/discord/raw",
               "site/data/reddit/raw",
+              "site/data/wgu-connect/raw",
+              "site/data/wgu-student-groups/raw",
               "site/data/catalogs/parsed",
               "site/schemas"
             ];
@@ -81,6 +95,8 @@ jobs:
               basePaths: {
                 discord: "/data/discord/raw",
                 reddit: "/data/reddit/raw",
+                wguConnect: "/data/wgu-connect/raw",
+                wguStudentGroups: "/data/wgu-student-groups/raw",
                 catalogs: "/data/catalogs/parsed",
                 schemas: "/schemas"
               },
