@@ -1,16 +1,33 @@
 import React, { useState, useEffect } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Separator } from '@/components/ui/separator';
+import { toast } from 'sonner';
+import { storage } from '@wxt-dev/storage';
+import { SHOW_REPORT_PERCENTAGE, ENABLE_DISCORD_INTEGRATION, ENABLE_REDDIT_INTEGRATION, ENABLE_WGU_CONNECT_INTEGRATION, ENABLE_COURSE_COMMUNITIES } from '@/utils/storage.constants';
 import { 
   dataCollectionEnabled, 
   discordCollectionEnabled, 
   wguConnectCollectionEnabled,
   firstInstall
 } from '../utils/storage';
+import { ModeToggle } from '@/components/mode-toggle';
 
 export default function OptionsPage() {
   const [settings, setSettings] = useState({
+    // Data collection settings
     dataCollectionEnabled: false,
     discordCollectionEnabled: false,
     wguConnectCollectionEnabled: false,
+    // Feature settings  
+    showReportPercent: true,
+    enableDiscord: true,
+    enableReddit: false,
+    enableWguConnect: true,
+    enableCourseCommunities: true,
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -21,16 +38,37 @@ export default function OptionsPage() {
 
   const loadSettings = async () => {
     try {
-      const [dataCollection, discord, wguConnect] = await Promise.all([
+      const [
+        dataCollection,
+        discord,
+        wguConnect,
+        showReportValue,
+        discordValue,
+        redditValue,
+        wguConnectValue,
+        courseCommunitiesValue
+      ] = await Promise.all([
         dataCollectionEnabled.getValue(),
         discordCollectionEnabled.getValue(),
         wguConnectCollectionEnabled.getValue(),
+        storage.getItem<boolean>(SHOW_REPORT_PERCENTAGE),
+        storage.getItem<boolean>(ENABLE_DISCORD_INTEGRATION),
+        storage.getItem<boolean>(ENABLE_REDDIT_INTEGRATION),
+        storage.getItem<boolean>(ENABLE_WGU_CONNECT_INTEGRATION),
+        storage.getItem<boolean>(ENABLE_COURSE_COMMUNITIES)
       ]);
 
       setSettings({
+        // Data collection settings
         dataCollectionEnabled: dataCollection,
         discordCollectionEnabled: discord,
         wguConnectCollectionEnabled: wguConnect,
+        // Feature settings with defaults
+        showReportPercent: showReportValue ?? true,
+        enableDiscord: discordValue ?? true,
+        enableReddit: redditValue ?? false,
+        enableWguConnect: wguConnectValue ?? true,
+        enableCourseCommunities: courseCommunitiesValue ?? true,
       });
     } catch (error) {
       console.error('Error loading settings:', error);
@@ -44,9 +82,16 @@ export default function OptionsPage() {
     setSaving(true);
     try {
       await Promise.all([
+        // Data collection settings
         dataCollectionEnabled.setValue(settings.dataCollectionEnabled),
         discordCollectionEnabled.setValue(settings.discordCollectionEnabled),
         wguConnectCollectionEnabled.setValue(settings.wguConnectCollectionEnabled),
+        // Feature settings
+        storage.setItem<boolean>(SHOW_REPORT_PERCENTAGE, settings.showReportPercent),
+        storage.setItem<boolean>(ENABLE_DISCORD_INTEGRATION, settings.enableDiscord),
+        storage.setItem<boolean>(ENABLE_REDDIT_INTEGRATION, settings.enableReddit),
+        storage.setItem<boolean>(ENABLE_WGU_CONNECT_INTEGRATION, settings.enableWguConnect),
+        storage.setItem<boolean>(ENABLE_COURSE_COMMUNITIES, settings.enableCourseCommunities),
       ]);
 
       await firstInstall.setValue(false);
@@ -75,6 +120,13 @@ export default function OptionsPage() {
     }));
   };
 
+  const handleFeatureToggle = (key: string, enabled: boolean) => {
+    setSettings(prev => ({
+      ...prev,
+      [key]: enabled,
+    }));
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -86,13 +138,120 @@ export default function OptionsPage() {
   return (
     <div className="min-h-screen bg-background p-8">
       <div className="max-w-4xl mx-auto space-y-8">
-        <div>
-          <h1 className="text-3xl font-bold">WGU Extension Settings</h1>
-          <p className="text-muted-foreground mt-2">
-            Configure data collection and community features
-          </p>
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold">WGU Extension Settings</h1>
+            <p className="text-muted-foreground mt-2">
+              Configure extension features, integrations, and data collection preferences
+            </p>
+          </div>
+          <ModeToggle />
         </div>
 
+        {/* WGU Features */}
+        <Card>
+          <CardHeader>
+            <CardTitle>WGU Features</CardTitle>
+            <CardDescription>
+              Core extension features for enhancing your WGU experience
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-center justify-between space-x-2">
+              <div className="flex-1">
+                <Label htmlFor="show-report-percent" className="font-medium">
+                  Show Test Report Percentages
+                </Label>
+                <p className="text-sm text-muted-foreground">
+                  Display percentage scores on test reports and coaching reports
+                </p>
+              </div>
+              <Switch
+                id="show-report-percent"
+                checked={settings.showReportPercent}
+                onCheckedChange={(enabled) => handleFeatureToggle('showReportPercent', enabled)}
+              />
+            </div>
+
+            <div className="flex items-center justify-between space-x-2">
+              <div className="flex-1">
+                <Label htmlFor="course-communities" className="font-medium">
+                  Course Communities Sidebar
+                </Label>
+                <p className="text-sm text-muted-foreground">
+                  Show community links and search options in course details pages
+                </p>
+              </div>
+              <Switch
+                id="course-communities"
+                checked={settings.enableCourseCommunities}
+                onCheckedChange={(enabled) => handleFeatureToggle('enableCourseCommunities', enabled)}
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Community Integrations */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Community Integrations</CardTitle>
+            <CardDescription>
+              Connect with WGU communities across different platforms
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-center justify-between space-x-2">
+              <div className="flex-1">
+                <Label htmlFor="discord-integration" className="font-medium">
+                  Discord Integration
+                </Label>
+                <p className="text-sm text-muted-foreground">
+                  Enhanced features when visiting WGU Discord servers
+                </p>
+              </div>
+              <Switch
+                id="discord-integration"
+                checked={settings.enableDiscord}
+                onCheckedChange={(enabled) => handleFeatureToggle('enableDiscord', enabled)}
+              />
+            </div>
+
+            <div className="flex items-center justify-between space-x-2">
+              <div className="flex-1">
+                <Label htmlFor="reddit-integration" className="font-medium">
+                  Reddit Integration
+                </Label>
+                <p className="text-sm text-muted-foreground">
+                  Enhanced features when visiting WGU-related subreddits
+                </p>
+              </div>
+              <Switch
+                id="reddit-integration"
+                checked={settings.enableReddit}
+                onCheckedChange={(enabled) => handleFeatureToggle('enableReddit', enabled)}
+              />
+            </div>
+
+            <div className="flex items-center justify-between space-x-2">
+              <div className="flex-1">
+                <Label htmlFor="wgu-connect-integration" className="font-medium">
+                  WGU Connect Integration
+                </Label>
+                <p className="text-sm text-muted-foreground">
+                  Enhanced features when using WGU Connect platform
+                </p>
+              </div>
+              <Switch
+                id="wgu-connect-integration"
+                checked={settings.enableWguConnect}
+                onCheckedChange={(enabled) => handleFeatureToggle('enableWguConnect', enabled)}
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Data Collection Settings */}
         <Card>
           <CardHeader>
             <CardTitle>Data Collection Settings</CardTitle>
@@ -125,7 +284,7 @@ export default function OptionsPage() {
                 {/* Discord Collection */}
                 <div className="flex items-center justify-between space-x-2">
                   <div className="flex-1">
-                    <Label htmlFor="discord-toggle" className="font-medium">
+                    <Label htmlFor="discord-collection" className="font-medium">
                       Discord Server Data
                     </Label>
                     <p className="text-sm text-muted-foreground">
@@ -133,7 +292,7 @@ export default function OptionsPage() {
                     </p>
                   </div>
                   <Switch
-                    id="discord-toggle"
+                    id="discord-collection"
                     checked={settings.discordCollectionEnabled}
                     onCheckedChange={(enabled) => handleSubToggle('discordCollectionEnabled', enabled)}
                   />
@@ -142,7 +301,7 @@ export default function OptionsPage() {
                 {/* WGU Connect Collection */}
                 <div className="flex items-center justify-between space-x-2">
                   <div className="flex-1">
-                    <Label htmlFor="wgu-connect-toggle" className="font-medium">
+                    <Label htmlFor="wgu-connect-collection" className="font-medium">
                       WGU Connect Resources
                     </Label>
                     <p className="text-sm text-muted-foreground">
@@ -150,7 +309,7 @@ export default function OptionsPage() {
                     </p>
                   </div>
                   <Switch
-                    id="wgu-connect-toggle"
+                    id="wgu-connect-collection"
                     checked={settings.wguConnectCollectionEnabled}
                     onCheckedChange={(enabled) => handleSubToggle('wguConnectCollectionEnabled', enabled)}
                   />
@@ -171,15 +330,15 @@ export default function OptionsPage() {
                 </ul>
               </AlertDescription>
             </Alert>
-
-            {/* Save Button */}
-            <div className="flex justify-end">
-              <Button onClick={saveSettings} disabled={saving}>
-                {saving ? 'Saving...' : 'Save Settings'}
-              </Button>
-            </div>
           </CardContent>
         </Card>
+
+        {/* Save Button */}
+        <div className="flex justify-end">
+          <Button onClick={saveSettings} disabled={saving} size="lg">
+            {saving ? 'Saving...' : 'Save All Settings'}
+          </Button>
+        </div>
       </div>
     </div>
   );
