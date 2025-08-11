@@ -1,0 +1,142 @@
+name: Validate Reddit Data
+
+on:
+  pull_request:
+    paths:
+      - 'data/reddit/raw/**'
+      - 'data/reddit/types/**'
+      - 'data/reddit/scripts/**'
+  push:
+    branches: [main]
+    paths:
+      - 'data/reddit/raw/**'
+      - 'data/reddit/types/**'
+      - 'data/reddit/scripts/**'
+
+jobs:
+  validate-reddit-data:
+    name: Validate Reddit Raw Data
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Install AJV CLI for JSON Schema validation
+        run: npm install -g ajv-cli
+        
+      - name: Validate JSON Schema
+        run: |
+          echo "Validating JSON schema syntax..."
+          ajv compile -s data/reddit/types/reddit-community.schema.json
+          
+      - name: Validate Reddit raw data files against schema
+        run: |
+          echo "Validating all Reddit raw data files against schema..."
+          for file in data/reddit/raw/*.json; do
+            if [ -f "$file" ]; then
+              echo "Validating $file..."
+              ajv validate -s data/reddit/types/reddit-community.schema.json -d "$file" --verbose || exit 1
+            fi
+          done
+          
+      - name: Run TypeScript validation script
+        run: |
+          echo "Running TypeScript validation script..."
+          npx tsx data/reddit/scripts/validate_raw.ts --validate-only
+          
+      - name: Check for required fields
+        run: |
+          echo "Checking for required fields in all files..."
+          for file in data/reddit/raw/*.json; do
+            if [ -f "$file" ]; then
+              echo "Checking required fields in $file..."
+              
+              # Check for required fields using jq
+              if ! jq -e '.subreddit and .name and .description and .hierarchy.level and (.isActive | type) == "boolean" and (.tags | type) == "array" and (.relevantCourses | type) == "array"' "$file" > /dev/null; then
+                echo "❌ Missing required fields in $file"
+                exit 1
+              fi
+              
+              # Check name format (must start with r/)
+              if ! jq -e '.name | startswith("r/")' "$file" > /dev/null; then
+                echo "❌ Invalid name format in $file (must start with r/)"
+                exit 1
+              fi
+              
+              # Check hierarchy level is valid
+              if ! jq -e '.hierarchy.level | IN("university", "college", "program", "course", "community")' "$file" > /dev/null; then
+                echo "❌ Invalid hierarchy level in $file"
+                exit 1
+              fi
+              
+              echo "✅ $file passed validation"
+            fi
+          done
+          
+      - name: Check file naming convention
+        run: |
+          echo "Checking file naming conventions..."
+          for file in data/reddit/raw/*.json; do
+            if [ -f "$file" ]; then
+              filename=$(basename "$file")
+              filename_lower=$(echo "$filename" | tr '[:upper:]' '[:lower:]')
+              
+              # Check if filename is lowercase
+              if [ "$filename" != "$filename_lower" ]; then
+                echo "❌ File should be lowercase: $filename should be $filename_lower"
+                exit 1
+              fi
+              
+              # Check if filename matches subreddit (case-insensitive)
+              filename_no_ext=$(basename "$file" .json)
+              subreddit=$(jq -r '.subreddit' "$file")
+              subreddit_lower=$(echo "$subreddit" | tr '[:upper:]' '[:lower:]')
+              
+              if [ "$filename_no_ext" != "$subreddit_lower" ]; then
+                echo "❌ File naming mismatch: $file should be named $subreddit_lower.json to match subreddit $subreddit"
+                exit 1
+              fi
+              
+              echo "✅ $file naming convention correct"
+            fi
+          done
+          
+      - name: Test ingest process
+        run: |
+          echo "Testing ingest process..."
+          npx tsx data/reddit/scripts/ingest-reddit.ts
+          
+          # Check that processed file was created
+          if [ -f "data/reddit/processed/communities.json" ]; then
+            echo "✅ Processed file created successfully"
+            
+            # Validate processed file structure
+            jq -e '.communities | type == "array"' data/reddit/processed/communities.json > /dev/null
+            jq -e '.metadata.totalCommunities | type == "number"' data/reddit/processed/communities.json > /dev/null
+            
+            community_count=$(jq '.metadata.totalCommunities' data/reddit/processed/communities.json)
+            echo "✅ Processed file contains $community_count communities"
+          else
+            echo "❌ Processed file was not created"
+            exit 1
+          fi
+          
+      - name: Summary
+        run: |
+          raw_count=$(find data/reddit/raw -name "*.json" | wc -l)
+          processed_count=$(jq '.metadata.totalCommunities' data/reddit/processed/communities.json 2>/dev/null || echo "0")
+          
+          echo "✅ Successfully validated and processed Reddit community data"
+          echo "   Raw files: $raw_count"
+          echo "   Processed communities: $processed_count"
+          echo "   All files passed JSON Schema validation and naming conventions"
