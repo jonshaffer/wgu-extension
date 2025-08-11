@@ -1,0 +1,55 @@
+name: Publish @wgu-extension/types Beta on Release PR
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [ main ]
+    paths:
+      - 'packages/types/**'
+      - '.release-please-manifest.json'
+
+permissions:
+  contents: read
+
+jobs:
+  publish-beta:
+    name: Publish beta to npm
+    runs-on: ubuntu-latest
+    if: startsWith(github.head_ref, 'release-please--')
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build @wgu-extension/types
+        run: npm -w @wgu-extension/types run build
+
+      - name: Compute prerelease version
+        id: semver
+        run: |
+          ORIG=$(node -p "require('./packages/types/package.json').version")
+          PRE="${ORIG}-beta.${GITHUB_RUN_NUMBER}"
+          echo "orig=${ORIG}" >> $GITHUB_OUTPUT
+          echo "pre=${PRE}" >> $GITHUB_OUTPUT
+
+      - name: Bump to prerelease version (no tag)
+        run: npm -w @wgu-extension/types version "${{ steps.semver.outputs.pre }}" --no-git-tag-version
+
+      - name: Publish beta to npm (tag=beta)
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          # Skip if this prerelease already exists
+          if npm view @wgu-extension/types@"${{ steps.semver.outputs.pre }}" version >/dev/null 2>&1; then
+            echo "Beta version ${{ steps.semver.outputs.pre }} already exists; skipping."
+            exit 0
+          fi
+          npm -w @wgu-extension/types publish --access public --tag beta
