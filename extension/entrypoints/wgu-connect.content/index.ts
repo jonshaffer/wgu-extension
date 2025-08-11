@@ -440,6 +440,20 @@ export default defineContentScript({
         const groupKey = resourceData.groupId;
         const tabKey = resourceData.activeTab;
 
+        // Build a lightweight reference index for this group's resources
+        const referenceIndex = (resourceData.resources || []).reduce((acc: Record<string, { tab: string; title: string; id: string; link?: string; type: string }>, r: any) => {
+          if (r.referencePath) {
+            acc[r.referencePath.key] = {
+              tab: r.referencePath.tab,
+              title: r.referencePath.title,
+              id: r.id,
+              link: r.link,
+              type: r.type,
+            };
+          }
+          return acc;
+        }, {});
+
         const updatedData = {
           ...currentData,
           groups: {
@@ -447,12 +461,18 @@ export default defineContentScript({
             [groupKey]: {
               ...currentData.groups[groupKey],
               groupName: resourceData.groupName,
+              referenceIndex: {
+                ...(currentData.groups?.[groupKey]?.referenceIndex || {}),
+                ...referenceIndex,
+              },
               tabs: {
                 ...currentData.groups[groupKey]?.tabs,
                 [tabKey]: {
                   resources: resourceData.resources,
                   lastUpdated: resourceData.extractedAt,
-                  url: resourceData.url
+                  url: resourceData.url,
+                  activeTabId: resourceData.activeTabId,
+                  activeTabPanelId: resourceData.activeTabPanelId,
                 }
               }
             }

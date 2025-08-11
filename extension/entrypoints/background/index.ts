@@ -1,4 +1,5 @@
 import { dataCollectionEnabled, discordData, wguConnectData, extensionVersion } from '../../utils/storage';
+import { postWguConnectCollection } from '../../utils/ingest';
 
 export default defineBackground(() => {
   console.log('WGU Extension: Background script loaded');
@@ -50,6 +51,30 @@ export default defineBackground(() => {
   async function handleWGUConnectDataCollected(data: any, sender: any) {
     console.log('WGU Extension: WGU Connect data collected from tab', sender.tab?.id, data);
     
+    // Try to read the latest stored group/tab payload to send full collection
+    try {
+      const all = await wguConnectData.getValue();
+      const group = all.groups?.[data.groupId];
+      const tab = group?.tabs?.[data.activeTab];
+      const resources = tab?.resources ?? [];
+      if (Array.isArray(resources) && resources.length > 0) {
+        const payload = {
+          type: 'wgu_connect' as const,
+          groupId: data.groupId,
+          groupName: data.groupName,
+          activeTab: data.activeTab,
+          url: tab.url,
+          resources,
+          collectedAt: data.collectedAt,
+          activeTabId: tab.activeTabId,
+          activeTabPanelId: tab.activeTabPanelId,
+        };
+        await postWguConnectCollection(payload);
+      }
+    } catch (e) {
+      console.warn('WGU Extension: Failed to prepare ingest payload:', e);
+    }
+
     // Log collection event
     logDataCollection('wgu-connect', data);
   }
@@ -83,7 +108,7 @@ export default defineBackground(() => {
       
       // Open options page for first-time setup
       browser.tabs.create({
-        url: browser.runtime.getURL('options.html')
+  url: browser.runtime.getURL('/options.html')
       });
     } else if (details.reason === 'update') {
       console.log('WGU Extension: Updated to new version');

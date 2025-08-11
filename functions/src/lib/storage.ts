@@ -3,7 +3,7 @@ import { db } from "./firebase";
 import { isFingerprintValid } from "./validation";
 
 export async function storeEvent(params: {
-  type: "discord_summary" | "wgu_connect_summary";
+  type: "discord_summary" | "wgu_connect";
   scope: string;
   payload: Record<string, any>;
   fingerprint?: string;

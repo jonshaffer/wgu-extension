@@ -7,6 +7,12 @@
 
 import { extractWGUConnectData, isWGUConnectResourcesPage, WGUConnectResourceData, WGUConnectExtractor } from './wgu-connect-extractor.js';
 
+// Minimal global declaration for Chrome extension typings in this isolated module
+declare const chrome: undefined | {
+  storage?: { local: { set: (data: any) => Promise<void>; get: (keys: any) => Promise<any> } };
+  runtime?: { sendMessage: (msg: any) => Promise<void> };
+};
+
 /**
  * Configuration for WGU Connect data collection
  */
@@ -45,6 +51,20 @@ class WGUConnectDataStorage {
       // Create unique key for this group/tab combination
       const dataKey = `${resourceData.groupId}_${resourceData.activeTab}`;
       
+      // Build a reference index for this group's resources by human-friendly path
+      const referenceIndex = (resourceData.resources || []).reduce((acc, r) => {
+        if (r.referencePath) {
+          acc[r.referencePath.key] = {
+            tab: r.referencePath.tab,
+            title: r.referencePath.title,
+            id: r.id,
+            link: r.link,
+            type: r.type
+          };
+        }
+        return acc;
+      }, {} as Record<string, { tab: string; title: string; id: string; link?: string; type: string }>);
+
       // Update or add resource data
       const updated = {
         ...existing,
@@ -53,12 +73,19 @@ class WGUConnectDataStorage {
           [resourceData.groupId]: {
             ...existing.groups[resourceData.groupId],
             groupName: resourceData.groupName,
+            // Merge/extend existing reference index
+            referenceIndex: {
+              ...(existing.groups?.[resourceData.groupId]?.referenceIndex || {}),
+              ...referenceIndex
+            },
             tabs: {
               ...existing.groups[resourceData.groupId]?.tabs,
               [resourceData.activeTab]: {
                 resources: resourceData.resources,
                 lastUpdated: resourceData.extractedAt,
-                url: resourceData.url
+                url: resourceData.url,
+                activeTabId: resourceData.activeTabId,
+                activeTabPanelId: resourceData.activeTabPanelId
               }
             }
           }
@@ -270,7 +297,7 @@ export class WGUConnectDataCollector {
           resourceCount: resourceData.resources.length,
           collectedAt: resourceData.extractedAt
         }
-      }).catch(error => {
+  }).catch((error: any) => {
         // Background script might not be listening, that's OK
         console.log('[WGU Extension] Background script not available:', error.message);
       });

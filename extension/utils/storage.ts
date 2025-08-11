@@ -26,6 +26,11 @@ export const wguConnectData = storage.defineItem<any>('local:wguConnectData', {
   fallback: { groups: {}, lastCollection: null },
 });
 
+// Per-scope (groupId:tab) weekly throttle timestamps for WGU Connect ingestion
+export const wguConnectIngestHistory = storage.defineItem<Record<string, string>>('local:wguConnectIngestHistory', {
+  fallback: {},
+});
+
 // User preferences
 export const extensionVersion = storage.defineItem<string>('local:extensionVersion', {
   fallback: '1.0.0',

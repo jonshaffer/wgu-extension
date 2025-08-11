@@ -10,6 +10,10 @@ export interface WGUConnectResourceData {
   groupName: string;
   resources: WGUConnectResource[];
   activeTab: string;
+  /** The DOM id of the active tab button, when available */
+  activeTabId?: string;
+  /** The DOM id of the active tab's panel (aria-controls), when available */
+  activeTabPanelId?: string;
   extractedAt: string;
   url: string;
 }
@@ -18,9 +22,20 @@ export interface WGUConnectResource {
   id: string;
   title: string;
   category: string;
-  type: 'resource' | 'announcement' | 'recording' | 'tip';
+  // Free-form type authored by group owners; we normalize casing/spacing/special chars
+  type: string;
   imageUrl?: string;
   link?: string;
+  /**
+   * Human-friendly reference to locate this resource: {group} -> {tab} -> {title}
+   * Includes a deterministic key for dictionary indexing.
+   */
+  referencePath?: {
+    group: string;
+    tab: string;
+    title: string;
+    key: string; // slugified `${group}::${tab}::${title}`
+  };
 }
 
 /**
@@ -70,6 +85,23 @@ export class WGUConnectExtractor {
   }
 
   /**
+   * Returns active tab button element with aria-selected="true" if present
+   */
+  private getActiveTabButton(): HTMLElement | null {
+    return document.querySelector('.group-resources-nav [role="tab"][aria-selected="true"]') as HTMLElement | null;
+  }
+
+  /**
+   * Extracts IDs for the active tab and its associated tabpanel via aria-controls
+   */
+  getActiveTabIds(): { tabId?: string; panelId?: string } {
+    const btn = this.getActiveTabButton();
+    const tabId = btn?.id || undefined;
+    const panelId = (btn?.getAttribute('aria-controls') || undefined) as string | undefined;
+    return { tabId, panelId };
+  }
+
+  /**
    * Extracts resources from the resources container
    */
   extractResources(): WGUConnectResource[] {
@@ -85,12 +117,24 @@ export class WGUConnectExtractor {
       return resources;
     }
 
+    // Context for reference path
+    const groupName = this.getGroupName();
+    const tabName = this.getActiveTab();
+
     // Extract resource cards
     const resourceCards = resourceContainer.querySelectorAll('[role="listitem"], .ant-card');
     
     resourceCards.forEach((card, index) => {
       const resource = this.extractResourceFromCard(card as HTMLElement, index);
       if (resource) {
+        // Attach human-readable reference path and key
+        const key = this.slug(`${groupName}::${tabName}::${resource.title}`);
+        resource.referencePath = {
+          group: groupName,
+          tab: tabName,
+          title: resource.title,
+          key
+        };
         resources.push(resource);
       }
     });
@@ -112,9 +156,9 @@ export class WGUConnectExtractor {
       if (!title) return null;
 
       // Extract resource ID from various possible locations
-      let resourceId = card.id || 
-                       card.getAttribute('data-id') ||
-                       card.getAttribute('data-resource-id');
+  let resourceId: string | null = card.id || 
+           card.getAttribute('data-id') ||
+           card.getAttribute('data-resource-id');
       
       // Try to extract ID from nested elements or URL patterns
       if (!resourceId) {
@@ -123,9 +167,11 @@ export class WGUConnectExtractor {
                          card.querySelector('a[href*="/resource/"]');
         
         if (idElement) {
-          resourceId = idElement.getAttribute('data-id') ||
-                      idElement.id ||
-                      idElement.getAttribute('href')?.match(/\/resource\/(\d+)/)?.[1];
+          const hrefAttr = idElement.getAttribute('href');
+          const hrefMatch = hrefAttr ? hrefAttr.match(/\/resource\/(\d+)/) : null;
+          const hrefId = hrefMatch ? hrefMatch[1] : null;
+          const candidate = idElement.getAttribute('data-id') || idElement.id || hrefId;
+          resourceId = candidate || resourceId;
         }
       }
       
@@ -134,7 +180,7 @@ export class WGUConnectExtractor {
         resourceId = `resource_${index}`;
       }
 
-      // Extract category from tag
+  // Extract category from tag
       const categoryElement = card.querySelector('.ant-tag') ||
                              card.querySelector('[class*="chip"]') ||
                              card.querySelector('[class*="category"]');
@@ -142,8 +188,8 @@ export class WGUConnectExtractor {
       const category = categoryElement?.textContent?.trim() || 'Uncategorized';
 
       // Extract image URL
-      const imageElement = card.querySelector('img');
-      const imageUrl = imageElement?.getAttribute('src');
+  const imageElement = card.querySelector('img');
+  const imageUrl: string | undefined = imageElement?.getAttribute('src') || undefined;
 
       // Extract link (if available - might be in click handler or data attributes)
       const linkElement = card.querySelector('a[href]') ||
@@ -151,9 +197,9 @@ export class WGUConnectExtractor {
                          card.querySelector('[data-href]') ||
                          card.querySelector('[data-url]');
       
-      let link = linkElement?.getAttribute('href') ||
-                 linkElement?.getAttribute('data-href') ||
-                 linkElement?.getAttribute('data-url');
+  let link: string | undefined = linkElement?.getAttribute('href') ||
+         linkElement?.getAttribute('data-href') ||
+         linkElement?.getAttribute('data-url') || undefined;
       
       // If no direct link found, check for click handler patterns
       if (!link) {
@@ -162,7 +208,7 @@ export class WGUConnectExtractor {
         
         if (clickableElement) {
           // Try to extract resource ID from card structure for link construction
-          const resourceIdMatch = resourceId.match(/\d+/);
+          const resourceIdMatch = resourceId ? resourceId.match(/\d+/) : null;
           if (resourceIdMatch) {
             // Construct potential resource link based on WGU Connect patterns
             const groupId = this.getGroupId();
@@ -180,11 +226,12 @@ export class WGUConnectExtractor {
         }
       }
 
-      // Determine resource type based on category or tab context
-      const resourceType = this.determineResourceType(category, title);
+  // Determine resource type from author-provided category or fallback to active tab
+  const rawType = category || this.getActiveTab() || 'resource';
+  const resourceType = this.normalizeLabel(rawType);
 
       return {
-        id: resourceId,
+        id: resourceId || `resource_${index}`,
         title,
         category,
         type: resourceType,
@@ -199,23 +246,28 @@ export class WGUConnectExtractor {
   }
 
   /**
-   * Determines resource type based on category and title
+   * Normalizes labels to a consistent format: lowercase, single spaces, limited special chars
    */
-  private determineResourceType(category: string, title: string): WGUConnectResource['type'] {
-    const lowerCategory = category.toLowerCase();
-    const lowerTitle = title.toLowerCase();
+  private normalizeLabel(input: string): string {
+    return (input || '')
+      .toLowerCase()
+      .replace(/[\s_\-/]+/g, ' ') // normalize separators to single space
+      .replace(/[^a-z0-9 &]/g, '') // strip unusual special chars but keep space and & for readability
+      .replace(/\s*&\s*/g, ' and ') // normalize ampersands
+      .replace(/\s+/g, ' ') // collapse whitespace
+      .trim();
+  }
 
-    if (lowerCategory.includes('announcement') || lowerTitle.includes('announcement')) {
-      return 'announcement';
-    }
-    if (lowerCategory.includes('recording') || lowerTitle.includes('recording')) {
-      return 'recording';
-    }
-    if (lowerCategory.includes('tip') || lowerTitle.includes('tip')) {
-      return 'tip';
-    }
-    
-    return 'resource';
+  /**
+   * Slugify a string to create a deterministic key
+   */
+  private slug(input: string): string {
+    return input
+      .toLowerCase()
+      .replace(/[^a-z0-9\s:_/-]+/g, '') // remove special chars except separators
+      .replace(/[\s/]+/g, '-') // collapse spaces and slashes to hyphen
+      .replace(/-+/g, '-')
+      .trim();
   }
 
   /**
@@ -228,11 +280,16 @@ export class WGUConnectExtractor {
       return null;
     }
 
+    const activeTabLabel = this.getActiveTab();
+    const { tabId: activeTabId, panelId: activeTabPanelId } = this.getActiveTabIds();
+
     return {
       groupId,
       groupName: this.getGroupName(),
       resources: this.extractResources(),
-      activeTab: this.getActiveTab(),
+      activeTab: activeTabLabel,
+      activeTabId,
+      activeTabPanelId,
       extractedAt: new Date().toISOString(),
       url: window.location.href
     };
