@@ -4,7 +4,7 @@
     "lint": "eslint --ext .js,.ts . --fix",
     "build": "tsc",
     "build:watch": "tsc --watch",
-    "serve": "npm run build && firebase emulators:start --only functions",
+    "serve": "npm run build && firebase emulators:start --only functions,firestore",
     "shell": "npm run build && firebase functions:shell",
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
@@ -16,6 +16,7 @@
   "main": "lib/index.js",
   "dependencies": {
     "@apollo/server": "^5.0.0",
+    "@as-integrations/express4": "^1.1.2",
     "body-parser": "^1.20.3",
     "cors": "^2.8.5",
     "express": "^4.21.2",

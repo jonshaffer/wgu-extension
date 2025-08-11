@@ -21,6 +21,7 @@
             nodePackages.yarn
 
             # Development tools
+            firebase-tools
             nodePackages.typescript
             nodePackages.typescript-language-server
             nodePackages.vscode-langservers-extracted

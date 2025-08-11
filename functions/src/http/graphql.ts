@@ -1,19 +1,17 @@
 import { onRequest } from "firebase-functions/v2/https";
-import * as logger from "firebase-functions/logger";
 import express from "express";
 import cors from "cors";
-import bodyParser from "body-parser";
 import { ApolloServer } from "@apollo/server";
-// Use any-typed import to avoid TS path typing issues under NodeNext
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { expressMiddleware } = require("@apollo/server/express4");
+import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
+import { expressMiddleware } from "@as-integrations/express4";
+import http from "http";
 import { typeDefs } from "../graphql/typeDefs";
 import { resolvers } from "../graphql/resolvers";
 import { getAllowedOrigins } from "../lib/cors";
 
 const app = express();
+const httpServer = http.createServer(app);
 
-// CORS
 const allowedOrigins = getAllowedOrigins(process.env.ALLOWED_ORIGINS);
 app.use(
   cors({
@@ -24,32 +22,24 @@ app.use(
     credentials: false,
   })
 );
+app.use(express.json());
 
-// Body parsing
-app.use(bodyParser.json());
-
-// Apollo Server setup
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 });
 
-let started = false;
-async function ensureStarted() {
-  if (!started) {
-    await server.start();
-    started = true;
-  }
+async function startApolloServer() {
+  await server.start();
+  app.use(
+    "/graphql",
+    expressMiddleware(server, {
+      context: async ({ req }) => ({ token: req.headers.token }),
+    })
+  );
 }
 
-app.use("/graphql", async (req, res, next) => {
-  try {
-    await ensureStarted();
-  return (expressMiddleware as any)(server)(req, res, next);
-  } catch (e) {
-    logger.error("GraphQL middleware error", e as any);
-    next(e);
-  }
-});
+startApolloServer();
 
 export const graphql = onRequest({ cors: false }, app as any);
