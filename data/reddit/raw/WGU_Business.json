@@ -1,7 +1,7 @@
 {
   "subreddit": "WGU_Business",
   "name": "r/WGU_Business",
-  "description": "WGU Business programs subreddit",
+  "description": "WGU Business Subreddit. A New Subreddit for All things Business and Business Related Degrees at WGU!",
   "hierarchy": {
     "level": "college",
     "college": "business"
@@ -11,5 +11,8 @@
     "business",
     "majors"
   ],
-  "relevantCourses": []
+  "relevantCourses": [],
+  "memberCount": 3567,
+  "lastUpdated": "2025-08-11T06:50:38.175Z",
+  "verified": true
 }

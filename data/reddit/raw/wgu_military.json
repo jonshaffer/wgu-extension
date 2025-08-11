@@ -1,0 +1,18 @@
+{
+  "subreddit": "WGU_Military",
+  "name": "r/WGU_Military",
+  "description": "For current students, potential students, and alumni of Western Governors University serving / have served in any branch of the US Military.",
+  "hierarchy": {
+    "level": "community"
+  },
+  "isActive": true,
+  "tags": [
+    "military",
+    "veterans",
+    "community"
+  ],
+  "relevantCourses": [],
+  "memberCount": 5843,
+  "lastUpdated": "2025-08-11T06:50:41.068Z",
+  "verified": true
+}

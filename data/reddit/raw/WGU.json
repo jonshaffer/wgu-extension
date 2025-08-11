@@ -1,7 +1,7 @@
 {
   "subreddit": "WGU",
   "name": "r/WGU",
-  "description": "Main Western Governors University subreddit",
+  "description": "Place for Western Governors University students, faculty and alumni to offer positive discussions and positive support for each other.",
   "hierarchy": {
     "level": "university"
   },
@@ -10,5 +10,8 @@
     "general",
     "university"
   ],
-  "relevantCourses": []
+  "relevantCourses": [],
+  "memberCount": 154393,
+  "lastUpdated": "2025-08-11T06:50:35.300Z",
+  "verified": true
 }

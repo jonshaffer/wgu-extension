@@ -1,7 +1,7 @@
 {
   "subreddit": "WGU_CompSci",
   "name": "r/WGU_CompSci",
-  "description": "WGU Computer Science program subreddit",
+  "description": "This is the unofficial subreddit for the Western Governors University's Computer Science Bachelors and Masters programs.",
   "hierarchy": {
     "level": "program",
     "college": "technology",
@@ -17,5 +17,8 @@
     "C777",
     "C482",
     "C195"
-  ]
+  ],
+  "memberCount": 23983,
+  "lastUpdated": "2025-08-11T06:50:39.321Z",
+  "verified": true
 }

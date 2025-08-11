@@ -1,0 +1,18 @@
+{
+  "subreddit": "wguaccounting",
+  "name": "r/wguaccounting",
+  "description": "An unofficial resource, r/WGUAccounting’s mission is to support WGU Accounting students and alumni through shared resources, guidance, and community- spanning every stage from enrollment to graduation, CPA prep, professional growth, and beyond.",
+  "hierarchy": {
+    "level": "program"
+  },
+  "isActive": true,
+  "tags": [
+    "accounting",
+    "business",
+    "program"
+  ],
+  "relevantCourses": [],
+  "memberCount": 10681,
+  "lastUpdated": "2025-08-11T06:50:42.936Z",
+  "verified": true
+}
