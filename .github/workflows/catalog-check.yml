@@ -71,7 +71,7 @@ jobs:
               echo "HAS_NEW_CATALOGS=true" >> $GITHUB_ENV
               
               # Parse and process new catalogs if we have the parsing tools
-              if [ -d "data/catalogs/pdfs" ] && [ -f "data/catalogs/core/catalog-parser-unified.ts" ]; then
+              if [ -d "data/catalogs/pdfs" ] && [ -f "data/catalogs/scripts/catalog-parser-unified.ts" ]; then
                 echo "🔄 Processing new catalogs..."
                 cd data/catalogs
                 
@@ -82,7 +82,7 @@ jobs:
                     # Check if this is a newly downloaded catalog
                     if grep -q "$catalog_name" ../../catalog-check-results.json 2>/dev/null; then
                       echo "📄 Processing $(basename "$catalog")"
-                      npx tsx core/catalog-parser-unified.ts "$catalog_name" || echo "⚠️ Failed to process $catalog_name"
+                      npx tsx scripts/catalog-parser-unified.ts "$catalog_name" || echo "⚠️ Failed to process $catalog_name"
                     fi
                   fi
                 done

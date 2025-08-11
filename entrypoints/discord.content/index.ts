@@ -1,7 +1,7 @@
 import { storage } from '@wxt-dev/storage';
 import { ENABLE_DISCORD_INTEGRATION } from '@/utils/storage.constants';
 import unifiedData from '@/public/data/unified-community-data.json';
-import { discordCollectionEnabled, discordData } from '../utils/storage';
+import { discordCollectionEnabled, discordData } from '../../utils/storage';
 import { DiscordExtractor } from '../../data/discord/collect/discord-extractor';
 
 // Extract Discord server IDs from unified data

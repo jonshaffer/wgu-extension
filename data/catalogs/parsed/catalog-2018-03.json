@@ -2941,9 +2941,13 @@
   "metadata": {
     "catalogDate": "2018 (Legacy)",
     "parserVersion": "v1.0-legacy",
-    "parsedAt": "2025-08-09T08:08:33.664Z",
+    "parsedAt": "2025-08-11T12:21:36.181Z",
     "totalPages": 184,
-    "parsingTimeMs": 283,
+    "parsingTimeMs": 177,
+    "pdf": {
+      "version": "1.4",
+      "pages": 184
+    },
     "statistics": {
       "coursesFound": 413,
       "degreePlansFound": 23,

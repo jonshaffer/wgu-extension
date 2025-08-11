@@ -1,4 +1,4 @@
-import { dataCollectionEnabled, discordData, wguConnectData, extensionVersion } from '../utils/storage';
+import { dataCollectionEnabled, discordData, wguConnectData, extensionVersion } from '../../utils/storage';
 
 export default defineBackground(() => {
   console.log('WGU Extension: Background script loaded');

@@ -3716,9 +3716,14 @@
   "metadata": {
     "catalogDate": "2020 (Legacy)",
     "parserVersion": "v1.0-legacy",
-    "parsedAt": "2025-08-09T08:09:10.049Z",
+    "parsedAt": "2025-08-11T12:21:42.692Z",
     "totalPages": 206,
-    "parsingTimeMs": 328,
+    "parsingTimeMs": 217,
+    "pdf": {
+      "title": "November 2020, WGU Institutional Catalog",
+      "version": "1.4",
+      "pages": 206
+    },
     "statistics": {
       "coursesFound": 516,
       "degreePlansFound": 29,

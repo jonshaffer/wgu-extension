@@ -18,8 +18,8 @@ export declare const RedditCommunitySchema: z.ZodObject<{
     lastUpdated: z.ZodOptional<z.ZodString>;
     verified: z.ZodOptional<z.ZodBoolean>;
 }, "strip", z.ZodTypeAny, {
-    name: string;
     description: string;
+    name: string;
     tags: string[];
     hierarchy: {
         level: "university" | "college" | "program" | "community";
@@ -31,8 +31,8 @@ export declare const RedditCommunitySchema: z.ZodObject<{
     lastUpdated?: string | undefined;
     verified?: boolean | undefined;
 }, {
-    name: string;
     description: string;
+    name: string;
     hierarchy: {
         level: "university" | "college" | "program" | "community";
     };

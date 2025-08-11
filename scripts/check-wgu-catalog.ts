@@ -223,21 +223,57 @@ async function checkForNewCatalogs(): Promise<CheckResult> {
       const exists = await checkUrlExists(candidate.url);
       if (exists) {
         console.log(`   ✅ Found: ${candidate.filename}`);
-        
-        // Download the catalog
-        const filepath = resolve(CATALOG_DIR, candidate.filename);
-        console.log(`   📥 Downloading to: ${filepath}`);
-        
-        await downloadFile(candidate.url, filepath);
+
+        // Determine standardized filename (catalog-YYYY-MM.pdf)
+        let standardizedFilename = candidate.filename;
+        const numericMatch = candidate.filename.match(/^catalog-(\d{4})-(\d{2})\.pdf$/i);
+        const monthNameMatch = candidate.filename.match(/^catalog-([a-z]+)(\d{4})\.pdf$/i);
+        const currentDateMatch = candidate.filename.match(/^catalog-current-(\d{4})-(\d{2})-(\d{2})\.pdf$/i);
+
+        if (numericMatch) {
+          const [, year, month] = numericMatch;
+          standardizedFilename = `catalog-${year}-${month}.pdf`;
+        } else if (monthNameMatch) {
+          const [, monthName, year] = monthNameMatch;
+          const MONTH_NAMES = [
+            'january', 'february', 'march', 'april', 'may', 'june',
+            'july', 'august', 'september', 'october', 'november', 'december'
+          ];
+          const idx = MONTH_NAMES.indexOf(monthName.toLowerCase());
+          if (idx !== -1) {
+            const month = String(idx + 1).padStart(2, '0');
+            standardizedFilename = `catalog-${year}-${month}.pdf`;
+          }
+        } else if (currentDateMatch) {
+          const [, year, month] = currentDateMatch;
+          standardizedFilename = `catalog-${year}-${month}.pdf`;
+        }
+
+        // If a standardized file already exists, skip downloading duplicate
+        const standardizedPath = resolve(CATALOG_DIR, standardizedFilename);
+        try {
+          const st = await fs.stat(standardizedPath);
+          if (st && st.size > 0) {
+            console.log(`   📄 Already have standardized file: ${standardizedFilename} — skipping download`);
+            result.totalCatalogs++;
+            continue;
+          }
+        } catch {
+          // File does not exist -> proceed to download
+        }
+
+        // Download directly to standardized path
+        console.log(`   📥 Downloading to: ${standardizedPath}`);
+        await downloadFile(candidate.url, standardizedPath);
         
         // Verify the download
-        const stats = await fs.stat(filepath);
+        const stats = await fs.stat(standardizedPath);
         if (stats.size < 1000) {
           throw new Error('Downloaded file is too small (< 1KB)');
         }
         
-        console.log(`   ✅ Downloaded: ${candidate.filename} (${(stats.size / 1024 / 1024).toFixed(1)}MB)`);
-        result.newCatalogs.push(candidate.filename);
+        console.log(`   ✅ Downloaded: ${standardizedFilename} (${(stats.size / 1024 / 1024).toFixed(1)}MB)`);
+        result.newCatalogs.push(standardizedFilename);
         result.totalCatalogs++;
       } else {
         console.log(`   ❌ Not found: ${candidate.filename}`);

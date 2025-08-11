@@ -15,5 +15,7 @@
     "strict": true,
     "skipLibCheck": true
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "src/canonical-raw.d.ts"],
+  "files": ["src/canonical-raw.d.ts"],
+  "exclude": ["src/canonical-types.ts"]
 }

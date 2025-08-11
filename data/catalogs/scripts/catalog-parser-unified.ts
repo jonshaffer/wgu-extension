@@ -12,7 +12,7 @@ import { createRequire } from 'module';
 import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { config } from './config.js';
+import { config } from './lib/config.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -36,6 +36,11 @@ interface ParsedCatalog {
     parsedAt: string;
     totalPages: number;
     parsingTimeMs: number;
+    pdf?: {
+      title?: string;
+      version?: string;
+      pages: number;
+    };
     statistics: {
       coursesFound: number;
       degreePlansFound: number;
@@ -69,6 +74,11 @@ class CatalogParserUnified {
   private fullText: string = '';
   private totalPages: number = 0;
   private startTime: number = 0;
+  private pdfInfo?: {
+    title?: string;
+    version?: string;
+    pages: number;
+  };
 
   constructor(filename: string) {
     this.filename = filename;
@@ -120,6 +130,37 @@ class CatalogParserUnified {
       this.totalPages = data.numpages;
       
       console.log(`✅ Loaded ${this.totalPages} pages, ${this.fullText.length} characters`);
+
+      // Extract PDF metadata for "More Info" style fields
+      try {
+        // Version from header e.g., %PDF-1.7
+        const header = dataBuffer.subarray(0, 32).toString('utf8');
+        const versionMatch = header.match(/%PDF-([0-9]\.[0-9]+)/);
+        const version = versionMatch ? versionMatch[1] : (data as any).version;
+
+        // Title from info or XMP metadata
+        let title: string | undefined = (data as any).info?.Title;
+        if (!title && (data as any).metadata && typeof (data as any).metadata.get === 'function') {
+          const dcTitle = (data as any).metadata.get('dc:title');
+          if (typeof dcTitle === 'string') title = dcTitle;
+          else if (dcTitle && typeof dcTitle === 'object' && Array.isArray(dcTitle.items) && dcTitle.items.length > 0) {
+            title = dcTitle.items[0];
+          }
+        }
+
+        const textChunk = dataBuffer.toString('latin1');
+
+        this.pdfInfo = {
+          title,
+          version,
+          pages: this.totalPages
+        };
+      } catch (metaErr) {
+        // Non-fatal – continue without pdfInfo
+        this.pdfInfo = {
+          pages: this.totalPages
+        };
+      }
     } catch (error) {
       throw new Error(`Failed to load PDF: ${error}`);
     }
@@ -940,6 +981,7 @@ class CatalogParserUnified {
         parsedAt: new Date().toISOString(),
         totalPages: this.totalPages,
         parsingTimeMs,
+  pdf: this.pdfInfo,
         statistics: stats
       }
     };
@@ -949,25 +991,23 @@ class CatalogParserUnified {
 /**
  * Parse a single catalog file with enhanced production error handling
  */
-async function parseSingleCatalog(filename: string): Promise<boolean> {
+export async function parseSingleCatalog(filename: string): Promise<boolean> {
   const appConfig = config.getConfig();
   let retryCount = 0;
   const maxRetries = appConfig.parsing.maxRetries;
 
   // Handle both absolute and relative paths
-  // If relative, resolve from the parent catalogs directory, not the core directory
+  // If relative, resolve from the current working directory to avoid duplicating repo subpaths
   let filePath: string;
   if (path.isAbsolute(filename)) {
     filePath = filename;
   } else {
-    // Resolve relative to the main catalogs directory (parent of core)
-    const catalogsRoot = path.join(__dirname, '..');
-    filePath = path.join(catalogsRoot, filename);
+    filePath = path.resolve(process.cwd(), filename);
   }
 
   while (retryCount <= maxRetries) {
     try {
-      logger.parsingStart(path.basename(filePath));
+  logger.info(`Parsing ${path.basename(filePath)}...`);
       
       // Validate file exists and is readable
       try {
@@ -995,7 +1035,7 @@ async function parseSingleCatalog(filename: string): Promise<boolean> {
       
       // Generate output path in the organized structure
       const baseFilename = path.basename(filename, '.pdf');
-      const outputPath = path.join(__dirname, '..', 'historical', 'parsed', `${baseFilename}.json`);
+  const outputPath = path.join(appConfig.paths.parsedDirectory, `${baseFilename}.json`);
       
       // Ensure output directory exists
       await fs.mkdir(path.dirname(outputPath), { recursive: true });
@@ -1005,15 +1045,7 @@ async function parseSingleCatalog(filename: string): Promise<boolean> {
       await fs.writeFile(outputPath, jsonContent);
 
       // Log success with statistics
-      logger.parsingSuccess(path.basename(filePath), {
-        coursesFound: result.metadata.statistics.coursesFound,
-        degreePlansFound: result.metadata.statistics.degreePlansFound,
-        ccnCoverage: result.metadata.statistics.ccnCoverage,
-        cuCoverage: result.metadata.statistics.cuCoverage,
-        parsingTimeMs: result.metadata.parsingTimeMs,
-        outputPath,
-        fileSizeMB: fileSizeMB.toFixed(1)
-      });
+  logger.info(`Parsed ${path.basename(filePath)} -> ${path.basename(outputPath)} (courses=${result.metadata.statistics.coursesFound}, plans=${result.metadata.statistics.degreePlansFound}, CCN=${result.metadata.statistics.ccnCoverage}%, CU=${result.metadata.statistics.cuCoverage}%)`);
 
       console.log(`\n📊 PARSING COMPLETE`);
       console.log(`=`.repeat(50));
@@ -1034,12 +1066,11 @@ async function parseSingleCatalog(filename: string): Promise<boolean> {
       const isLastAttempt = retryCount > maxRetries;
       
       if (isLastAttempt) {
-        logger.parsingError(path.basename(filePath), error as Error);
+  logger.error(`Failed to parse ${path.basename(filePath)}: ${(error as Error).message}`);
         console.error(`❌ Error parsing ${filename}:`, error);
         return false;
       } else {
-        logger.warn(`Parse attempt ${retryCount} failed for ${path.basename(filePath)}, retrying...`, 
-          { attempt: retryCount, maxRetries }, error as Error);
+  logger.warn(`Parse attempt ${retryCount} failed for ${path.basename(filePath)}, retrying...`);
         
         // Wait before retry with exponential backoff
         const delay = appConfig.parsing.retryDelayMs * Math.pow(2, retryCount - 1);
@@ -1054,7 +1085,7 @@ async function parseSingleCatalog(filename: string): Promise<boolean> {
 /**
  * Parse all available catalogs with production monitoring
  */
-async function parseAllCatalogs(): Promise<void> {
+export async function parseAllCatalogs(): Promise<void> {
   const appConfig = config.getConfig();
   
   try {
@@ -1074,10 +1105,7 @@ async function parseAllCatalogs(): Promise<void> {
       return;
     }
 
-    logger.info(`Found ${pdfFiles.length} PDF catalogs to process`, {
-      catalogsDirectory: catalogsPath,
-      files: pdfFiles.slice(0, 10) // Log first 10 files
-    });
+  logger.info(`Found ${pdfFiles.length} PDF catalogs to process in ${catalogsPath}`);
 
     console.log(`📁 Found ${pdfFiles.length} PDF catalogs to parse`);
 
@@ -1093,10 +1121,7 @@ async function parseAllCatalogs(): Promise<void> {
       const batchEnd = Math.min(batchStart + batchSize, sortedFiles.length);
       const batchFiles = sortedFiles.slice(batchStart, batchEnd);
       
-      logger.info(`Processing batch ${batchIndex + 1}/${totalBatches}`, {
-        batchSize: batchFiles.length,
-        files: batchFiles
-      });
+  logger.info(`Processing batch ${batchIndex + 1}/${totalBatches} (${batchFiles.length} files)`);
 
       // Process batch sequentially to control memory usage
       let batchSuccessful = 0;
@@ -1116,11 +1141,7 @@ async function parseAllCatalogs(): Promise<void> {
         }
       }
 
-      logger.info(`Batch ${batchIndex + 1} completed`, {
-        successful: batchSuccessful,
-        failed: batchFailed,
-        failedFiles: batchFiles.filter((_, i) => !batchFiles[i]) // This would need actual tracking
-      });
+  logger.info(`Batch ${batchIndex + 1} completed: successful=${batchSuccessful}, failed=${batchFailed}`);
 
       // Memory cleanup between batches
       if (global.gc) {
@@ -1135,12 +1156,7 @@ async function parseAllCatalogs(): Promise<void> {
 
     // Final summary
     const successRate = (totalSuccessful / pdfFiles.length) * 100;
-    logger.info('Batch processing completed', {
-      totalFiles: pdfFiles.length,
-      successful: totalSuccessful,
-      failed: totalFailed,
-      successRate: `${successRate.toFixed(1)}%`
-    });
+  logger.info(`Batch processing completed: total=${pdfFiles.length}, successful=${totalSuccessful}, failed=${totalFailed}, successRate=${successRate.toFixed(1)}%`);
 
     console.log(`\n🎉 Completed parsing ${pdfFiles.length} catalogs!`);
     console.log(`✅ Successful: ${totalSuccessful}`);
@@ -1152,7 +1168,7 @@ async function parseAllCatalogs(): Promise<void> {
     }
 
   } catch (error) {
-    logger.fatal('Critical error in batch processing', {}, error as Error);
+  logger.error(`Critical error in batch processing: ${(error as Error).message}`);
     console.error(`❌ Error in batch parsing:`, error);
     throw error;
   }
@@ -1166,21 +1182,14 @@ async function main() {
     // Validate configuration
     const configValidation = config.validateConfig();
     if (!configValidation.isValid) {
-      logger.fatal('Invalid configuration detected', {
-        errors: configValidation.errors
-      });
+  logger.error('Invalid configuration detected');
       console.error('❌ Configuration validation failed:');
       configValidation.errors.forEach(error => console.error(`  - ${error}`));
       process.exit(1);
     }
 
     // Log startup information
-    logger.info('Starting WGU Catalog Parser', {
-      version: 'v2.0-production',
-      environment: appConfig.environment,
-      nodeVersion: process.version,
-      memoryLimit: `${appConfig.parsing.memoryLimitMB}MB`
-    });
+  logger.info(`Starting WGU Catalog Parser v2.0-production (env=${appConfig.environment}, node=${process.version}, mem=${appConfig.parsing.memoryLimitMB}MB)`);
 
     const args = process.argv.slice(2);
     
@@ -1271,7 +1280,7 @@ Features:
     }
 
   } catch (error) {
-    logger.fatal('Unhandled error in main process', {}, error as Error);
+  logger.error(`Unhandled error in main process: ${(error as Error).message}`);
     console.error('❌ Critical error:', error);
     process.exit(1);
   }

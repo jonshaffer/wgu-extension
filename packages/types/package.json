@@ -21,6 +21,9 @@
     ".": {
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
+    },
+    "./canonical-raw": {
+      "types": "./dist/canonical-raw.d.ts"
     }
   },
   "files": [
@@ -32,7 +35,8 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "clean": "rm -rf dist",
-    "prepublishOnly": "npm run build"
+  "prepublishOnly": "npm run build",
+  "postbuild": "cp src/canonical-raw.d.ts dist/canonical-raw.d.ts"
   },
   "dependencies": {
     "zod": "^3.23.8"

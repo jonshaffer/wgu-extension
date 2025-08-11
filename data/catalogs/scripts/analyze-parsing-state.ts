@@ -1,11 +1,12 @@
 #!/usr/bin/env npx tsx
 
 import { readFileSync, readdirSync } from 'fs';
-import { join } from 'path';
+import path, { join, dirname } from 'path';
+import { config as appConfig } from './lib/config';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = join(__filename, '..');
+const __dirname = dirname(__filename);
 
 interface ParsedData {
   courses: Record<string, any>;
@@ -24,8 +25,8 @@ async function analyzeParsingState() {
   console.log('🔍 Analyzing Current Parsing State');
   console.log('=' .repeat(60));
   
-  // Get all parsed JSON files from parsed directory
-  const parsedDir = join(__dirname, '..', 'historical', 'parsed');
+  // Get all parsed JSON files from configured parsed directory
+  const parsedDir = appConfig.getConfig().paths.parsedDirectory;
   const files = readdirSync(parsedDir)
     .filter(f => f.endsWith('-parsed.json'))
     .sort();

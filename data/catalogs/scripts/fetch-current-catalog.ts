@@ -15,6 +15,7 @@
 import { createRequire } from 'module';
 import fs from 'fs/promises';
 import path from 'path';
+import { config as appConfig } from './lib/config';
 import { fileURLToPath } from 'url';
 import { execSync } from 'child_process';
 
@@ -123,7 +124,7 @@ async function parseCurrentCatalog(catalogPath: string): Promise<ParseResult> {
   
   try {
     // Use our unified parser
-    const parserPath = path.join(__dirname, 'catalog-parser-unified.ts');
+  const parserPath = path.join(__dirname, 'catalog-parser-unified.ts');
     const command = `npx tsx "${parserPath}" "${catalogPath}"`;
     
     console.log(`Running: ${command}`);
@@ -241,16 +242,19 @@ async function main() {
   let parsedPath: string;
   
   if (testOnly) {
-    // Find the most recent parsed catalog
-    const files = await fs.readdir(__dirname);
-    const parsedFiles = files.filter(f => f.startsWith('catalog-current-') && f.endsWith('-parsed.json'));
-    
+    // Find the most recent parsed catalog in configured parsed directory
+    const parsedDir = appConfig.getConfig().paths.parsedDirectory;
+    const files = await fs.readdir(parsedDir);
+    const parsedFiles = files
+      .filter(f => f.startsWith('catalog-') && f.endsWith('.json'))
+      .sort();
+
     if (parsedFiles.length === 0) {
-      console.error('❌ No parsed current catalog found. Run without --test-only first.');
+      console.error(`❌ No parsed catalog JSON found in ${parsedDir}. Run without --test-only first.`);
       process.exit(1);
     }
-    
-    parsedPath = path.join(__dirname, parsedFiles.sort().pop()!);
+
+    parsedPath = path.join(parsedDir, parsedFiles[parsedFiles.length - 1]);
     console.log(`📄 Using existing parsed catalog: ${path.basename(parsedPath)}`);
     
   } else {

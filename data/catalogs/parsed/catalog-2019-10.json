@@ -3589,9 +3589,14 @@
   "metadata": {
     "catalogDate": "2019 (Legacy)",
     "parserVersion": "v1.0-legacy",
-    "parsedAt": "2025-08-09T08:08:56.372Z",
+    "parsedAt": "2025-08-11T12:21:39.915Z",
     "totalPages": 197,
-    "parsingTimeMs": 313,
+    "parsingTimeMs": 201,
+    "pdf": {
+      "title": "Institutional Catalog Oct2019",
+      "version": "1.4",
+      "pages": 197
+    },
     "statistics": {
       "coursesFound": 498,
       "degreePlansFound": 28,

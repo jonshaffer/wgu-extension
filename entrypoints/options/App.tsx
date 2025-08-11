@@ -13,7 +13,7 @@ import {
   discordCollectionEnabled, 
   wguConnectCollectionEnabled,
   firstInstall
-} from '../utils/storage';
+} from '../../utils/storage';
 import { ModeToggle } from '@/components/mode-toggle';
 
 export default function OptionsPage() {

@@ -4081,9 +4081,14 @@
   "metadata": {
     "catalogDate": "2021 (Modern)",
     "parserVersion": "v2.0-modern",
-    "parsedAt": "2025-08-09T08:09:14.249Z",
+    "parsedAt": "2025-08-11T12:21:43.166Z",
     "totalPages": 208,
-    "parsingTimeMs": 331,
+    "parsingTimeMs": 228,
+    "pdf": {
+      "title": "WGU Institutional Catalog",
+      "version": "1.4",
+      "pages": 208
+    },
     "statistics": {
       "coursesFound": 575,
       "degreePlansFound": 28,

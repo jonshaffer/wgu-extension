@@ -6,11 +6,11 @@
  */
 
 import { readFileSync, writeFileSync, existsSync } from 'fs';
-import { join } from 'path';
+import { join, dirname, isAbsolute, relative } from 'path';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = join(__filename, '..');
+const __dirname = dirname(__filename);
 
 export interface ParsingConfig {
   // Parsing behavior
@@ -122,6 +122,28 @@ export class ConfigManager {
   private config: CatalogParserConfig;
   private configPath: string;
   private watchers: Array<(config: CatalogParserConfig) => void> = [];
+  
+  // Normalize configured paths to absolute for runtime safety
+  private normalizePaths(cfg: CatalogParserConfig): CatalogParserConfig {
+    const baseDir = join(__dirname, '..', '..'); // data/catalogs
+    const norm = { ...cfg } as CatalogParserConfig;
+    const toAbs = (p: string) => (isAbsolute(p) ? p : join(baseDir, p));
+    norm.paths = {
+      catalogsDirectory: toAbs(cfg.paths.catalogsDirectory),
+      parsedDirectory: toAbs(cfg.paths.parsedDirectory),
+      outputDirectory: toAbs(cfg.paths.outputDirectory),
+      tempDirectory: toAbs(cfg.paths.tempDirectory),
+      configDirectory: toAbs(cfg.paths.configDirectory)
+    };
+    // Optional sections
+    if ((cfg as any).logging?.logDirectory) {
+      (norm as any).logging = { ...cfg.logging, logDirectory: toAbs(cfg.logging.logDirectory) };
+    }
+    if ((cfg as any).download?.tempDirectory) {
+      (norm as any).download = { ...cfg.download, tempDirectory: toAbs(cfg.download.tempDirectory) } as any;
+    }
+    return norm;
+  }
 
   private constructor() {
     this.configPath = join(__dirname, '..', 'config', 'catalog-parser.json');
@@ -136,8 +158,9 @@ export class ConfigManager {
   }
 
   private getDefaultConfig(): CatalogParserConfig {
-    const environment = (process.env.NODE_ENV as any) || 'development';
-    const baseDir = join(__dirname, '..');
+  const environment = (process.env.NODE_ENV as any) || 'development';
+  // scripts/lib -> data/catalogs
+  const baseDir = join(__dirname, '..', '..');
     
     return {
       environment,
@@ -169,7 +192,7 @@ export class ConfigManager {
         burstLimit: 5,
         
         maxFileSizeMB: 50,
-        tempDirectory: join(baseDir, 'temp'),
+  tempDirectory: join(baseDir, 'temp'),
         cleanupTempFiles: true,
         
         validatePDFSignature: true,
@@ -180,7 +203,7 @@ export class ConfigManager {
         consoleLevel: environment === 'development' ? 'DEBUG' : 'INFO',
         fileLevel: 'DEBUG',
         
-        logDirectory: join(baseDir, 'logs'),
+  logDirectory: join(baseDir, 'logs'),
         maxLogFileSizeMB: 100,
         maxLogFiles: 10,
         
@@ -205,11 +228,11 @@ export class ConfigManager {
       },
       
       paths: {
-        catalogsDirectory: join(baseDir, 'historical', 'catalogs'),
-        parsedDirectory: join(baseDir, 'historical', 'parsed'),
-        outputDirectory: join(baseDir, 'output'),
-        tempDirectory: join(baseDir, 'temp'),
-        configDirectory: join(baseDir, 'config')
+  catalogsDirectory: join(baseDir, 'pdfs'),
+  parsedDirectory: join(baseDir, 'parsed'),
+  outputDirectory: join(baseDir, 'output'),
+  tempDirectory: join(baseDir, 'temp'),
+  configDirectory: join(baseDir, 'config')
       },
       
       features: {
@@ -230,17 +253,16 @@ export class ConfigManager {
         const configData = readFileSync(this.configPath, 'utf-8');
         const loadedConfig = JSON.parse(configData);
         
-        // Merge with defaults to ensure all properties exist
-        return this.mergeWithDefaults(loadedConfig);
+    // Merge with defaults to ensure all properties exist and normalize
+    const merged = this.mergeWithDefaults(loadedConfig);
+    return this.normalizePaths(merged);
       }
     } catch (error) {
       console.warn(`Failed to load config from ${this.configPath}:`, error);
     }
     
-    // Return defaults if loading fails
-    const defaultConfig = this.getDefaultConfig();
-    this.saveConfig(defaultConfig);
-    return defaultConfig;
+  // Return defaults if loading fails or config doesn't exist (do not write to disk)
+  return this.getDefaultConfig();
   }
 
   private mergeWithDefaults(loadedConfig: Partial<CatalogParserConfig>): CatalogParserConfig {
@@ -264,15 +286,34 @@ export class ConfigManager {
     return deepMerge(defaults, loadedConfig);
   }
 
-  private saveConfig(config: CatalogParserConfig): void {
+  private saveConfig(cfg: CatalogParserConfig): void {
     try {
       // Ensure config directory exists
       const configDir = join(this.configPath, '..');
       if (!existsSync(configDir)) {
         require('fs').mkdirSync(configDir, { recursive: true });
       }
-      
-      writeFileSync(this.configPath, JSON.stringify(config, null, 2));
+      // Persist relative paths for portability
+      const baseDir = join(__dirname, '..', '..');
+      const toRel = (p: string) => {
+        const relPath = relative(baseDir, p);
+        return relPath === '' ? '.' : relPath;
+      };
+      const portable: CatalogParserConfig = JSON.parse(JSON.stringify(cfg));
+      portable.paths = {
+        catalogsDirectory: toRel(cfg.paths.catalogsDirectory),
+        parsedDirectory: toRel(cfg.paths.parsedDirectory),
+        outputDirectory: toRel(cfg.paths.outputDirectory),
+        tempDirectory: toRel(cfg.paths.tempDirectory),
+        configDirectory: toRel(cfg.paths.configDirectory)
+      };
+      if ((portable as any).logging?.logDirectory) {
+        (portable as any).logging.logDirectory = toRel((cfg as any).logging.logDirectory);
+      }
+      if ((portable as any).download?.tempDirectory) {
+        (portable as any).download.tempDirectory = toRel((cfg as any).download.tempDirectory);
+      }
+      writeFileSync(this.configPath, JSON.stringify(portable, null, 2));
     } catch (error) {
       console.error(`Failed to save config to ${this.configPath}:`, error);
     }
@@ -283,8 +324,9 @@ export class ConfigManager {
   }
 
   public updateConfig(updates: Partial<CatalogParserConfig>): void {
-    this.config = this.mergeWithDefaults({ ...this.config, ...updates });
-    this.saveConfig(this.config);
+  const merged = this.mergeWithDefaults({ ...this.config, ...updates });
+  this.config = this.normalizePaths(merged);
+  this.saveConfig(this.config);
     
     // Notify watchers
     this.watchers.forEach(watcher => {

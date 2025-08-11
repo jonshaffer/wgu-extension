@@ -4544,9 +4544,14 @@
   "metadata": {
     "catalogDate": "2022 (Modern)",
     "parserVersion": "v2.0-modern",
-    "parsedAt": "2025-08-09T08:09:32.885Z",
+    "parsedAt": "2025-08-11T12:21:46.842Z",
     "totalPages": 208,
-    "parsingTimeMs": 350,
+    "parsingTimeMs": 235,
+    "pdf": {
+      "title": "WGU Institutional Catalog - May 2022",
+      "version": "1.4",
+      "pages": 208
+    },
     "statistics": {
       "coursesFound": 647,
       "degreePlansFound": 28,

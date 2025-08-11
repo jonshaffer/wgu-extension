@@ -1,6 +1,6 @@
 import { storage } from '@wxt-dev/storage';
 import { ENABLE_WGU_CONNECT_INTEGRATION } from '@/utils/storage.constants';
-import { wguConnectCollectionEnabled, wguConnectData } from '../utils/storage';
+import { wguConnectCollectionEnabled, wguConnectData } from '../../utils/storage';
 import { WGUConnectExtractor } from '../../data/wgu-connect/collect/wgu-connect-extractor';
 
 export default defineContentScript({
@@ -463,8 +463,8 @@ export default defineContentScript({
         await wguConnectData.setValue(updatedData);
 
         // Notify background script
-        if (typeof chrome !== 'undefined' && chrome.runtime) {
-          chrome.runtime.sendMessage({
+        if (typeof browser !== 'undefined' && browser.runtime) {
+          browser.runtime.sendMessage({
             type: 'WGU_CONNECT_DATA_COLLECTED',
             data: {
               groupId: resourceData.groupId,

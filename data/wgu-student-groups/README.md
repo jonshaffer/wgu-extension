@@ -2,6 +2,8 @@
 
 This directory contains tools and data for processing WGU student organization and club data.
 
+[Group Hub](https://cm.wgu.edu/t5/grouphubs/page/node-display-id/category:GroupHubs)
+
 ## Directory Structure
 
 - `raw/` - Raw WGU student group and organization data
