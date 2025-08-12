@@ -2,11 +2,23 @@
 
 This directory contains all data processing infrastructure for the WGU Extension, organized by data source with a unified processing pipeline.
 
+## Data Version Control (DVC)
+
+⚠️ **Important**: Catalog JSON files are managed with DVC and stored in Google Drive. You must pull them before running any catalog-related scripts.
+
+```bash
+# Pull all catalog files
+dvc pull
+
+# Or use the ensure script
+npm run catalog:ensure
+```
+
 ## Structure
 
 Each data source has its own self-contained directory:
 
-- **catalogs/** - WGU Institutional Catalogs (101+ historical catalogs)
+- **catalogs/** - WGU Institutional Catalogs (101+ historical catalogs) - **DVC-managed**
 - **reddit/** - Reddit Communities (6 subreddits) 
 - **discord/** - Discord Communities
 - **wgu-connect/** - WGU Connect Course Communities (12 courses)

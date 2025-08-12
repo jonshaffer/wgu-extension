@@ -7,9 +7,30 @@ Production-ready system for extracting, parsing, and maintaining Western Governo
 ## 📁 Directory Structure
 
  `pdfs/` - Catalog PDF files
- `parsed/` - Processed JSON catalog data
+ `parsed/` - Processed JSON catalog data (DVC-managed)
  `scripts/` - Callable parsing/ingestion scripts (moved from core)
  `types/` - Canonical TypeScript types and JSON Schema (catalog-data.ts, catalog-data.schema.json)
+
+## ⚠️ Important: Data Version Control (DVC)
+
+The parsed catalog JSON files are large (several MB each) and are managed with DVC (Data Version Control). They are stored in Google Drive and must be pulled before use.
+
+### Before Running Any Scripts
+
+```bash
+# Pull catalog files from DVC
+dvc pull data/catalogs/parsed/
+
+# Or use the ensure script
+npm run catalog:ensure
+```
+
+### Why DVC?
+
+- **Git Performance**: Keeps Git repository fast by storing large files externally
+- **Version Control**: Still tracks file versions and changes
+- **Collaboration**: Easy sharing of large datasets without Git LFS costs
+- **Storage**: Free 15GB Google Drive storage vs paid Git LFS
 
 ## 🎯 Current Status (August 2025)
 

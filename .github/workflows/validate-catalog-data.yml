@@ -30,6 +30,14 @@ jobs:
       - name: Install dependencies
         run: cd extension && npm ci
 
+      - name: Install DVC
+        run: |
+          pip install dvc[gdrive]
+
+      - name: Pull catalog files from DVC
+        run: |
+          dvc pull data/catalogs/parsed/
+
       - name: Install AJV CLI and formats
         run: npm install -g ajv-cli ajv-formats
 

@@ -5,11 +5,13 @@
 //  - Supports either a single aggregate JSON file or a directory of per-item JSON files.
 //  - Uses dynamic imports for ESM Zod schema modules from the extension workspace while this
 //    functions package remains CommonJS.
+//  - Requires DVC pull for catalog files (large JSON files stored in Google Drive)
 
 import { initializeApp, applicationDefault, cert } from 'firebase-admin/app';
 // Explicit .env loading (in case direnv didn't run). Safe no-op if already loaded.
 import path from 'path';
 import crypto from 'crypto';
+import { execSync } from 'child_process';
 try {
   // Dynamically require to avoid adding a prod dependency if not installed.
   // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -312,6 +314,21 @@ async function syncCollection<T extends Record<string, any>>({
 }
 
 async function main() {
+  // Pull catalog files from DVC before syncing
+  console.log('Pulling catalog files from DVC...');
+  try {
+    // Change to the root directory where DVC is initialized
+    const rootDir = path.resolve(__dirname, '../../');
+    execSync('dvc pull', { 
+      cwd: rootDir,
+      stdio: 'inherit' 
+    });
+    console.log('DVC pull completed successfully');
+  } catch (error) {
+    console.warn('DVC pull failed (may not be available in CI/CD):', error);
+    // Continue anyway - files might already be present
+  }
+
   await loadSchemas();
   const configs = buildSyncConfigs();
   for (const config of configs) {
