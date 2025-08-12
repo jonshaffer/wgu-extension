@@ -27,7 +27,9 @@
             nodePackages.vscode-langservers-extracted
             nodePackages.prettier
             nodePackages.eslint
-            
+            poppler # PDF rendering library - for manipulating and extracting information from PDFs
+            poppler-utils # PDF utilities for working with PDF files
+
             # Git and version control
             git
             git-lfs # For storing PDFs and large files
