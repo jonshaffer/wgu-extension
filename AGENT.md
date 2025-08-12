@@ -3,9 +3,16 @@
 **Unofficial WGU Extension** - Adds simple UI changes to WGU pages. Student-made tool for WGU students. Not endorsed by WGU.
 
 This is a monorepo containing:
-- **extension/**: Browser extension built with WXT framework
-- **functions/**: Firebase Cloud Functions for backend services  
+- **extension/**: Browser extension built with WXT framework (@extension/manifest.json)
+- **functions/**: Firebase Cloud Functions for backend services (@firebase.json)  
 - **site/**: React Router website for public documentation
+
+## Key Configuration Files
+- **@package.json**: Root workspace configuration with all npm scripts
+- **@firebase.json**: Firebase deployment configuration
+- **@extension/manifest.json**: Browser extension permissions and settings
+- **@extension/wxt.config.ts**: WXT framework configuration
+- **@flake.nix**: Development environment specification
 
 ## Project Structure
 
@@ -152,19 +159,64 @@ npm run catalog:check --workspace=extension
 ## Development Setup
 
 ### Prerequisites
-```bash
-# Node.js 22+ and npm 10+
-node --version  # >= 22.0.0
-npm --version   # >= 10.0.0
-```
+
+This project uses Nix flakes with direnv to provide a consistent development environment. The following software is automatically available when you enter the project directory:
+
+#### Core Development Tools
+- **Node.js 22**: JavaScript runtime (v22.x)
+- **npm**: Node package manager (latest)
+- **pnpm**: Fast, disk space efficient package manager
+- **yarn**: Alternative package manager
+
+#### Language Tools
+- **TypeScript**: Type-safe JavaScript compiler
+- **TypeScript Language Server**: IDE integration for TypeScript
+- **VS Code Language Servers**: Language support for various file types
+- **Prettier**: Code formatter
+- **ESLint**: JavaScript/TypeScript linter
+- **tsx**: TypeScript execution for scripts
+
+#### Firebase & Cloud
+- **Firebase Tools**: Deploy and manage Firebase services
+
+#### PDF Processing
+- **Poppler**: PDF rendering library for manipulating PDFs
+- **Poppler Utils**: Command-line utilities for PDF processing
+
+#### Version Control
+- **Git**: Distributed version control
+- **Git LFS**: Large file storage for PDFs and binary files
+- **GitHub CLI (gh)**: Interact with GitHub from the command line
+
+#### Utilities
+- **jq**: Command-line JSON processor
+- **curl**: Transfer data with URLs
+- **tree**: Display directory structure
+- **ripgrep (rg)**: Fast text search tool
+- **fd**: Fast and user-friendly alternative to find
 
 ### Installation
 ```bash
+# With direnv installed, the environment loads automatically
+cd wgu-extension
+direnv allow
+
 # Install all dependencies
 npm install
 
 # Prepare extension development
 npm run postinstall --workspace=extension
+```
+
+### Verifying Setup
+```bash
+# Check all tools are available
+node --version  # Should show v22.x
+npm --version   # Should show v10.x
+firebase --version  # Should show Firebase CLI version
+
+# Verify workspaces
+npm run typecheck  # Should complete without errors
 ```
 
 ### Environment Variables
@@ -241,3 +293,195 @@ npm run types:publish:local --workspace=extension
 2. Export in `functions/src/index.ts`
 3. Test locally: `npm run serve --workspace=functions`
 4. Deploy: `npm run deploy --workspace=functions`
+
+## API Documentation
+
+### Firebase Functions Endpoints
+
+#### GraphQL API
+- **Endpoint**: `/graphql`
+- **Method**: POST
+- **Purpose**: Query unified community data from Firestore
+- **Authentication**: None (public read-only)
+- **Schema**: See @functions/src/graphql/schema.ts
+
+#### Discord Ingestion
+- **Endpoint**: `/ingest-discord`
+- **Method**: POST
+- **Purpose**: Process Discord server data
+- **Authentication**: API key required
+- **Rate Limit**: 10 requests per minute
+
+#### Pages Ingestion (Scheduled)
+- **Schedule**: Every 6 hours
+- **Purpose**: Sync unified community data from GitHub Pages
+- **Implementation**: @functions/src/scheduled/ingest-pages.ts
+
+### Extension Content Scripts
+
+#### Search Panel
+- **Entry**: @extension/entrypoints/content/search-panel.tsx
+- **Domains**: `*.wgu.edu`
+- **Purpose**: Inject course search UI into WGU pages
+
+#### Course Enhancements
+- **Entry**: @extension/entrypoints/content/course-page.tsx
+- **Purpose**: Add community links and resources to course pages
+
+## Error Handling & Troubleshooting
+
+### Common Development Issues
+
+#### Extension Not Loading
+```bash
+# Check manifest is valid
+npm run build:extension
+# Look for errors in browser console (chrome://extensions)
+```
+
+#### TypeScript Errors
+```bash
+# Clean and rebuild
+npm run clean --workspaces
+npm install
+npm run typecheck
+```
+
+#### Firebase Functions Failing
+```bash
+# Check logs
+firebase functions:log
+# Test locally with emulator
+npm run serve --workspace=functions
+```
+
+#### PDF Parsing Issues
+```bash
+# Ensure poppler is available
+which pdftotext  # Should show path
+# Check PDF is valid
+pdfinfo extension/data/catalogs/raw/[catalog].pdf
+```
+
+### Rate Limiting
+- Discord API: 10 requests/minute per IP
+- Reddit API: Follow Reddit's rate limits
+- Firebase Functions: Custom rate limiting implemented
+
+## Performance Guidelines
+
+### Extension Performance
+- **Bundle Size**: Keep under 5MB for fast loading
+- **Content Scripts**: Minimize DOM mutations, use React efficiently
+- **Storage**: Use extension storage API, not localStorage
+- **Background Worker**: Avoid heavy computation, use message passing
+
+### Data Processing
+- **Catalog Parsing**: Process in batches to avoid memory issues
+- **JSON Validation**: Stream large files when possible
+- **Firebase Queries**: Use proper indexes (@firestore.indexes.json)
+
+### Build Performance
+```bash
+# Production build with optimizations
+npm run build:prod --workspace=extension
+
+# Check bundle size
+npm run analyze --workspace=extension
+```
+
+## Deployment Workflow
+
+### Extension Deployment
+
+#### Development Build
+1. Push to feature branch
+2. GitHub Actions builds automatically
+3. Download artifact from Actions tab
+4. Load unpacked extension for testing
+
+#### Production Release
+1. Merge to main branch
+2. Create release tag: `git tag v1.2.3`
+3. Push tag: `git push origin v1.2.3`
+4. GitHub Actions creates release
+5. Upload to Chrome Web Store / Firefox Add-ons
+
+### Firebase Deployment
+
+#### Functions
+```bash
+# Deploy all functions
+npm run deploy --workspace=functions
+
+# Deploy specific function
+firebase deploy --only functions:graphql
+```
+
+#### Firestore Rules
+```bash
+# Test rules
+npm run test:rules --workspace=functions
+
+# Deploy rules
+firebase deploy --only firestore:rules
+```
+
+### Site Deployment
+```bash
+# Build and deploy to Firebase Hosting
+npm run build --workspace=site
+firebase deploy --only hosting
+```
+
+## Contributing Guidelines for AI Agents
+
+### Before Making Changes
+1. Read relevant existing code to understand patterns
+2. Check @package.json for available scripts
+3. Run `npm run typecheck` to ensure type safety
+4. Respect existing code style (Prettier will auto-format)
+
+### Making Code Changes
+1. **Always** run type checking before committing
+2. **Never** commit secrets or API keys
+3. **Follow** existing patterns in nearby code
+4. **Test** changes locally with `npm run dev`
+5. **Update** tests if modifying functionality
+
+### Data Modifications
+1. Validate JSON with schemas: `npm run data:validate`
+2. Keep raw data in `*/raw/` directories
+3. Process data to `*/parsed/` directories
+4. Update types in `*/types/` when schema changes
+
+### Commit Messages
+Follow conventional commits:
+- `feat:` New features
+- `fix:` Bug fixes
+- `docs:` Documentation only
+- `chore:` Maintenance tasks
+- `refactor:` Code restructuring
+
+### Testing Requirements
+- Extension: Manual testing with dev build
+- Functions: Unit tests + emulator testing
+- Data: Schema validation must pass
+
+## Security Considerations
+
+### Sensitive Files
+- **Never** commit `.env` files
+- **Never** expose Firebase service account keys
+- **Never** include user personal data in commits
+
+### API Keys
+- Store in GitHub Secrets for Actions
+- Use Firebase Config for runtime secrets
+- Document required environment variables in `.env.example`
+
+### Extension Security
+- Minimal permissions in @extension/manifest.json
+- Content Security Policy enforced
+- No eval() or inline scripts
+- Sanitize all user inputs
