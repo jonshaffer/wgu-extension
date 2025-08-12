@@ -127,3 +127,6 @@ data/discord/raw/*.json
 data/reddit/raw/*.json
 data/wgu-connect/raw/*.json
 data/wgu-student-groups/raw/*.json
+
+# Python environment for DVC plugins
+.python-env/

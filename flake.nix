@@ -34,6 +34,10 @@
             git
             gh  # GitHub CLI
             dvc # Data Version Control for large files (PDFs, JSON)
+            
+            # Python for DVC plugins
+            python3
+            python3Packages.pip
 
             # General development utilities
             jq          # JSON processing
@@ -56,6 +60,7 @@
             echo "  gh pr view      - View current PR"
             echo "  dvc init        - Initialize DVC"
             echo "  dvc add         - Track files with DVC"
+            echo "  dvc pull        - Pull data from DVC"
             echo ""
             
             # Ensure node_modules/.bin is in PATH
@@ -64,6 +69,18 @@
             # Set up npm to use local cache
             export npm_config_cache="$PWD/.npm-cache"
             mkdir -p .npm-cache
+            
+            # Set up Python environment for DVC plugins
+            export PYTHONPATH="$PWD/.python-env/lib/python$(python3 --version | cut -d' ' -f2 | cut -d'.' -f1-2)/site-packages:$PYTHONPATH"
+            export PATH="$PWD/.python-env/bin:$PATH"
+            
+            # Install DVC Google Drive plugin if not already installed
+            if ! python3 -c "import dvc_gdrive" 2>/dev/null; then
+              echo "📦 Installing DVC Google Drive plugin..."
+              python3 -m venv .python-env
+              .python-env/bin/pip install --quiet dvc-gdrive
+              echo "✅ DVC Google Drive plugin installed"
+            fi
           '';
 
           # Environment variables
