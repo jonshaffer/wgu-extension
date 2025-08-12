@@ -1,0 +1,5 @@
+outs:
+- md5: 5bde8ea8f857b055c8bc54da801e3459
+  size: 318594
+  hash: md5
+  path: catalog-2023-11.json

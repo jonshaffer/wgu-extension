@@ -1,0 +1,5 @@
+outs:
+- md5: 70e5e5f53fa4449eb159b4f1b982807f
+  size: 6874
+  hash: md5
+  path: catalog-2021-06.report.json

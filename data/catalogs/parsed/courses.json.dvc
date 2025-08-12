@@ -1,0 +1,5 @@
+outs:
+- md5: 6ffb3f3d451566f426341d1ff4762916
+  size: 1993076
+  hash: md5
+  path: courses.json

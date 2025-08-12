@@ -1,0 +1,5 @@
+outs:
+- md5: e3cacdb9f88d1a5b52133cdf6e8dac32
+  size: 227773
+  hash: md5
+  path: catalog-2018-07.json

@@ -1,0 +1,5 @@
+outs:
+- md5: d95c66f7a21a5fa49d273ef83401b508
+  size: 626558
+  hash: md5
+  path: degree-programs.json

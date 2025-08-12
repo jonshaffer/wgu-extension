@@ -34,6 +34,7 @@
             git
             git-lfs # For storing PDFs and large files
             gh  # GitHub CLI
+            dvc # Data Version Control for large files
 
             # General development utilities
             jq          # JSON processing
@@ -47,12 +48,15 @@
             echo "🚀 WGU Extension Development Environment"
             echo "📦 Node.js version: $(node --version)"
             echo "📦 npm version: $(npm --version)"
+            echo "📦 DVC version: $(dvc --version 2>/dev/null || echo "not available")"
             echo ""
             echo "Available commands:"
             echo "  npm install     - Install dependencies"
             echo "  npm run dev     - Start development server"
             echo "  npm run build   - Build extension"
             echo "  gh pr view      - View current PR"
+            echo "  dvc init        - Initialize DVC"
+            echo "  dvc add         - Track files with DVC"
             echo ""
             
             # Ensure node_modules/.bin is in PATH

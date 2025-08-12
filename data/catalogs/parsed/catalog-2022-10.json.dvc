@@ -1,0 +1,5 @@
+outs:
+- md5: 7c2b45d3b715ecd42a9d18afba4d0ee4
+  size: 304027
+  hash: md5
+  path: catalog-2022-10.json
