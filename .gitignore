@@ -9,8 +9,13 @@ yarn-debug.log*
 yarn-error.log*
 .npm
 .npm-cache/
+.npm-global/
 .yarn-integrity
 *.tgz
+
+# pnpm
+.pnpm/
+.pnpm-debug.log*
 
 # Environment files
 .env
