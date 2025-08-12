@@ -1,10 +1,10 @@
-import { onRequest } from "firebase-functions/v2/https";
-import { defineSecret } from "firebase-functions/params";
-import { auth } from "../lib/firebase";
-import { getAllowedOrigins, setCors } from "../lib/cors";
-import { isFingerprintValid, isIsoDateWithin48h } from "../lib/validation";
-import { checkRateLimit } from "../lib/rate-limit";
-import { storeEvent } from "../lib/storage";
+import {onRequest} from "firebase-functions/v2/https";
+import {defineSecret} from "firebase-functions/params";
+import {auth} from "../lib/firebase";
+import {getAllowedOrigins, setCors} from "../lib/cors";
+import {isFingerprintValid, isIsoDateWithin48h} from "../lib/validation";
+import {checkRateLimit} from "../lib/rate-limit";
+import {storeEvent} from "../lib/storage";
 
 const EXTENSION_ORIGINS = defineSecret("EXTENSION_ORIGINS");
 
@@ -48,17 +48,25 @@ export const ingestWguConnectCollection = onRequest({
   if (req.method === "OPTIONS") return res.status(204).send("");
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST, OPTIONS");
-    return res.status(405).json({ error: "method_not_allowed" });
+    return res.status(405).json({error: "method_not_allowed"});
   }
 
   // Auth optional: prefer Firebase ID token; otherwise allow anon
   const authz = req.headers?.authorization as string | undefined;
   if (authz?.startsWith("Bearer ")) {
-    try { await auth.verifyIdToken(authz.substring(7).trim()); } catch { return res.status(401).json({ error: "unauthorized" }); }
+    try {
+      await auth.verifyIdToken(authz.substring(7).trim());
+    } catch {
+      return res.status(401).json({error: "unauthorized"});
+    }
   }
 
   let body: WguConnectCollectionEvent | undefined;
-  try { body = typeof req.body === "object" ? req.body : JSON.parse(req.body); } catch { return res.status(400).json({ error: "validation_error", details: ["Malformed JSON"] }); }
+  try {
+    body = typeof req.body === "object" ? req.body : JSON.parse(req.body);
+  } catch {
+    return res.status(400).json({error: "validation_error", details: ["Malformed JSON"]});
+  }
 
   // Validate body
   const errs: string[] = [];
@@ -69,7 +77,7 @@ export const ingestWguConnectCollection = onRequest({
   if (!body?.url || typeof body.url !== "string") errs.push("url is required string");
   if (!body?.collectedAt || !isIsoDateWithin48h(body.collectedAt)) errs.push("collectedAt must be ISO within ±48h");
   const hasResources = Array.isArray(body?.resources);
-  const hasCount = typeof (body as any)?.resourceCount === 'number';
+  const hasCount = typeof (body as any)?.resourceCount === "number";
   if (!hasResources && !hasCount) errs.push("either resources (array) or resourceCount (number) is required");
   const count = hasResources ? (body as any).resources.length : (hasCount ? (body as any).resourceCount : 0);
   if (hasResources && count > 5000) errs.push("resources length must be 0..5000");
@@ -82,16 +90,28 @@ export const ingestWguConnectCollection = onRequest({
     const resources = body.resources as any[];
     for (let i = 0; i < Math.min(resources.length, 50); i++) {
       const r = resources[i] as any;
-      if (!r || typeof r !== 'object') { errs.push(`resources[${i}] must be object`); break; }
-      if (!r.id || typeof r.id !== 'string') { errs.push(`resources[${i}].id required string`); break; }
-      if (!r.title || typeof r.title !== 'string') { errs.push(`resources[${i}].title required string`); break; }
-      if (!r.category || typeof r.category !== 'string') { errs.push(`resources[${i}].category required string`); break; }
-  if (typeof r.type !== 'string') { errs.push(`resources[${i}].type must be string`); break; }
-      if (r.link && typeof r.link !== 'string') { errs.push(`resources[${i}].link must be string if provided`); break; }
+      if (!r || typeof r !== "object") {
+        errs.push(`resources[${i}] must be object`); break;
+      }
+      if (!r.id || typeof r.id !== "string") {
+        errs.push(`resources[${i}].id required string`); break;
+      }
+      if (!r.title || typeof r.title !== "string") {
+        errs.push(`resources[${i}].title required string`); break;
+      }
+      if (!r.category || typeof r.category !== "string") {
+        errs.push(`resources[${i}].category required string`); break;
+      }
+      if (typeof r.type !== "string") {
+        errs.push(`resources[${i}].type must be string`); break;
+      }
+      if (r.link && typeof r.link !== "string") {
+        errs.push(`resources[${i}].link must be string if provided`); break;
+      }
     }
   }
 
-  if (errs.length || !body) return res.status(400).json({ error: "validation_error", details: errs.length ? errs : ["Invalid body"] });
+  if (errs.length || !body) return res.status(400).json({error: "validation_error", details: errs.length ? errs : ["Invalid body"]});
 
   const event: WguConnectCollectionEvent = body as WguConnectCollectionEvent;
   event.meta = {
@@ -101,21 +121,21 @@ export const ingestWguConnectCollection = onRequest({
   };
 
   // Normalize resource.type strings for consistency
-  const normalize = (input: string) => (input || '')
+  const normalize = (input: string) => (input || "")
     .toLowerCase()
-    .replace(/[\s_\-/]+/g, ' ')
-    .replace(/[^a-z0-9 &]/g, '')
-    .replace(/\s*&\s*/g, ' and ')
-    .replace(/\s+/g, ' ')
+    .replace(/[\s_\-/]+/g, " ")
+    .replace(/[^a-z0-9 &]/g, "")
+    .replace(/\s*&\s*/g, " and ")
+    .replace(/\s+/g, " ")
     .trim();
   if (Array.isArray(event.resources)) {
-    event.resources = event.resources.map(r => ({
+    event.resources = event.resources.map((r) => ({
       ...r,
       type: normalize(r.type),
-      category: typeof r.category === 'string' ? r.category.trim() : r.category,
+      category: typeof r.category === "string" ? r.category.trim() : r.category,
     }));
     event.resourceCount = event.resources.length;
-  } else if (typeof event.resourceCount === 'number') {
+  } else if (typeof event.resourceCount === "number") {
     // Ensure integer bounds
     event.resourceCount = Math.max(0, Math.min(10000, Math.floor(event.resourceCount)));
   }
@@ -123,16 +143,16 @@ export const ingestWguConnectCollection = onRequest({
   // Rate limit per fingerprint + group + tab
   const scope = `${event.fingerprint}:${event.groupId}:${event.activeTab}`;
   const rate = await checkRateLimit("wgu_connect", scope);
-  if (!rate.ok) return res.status(429).setHeader("Retry-After", String(rate.retryAfter ?? 60)).json({ error: "rate_limited" });
+  if (!rate.ok) return res.status(429).setHeader("Retry-After", String(rate.retryAfter ?? 60)).json({error: "rate_limited"});
 
   const result = await storeEvent({
     type: "wgu_connect",
     scope,
     payload: event as unknown as Record<string, any>,
     fingerprint: event.fingerprint,
-    names: { nameKey: "groupName", nameValue: event.groupName },
-    counts: { countKey: "resourceCount", countValue: event.resourceCount ?? count },
+    names: {nameKey: "groupName", nameValue: event.groupName},
+    counts: {countKey: "resourceCount", countValue: event.resourceCount ?? count},
   });
 
-  return res.status(202).json({ status: "accepted", deduped: result.deduped, storedAt: result.storedAt });
+  return res.status(202).json({status: "accepted", deduped: result.deduped, storedAt: result.storedAt});
 });

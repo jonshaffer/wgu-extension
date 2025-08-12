@@ -1,6 +1,6 @@
-import { FieldValue } from "firebase-admin/firestore";
-import { db } from "./firebase";
-import { isFingerprintValid } from "./validation";
+import {FieldValue} from "firebase-admin/firestore";
+import {db} from "./firebase";
+import {isFingerprintValid} from "./validation";
 
 export async function storeEvent(params: {
   type: "discord_summary" | "wgu_connect";
@@ -10,7 +10,7 @@ export async function storeEvent(params: {
   names: { nameKey: string; nameValue: string };
   counts: { countKey: string; countValue: number };
 }) {
-  const { type, scope, payload, fingerprint, names, counts } = params;
+  const {type, scope, payload, fingerprint, names, counts} = params;
 
   let deduped = false;
   if (fingerprint && isFingerprintValid(fingerprint)) {
@@ -20,7 +20,7 @@ export async function storeEvent(params: {
     if (fpSnap.exists) {
       deduped = true;
     } else {
-      await fpRef.create({ createdAt: FieldValue.serverTimestamp() });
+      await fpRef.create({createdAt: FieldValue.serverTimestamp()});
     }
   }
 
@@ -42,7 +42,7 @@ export async function storeEvent(params: {
   };
   latestData[names.nameKey] = names.nameValue;
   latestData[counts.countKey] = counts.countValue;
-  await latestRef.set(latestData, { merge: true });
+  await latestRef.set(latestData, {merge: true});
 
-  return { deduped, storedAt: receivedAt };
+  return {deduped, storedAt: receivedAt};
 }

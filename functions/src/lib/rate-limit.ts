@@ -1,7 +1,7 @@
-import { FieldValue } from "firebase-admin/firestore";
-import { db } from "./firebase";
+import {FieldValue} from "firebase-admin/firestore";
+import {db} from "./firebase";
 
-export async function checkRateLimit(type: string, scope: string, limitPerMinute = 60): Promise<{ ok: boolean; retryAfter?: number }>{
+export async function checkRateLimit(type: string, scope: string, limitPerMinute = 60): Promise<{ ok: boolean; retryAfter?: number }> {
   const docId = `${type}:${scope}`;
   const ref = db.collection("rate_limits").doc(docId);
   const now = Date.now();
@@ -16,14 +16,14 @@ export async function checkRateLimit(type: string, scope: string, limitPerMinute
       }
     }
     if (count >= limitPerMinute) {
-      return { limited: true } as const;
+      return {limited: true} as const;
     }
-    tx.set(ref, { window: windowKey, count: count + 1, updatedAt: FieldValue.serverTimestamp() }, { merge: true });
-    return { limited: false } as const;
+    tx.set(ref, {window: windowKey, count: count + 1, updatedAt: FieldValue.serverTimestamp()}, {merge: true});
+    return {limited: false} as const;
   });
   if ((res as any).limited) {
     const secondsIntoWindow = Math.floor((now % 60000) / 1000);
-    return { ok: false, retryAfter: 60 - secondsIntoWindow };
+    return {ok: false, retryAfter: 60 - secondsIntoWindow};
   }
-  return { ok: true };
+  return {ok: true};
 }

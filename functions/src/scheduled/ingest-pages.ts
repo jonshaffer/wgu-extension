@@ -1,6 +1,6 @@
-import { onSchedule } from "firebase-functions/v2/scheduler";
+import {onSchedule} from "firebase-functions/v2/scheduler";
 import * as logger from "firebase-functions/logger";
-import { db } from "../lib/firebase";
+import {db} from "../lib/firebase";
 
 const DEFAULT_BASE = "https://jonshaffer.github.io/wgu-extension";
 const UNIFIED_PATH = "/data/unified-community-data.json";
@@ -10,8 +10,8 @@ async function fetchUnified(etag?: string | null) {
   const url = `${base}${UNIFIED_PATH}`;
   const headers: Record<string, string> = {};
   if (etag) headers["If-None-Match"] = etag;
-  const res = await fetch(url as any, { headers } as any);
-  return { res, url } as any;
+  const res = await fetch(url as any, {headers} as any);
+  return {res, url} as any;
 }
 
 export const ingestPagesData = onSchedule({
@@ -24,13 +24,13 @@ export const ingestPagesData = onSchedule({
   const lastEtag = metaSnap.exists ? (metaSnap.data()?.etag as string | undefined) : undefined;
 
   try {
-    const { res, url } = await fetchUnified(lastEtag);
+    const {res, url} = await fetchUnified(lastEtag);
     if (res.status === 304) {
       logger.info("Pages ingest: Not Modified (304) for", url);
       return;
     }
     if (!res.ok) {
-      logger.error("Pages ingest failed", { status: res.status, url });
+      logger.error("Pages ingest failed", {status: res.status, url});
       return;
     }
     const etag = res.headers.get("etag") || undefined;
@@ -43,7 +43,7 @@ export const ingestPagesData = onSchedule({
         updatedAt: new Date().toISOString(),
         source: url,
       },
-      { merge: true }
+      {merge: true}
     );
 
     await metaRef.set(
@@ -52,10 +52,10 @@ export const ingestPagesData = onSchedule({
         lastFetchedAt: new Date().toISOString(),
         source: url,
       },
-      { merge: true }
+      {merge: true}
     );
 
-    logger.info("Pages ingest: stored unifiedCommunityData", { etag, url });
+    logger.info("Pages ingest: stored unifiedCommunityData", {etag, url});
   } catch (e) {
     logger.error("Pages ingest error", e as any);
   }

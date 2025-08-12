@@ -1,4 +1,4 @@
-import { db } from "../lib/firebase";
+import {db} from "../lib/firebase";
 
 export const resolvers = {
   Query: {
