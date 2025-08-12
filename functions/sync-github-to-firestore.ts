@@ -159,7 +159,7 @@ function buildSyncConfigs(): SyncConfig<any>[] {
     // Catalogs: each parsed monthly catalog file -> one document named YYYY-MM
     {
       collection: 'catalogs',
-      sourcePath: path.join(root, '../extension/data/catalogs/parsed'),
+      sourcePath: path.join(root, '../data/catalogs/parsed'),
       schema: { // custom schema parse wrapper for monthly catalog file structure
         parse: (data: any) => data, // trust file structure; could add zod if defined later
       },
@@ -168,20 +168,20 @@ function buildSyncConfigs(): SyncConfig<any>[] {
     },
     {
       collection: 'wgu-connect-groups',
-      sourcePath: path.join(root, '../extension/data/wgu-connect/raw'),
+      sourcePath: path.join(root, '../data/wgu-connect/raw'),
       schema: WguConnectGroupRawSchema, // individual files are single objects
       idField: 'id',
     },
     {
       collection: 'reddit-communities',
-      sourcePath: path.join(root, '../extension/data/reddit/raw'),
+      sourcePath: path.join(root, '../data/reddit/raw'),
       schema: RedditCommunitySchema,
       idField: 'subreddit',
     },
     {
       // Flatten all channels from discord community files
       collection: 'discord-channels',
-      sourcePath: path.join(root, '../extension/data/discord/raw'),
+      sourcePath: path.join(root, '../data/discord/raw'),
   schema: DiscordCommunityFileSchema, // validate community + channels first
       idField: 'id',
       transform: (communities: any[]) => {
@@ -198,7 +198,7 @@ function buildSyncConfigs(): SyncConfig<any>[] {
     },
     {
       collection: 'wgu-student-groups',
-      sourcePath: path.join(root, '../extension/data/wgu-student-groups/raw'),
+      sourcePath: path.join(root, '../data/wgu-student-groups/raw'),
       schema: WguStudentGroupRawSchema,
       idField: 'id',
     },

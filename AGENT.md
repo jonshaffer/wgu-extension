@@ -373,7 +373,7 @@ npm run serve --workspace=functions
 # Ensure poppler is available
 which pdftotext  # Should show path
 # Check PDF is valid
-pdfinfo extension/data/catalogs/raw/[catalog].pdf
+pdfinfo data/catalogs/pdfs/catalog-YYYY-MM.pdf
 ```
 
 ### Rate Limiting
