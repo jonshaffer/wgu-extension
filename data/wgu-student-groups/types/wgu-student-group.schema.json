@@ -12,7 +12,8 @@
     "url": { "type": "string", "format": "uri" },
     "type": { "type": "string", "enum": ["open", "closed", "private"] },
     "access_requirements": { "type": "string" },
-    "target_audience": { "type": "string" }
+    "target_audience": { "type": "string" },
+    "member_count": { "type": "integer", "minimum": 0 }
   },
   "required": ["id", "name", "url", "type"],
   "additionalProperties": false

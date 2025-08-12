@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "firestore-wgu-student-group.schema.json",
+  "title": "WGU Student Group (Firestore)",
+  "description": "Schema for WGU student group documents stored in Firestore",
+  "type": "object",
+  "properties": {
+    "id": { 
+      "type": "string", 
+      "minLength": 1,
+      "description": "Unique group identifier" 
+    },
+    "name": { 
+      "type": "string", 
+      "minLength": 1,
+      "description": "Group name" 
+    },
+    "description": { 
+      "type": "string",
+      "description": "Group description and mission" 
+    },
+    "category": { 
+      "type": "string",
+      "description": "Group category (e.g., Technology, Diversity & Inclusion)" 
+    },
+    "url": { 
+      "type": "string", 
+      "format": "uri",
+      "description": "Group page URL" 
+    },
+    "type": { 
+      "type": "string", 
+      "enum": ["open", "closed", "private"],
+      "description": "Group access type" 
+    },
+    "access_requirements": { 
+      "type": "string",
+      "description": "Requirements for joining the group" 
+    },
+    "target_audience": { 
+      "type": "string",
+      "description": "Intended audience for the group" 
+    },
+    "member_count": { 
+      "type": "integer", 
+      "minimum": 0,
+      "description": "Number of group members" 
+    }
+  },
+  "required": ["id", "name", "url", "type"],
+  "additionalProperties": false
+}

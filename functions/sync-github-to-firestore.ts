@@ -9,6 +9,7 @@
 import { initializeApp, applicationDefault, cert } from 'firebase-admin/app';
 // Explicit .env loading (in case direnv didn't run). Safe no-op if already loaded.
 import path from 'path';
+import crypto from 'crypto';
 try {
   // Dynamically require to avoid adding a prod dependency if not installed.
   // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -20,7 +21,6 @@ import fs from 'fs/promises';
 // Lazy-loaded Zod schemas (dynamic import to avoid ESM/CJS mismatch)
 let WguConnectGroupRawSchema: any;
 let RedditCommunitySchema: any;
-let DiscordChannelSchema: any; // channel schema
 let DiscordCommunityFileSchema: any; // community file with channels
 let WguStudentGroupRawSchema: any;
 
@@ -98,7 +98,6 @@ async function loadSchemas() {
   }
   WguConnectGroupRawSchema = typesMod.WguConnectGroupRawSchema;
   RedditCommunitySchema = typesMod.RedditCommunitySchema;
-  DiscordChannelSchema = typesMod.DiscordChannelSchema;
   DiscordCommunityFileSchema = typesMod.DiscordCommunityFileSchema;
   WguStudentGroupRawSchema = typesMod.WguStudentGroupRawSchema;
 }
@@ -109,40 +108,6 @@ async function pathExists(p: string) {
   try { await fs.access(p); return true; } catch { return false; }
 }
 
-// Read either a single JSON file containing an array OR a directory of JSON item files.
-async function ingestPath<T extends Record<string, any>>(targetPath: string, schema: ZodSchema): Promise<T[]> {
-  const isDir = (await fs.stat(targetPath)).isDirectory();
-  const items: T[] = [];
-  if (!isDir) {
-    const raw = await fs.readFile(targetPath, 'utf8');
-    const data = JSON.parse(raw);
-    // Allow file to be single object or array
-    const normalized = Array.isArray(data) ? data : [data];
-    for (const entry of normalized) {
-      items.push(schema.parse(entry));
-    }
-    return items;
-  }
-  const files = await fs.readdir(targetPath);
-  for (const f of files) {
-    if (!f.endsWith('.json')) continue;
-    const full = path.join(targetPath, f);
-    const raw = await fs.readFile(full, 'utf8');
-    try {
-      const data = JSON.parse(raw);
-      // If file contains an array, validate each
-      if (Array.isArray(data)) {
-        for (const entry of data) items.push(schema.parse(entry));
-      } else {
-        items.push(schema.parse(data));
-      }
-    } catch (e) {
-      console.error(`Failed parsing ${full}:`, e);
-      throw e;
-    }
-  }
-  return items;
-}
 
 // Sync function for each collection
 interface SyncConfig<T extends Record<string, any>> {
@@ -179,22 +144,12 @@ function buildSyncConfigs(): SyncConfig<any>[] {
       idField: 'subreddit',
     },
     {
-      // Flatten all channels from discord community files
-      collection: 'discord-channels',
+      // Store Discord communities (supporting multiple Discord servers)
+      collection: 'discord',
       sourcePath: path.join(root, '../data/discord/raw'),
-  schema: DiscordCommunityFileSchema, // validate community + channels first
+      schema: DiscordCommunityFileSchema, // validate community + channels structure
       idField: 'id',
-      transform: (communities: any[]) => {
-        const channels: any[] = [];
-        for (const community of communities) {
-          if (community.channels && Array.isArray(community.channels)) {
-            for (const ch of community.channels) {
-              channels.push(DiscordChannelSchema.parse(ch));
-            }
-          }
-        }
-        return channels;
-      },
+      // No transform needed - store communities directly with their channels
     },
     {
       collection: 'wgu-student-groups',
@@ -205,45 +160,155 @@ function buildSyncConfigs(): SyncConfig<any>[] {
   ];
 }
 
-async function syncCollection<T extends Record<string, any>>({ collection, sourcePath, schema, idField, transform }: SyncConfig<T>) {
+// Mathematical Transfer pattern implementation with hash-based change detection
+async function syncCollection<T extends Record<string, any>>({ 
+  collection, 
+  sourcePath, 
+  schema, 
+  idField, 
+  transform 
+}: SyncConfig<T>) {
   if (!(await pathExists(sourcePath))) {
     console.warn(`Skip ${collection}: source not found ${sourcePath}`);
     return;
   }
-  console.log(`Syncing ${collection} from ${sourcePath}`);
-  let rawItems = await ingestPath<T>(sourcePath, schema);
-  // Special handling for catalogs: each file becomes a single doc, using filename pattern
+
+  console.log(`Syncing ${collection} from ${sourcePath} (Mathematical Transfer pattern)`);
+  
+  // Phase 1: Load and process source data
+  let sourceFiles: Array<{ id: string; content: string; data: any }> = [];
+
+  // Special handling for catalogs: sync all catalogs with reports
   if (collection === 'catalogs') {
-    const entries: T[] = [];
+    console.log('  Syncing all catalogs with reports (hash-based efficiency)');
     const dirEntries = await fs.readdir(sourcePath);
-    for (const fname of dirEntries) {
-      if (!fname.startsWith('catalog-') || !fname.endsWith('.json')) continue;
-      const file = path.join(sourcePath, fname);
-      const raw = JSON.parse(await fs.readFile(file, 'utf8'));
+    const catalogFiles = dirEntries
+      .filter(f => f.startsWith('catalog-') && f.endsWith('.json') && !f.includes('.report.'))
+      .sort(); // All catalogs, sorted chronologically
+
+    for (const fname of catalogFiles) {
+      const filePath = path.join(sourcePath, fname);
+      const content = await fs.readFile(filePath, 'utf8');
+      const raw = JSON.parse(content);
       const match = fname.match(/catalog-(\d{4}-\d{2})\.json$/);
-      if (!match) continue;
-      const monthKey = match[1];
-      entries.push({ id: monthKey, snapshot: raw, createdAt: new Date().toISOString() } as any);
+      if (match) {
+        const monthKey = match[1];
+        
+        // Also load the corresponding report file
+        const reportPath = path.join(sourcePath, `catalog-${monthKey}.report.json`);
+        let report = null;
+        try {
+          if (await pathExists(reportPath)) {
+            const reportContent = await fs.readFile(reportPath, 'utf8');
+            report = JSON.parse(reportContent);
+          }
+        } catch (e) {
+          console.warn(`    Could not load report for ${monthKey}:`, e instanceof Error ? e.message : String(e));
+        }
+        
+        // Combine content hash includes both catalog and report data
+        const combinedContent = JSON.stringify({ catalog: raw, report });
+        
+        sourceFiles.push({
+          id: monthKey,
+          content: combinedContent,
+          data: { 
+            id: monthKey, 
+            snapshot: raw, 
+            report,
+            createdAt: new Date().toISOString() 
+          }
+        });
+      }
     }
-    rawItems = entries as any;
-    idField = 'id';
-  }
-  if (transform) {
-    rawItems = transform(rawItems);
-  }
-  const writer = db.bulkWriter();
-  let count = 0;
-  for (const item of rawItems) {
-    const docId = String(item[idField]);
-    if (!docId) {
-      console.warn(`Skipping item missing id field '${idField}':`, item);
-      continue;
+  } else {
+    // For non-catalog collections, read individual files
+    const isDir = (await fs.stat(sourcePath)).isDirectory();
+    if (isDir) {
+      const files = await fs.readdir(sourcePath);
+      for (const file of files) {
+        if (!file.endsWith('.json')) continue;
+        const filePath = path.join(sourcePath, file);
+        const content = await fs.readFile(filePath, 'utf8');
+        const data = JSON.parse(content);
+        const docId = data[idField] || path.basename(file, '.json');
+        sourceFiles.push({ id: docId, content, data });
+      }
     }
-    writer.set(db.collection(collection).doc(docId), item, { merge: true });
-    count++;
   }
-  await writer.close();
-  console.log(`Synced ${count} items to ${collection}`);
+
+  // Apply transform if specified
+  if (transform && collection !== 'catalogs') {
+    const transformedItems = transform(sourceFiles.map(f => f.data));
+    sourceFiles = transformedItems.map((item) => ({
+      id: String(item[idField]),
+      content: JSON.stringify(item),
+      data: item
+    }));
+  }
+
+  // Phase 2: Mathematical Transfer - calculate differences via hash comparison
+  const bulkWriter = db.bulkWriter();
+  const sourceManifest = new Set<string>();
+  let updatedCount = 0;
+  let skippedCount = 0;
+
+  // Configure bulk writer for optimal performance
+  bulkWriter.onWriteError((error) => {
+    if (error.failedAttempts < 3) {
+      console.warn(`  Retrying write for ${error.documentRef.path}: ${error.code}`);
+      return true;
+    }
+    console.error(`  Failed write for ${error.documentRef.path} after ${error.failedAttempts} attempts:`, error);
+    return false;
+  });
+
+  console.log(`  Checking ${sourceFiles.length} source files for changes...`);
+
+  for (const sourceFile of sourceFiles) {
+    sourceManifest.add(sourceFile.id);
+    
+    // Calculate content hash (mathematical difference detection)
+    const contentHash = crypto.createHash('sha256').update(sourceFile.content).digest('hex');
+    
+    // Check if document exists and compare hash
+    const docRef = db.collection(collection).doc(sourceFile.id);
+    const existingDoc = await docRef.get();
+    
+    if (!existingDoc.exists || existingDoc.data()?.contentHash !== contentHash) {
+      // Content differs - update document
+      bulkWriter.set(docRef, {
+        ...sourceFile.data,
+        contentHash,
+        lastSynced: new Date().toISOString(),
+        syncSource: 'mathematical-transfer'
+      });
+      updatedCount++;
+      console.log(`  ✓ ${sourceFile.id} (content changed)`);
+    } else {
+      // Content identical - skip update
+      skippedCount++;
+      console.log(`  → ${sourceFile.id} (unchanged)`);
+    }
+  }
+
+  // Phase 3: Cleanup - remove documents not in source manifest
+  console.log(`  Checking for documents to remove...`);
+  const existingDocs = await db.collection(collection).get();
+  let deletedCount = 0;
+
+  for (const doc of existingDocs.docs) {
+    if (!sourceManifest.has(doc.id)) {
+      bulkWriter.delete(doc.ref);
+      deletedCount++;
+      console.log(`  ✗ ${doc.id} (removed from source)`);
+    }
+  }
+
+  // Execute all operations
+  await bulkWriter.close();
+
+  console.log(`  Mathematical Transfer complete: ${updatedCount} updated, ${skippedCount} skipped, ${deletedCount} deleted`);
 }
 
 async function main() {
@@ -252,6 +317,8 @@ async function main() {
   for (const config of configs) {
     await syncCollection(config);
   }
+  
+  
   console.log('All collections synced.');
 }
 

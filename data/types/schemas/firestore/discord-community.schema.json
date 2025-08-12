@@ -1,0 +1,82 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "firestore-discord-community.schema.json",
+  "title": "Discord Community (Firestore)",
+  "description": "Schema for Discord community documents stored in Firestore",
+  "type": "object",
+  "properties": {
+    "id": { 
+      "type": "string", 
+      "pattern": "^\\d{10,}$",
+      "description": "Discord server ID" 
+    },
+    "name": { 
+      "type": "string", 
+      "minLength": 1,
+      "description": "Discord server name" 
+    },
+    "description": { 
+      "type": "string",
+      "description": "Server description" 
+    },
+    "inviteUrl": { 
+      "type": "string", 
+      "format": "uri",
+      "description": "Discord invite URL" 
+    },
+    "hierarchy": {
+      "type": "object",
+      "properties": {
+        "level": {
+          "type": "string",
+          "enum": ["university", "college", "program", "course", "community"]
+        },
+        "college": {
+          "type": "string",
+          "enum": ["technology", "healthcare", "business", "education"]
+        },
+        "program": { "type": "string" },
+        "courseCode": { "type": "string" }
+      },
+      "required": ["level"],
+      "additionalProperties": false
+    },
+    "channels": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { 
+            "type": "string", 
+            "pattern": "^\\d{10,}$" 
+          },
+          "name": { 
+            "type": "string", 
+            "minLength": 1 
+          },
+          "description": { "type": "string" },
+          "communityId": { 
+            "type": "string", 
+            "pattern": "^\\d{10,}$" 
+          },
+          "type": {
+            "type": "string",
+            "enum": ["text", "voice", "forum"]
+          },
+          "courseRelevance": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "tags": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "required": ["id", "name", "communityId", "type"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["id", "name", "hierarchy", "channels"],
+  "additionalProperties": false
+}

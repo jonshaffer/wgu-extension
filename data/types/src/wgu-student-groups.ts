@@ -8,7 +8,8 @@ export const WguStudentGroupRawSchema = z.object({
   url: z.string().url(),
   type: z.enum(['open', 'closed', 'private']),
   access_requirements: z.string().optional(),
-  target_audience: z.string().optional()
+  target_audience: z.string().optional(),
+  member_count: z.number().int().positive().optional()
 });
 
 export type WguStudentGroupRaw = z.infer<typeof WguStudentGroupRawSchema>;
