@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Route } from "./+types/home";
-import Spotlight from "../../components/Spotlight";
-import SearchResults from "../../components/SearchResults";
+import Spotlight from "../components/Spotlight";
+import SearchResults from "../components/SearchResults";
 
 export function meta({}: Route.MetaArgs) {
   return [

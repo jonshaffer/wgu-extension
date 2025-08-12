@@ -2,27 +2,26 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Button } from '../app/components/ui/button';
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
-} from '../app/components/ui/form';
-import { Input } from '../app/components/ui/input';
+} from '~/components/ui/form';
+import { Input } from '~/components/ui/input';
 import { debounce } from 'lodash';
 
 import { getFunctions, httpsCallable } from 'firebase/functions'; // Import functions and httpsCallable
-import { app } from '../app/lib/firebase'; // Import your Firebase app instance
+import { app } from '../lib/firebase'; // Import your Firebase app instance
 
 const formSchema = z.object({
   query: z.string(), // Allow empty string initially
 });
 interface SpotlightProps {
-  onSearch: (results: any[], loading: boolean) => void; // Define prop type for onSearch
-};
+  onSearch: (results: any[], loading: boolean) => void;
+}
 
-const Spotlight: React.FC = () => {
+const Spotlight: React.FC<SpotlightProps> = ({ onSearch }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -38,7 +37,9 @@ const Spotlight: React.FC = () => {
         onSearch([], true); // Call onSearch with loading: true
         try {
           const result = await searchFirestoreCallable({ query });
-          onSearch(result.data.results || [], false); // Call onSearch with results and loading: false
+          // Type assertion for result.data
+          const data = result.data as { results?: any[] };
+          onSearch(data.results || [], false); // Call onSearch with results and loading: false
           console.log('Search results:', result.data);
         } catch (error) {
           console.error('Error searching:', error);
