@@ -1,6 +1,6 @@
 {
   "filename": "catalog-2020-09.pdf",
-  "parsedAt": "2025-08-12T17:17:42.853Z",
+  "parsedAt": "2025-08-12T19:21:13.583Z",
   "parserVersion": "v1.0-legacy-enhanced",
   "summary": {
     "totalCourses": 504,
@@ -9,7 +9,7 @@
     "ccnCoverage": 96,
     "cuCoverage": 60,
     "validationIssues": 54,
-    "parsingDuration": 394
+    "parsingDuration": 397
   },
   "validation": {
     "degreePlanCourseValidation": {

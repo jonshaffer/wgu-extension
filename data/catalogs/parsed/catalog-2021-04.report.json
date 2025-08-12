@@ -1,6 +1,6 @@
 {
   "filename": "catalog-2021-04.pdf",
-  "parsedAt": "2025-08-12T17:17:45.918Z",
+  "parsedAt": "2025-08-12T19:21:16.642Z",
   "parserVersion": "v2.0-modern-enhanced",
   "summary": {
     "totalCourses": 591,
@@ -9,7 +9,7 @@
     "ccnCoverage": 97,
     "cuCoverage": 61,
     "validationIssues": 11,
-    "parsingDuration": 454
+    "parsingDuration": 447
   },
   "validation": {
     "degreePlanCourseValidation": {

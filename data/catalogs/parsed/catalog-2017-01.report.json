@@ -1,6 +1,6 @@
 {
   "filename": "catalog-2017-01.pdf",
-  "parsedAt": "2025-08-12T17:17:27.573Z",
+  "parsedAt": "2025-08-12T19:20:58.361Z",
   "parserVersion": "v1.0-legacy-enhanced",
   "summary": {
     "totalCourses": 417,
@@ -9,7 +9,7 @@
     "ccnCoverage": 100,
     "cuCoverage": 77,
     "validationIssues": 17,
-    "parsingDuration": 587
+    "parsingDuration": 584
   },
   "validation": {
     "degreePlanCourseValidation": {

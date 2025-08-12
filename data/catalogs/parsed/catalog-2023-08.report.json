@@ -1,6 +1,6 @@
 {
   "filename": "catalog-2023-08.pdf",
-  "parsedAt": "2025-08-12T17:18:00.821Z",
+  "parsedAt": "2025-08-12T19:21:31.708Z",
   "parserVersion": "v2.0-modern-enhanced",
   "summary": {
     "totalCourses": 703,
@@ -9,7 +9,7 @@
     "ccnCoverage": 94,
     "cuCoverage": 67,
     "validationIssues": 18,
-    "parsingDuration": 623
+    "parsingDuration": 632
   },
   "validation": {
     "degreePlanCourseValidation": {
