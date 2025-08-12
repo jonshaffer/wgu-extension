@@ -1,23 +1,23 @@
-import { onCall, HttpsError } from "firebase-functions/v2/https";
+import {onCall, HttpsError} from "firebase-functions/v2/https";
 import * as logger from "firebase-functions/logger";
-export { ingestDiscord } from "./http/ingest-discord";
-export { ingestWguConnectCollection } from "./http/ingest-wgu-connect-collection";
-export { graphql } from "./http/graphql.js";
-export { ingestPagesData } from "./scheduled/ingest-pages.js";
+export {ingestDiscord} from "./http/ingest-discord";
+export {ingestWguConnectCollection} from "./http/ingest-wgu-connect-collection";
+export {graphql} from "./http/graphql.js";
+export {ingestPagesData} from "./scheduled/ingest-pages.js";
 
-export const searchFirestore = onCall(async (request: any) => {
+export const search = onCall(async (request: any) => {
   const query = request.data.query; // Access data from request.data
 
   if (!query) {
     // Throw an HttpsError for structured error handling
     throw new HttpsError(
-      'invalid-argument',
-      'Missing \'query\' in request data'
+      "invalid-argument",
+      "Missing 'query' in request data"
     );
   }
   logger.info("Received search query:", query);
   // TODO: Implement actual Firestore search logic here;
- // Return the result directly
+  // Return the result directly
   return {
     message: "Search query received and processed (dummy response)",
     query: query,
