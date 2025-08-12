@@ -1,9 +1,38 @@
 {
   "name": "@wgu-extension/data",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "type": "module",
-  "description": "Data collection and processing for WGU Extension",
+  "description": "Data collection, processing, and shared TypeScript types for WGU Extension",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonshaffer/wgu-extension.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jonshaffer/wgu-extension/issues"
+  },
+  "homepage": "https://github.com/jonshaffer/wgu-extension#readme",
+  "sideEffects": false,
+  "main": "types/dist/index.js",
+  "module": "types/dist/index.js",
+  "types": "types/dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./types/dist/index.js",
+      "require": "./types/dist/index.js",
+      "types": "./types/dist/index.d.ts"
+    },
+    "./canonical-raw": {
+      "types": "./types/dist/canonical-raw.d.ts"
+    }
+  },
+  "files": [
+    "types/dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "ingest": "npm run ingest:discord && npm run ingest:reddit && npm run ingest:wgu-connect && npm run ingest:catalog",
     "ingest:discord": "tsx discord/scripts/ingest-discord.ts",
@@ -22,12 +51,19 @@
     "catalog:report": "tsx catalogs/scripts/catalog-reporting.ts",
     "catalog:parse": "tsx catalogs/scripts/catalog-parser-unified.ts",
     "catalog:batch": "tsx catalogs/scripts/batch-parse-all.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "types:clean": "rm -rf types/dist",
+    "types:build:esm": "tsc -p types/tsconfig.json",
+    "types:build": "npm run types:clean && npm run types:build:esm && cp types/src/canonical-raw.d.ts types/dist/canonical-raw.d.ts",
+    "build": "npm run types:build",
+    "prepublishOnly": "npm run build",
+    "version:check": "npm view @wgu-extension/data versions --json"
   },
   "dependencies": {
     "pdf-parse": "^1.1.1",
     "ajv": "^8.17.1",
-    "ajv-formats": "^3.0.1"
+    "ajv-formats": "^3.0.1",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/node": "^22.14.1",

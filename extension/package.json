@@ -4,9 +4,6 @@
   "private": false,
   "version": "0.1.0",
   "type": "module",
-  "workspaces": [
-    "packages/*"
-  ],
   "scripts": {
     "dev": "wxt",
     "dev:firefox": "wxt -b firefox",
@@ -32,9 +29,7 @@
     "catalog:check": "tsx scripts/check-wgu-catalog.ts",
     "catalog:compare": "tsx scripts/compare-catalogs.ts",
     "catalog:check-page": "tsx scripts/check-wgu-catalog-page.ts",
-    "types:build": "npm -w @wgu-extension/types run build",
-    "types:publish:local": "tsx scripts/publish-types-local.ts",
-    "types:publish:local:dry": "tsx scripts/publish-types-local.ts --dry-run"
+    "types:build": "npm -w ../data run types:build"
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.1.5",

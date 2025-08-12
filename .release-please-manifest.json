@@ -1,6 +1,6 @@
 {
   "extension": "0.1.0",
-  "extension/packages/types": "0.0.1",
+  "data": "0.1.0",
   "functions": "0.1.0",
   "site": "0.1.0"
 }

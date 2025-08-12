@@ -5,7 +5,6 @@
   "description": "WGU Extension monorepo with browser extension, Firebase functions, and website",
   "workspaces": [
     "extension",
-    "extension/packages/types",
     "functions",
     "site",
     "data"
@@ -24,9 +23,9 @@
     "lint": "npm run lint --workspaces --if-present",
     "clean": "rm -rf node_modules extension/node_modules functions/node_modules site/node_modules",
     "postinstall": "npm run postinstall --workspaces --if-present",
-    "types:build": "npm run build --workspace=extension/packages/types",
-    "types:publish:local": "cd extension && npm run types:publish:local",
-  "types:publish:local:dry": "cd extension && npm run types:publish:local:dry"
+    "types:build": "npm run types:build --workspace=data",
+    "types:publish:local": "cd data && npm publish --tag local",
+    "types:publish:local:dry": "cd data && npm publish --tag local --dry-run"
   },
   "devDependencies": {
   "typescript": "^5.8.3",

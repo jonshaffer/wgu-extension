@@ -69,14 +69,14 @@ async function loadSchemas() {
   let typesMod: any;
   try {
     // Prefer dynamic import (ESM) when available
-    typesMod = await import('@wgu-extension/types');
+    typesMod = await import('@wgu-extension/data');
   } catch (primaryErr) {
     try {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
-      typesMod = require('@wgu-extension/types');
+      typesMod = require('@wgu-extension/data');
     } catch (cjsErr) {
       const possible = [
-        path.join(__dirname, '../extension/packages/types/dist/index.js'),
+        path.join(__dirname, '../data/types/dist/index.js'),
       ];
       for (const p of possible) {
         try {
@@ -89,7 +89,7 @@ async function loadSchemas() {
         }
       }
       if (!typesMod) {
-        console.error('Failed to load @wgu-extension/types. Build it with: npm run types:build');
+        console.error('Failed to load @wgu-extension/data. Build it with: npm run types:build');
         console.error('Primary ESM error:', primaryErr);
         console.error('CJS require error:', cjsErr);
         throw primaryErr;

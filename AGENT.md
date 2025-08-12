@@ -24,11 +24,11 @@ wgu-extension/
 │   ├── reddit/              # Reddit community data collection
 │   ├── wgu-connect/         # WGU Connect resource extraction
 │   ├── wgu-student-groups/  # Student groups extraction
-│   └── unified/             # Unified community data transformation
+│   ├── unified/             # Unified community data transformation
+│   └── types/               # Shared TypeScript types (published to npm)
 ├── extension/               # Browser extension (WXT)
 │   ├── components/          # React components (Radix UI + Tailwind)
 │   ├── entrypoints/         # WXT entry points for different contexts
-│   ├── packages/types/      # Shared TypeScript types (published to npm)
 │   └── public/              # Static assets and generated community data
 ├── functions/               # Firebase Cloud Functions
 │   └── src/                 # TypeScript source for HTTP endpoints
@@ -123,8 +123,9 @@ npm run data:validate:reddit --workspace=extension
 - **Scripts**: Cross-workspace automation in root package.json
 
 ### Data Workspace
-The data workspace (@data) handles all community data collection and processing:
+The data workspace (@wgu-extension/data) handles all community data collection, processing, and shared types:
 - **Directory structure**: `data/{source}/raw/` for raw data, `data/{source}/types/` for schemas
+- **Shared types**: `data/types/` contains TypeScript types and Zod schemas published to npm
 - **Scripts**: Validation, ingestion, and transformation scripts for each data source
 - **Output**: Generates unified data to `extension/public/data/` for extension use
 

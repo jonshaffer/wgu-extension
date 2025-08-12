@@ -5,9 +5,9 @@
       "release-type": "node",
       "package-name": "unofficial-wgu-extension"
     },
-    "extension/packages/types": {
+    "data": {
       "release-type": "node",
-      "package-name": "@wgu-extension/types"
+      "package-name": "@wgu-extension/data"
     },
     "functions": {
       "release-type": "node",
