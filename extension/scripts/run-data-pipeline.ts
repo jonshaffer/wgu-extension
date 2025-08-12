@@ -32,8 +32,8 @@ async function runDataPipeline(): Promise<void> {
     console.log('🎉 Community Data Pipeline completed successfully!');
     console.log('\nNext steps:');
     console.log('  - Review generated files in data/processed/');
-    console.log('  - Check assets/communities/ for course-specific files');
-    console.log('  - Update extension to use new data structure');
+    console.log('  - Sync data to Firestore using functions/sync-github-to-firestore.ts');
+    console.log('  - Extension will use production search endpoint');
 
   } catch (error) {
     console.error('❌ Pipeline failed:', error);

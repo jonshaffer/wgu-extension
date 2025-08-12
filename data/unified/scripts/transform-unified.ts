@@ -30,7 +30,6 @@ const REDDIT_DIR = resolve(process.cwd(), 'reddit', 'raw');
 const PROCESSED_DIR = resolve(process.cwd(), 'processed');
 const PUBLIC_DATA_DIR = resolve(process.cwd(), '../extension/public/data');
 const PUBLIC_COURSES_DIR = resolve(PUBLIC_DATA_DIR, 'courses');
-const ASSETS_DIR = resolve(process.cwd(), '../extension/assets/communities');
 
 /**
  * Get the last git commit timestamp for a file
@@ -386,28 +385,11 @@ async function transformUnifiedData(): Promise<void> {
     );
   }
 
-  // Generate individual course files for backward compatibility (legacy assets)
-  await fs.mkdir(ASSETS_DIR, { recursive: true });
-  
-  for (const courseMapping of courseMappings) {
-    const legacyFormat = {
-      discord: courseMapping.discord,
-      reddit: courseMapping.reddit,
-      // Note: WGU Connect wasn't in the original format, so we'll add it as a new field
-      wguConnect: courseMapping.wguConnect
-    };
-    
-    await fs.writeFile(
-      resolve(ASSETS_DIR, `${courseMapping.courseCode.toLowerCase()}.json`),
-      JSON.stringify(legacyFormat, null, 2)
-    );
-  }
 
   console.log(`✅ Unified transformation complete`);
   console.log(`   - Processed data: ${resolve(PROCESSED_DIR, 'unified-community-data.json')}`);
   console.log(`   - Public data: ${resolve(PUBLIC_DATA_DIR, 'unified-community-data.json')}`);
   console.log(`   - Course files: ${resolve(PUBLIC_COURSES_DIR)} (${courseMappings.length} courses)`);
-  console.log(`   - Legacy format files: ${ASSETS_DIR}`);
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {

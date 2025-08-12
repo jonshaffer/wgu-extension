@@ -21,7 +21,6 @@ import type {
 
 const RAW_DIR = resolve(process.cwd(), 'data/raw');
 const PROCESSED_DIR = resolve(process.cwd(), 'data/processed');
-const ASSETS_DIR = resolve(process.cwd(), 'assets/communities');
 
 async function loadRawData() {
   const [discordData, redditData, wguConnectData] = await Promise.all([
@@ -182,27 +181,11 @@ async function transformUnifiedData(): Promise<void> {
     JSON.stringify(processedData, null, 2)
   );
 
-  // Generate individual course files for backward compatibility
-  await fs.mkdir(ASSETS_DIR, { recursive: true });
-  
-  for (const courseMapping of courseMappings) {
-    const legacyFormat = {
-      discord: courseMapping.discord,
-      reddit: courseMapping.reddit,
-      // Note: WGU Connect wasn't in the original format, so we'll add it as a new field
-      wguConnect: courseMapping.wguConnect
-    };
-    
-    await fs.writeFile(
-      resolve(ASSETS_DIR, `${courseMapping.courseCode.toLowerCase()}.json`),
-      JSON.stringify(legacyFormat, null, 2)
-    );
-  }
+  // Note: Extension should use production search endpoint, not local files
 
   console.log(`✅ Unified transformation complete`);
   console.log(`   - Processed data: ${resolve(PROCESSED_DIR, 'unified-community-data.json')}`);
   console.log(`   - Course mappings: ${courseMappings.length} courses`);
-  console.log(`   - Legacy format files: ${ASSETS_DIR}`);
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {

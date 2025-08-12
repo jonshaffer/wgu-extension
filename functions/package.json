@@ -8,8 +8,9 @@
     "shell": "npm run build && firebase functions:shell",
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
-  "logs": "firebase functions:log",
-  "sync:data": "ts-node sync-github-to-firestore.ts"
+    "logs": "firebase functions:log",
+    "sync:data": "ts-node sync-github-to-firestore.ts",
+    "seed:emulator": "FIRESTORE_EMULATOR_HOST=localhost:8080 ts-node seed-emulator.ts"
   },
   "engines": {
     "node": "22"
