@@ -1,0 +1,19 @@
+{
+  "subreddit": "WGU_MBA",
+  "name": "r/WGU_MBA",
+  "description": "A New Subreddit for Western Governors University MBA Degree (Master of Business Administration) with all concentrations welcome!",
+  "hierarchy": {
+    "level": "program"
+  },
+  "isActive": true,
+  "tags": [
+    "MBA",
+    "master's",
+    "business",
+    "program"
+  ],
+  "relevantCourses": [],
+  "memberCount": 8280,
+  "lastUpdated": "2025-08-11T06:50:39.907Z",
+  "verified": true
+}

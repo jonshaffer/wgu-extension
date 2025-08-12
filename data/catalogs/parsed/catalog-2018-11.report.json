@@ -1,0 +1,766 @@
+{
+  "filename": "catalog-2018-11.pdf",
+  "parsedAt": "2025-08-12T17:17:34.122Z",
+  "parserVersion": "v1.0-legacy-enhanced",
+  "summary": {
+    "totalCourses": 458,
+    "totalDegreePlans": 116,
+    "totalProgramOutcomes": 0,
+    "ccnCoverage": 95,
+    "cuCoverage": 63,
+    "validationIssues": 60,
+    "parsingDuration": 378
+  },
+  "validation": {
+    "degreePlanCourseValidation": {
+      "totalCoursesInPlans": 484,
+      "uniqueCoursesInPlans": 484,
+      "coursesFoundInCatalog": 435,
+      "missingCourses": [
+        "C186",
+        "C195",
+        "C205",
+        "C207",
+        "C212",
+        "C216",
+        "C237",
+        "C238",
+        "C240",
+        "C268",
+        "C282",
+        "C283",
+        "C308",
+        "C310",
+        "C311",
+        "C312",
+        "C313",
+        "C314",
+        "C324",
+        "C326",
+        "C362",
+        "C363",
+        "C394",
+        "C467",
+        "C480",
+        "C482",
+        "C483",
+        "C624",
+        "C625",
+        "C654",
+        "C655",
+        "C656",
+        "C657",
+        "C688",
+        "C713",
+        "C736",
+        "C737",
+        "C742",
+        "C746",
+        "C785",
+        "C793",
+        "C794",
+        "C799",
+        "C894",
+        "C895",
+        "C958",
+        "D005",
+        "D006",
+        "D007"
+      ],
+      "validationRate": 89.9
+    },
+    "dataCompleteness": {
+      "coursesWithAllFields": 282,
+      "coursesWithDescription": 458,
+      "coursesWithCCN": 435,
+      "coursesWithCUs": 287,
+      "degreePlansWithTotalCUs": 105
+    },
+    "issues": [
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Business Management",
+        "message": "Course C483 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C483",
+          "planName": "Bachelor of Science, Business Management",
+          "planKey": "plan_0"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Business Management",
+        "message": "Course C268 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C268",
+          "planName": "Bachelor of Science, Business Management",
+          "planKey": "plan_0"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Business Management",
+        "message": "Course C713 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C713",
+          "planName": "Bachelor of Science, Business Management",
+          "planKey": "plan_0"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Business - Human Resource Management",
+        "message": "Course C237 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C237",
+          "planName": "Bachelor of Science, Business - Human Resource Management",
+          "planKey": "plan_2"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Business - Human Resource Management",
+        "message": "Course C238 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C238",
+          "planName": "Bachelor of Science, Business - Human Resource Management",
+          "planKey": "plan_2"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Business - Human Resource Management",
+        "message": "Course C240 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C240",
+          "planName": "Bachelor of Science, Business - Human Resource Management",
+          "planKey": "plan_2"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Business - Human Resource Management",
+        "message": "Course C212 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C212",
+          "planName": "Bachelor of Science, Business - Human Resource Management",
+          "planKey": "plan_2"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Business - Information Technology Management",
+        "message": "Course C207 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C207",
+          "planName": "Bachelor of Science, Business - Information Technology Management",
+          "planKey": "plan_3"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Business - Information Technology Management",
+        "message": "Course C216 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C216",
+          "planName": "Bachelor of Science, Business - Information Technology Management",
+          "planKey": "plan_3"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Marketing Management",
+        "message": "Course C205 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C205",
+          "planName": "Bachelor of Science, Marketing Management",
+          "planKey": "plan_4"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Master of Science, Management and Leadership",
+        "message": "Course C785 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C785",
+          "planName": "Master of Science, Management and Leadership",
+          "planKey": "plan_6"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Master of Science, Management and Leadership",
+        "message": "Course C467 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C467",
+          "planName": "Master of Science, Management and Leadership",
+          "planKey": "plan_6"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Nursing",
+        "message": "Course C799 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C799",
+          "planName": "Bachelor of Science, Nursing",
+          "planKey": "plan_8"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Computer Science",
+        "message": "Course C958 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C958",
+          "planName": "Bachelor of Science, Computer Science",
+          "planKey": "plan_10"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Computer Science",
+        "message": "Course C482 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C482",
+          "planName": "Bachelor of Science, Computer Science",
+          "planKey": "plan_10"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Computer Science",
+        "message": "Course C195 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C195",
+          "planName": "Bachelor of Science, Computer Science",
+          "planKey": "plan_10"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Computer Science",
+        "message": "Course C394 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C394",
+          "planName": "Bachelor of Science, Computer Science",
+          "planKey": "plan_10"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Computer Science",
+        "message": "Course C480 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C480",
+          "planName": "Bachelor of Science, Computer Science",
+          "planKey": "plan_10"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Information Technology",
+        "message": "Course C688 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C688",
+          "planName": "Bachelor of Science, Information Technology",
+          "planKey": "plan_11"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Information Technology",
+        "message": "Course C742 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C742",
+          "planName": "Bachelor of Science, Information Technology",
+          "planKey": "plan_11"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Information Technology",
+        "message": "Course C746 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C746",
+          "planName": "Bachelor of Science, Information Technology",
+          "planKey": "plan_11"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Arts, Elementary Education",
+        "message": "Course C308 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C308",
+          "planName": "Bachelor of Arts, Elementary Education",
+          "planKey": "plan_16"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Arts, Elementary Education",
+        "message": "Course C310 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C310",
+          "planName": "Bachelor of Arts, Elementary Education",
+          "planKey": "plan_16"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Arts, Elementary Education",
+        "message": "Course C311 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C311",
+          "planName": "Bachelor of Arts, Elementary Education",
+          "planKey": "plan_16"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Arts, Elementary Education",
+        "message": "Course C312 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C312",
+          "planName": "Bachelor of Arts, Elementary Education",
+          "planKey": "plan_16"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Arts, Elementary Education",
+        "message": "Course C313 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C313",
+          "planName": "Bachelor of Arts, Elementary Education",
+          "planKey": "plan_16"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Arts, Elementary Education",
+        "message": "Course C314 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C314",
+          "planName": "Bachelor of Arts, Elementary Education",
+          "planKey": "plan_16"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Arts, Special Education",
+        "message": "Course D005 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "D005",
+          "planName": "Bachelor of Arts, Special Education",
+          "planKey": "plan_17"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Arts, Special Education",
+        "message": "Course D006 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "D006",
+          "planName": "Bachelor of Arts, Special Education",
+          "planKey": "plan_17"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Arts, Special Education",
+        "message": "Course D007 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "D007",
+          "planName": "Bachelor of Arts, Special Education",
+          "planKey": "plan_17"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Arts, Special Education, Mild to Moderate",
+        "message": "Course C282 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C282",
+          "planName": "Bachelor of Arts, Special Education, Mild to Moderate",
+          "planKey": "plan_18"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Arts, Special Education, Mild to Moderate",
+        "message": "Course C362 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C362",
+          "planName": "Bachelor of Arts, Special Education, Mild to Moderate",
+          "planKey": "plan_18"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Arts, Special Education, Mild to Moderate",
+        "message": "Course C283 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C283",
+          "planName": "Bachelor of Arts, Special Education, Mild to Moderate",
+          "planKey": "plan_18"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Arts, Special Education, Mild to Moderate",
+        "message": "Course C656 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C656",
+          "planName": "Bachelor of Arts, Special Education, Mild to Moderate",
+          "planKey": "plan_18"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Master of Arts in Teaching, Elementary Education",
+        "message": "Course C324 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C324",
+          "planName": "Master of Arts in Teaching, Elementary Education",
+          "planKey": "plan_19"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Master of Arts in Teaching, Elementary Education",
+        "message": "Course C326 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C326",
+          "planName": "Master of Arts in Teaching, Elementary Education",
+          "planKey": "plan_19"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Master of Science, Educational Leadership",
+        "message": "Course C363 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C363",
+          "planName": "Master of Science, Educational Leadership",
+          "planKey": "plan_22"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Master of Science, Educational Leadership",
+        "message": "Course C657 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C657",
+          "planName": "Master of Science, Educational Leadership",
+          "planKey": "plan_22"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science in C",
+        "message": "Course C186 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C186",
+          "planName": "Bachelor of Science in C",
+          "planKey": "plan_30"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Arts",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Arts",
+          "planKey": "plan_34"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Arts in E",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Arts in E",
+          "planKey": "plan_35"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Master of Arts in S",
+        "message": "Course C895 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C895",
+          "planName": "Master of Arts in S",
+          "planKey": "plan_42"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Master of Arts in S",
+        "message": "Course C655 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C655",
+          "planName": "Master of Arts in S",
+          "planKey": "plan_42"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Master of Arts in S",
+        "message": "Course C737 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C737",
+          "planName": "Master of Arts in S",
+          "planKey": "plan_42"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Master of Arts in S",
+        "message": "Course C625 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C625",
+          "planName": "Master of Arts in S",
+          "planKey": "plan_42"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Master of Science in D",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Master of Science in D",
+          "planKey": "plan_43"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Master of Science, Nursing - Education (RN to MSN)",
+        "message": "Course C793 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C793",
+          "planName": "Master of Science, Nursing - Education (RN to MSN)",
+          "planKey": "plan_47"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Master of Science, Nursing - Education (RN to MSN)",
+        "message": "Course C794 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C794",
+          "planName": "Master of Science, Nursing - Education (RN to MSN)",
+          "planKey": "plan_47"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Science Education (Middle Grades)",
+        "message": "Course C894 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C894",
+          "planName": "Bachelor of Science, Science Education (Middle Grades)",
+          "planKey": "plan_56"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Science Education (Secondary Biological Science)",
+        "message": "Course C654 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C654",
+          "planName": "Bachelor of Science, Science Education (Secondary Biological Science)",
+          "planKey": "plan_57"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Science Education (Secondary Biological Science)",
+        "message": "Course C736 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C736",
+          "planName": "Bachelor of Science, Science Education (Secondary Biological Science)",
+          "planKey": "plan_57"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Science Education (Secondary Chemistry)",
+        "message": "Course C624 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C624",
+          "planName": "Bachelor of Science, Science Education (Secondary Chemistry)",
+          "planKey": "plan_58"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: associated with the healthcare industry, as well as the values of professionalism.",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "associated with the healthcare industry, as well as the values of professionalism.",
+          "planKey": "plan_76"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: mastery of advanced levels of the key behaviors for clinical practice of medical surgical nursing.",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "mastery of advanced levels of the key behaviors for clinical practice of medical surgical nursing.",
+          "planKey": "plan_77"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: mastery of advanced competencies particularly in patient safety in quality improvement science.",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "mastery of advanced competencies particularly in patient safety in quality improvement science.",
+          "planKey": "plan_78"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Science in Business Management is",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Science in Business Management is",
+          "planKey": "plan_79"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Master of Science portion of the degree further prepares graduates to be leaders and managers in diverse settings",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Master of Science portion of the degree further prepares graduates to be leaders and managers in diverse settings",
+          "planKey": "plan_91"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Arts in Elementary Education is",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Arts in Elementary Education is",
+          "planKey": "plan_100"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Arts degree and",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Arts degree and",
+          "planKey": "plan_101"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Master of Science in Data Analytics",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Master of Science in Data Analytics",
+          "planKey": "plan_115"
+        }
+      }
+    ]
+  },
+  "statistics": {
+    "coursesFound": 458,
+    "degreePlansFound": 116,
+    "standaloneCourses": 0,
+    "certificatePrograms": 0,
+    "programOutcomes": 0,
+    "ccnCoverage": 95,
+    "cuCoverage": 63,
+    "coursesByPrefix": {
+      "C": 446,
+      "D": 12
+    },
+    "degreePlanStatistics": {
+      "totalCourses": 3130,
+      "uniqueCourses": 484,
+      "averageCoursesPerPlan": 27,
+      "plansWithTotalCUs": 105
+    },
+    "dataQuality": {
+      "coursesWithDescription": 458,
+      "coursesWithCCN": 435,
+      "coursesWithCUs": 287,
+      "completeCourseRecords": 458,
+      "problematicCourseCodeCount": 0
+    }
+  },
+  "processingDetails": {
+    "pdfInfo": {
+      "version": "1.6",
+      "pages": 193
+    },
+    "formatDetected": "2018 (Legacy)",
+    "patternsUsed": [],
+    "enhancedFeaturesUsed": []
+  }
+}

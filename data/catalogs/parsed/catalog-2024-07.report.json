@@ -1,0 +1,406 @@
+{
+  "filename": "catalog-2024-07.pdf",
+  "parsedAt": "2025-08-12T17:18:07.961Z",
+  "parserVersion": "v2.1-current-enhanced",
+  "summary": {
+    "totalCourses": 751,
+    "totalDegreePlans": 146,
+    "totalProgramOutcomes": 0,
+    "ccnCoverage": 89,
+    "cuCoverage": 60,
+    "validationIssues": 30,
+    "parsingDuration": 742
+  },
+  "validation": {
+    "degreePlanCourseValidation": {
+      "totalCoursesInPlans": 683,
+      "uniqueCoursesInPlans": 683,
+      "coursesFoundInCatalog": 665,
+      "missingCourses": [
+        "C381",
+        "C382",
+        "C873",
+        "C935",
+        "C936",
+        "D128",
+        "D146",
+        "D152",
+        "D164",
+        "D165",
+        "D392",
+        "D395",
+        "D397",
+        "D403",
+        "D4722",
+        "D524",
+        "D525",
+        "D526"
+      ],
+      "validationRate": 97.4
+    },
+    "dataCompleteness": {
+      "coursesWithAllFields": 424,
+      "coursesWithDescription": 734,
+      "coursesWithCCN": 667,
+      "coursesWithCUs": 449,
+      "degreePlansWithTotalCUs": 134
+    },
+    "issues": [
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Healthcare Administration",
+        "message": "Course D4722 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "D4722",
+          "planName": "Bachelor of Science, Healthcare Administration",
+          "planKey": "plan_5"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Nursing",
+        "message": "Course D392 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "D392",
+          "planName": "Bachelor of Science, Nursing",
+          "planKey": "plan_12"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Nursing",
+        "message": "Course D395 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "D395",
+          "planName": "Bachelor of Science, Nursing",
+          "planKey": "plan_12"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Nursing",
+        "message": "Course D397 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "D397",
+          "planName": "Bachelor of Science, Nursing",
+          "planKey": "plan_12"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Nursing",
+        "message": "Course D403 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "D403",
+          "planName": "Bachelor of Science, Nursing",
+          "planKey": "plan_12"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Arts, Educational Studies in Elementary Education",
+        "message": "Course D152 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "D152",
+          "planName": "Bachelor of Arts, Educational Studies in Elementary Education",
+          "planKey": "plan_31"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Arts, Educational Studies in Elementary Education",
+        "message": "Course C935 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C935",
+          "planName": "Bachelor of Arts, Educational Studies in Elementary Education",
+          "planKey": "plan_31"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Arts, Educational Studies in Elementary Education",
+        "message": "Course D146 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "D146",
+          "planName": "Bachelor of Arts, Educational Studies in Elementary Education",
+          "planKey": "plan_31"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Arts, Educational Studies in Elementary Education",
+        "message": "Course D525 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "D525",
+          "planName": "Bachelor of Arts, Educational Studies in Elementary Education",
+          "planKey": "plan_31"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Master of Arts in Teaching, Elementary Education",
+        "message": "Course D128 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "D128",
+          "planName": "Master of Arts in Teaching, Elementary Education",
+          "planKey": "plan_34"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Master of Arts in Teaching, Elementary Education",
+        "message": "Course C381 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C381",
+          "planName": "Master of Arts in Teaching, Elementary Education",
+          "planKey": "plan_34"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Master of Arts in Teaching, Elementary Education",
+        "message": "Course C382 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C382",
+          "planName": "Master of Arts in Teaching, Elementary Education",
+          "planKey": "plan_34"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Master of Arts in Teaching, Elementary Education",
+        "message": "Course D165 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "D165",
+          "planName": "Master of Arts in Teaching, Elementary Education",
+          "planKey": "plan_34"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Master of Arts in Teaching, Elementary Education",
+        "message": "Course D164 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "D164",
+          "planName": "Master of Arts in Teaching, Elementary Education",
+          "planKey": "plan_34"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Master of Arts in Teaching, Elementary Education",
+        "message": "Course C936 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C936",
+          "planName": "Master of Arts in Teaching, Elementary Education",
+          "planKey": "plan_34"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Master of Arts in Teaching, Elementary Education",
+        "message": "Course D524 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "D524",
+          "planName": "Master of Arts in Teaching, Elementary Education",
+          "planKey": "plan_34"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Master of Arts in Teaching, Elementary Education",
+        "message": "Course C873 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C873",
+          "planName": "Master of Arts in Teaching, Elementary Education",
+          "planKey": "plan_34"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Master of Arts in Teaching, Elementary Education",
+        "message": "Course D526 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "D526",
+          "planName": "Master of Arts in Teaching, Elementary Education",
+          "planKey": "plan_34"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Science in C",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Science in C",
+          "planKey": "plan_47"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Science, Nursing - Prelicensure (Pre-Nursing)",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Science, Nursing - Prelicensure (Pre-Nursing)",
+          "planKey": "plan_59"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Associate (OMCA) certification to prepare students for this third-party certification.",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Associate (OMCA) certification to prepare students for this third-party certification.",
+          "planKey": "plan_98"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: certificate and may also choose to earn the Google Data Analytics Professional certificate.",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "certificate and may also choose to earn the Google Data Analytics Professional certificate.",
+          "planKey": "plan_99"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Science Business Administration",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Science Business Administration",
+          "planKey": "plan_100"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Science in Business Administration with",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Science in Business Administration with",
+          "planKey": "plan_101"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Science in Cloud Computing - AW",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Science in Cloud Computing - AW",
+          "planKey": "plan_122"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Master of Science in Information Technology Management is",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Master of Science in Information Technology Management is",
+          "planKey": "plan_129"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Arts in Elementary Education",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Arts in Elementary Education",
+          "planKey": "plan_132"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Master of Arts in Special Education is",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Master of Arts in Special Education is",
+          "planKey": "plan_136"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Master of Science in Curriculum and Instruction",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Master of Science in Curriculum and Instruction",
+          "planKey": "plan_144"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Master of Science in Cybersecurity and Information Assurance",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Master of Science in Cybersecurity and Information Assurance",
+          "planKey": "plan_145"
+        }
+      }
+    ]
+  },
+  "statistics": {
+    "coursesFound": 751,
+    "degreePlansFound": 146,
+    "standaloneCourses": 0,
+    "certificatePrograms": 0,
+    "programOutcomes": 0,
+    "ccnCoverage": 89,
+    "cuCoverage": 60,
+    "coursesByPrefix": {
+      "C": 249,
+      "D": 500,
+      "E": 2
+    },
+    "degreePlanStatistics": {
+      "totalCourses": 4531,
+      "uniqueCourses": 683,
+      "averageCoursesPerPlan": 31,
+      "plansWithTotalCUs": 134
+    },
+    "dataQuality": {
+      "coursesWithDescription": 734,
+      "coursesWithCCN": 667,
+      "coursesWithCUs": 449,
+      "completeCourseRecords": 734,
+      "problematicCourseCodeCount": 0
+    }
+  },
+  "processingDetails": {
+    "pdfInfo": {
+      "title": "WGU Institutional Catalog",
+      "version": "1.6",
+      "pages": 261
+    },
+    "formatDetected": "2024 (Current)",
+    "patternsUsed": [],
+    "enhancedFeaturesUsed": []
+  }
+}

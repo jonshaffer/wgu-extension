@@ -1,0 +1,255 @@
+{
+  "filename": "catalog-2017-01.pdf",
+  "parsedAt": "2025-08-12T17:17:27.573Z",
+  "parserVersion": "v1.0-legacy-enhanced",
+  "summary": {
+    "totalCourses": 417,
+    "totalDegreePlans": 109,
+    "totalProgramOutcomes": 0,
+    "ccnCoverage": 100,
+    "cuCoverage": 77,
+    "validationIssues": 17,
+    "parsingDuration": 587
+  },
+  "validation": {
+    "degreePlanCourseValidation": {
+      "totalCoursesInPlans": 380,
+      "uniqueCoursesInPlans": 380,
+      "coursesFoundInCatalog": 371,
+      "missingCourses": [
+        "C257",
+        "C260",
+        "C292",
+        "C405",
+        "C494",
+        "C501",
+        "C502",
+        "C504",
+        "C509"
+      ],
+      "validationRate": 97.6
+    },
+    "dataCompleteness": {
+      "coursesWithAllFields": 322,
+      "coursesWithDescription": 417,
+      "coursesWithCCN": 417,
+      "coursesWithCUs": 322,
+      "degreePlansWithTotalCUs": 101
+    },
+    "issues": [
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Master of Science, Integrated Healthcare Management",
+        "message": "Course C405 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C405",
+          "planName": "Master of Science, Integrated Healthcare Management",
+          "planKey": "plan_6"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Master of Science, Management and Leadership",
+        "message": "Course C494 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C494",
+          "planName": "Master of Science, Management and Leadership",
+          "planKey": "plan_7"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, IT - Networks Administration Emphasis",
+        "message": "Course C501 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C501",
+          "planName": "Bachelor of Science, IT - Networks Administration Emphasis",
+          "planKey": "plan_14"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, IT - Networks Administration Emphasis",
+        "message": "Course C257 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C257",
+          "planName": "Bachelor of Science, IT - Networks Administration Emphasis",
+          "planKey": "plan_14"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, IT - Security Emphasis",
+        "message": "Course C260 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C260",
+          "planName": "Bachelor of Science, IT - Security Emphasis",
+          "planKey": "plan_15"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, IT - Security Emphasis",
+        "message": "Course C502 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C502",
+          "planName": "Bachelor of Science, IT - Security Emphasis",
+          "planKey": "plan_15"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, IT - Security Emphasis",
+        "message": "Course C509 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C509",
+          "planName": "Bachelor of Science, IT - Security Emphasis",
+          "planKey": "plan_15"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, IT - Security Emphasis",
+        "message": "Course C504 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C504",
+          "planName": "Bachelor of Science, IT - Security Emphasis",
+          "planKey": "plan_15"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Arts",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Arts",
+          "planKey": "plan_37"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Arts in I",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Arts in I",
+          "planKey": "plan_38"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Arts in S",
+        "message": "Course C292 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C292",
+          "planName": "Bachelor of Arts in S",
+          "planKey": "plan_40"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Arts, Interdisciplinary Studies (K-8)",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Arts, Interdisciplinary Studies (K-8)",
+          "planKey": "plan_48"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: associated with the healthcare industry, as well as the values of professionalism.",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "associated with the healthcare industry, as well as the values of professionalism.",
+          "planKey": "plan_74"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Science in Business Management is",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Science in Business Management is",
+          "planKey": "plan_75"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Master of Science portion of the degree further prepares graduates to be leaders and managers in diverse settings",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Master of Science portion of the degree further prepares graduates to be leaders and managers in diverse settings",
+          "planKey": "plan_86"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Arts in Interdisciplinary Studies",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Arts in Interdisciplinary Studies",
+          "planKey": "plan_94"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Arts degree and",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Arts degree and",
+          "planKey": "plan_95"
+        }
+      }
+    ]
+  },
+  "statistics": {
+    "coursesFound": 417,
+    "degreePlansFound": 109,
+    "standaloneCourses": 0,
+    "certificatePrograms": 0,
+    "programOutcomes": 0,
+    "ccnCoverage": 100,
+    "cuCoverage": 77,
+    "coursesByPrefix": {
+      "C": 417
+    },
+    "degreePlanStatistics": {
+      "totalCourses": 2901,
+      "uniqueCourses": 380,
+      "averageCoursesPerPlan": 27,
+      "plansWithTotalCUs": 101
+    },
+    "dataQuality": {
+      "coursesWithDescription": 417,
+      "coursesWithCCN": 417,
+      "coursesWithCUs": 322,
+      "completeCourseRecords": 417,
+      "problematicCourseCodeCount": 0
+    }
+  },
+  "processingDetails": {
+    "pdfInfo": {
+      "version": "1.6",
+      "pages": 203
+    },
+    "formatDetected": "2017 (Legacy)",
+    "patternsUsed": [],
+    "enhancedFeaturesUsed": []
+  }
+}

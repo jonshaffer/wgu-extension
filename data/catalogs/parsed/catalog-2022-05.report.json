@@ -1,0 +1,201 @@
+{
+  "filename": "catalog-2022-05.pdf",
+  "parsedAt": "2025-08-12T17:17:51.826Z",
+  "parserVersion": "v2.0-modern-enhanced",
+  "summary": {
+    "totalCourses": 647,
+    "totalDegreePlans": 109,
+    "totalProgramOutcomes": 0,
+    "ccnCoverage": 96,
+    "cuCoverage": 60,
+    "validationIssues": 13,
+    "parsingDuration": 476
+  },
+  "validation": {
+    "degreePlanCourseValidation": {
+      "totalCoursesInPlans": 621,
+      "uniqueCoursesInPlans": 621,
+      "coursesFoundInCatalog": 620,
+      "missingCourses": [
+        "D066"
+      ],
+      "validationRate": 99.8
+    },
+    "dataCompleteness": {
+      "coursesWithAllFields": 346,
+      "coursesWithDescription": 606,
+      "coursesWithCCN": 620,
+      "coursesWithCUs": 388,
+      "degreePlansWithTotalCUs": 97
+    },
+    "issues": [
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Health Information Management",
+        "message": "Course D066 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "D066",
+          "planName": "Bachelor of Science, Health Information Management",
+          "planKey": "plan_9"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Science in C",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Science in C",
+          "planKey": "plan_29"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Arts",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Arts",
+          "planKey": "plan_33"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Arts in E",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Arts in E",
+          "planKey": "plan_34"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: associated with the healthcare industry, as well as the values of professionalism.",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "associated with the healthcare industry, as well as the values of professionalism.",
+          "planKey": "plan_75"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: mastery of advanced levels of the key behaviors for clinical practice of medical surgical nursing.",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "mastery of advanced levels of the key behaviors for clinical practice of medical surgical nursing.",
+          "planKey": "plan_76"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Science Business Administration",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Science Business Administration",
+          "planKey": "plan_77"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Science in Business Administration with",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Science in Business Administration with",
+          "planKey": "plan_78"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Science in Cloud Computing",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Science in Cloud Computing",
+          "planKey": "plan_88"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Arts in Elementary Education",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Arts in Elementary Education",
+          "planKey": "plan_94"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Master of Arts in Special Education is",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Master of Arts in Special Education is",
+          "planKey": "plan_98"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Master of Science in Cybersecurity and Information Assurance",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Master of Science in Cybersecurity and Information Assurance",
+          "planKey": "plan_107"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Master of Science in Curriculum and Instruction",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Master of Science in Curriculum and Instruction",
+          "planKey": "plan_108"
+        }
+      }
+    ]
+  },
+  "statistics": {
+    "coursesFound": 647,
+    "degreePlansFound": 109,
+    "standaloneCourses": 0,
+    "certificatePrograms": 0,
+    "programOutcomes": 0,
+    "ccnCoverage": 96,
+    "cuCoverage": 60,
+    "coursesByPrefix": {
+      "C": 373,
+      "D": 274
+    },
+    "degreePlanStatistics": {
+      "totalCourses": 3193,
+      "uniqueCourses": 621,
+      "averageCoursesPerPlan": 29,
+      "plansWithTotalCUs": 97
+    },
+    "dataQuality": {
+      "coursesWithDescription": 606,
+      "coursesWithCCN": 620,
+      "coursesWithCUs": 388,
+      "completeCourseRecords": 606,
+      "problematicCourseCodeCount": 0
+    }
+  },
+  "processingDetails": {
+    "pdfInfo": {
+      "title": "WGU Institutional Catalog - May 2022",
+      "version": "1.4",
+      "pages": 208
+    },
+    "formatDetected": "2022 (Modern)",
+    "patternsUsed": [],
+    "enhancedFeaturesUsed": []
+  }
+}

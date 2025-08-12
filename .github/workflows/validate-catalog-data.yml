@@ -3,14 +3,14 @@ name: Validate Catalog Parsed Data
 on:
   pull_request:
     paths:
-      - 'extension/data/catalogs/parsed/**'
-      - 'extension/data/catalogs/types/**'
+      - 'data/catalogs/parsed/**'
+      - 'data/catalogs/types/**'
       - '.github/workflows/validate-catalog-data.yml'
   push:
     branches: [ main ]
     paths:
-      - 'extension/data/catalogs/parsed/**'
-      - 'extension/data/catalogs/types/**'
+      - 'data/catalogs/parsed/**'
+      - 'data/catalogs/types/**'
 
 jobs:
   validate-catalog-data:
@@ -36,7 +36,7 @@ jobs:
       - name: Validate Catalog JSON Schema
         run: |
           echo "Validating catalog JSON schema syntax..."
-          ajv -c ajv-formats compile -s extension/data/catalogs/types/catalog-data.schema.json
+          ajv -c ajv-formats compile -s data/catalogs/types/catalog-data.schema.json
 
       - name: Validate parsed catalog files against schema
         run: |
@@ -46,14 +46,14 @@ jobs:
           failed=0
           while IFS= read -r -d '' file; do
             echo "\n🔎 Validating $file"
-            if ajv -c ajv-formats validate -s extension/data/catalogs/types/catalog-data.schema.json -d "$file" --verbose; then
+            if ajv -c ajv-formats validate -s data/catalogs/types/catalog-data.schema.json -d "$file" --verbose; then
               echo "✅ $file is valid"
             else
               echo "❌ $file is invalid"
               failed=$((failed+1))
             fi
             count=$((count+1))
-          done < <(find extension/data/catalogs/parsed -type f -name "*.json" -print0)
+          done < <(find data/catalogs/parsed -type f -name "*.json" -print0)
 
           echo "\nChecked $count file(s)."
           if [ "$failed" -gt 0 ]; then

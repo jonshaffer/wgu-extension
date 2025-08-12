@@ -18,21 +18,22 @@ This is a monorepo containing:
 
 ```
 wgu-extension/
-├── extension/                 # Browser extension (WXT)
-│   ├── data/                 # Community data collection & processing
-│   │   ├── catalogs/         # WGU catalog parsing & storage
-│   │   ├── discord/          # Discord server data collection
-│   │   ├── reddit/           # Reddit community data collection
-│   │   ├── wgu-connect/      # WGU Connect resource extraction
-│   │   └── unified/          # Unified community data
-│   ├── components/           # React components (Radix UI + Tailwind)
-│   ├── entrypoints/          # WXT entry points for different contexts
-│   ├── packages/types/       # Shared TypeScript types (published to npm)
-│   └── public/               # Static community/course data
-├── functions/                # Firebase Cloud Functions
-│   └── src/                  # TypeScript source for HTTP endpoints
-└── site/                     # React Router website
-    └── app/                  # Routes and components
+├── data/                     # Community data collection & processing
+│   ├── catalogs/            # WGU catalog parsing & storage
+│   ├── discord/             # Discord server data collection
+│   ├── reddit/              # Reddit community data collection
+│   ├── wgu-connect/         # WGU Connect resource extraction
+│   ├── wgu-student-groups/  # Student groups extraction
+│   └── unified/             # Unified community data transformation
+├── extension/               # Browser extension (WXT)
+│   ├── components/          # React components (Radix UI + Tailwind)
+│   ├── entrypoints/         # WXT entry points for different contexts
+│   ├── packages/types/      # Shared TypeScript types (published to npm)
+│   └── public/              # Static assets and generated community data
+├── functions/               # Firebase Cloud Functions
+│   └── src/                 # TypeScript source for HTTP endpoints
+└── site/                    # React Router website
+    └── app/                 # Routes and components
 ```
 
 ## Build Commands
@@ -117,19 +118,25 @@ npm run data:validate:reddit --workspace=extension
 - **Storage**: Local JSON + Firebase for backup
 
 ### Monorepo Structure
-- **Workspaces**: npm workspaces for extension, functions, site
+- **Workspaces**: npm workspaces for data, extension, functions, site
 - **Types Package**: Shared types published to npm with local development tags
 - **Scripts**: Cross-workspace automation in root package.json
+
+### Data Workspace
+The data workspace (@data) handles all community data collection and processing:
+- **Directory structure**: `data/{source}/raw/` for raw data, `data/{source}/types/` for schemas
+- **Scripts**: Validation, ingestion, and transformation scripts for each data source
+- **Output**: Generates unified data to `extension/public/data/` for extension use
 
 ## Testing Guidelines
 
 ### Data Validation
 ```bash
 # Validate Discord data
-npm run data:validate:discord --workspace=extension
+npm run validate:discord --workspace=data
 
 # Validate Reddit communities  
-npm run data:validate:reddit --workspace=extension
+npm run validate:reddit --workspace=data
 
 # Test catalog parsing
 npm run catalog:check --workspace=extension
@@ -278,10 +285,10 @@ npm run types:publish:local --workspace=extension
 ## Common Tasks
 
 ### Adding New Community Data
-1. Add raw data to appropriate `data/*/raw/` directory
-2. Update JSON schema in `data/*/types/`  
-3. Run validation: `npm run data:validate:* --workspace=extension`
-4. Process data: `npm run data:transform --workspace=extension`
+1. Add raw data to appropriate `data/{source}/raw/` directory
+2. Update JSON schema in `data/{source}/types/`  
+3. Run validation: `npm run validate:{source} --workspace=data`
+4. Process data: `npm run transform --workspace=data`
 
 ### Updating Extension UI
 1. Modify components in `extension/components/`
@@ -316,6 +323,12 @@ npm run types:publish:local --workspace=extension
 - **Schedule**: Every 6 hours
 - **Purpose**: Sync unified community data from GitHub Pages
 - **Implementation**: @functions/src/scheduled/ingest-pages.ts
+
+#### Search API
+- **Function**: `search`
+- **Type**: Callable function
+- **Purpose**: Search across community resources (Discord, Reddit, WGU Connect)
+- **Implementation**: @functions/src/index.ts
 
 ### Extension Content Scripts
 

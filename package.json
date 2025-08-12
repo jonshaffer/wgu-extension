@@ -7,7 +7,8 @@
     "extension",
     "extension/packages/types",
     "functions",
-    "site"
+    "site",
+    "data"
   ],
   "scripts": {
     "dev": "npm run dev --workspace=extension",

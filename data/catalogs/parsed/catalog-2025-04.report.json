@@ -1,0 +1,214 @@
+{
+  "filename": "catalog-2025-04.pdf",
+  "parsedAt": "2025-08-12T17:18:16.091Z",
+  "parserVersion": "v2.1-current-enhanced",
+  "summary": {
+    "totalCourses": 812,
+    "totalDegreePlans": 185,
+    "totalProgramOutcomes": 88,
+    "ccnCoverage": 94,
+    "cuCoverage": 63,
+    "validationIssues": 14,
+    "parsingDuration": 973
+  },
+  "validation": {
+    "degreePlanCourseValidation": {
+      "totalCoursesInPlans": 774,
+      "uniqueCoursesInPlans": 774,
+      "coursesFoundInCatalog": 773,
+      "missingCourses": [
+        "D4722"
+      ],
+      "validationRate": 99.9
+    },
+    "dataCompleteness": {
+      "coursesWithAllFields": 499,
+      "coursesWithDescription": 785,
+      "coursesWithCCN": 767,
+      "coursesWithCUs": 513,
+      "degreePlansWithTotalCUs": 172
+    },
+    "issues": [
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Healthcare Administration",
+        "message": "Course D4722 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "D4722",
+          "planName": "Bachelor of Science, Healthcare Administration",
+          "planKey": "plan_6"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Arts",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Arts",
+          "planKey": "plan_77"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Arts in E",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Arts in E",
+          "planKey": "plan_78"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Science, Nursing - Prelicensure (Pre-Nursing)",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Science, Nursing - Prelicensure (Pre-Nursing)",
+          "planKey": "plan_85"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: certificate and may also choose to earn the Google Data Analytics Professional certificate.",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "certificate and may also choose to earn the Google Data Analytics Professional certificate.",
+          "planKey": "plan_125"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Science in Accounting is",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Science in Accounting is",
+          "planKey": "plan_129"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Science in Cloud Computing - AW",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Science in Cloud Computing - AW",
+          "planKey": "plan_157"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Master of Science in Computer Science is",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Master of Science in Computer Science is",
+          "planKey": "plan_162"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Master of Science in Information Technology Management is",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Master of Science in Information Technology Management is",
+          "planKey": "plan_166"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Master of Science in Software Engineering is",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Master of Science in Software Engineering is",
+          "planKey": "plan_169"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Arts in Elementary Education",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Arts in Elementary Education",
+          "planKey": "plan_171"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Master of Science in Curriculum and Instruction",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Master of Science in Curriculum and Instruction",
+          "planKey": "plan_182"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Master of Science in Cybersecurity and Information Assurance",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Master of Science in Cybersecurity and Information Assurance",
+          "planKey": "plan_183"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Master of Accounting",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Master of Accounting",
+          "planKey": "plan_184"
+        }
+      }
+    ]
+  },
+  "statistics": {
+    "coursesFound": 812,
+    "degreePlansFound": 185,
+    "standaloneCourses": 0,
+    "certificatePrograms": 0,
+    "programOutcomes": 88,
+    "ccnCoverage": 94,
+    "cuCoverage": 63,
+    "coursesByPrefix": {
+      "C": 171,
+      "D": 639,
+      "E": 2
+    },
+    "degreePlanStatistics": {
+      "totalCourses": 6217,
+      "uniqueCourses": 774,
+      "averageCoursesPerPlan": 34,
+      "plansWithTotalCUs": 172
+    },
+    "dataQuality": {
+      "coursesWithDescription": 785,
+      "coursesWithCCN": 767,
+      "coursesWithCUs": 513,
+      "completeCourseRecords": 785,
+      "problematicCourseCodeCount": 0
+    }
+  },
+  "processingDetails": {
+    "pdfInfo": {
+      "title": "WGU Institutional Catalog",
+      "version": "1.7",
+      "pages": 342
+    },
+    "formatDetected": "2025 (Current)",
+    "patternsUsed": [],
+    "enhancedFeaturesUsed": [
+      "program_outcomes"
+    ]
+  }
+}

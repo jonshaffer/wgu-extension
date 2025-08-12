@@ -1,0 +1,25 @@
+# Data workspace gitignore
+
+# Processed data (generated)
+processed/
+
+# Node modules
+node_modules/
+
+# Environment files
+.env
+.env.local
+
+# OS files
+.DS_Store
+
+# Temporary files
+*.tmp
+*.temp
+
+# Log files
+*.log
+
+# PDF downloads (if not using Git LFS)
+# catalogs/pdfs/*.pdf
+# catalogs/raw/*.pdf

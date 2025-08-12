@@ -1,0 +1,215 @@
+{
+  "filename": "catalog-2021-11.pdf",
+  "parsedAt": "2025-08-12T17:17:49.038Z",
+  "parserVersion": "v2.0-modern-enhanced",
+  "summary": {
+    "totalCourses": 608,
+    "totalDegreePlans": 108,
+    "totalProgramOutcomes": 0,
+    "ccnCoverage": 95,
+    "cuCoverage": 59,
+    "validationIssues": 14,
+    "parsingDuration": 441
+  },
+  "validation": {
+    "degreePlanCourseValidation": {
+      "totalCoursesInPlans": 579,
+      "uniqueCoursesInPlans": 579,
+      "coursesFoundInCatalog": 576,
+      "missingCourses": [
+        "C244",
+        "C245",
+        "C252"
+      ],
+      "validationRate": 99.5
+    },
+    "dataCompleteness": {
+      "coursesWithAllFields": 318,
+      "coursesWithDescription": 569,
+      "coursesWithCCN": 579,
+      "coursesWithCUs": 356,
+      "degreePlansWithTotalCUs": 97
+    },
+    "issues": [
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science Business Administration, Marketing",
+        "message": "Course C244 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C244",
+          "planName": "Bachelor of Science Business Administration, Marketing",
+          "planKey": "plan_5"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science Business Administration, Marketing",
+        "message": "Course C245 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C245",
+          "planName": "Bachelor of Science Business Administration, Marketing",
+          "planKey": "plan_5"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science Business Administration, Marketing",
+        "message": "Course C252 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C252",
+          "planName": "Bachelor of Science Business Administration, Marketing",
+          "planKey": "plan_5"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Arts",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Arts",
+          "planKey": "plan_33"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Arts in E",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Arts in E",
+          "planKey": "plan_34"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: associated with the healthcare industry, as well as the values of professionalism.",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "associated with the healthcare industry, as well as the values of professionalism.",
+          "planKey": "plan_74"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: mastery of advanced levels of the key behaviors for clinical practice of medical surgical nursing.",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "mastery of advanced levels of the key behaviors for clinical practice of medical surgical nursing.",
+          "planKey": "plan_75"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Science Business Administration",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Science Business Administration",
+          "planKey": "plan_76"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Science in Business Administration with",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Science in Business Administration with",
+          "planKey": "plan_77"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Science Cloud Computing",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Science Cloud Computing",
+          "planKey": "plan_87"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Arts in Elementary Education",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Arts in Elementary Education",
+          "planKey": "plan_93"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Master of Arts in Special Education is",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Master of Arts in Special Education is",
+          "planKey": "plan_97"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Master of Science in Cybersecurity and Information Assurance",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Master of Science in Cybersecurity and Information Assurance",
+          "planKey": "plan_106"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Master of Science in Curriculum and Instruction",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Master of Science in Curriculum and Instruction",
+          "planKey": "plan_107"
+        }
+      }
+    ]
+  },
+  "statistics": {
+    "coursesFound": 608,
+    "degreePlansFound": 108,
+    "standaloneCourses": 0,
+    "certificatePrograms": 0,
+    "programOutcomes": 0,
+    "ccnCoverage": 95,
+    "cuCoverage": 59,
+    "coursesByPrefix": {
+      "C": 379,
+      "D": 229
+    },
+    "degreePlanStatistics": {
+      "totalCourses": 3204,
+      "uniqueCourses": 579,
+      "averageCoursesPerPlan": 30,
+      "plansWithTotalCUs": 97
+    },
+    "dataQuality": {
+      "coursesWithDescription": 569,
+      "coursesWithCCN": 579,
+      "coursesWithCUs": 356,
+      "completeCourseRecords": 569,
+      "problematicCourseCodeCount": 0
+    }
+  },
+  "processingDetails": {
+    "pdfInfo": {
+      "title": "WGU Institutional Catalog",
+      "version": "1.4",
+      "pages": 203
+    },
+    "formatDetected": "2021 (Modern)",
+    "patternsUsed": [],
+    "enhancedFeaturesUsed": []
+  }
+}

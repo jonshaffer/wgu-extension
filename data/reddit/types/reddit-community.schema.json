@@ -1,0 +1,83 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "reddit-community.schema.json",
+  "title": "Reddit Community",
+  "description": "Schema for WGU Reddit community raw data",
+  "type": "object",
+  "properties": {
+    "subreddit": {
+      "type": "string",
+      "description": "The subreddit name (without r/ prefix)",
+      "minLength": 1
+    },
+    "name": {
+      "type": "string",
+      "description": "The display name of the subreddit (with r/ prefix)",
+      "pattern": "^r/.+",
+      "minLength": 3
+    },
+    "description": {
+      "type": "string",
+      "description": "The subreddit description from Reddit",
+      "minLength": 1
+    },
+    "hierarchy": {
+      "type": "object",
+      "properties": {
+        "level": {
+          "type": "string",
+          "enum": ["university", "college", "program", "course", "community"],
+          "description": "The hierarchical level of the subreddit"
+        }
+      },
+      "required": ["level"],
+      "additionalProperties": false
+    },
+    "isActive": {
+      "type": "boolean",
+      "description": "Whether the subreddit is currently active"
+    },
+    "tags": {
+      "type": "array",
+      "description": "Tags associated with the subreddit",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true,
+      "minItems": 1
+    },
+    "relevantCourses": {
+      "type": "array",
+      "description": "Array of course codes relevant to this subreddit",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "memberCount": {
+      "type": "integer",
+      "description": "Number of subreddit members from Reddit API",
+      "minimum": 0
+    },
+    "lastUpdated": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO timestamp of when the data was last updated from Reddit"
+    },
+    "verified": {
+      "type": "boolean",
+      "description": "Whether the subreddit data has been verified against Reddit API"
+    }
+  },
+  "required": [
+    "subreddit",
+    "name", 
+    "description",
+    "hierarchy",
+    "isActive",
+    "tags",
+    "relevantCourses"
+  ],
+  "additionalProperties": false
+}

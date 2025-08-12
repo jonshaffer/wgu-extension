@@ -1,0 +1,18 @@
+{
+  "subreddit": "wgueducation",
+  "name": "r/wgueducation",
+  "description": "**WGU Education Reddit Community.**\n\nWhere student teachers (prospective, current, and alumni) share insights, ask questions, and discuss specific courses, field experiences, creating study groups, or anything related to WGU's Teachers College.",
+  "hierarchy": {
+    "level": "college"
+  },
+  "isActive": true,
+  "tags": [
+    "education",
+    "teaching",
+    "college"
+  ],
+  "relevantCourses": [],
+  "memberCount": 7104,
+  "lastUpdated": "2025-08-11T06:50:43.511Z",
+  "verified": true
+}

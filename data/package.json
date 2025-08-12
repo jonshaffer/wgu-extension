@@ -1,0 +1,39 @@
+{
+  "name": "@wgu-extension/data",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Data collection and processing for WGU Extension",
+  "scripts": {
+    "ingest": "npm run ingest:discord && npm run ingest:reddit && npm run ingest:wgu-connect && npm run ingest:catalog",
+    "ingest:discord": "tsx discord/scripts/ingest-discord.ts",
+    "ingest:reddit": "tsx reddit/scripts/ingest-reddit.ts",
+    "ingest:wgu-connect": "tsx wgu-connect/scripts/ingest-wgu-connect.ts",
+    "ingest:wgu-student-groups": "tsx wgu-student-groups/scripts/ingest-wgu-student-groups.ts",
+    "ingest:catalog": "tsx catalogs/scripts/ingest-catalogs.ts",
+    "ingest:catalog:v1": "tsx catalogs/scripts/ingest-catalogs.ts --kind legacy",
+    "ingest:catalog:auto": "tsx catalogs/scripts/ingest-catalogs.ts --kind auto",
+    "validate:discord": "tsx discord/scripts/validate-raw.ts --discord",
+    "validate:discord:check-invites": "tsx discord/scripts/validate-raw.ts --discord --check-invites",
+    "validate:reddit": "tsx reddit/scripts/validate-raw.ts --reddit",
+    "update:discord": "tsx discord/scripts/validate-raw.ts --discord --update",
+    "update:reddit": "tsx reddit/scripts/validate-raw.ts --reddit --update",
+    "transform": "tsx unified/scripts/transform-unified.ts",
+    "catalog:report": "tsx catalogs/scripts/catalog-reporting.ts",
+    "catalog:parse": "tsx catalogs/scripts/catalog-parser-unified.ts",
+    "catalog:batch": "tsx catalogs/scripts/batch-parse-all.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "pdf-parse": "^1.1.1",
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.1",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3",
+    "jsdom": "^26.1.0",
+    "@types/jsdom": "^21.1.7"
+  }
+}

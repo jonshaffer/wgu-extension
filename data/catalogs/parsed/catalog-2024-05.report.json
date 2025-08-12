@@ -1,0 +1,309 @@
+{
+  "filename": "catalog-2024-05.pdf",
+  "parsedAt": "2025-08-12T17:18:06.548Z",
+  "parserVersion": "v2.1-current-enhanced",
+  "summary": {
+    "totalCourses": 678,
+    "totalDegreePlans": 140,
+    "totalProgramOutcomes": 0,
+    "ccnCoverage": 95,
+    "cuCoverage": 63,
+    "validationIssues": 22,
+    "parsingDuration": 644
+  },
+  "validation": {
+    "degreePlanCourseValidation": {
+      "totalCoursesInPlans": 654,
+      "uniqueCoursesInPlans": 654,
+      "coursesFoundInCatalog": 644,
+      "missingCourses": [
+        "C425",
+        "C426",
+        "C427",
+        "C428",
+        "C429",
+        "C430",
+        "C431",
+        "C432",
+        "C439",
+        "D4722"
+      ],
+      "validationRate": 98.5
+    },
+    "dataCompleteness": {
+      "coursesWithAllFields": 403,
+      "coursesWithDescription": 659,
+      "coursesWithCCN": 646,
+      "coursesWithCUs": 424,
+      "degreePlansWithTotalCUs": 128
+    },
+    "issues": [
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science Business Administration, Management",
+        "message": "Course C430 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C430",
+          "planName": "Bachelor of Science Business Administration, Management",
+          "planKey": "plan_3"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science Business Administration, Management",
+        "message": "Course C425 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C425",
+          "planName": "Bachelor of Science Business Administration, Management",
+          "planKey": "plan_3"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science Business Administration, Management",
+        "message": "Course C426 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C426",
+          "planName": "Bachelor of Science Business Administration, Management",
+          "planKey": "plan_3"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science Business Administration, Management",
+        "message": "Course C427 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C427",
+          "planName": "Bachelor of Science Business Administration, Management",
+          "planKey": "plan_3"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science Business Administration, Management",
+        "message": "Course C428 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C428",
+          "planName": "Bachelor of Science Business Administration, Management",
+          "planKey": "plan_3"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science Business Administration, Management",
+        "message": "Course C429 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C429",
+          "planName": "Bachelor of Science Business Administration, Management",
+          "planKey": "plan_3"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science Business Administration, Marketing",
+        "message": "Course C431 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C431",
+          "planName": "Bachelor of Science Business Administration, Marketing",
+          "planKey": "plan_4"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science Business Administration, Marketing",
+        "message": "Course C432 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C432",
+          "planName": "Bachelor of Science Business Administration, Marketing",
+          "planKey": "plan_4"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science Business Administration, Marketing",
+        "message": "Course C439 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C439",
+          "planName": "Bachelor of Science Business Administration, Marketing",
+          "planKey": "plan_4"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Healthcare Administration",
+        "message": "Course D4722 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "D4722",
+          "planName": "Bachelor of Science, Healthcare Administration",
+          "planKey": "plan_5"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Science in C",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Science in C",
+          "planKey": "plan_43"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Science, Nursing - Prelicensure (Pre-Nursing)",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Science, Nursing - Prelicensure (Pre-Nursing)",
+          "planKey": "plan_55"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Associate (OMCA) certification to prepare students for this third-party certification.",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Associate (OMCA) certification to prepare students for this third-party certification.",
+          "planKey": "plan_94"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: certificate and may also choose to earn the Google Data Analytics Professional certificate.",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "certificate and may also choose to earn the Google Data Analytics Professional certificate.",
+          "planKey": "plan_95"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Science Business Administration",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Science Business Administration",
+          "planKey": "plan_96"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Science in Business Administration with",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Science in Business Administration with",
+          "planKey": "plan_97"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Science in Cloud Computing - AW",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Science in Cloud Computing - AW",
+          "planKey": "plan_116"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Master of Science in Information Technology Management is",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Master of Science in Information Technology Management is",
+          "planKey": "plan_123"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Arts in Elementary Education",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Arts in Elementary Education",
+          "planKey": "plan_126"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Master of Arts in Special Education is",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Master of Arts in Special Education is",
+          "planKey": "plan_130"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Master of Science in Curriculum and Instruction",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Master of Science in Curriculum and Instruction",
+          "planKey": "plan_138"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Master of Science in Cybersecurity and Information Assurance",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Master of Science in Cybersecurity and Information Assurance",
+          "planKey": "plan_139"
+        }
+      }
+    ]
+  },
+  "statistics": {
+    "coursesFound": 678,
+    "degreePlansFound": 140,
+    "standaloneCourses": 0,
+    "certificatePrograms": 0,
+    "programOutcomes": 0,
+    "ccnCoverage": 95,
+    "cuCoverage": 63,
+    "coursesByPrefix": {
+      "C": 254,
+      "D": 424
+    },
+    "degreePlanStatistics": {
+      "totalCourses": 4331,
+      "uniqueCourses": 654,
+      "averageCoursesPerPlan": 31,
+      "plansWithTotalCUs": 128
+    },
+    "dataQuality": {
+      "coursesWithDescription": 659,
+      "coursesWithCCN": 646,
+      "coursesWithCUs": 424,
+      "completeCourseRecords": 659,
+      "problematicCourseCodeCount": 0
+    }
+  },
+  "processingDetails": {
+    "pdfInfo": {
+      "title": "WGU Institutional Catalog - May 2024",
+      "version": "1.6",
+      "pages": 246
+    },
+    "formatDetected": "2024 (Current)",
+    "patternsUsed": [],
+    "enhancedFeaturesUsed": []
+  }
+}

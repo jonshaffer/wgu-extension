@@ -1,0 +1,381 @@
+{
+  "filename": "catalog-2023-03.pdf",
+  "parsedAt": "2025-08-12T17:17:57.705Z",
+  "parserVersion": "v2.0-modern-enhanced",
+  "summary": {
+    "totalCourses": 699,
+    "totalDegreePlans": 125,
+    "totalProgramOutcomes": 0,
+    "ccnCoverage": 93,
+    "cuCoverage": 64,
+    "validationIssues": 28,
+    "parsingDuration": 602
+  },
+  "validation": {
+    "degreePlanCourseValidation": {
+      "totalCoursesInPlans": 658,
+      "uniqueCoursesInPlans": 658,
+      "coursesFoundInCatalog": 642,
+      "missingCourses": [
+        "C188",
+        "C195",
+        "C482",
+        "C700",
+        "C701",
+        "C702",
+        "C706",
+        "C725",
+        "C726",
+        "C727",
+        "C795",
+        "C796",
+        "C806",
+        "C836",
+        "C857",
+        "D226"
+      ],
+      "validationRate": 97.6
+    },
+    "dataCompleteness": {
+      "coursesWithAllFields": 399,
+      "coursesWithDescription": 657,
+      "coursesWithCCN": 650,
+      "coursesWithCUs": 444,
+      "degreePlansWithTotalCUs": 113
+    },
+    "issues": [
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Nursing",
+        "message": "Course D226 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "D226",
+          "planName": "Bachelor of Science, Nursing",
+          "planKey": "plan_10"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Nursing",
+        "message": "Course C806 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C806",
+          "planName": "Bachelor of Science, Nursing",
+          "planKey": "plan_10"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Cloud Computing",
+        "message": "Course C482 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C482",
+          "planName": "Bachelor of Science, Cloud Computing",
+          "planKey": "plan_14"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Cloud Computing",
+        "message": "Course C195 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C195",
+          "planName": "Bachelor of Science, Cloud Computing",
+          "planKey": "plan_14"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Cloud Computing",
+        "message": "Course C836 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C836",
+          "planName": "Bachelor of Science, Cloud Computing",
+          "planKey": "plan_14"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Cloud Computing",
+        "message": "Course C188 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C188",
+          "planName": "Bachelor of Science, Cloud Computing",
+          "planKey": "plan_14"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Cloud Computing",
+        "message": "Course C857 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C857",
+          "planName": "Bachelor of Science, Cloud Computing",
+          "planKey": "plan_14"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Software Engineering",
+        "message": "Course C700 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C700",
+          "planName": "Bachelor of Science, Software Engineering",
+          "planKey": "plan_17"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Software Engineering",
+        "message": "Course C706 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C706",
+          "planName": "Bachelor of Science, Software Engineering",
+          "planKey": "plan_17"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Software Engineering",
+        "message": "Course C726 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C726",
+          "planName": "Bachelor of Science, Software Engineering",
+          "planKey": "plan_17"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Software Engineering",
+        "message": "Course C727 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C727",
+          "planName": "Bachelor of Science, Software Engineering",
+          "planKey": "plan_17"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Software Engineering",
+        "message": "Course C701 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C701",
+          "planName": "Bachelor of Science, Software Engineering",
+          "planKey": "plan_17"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Software Engineering",
+        "message": "Course C795 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C795",
+          "planName": "Bachelor of Science, Software Engineering",
+          "planKey": "plan_17"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Software Engineering",
+        "message": "Course C702 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C702",
+          "planName": "Bachelor of Science, Software Engineering",
+          "planKey": "plan_17"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Software Engineering",
+        "message": "Course C725 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C725",
+          "planName": "Bachelor of Science, Software Engineering",
+          "planKey": "plan_17"
+        }
+      },
+      {
+        "type": "missing_course",
+        "severity": "error",
+        "location": "DegreePlan: Bachelor of Science, Software Engineering",
+        "message": "Course C796 referenced in degree plan but not found in course catalog",
+        "details": {
+          "courseCode": "C796",
+          "planName": "Bachelor of Science, Software Engineering",
+          "planKey": "plan_17"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Science in C",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Science in C",
+          "planKey": "plan_34"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Science, Nursing - Prelicensure (Pre-Nursing)",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Science, Nursing - Prelicensure (Pre-Nursing)",
+          "planKey": "plan_46"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Science, Cloud Computing – Amazon Web Services track",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Science, Cloud Computing – Amazon Web Services track",
+          "planKey": "plan_55"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: associated with the healthcare industry, as well as the values of professionalism.",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "associated with the healthcare industry, as well as the values of professionalism.",
+          "planKey": "plan_87"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Associate (OMCA) certification to prepare students for this third-party certification.",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Associate (OMCA) certification to prepare students for this third-party certification.",
+          "planKey": "plan_88"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Science Business Administration",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Science Business Administration",
+          "planKey": "plan_89"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Science in Business Administration with",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Science in Business Administration with",
+          "planKey": "plan_90"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Science in Cloud Computing - AW",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Science in Cloud Computing - AW",
+          "planKey": "plan_103"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Master of Science in Information Technology Management is",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Master of Science in Information Technology Management is",
+          "planKey": "plan_110"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Arts in Elementary Education",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Arts in Elementary Education",
+          "planKey": "plan_113"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Master of Arts in Special Education is",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Master of Arts in Special Education is",
+          "planKey": "plan_117"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Master of Science in Curriculum and Instruction",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Master of Science in Curriculum and Instruction",
+          "planKey": "plan_124"
+        }
+      }
+    ]
+  },
+  "statistics": {
+    "coursesFound": 699,
+    "degreePlansFound": 125,
+    "standaloneCourses": 0,
+    "certificatePrograms": 0,
+    "programOutcomes": 0,
+    "ccnCoverage": 93,
+    "cuCoverage": 64,
+    "coursesByPrefix": {
+      "C": 327,
+      "D": 372
+    },
+    "degreePlanStatistics": {
+      "totalCourses": 3702,
+      "uniqueCourses": 658,
+      "averageCoursesPerPlan": 30,
+      "plansWithTotalCUs": 113
+    },
+    "dataQuality": {
+      "coursesWithDescription": 657,
+      "coursesWithCCN": 650,
+      "coursesWithCUs": 444,
+      "completeCourseRecords": 657,
+      "problematicCourseCodeCount": 0
+    }
+  },
+  "processingDetails": {
+    "pdfInfo": {
+      "title": "WGU Institutional Catalog",
+      "version": "1.6",
+      "pages": 230
+    },
+    "formatDetected": "2023 (Modern)",
+    "patternsUsed": [],
+    "enhancedFeaturesUsed": []
+  }
+}

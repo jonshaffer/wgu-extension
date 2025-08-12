@@ -3,15 +3,15 @@ name: Validate Discord Data
 on:
   pull_request:
     paths:
-      - 'extension/data/discord/raw/**'
-      - 'extension/data/discord/types/**'
-      - 'extension/data/discord/scripts/**'
+      - 'data/discord/raw/**'
+      - 'data/discord/types/**'
+      - 'data/discord/scripts/**'
   push:
     branches: [main]
     paths:
-      - 'extension/data/discord/raw/**'
-      - 'extension/data/discord/types/**'
-      - 'extension/data/discord/scripts/**'
+      - 'data/discord/raw/**'
+      - 'data/discord/types/**'
+      - 'data/discord/scripts/**'
 
 jobs:
   validate-discord-data:
@@ -37,28 +37,28 @@ jobs:
       - name: Validate JSON Schema
         run: |
           echo "Validating JSON schema syntax..."
-          ajv compile -s extension/data/discord/types/discord-community.schema.json
+          ajv compile -s data/discord/types/discord-community.schema.json
           
       - name: Validate Discord raw data files against schema
         run: |
           echo "Validating all Discord raw data files against schema..."
-          for file in extension/data/discord/raw/*.json; do
+          for file in data/discord/raw/*.json; do
             if [ -f "$file" ]; then
               echo "Validating $file..."
-              ajv validate -s extension/data/discord/types/discord-community.schema.json -d "$file" --verbose || exit 1
+              ajv validate -s data/discord/types/discord-community.schema.json -d "$file" --verbose || exit 1
             fi
           done
           
       - name: Run TypeScript validation script
         run: |
           echo "Running TypeScript validation script..."
-          cd extension && npx tsx data/discord/scripts/validate-raw.ts --check-invites
+          cd data && npx tsx discord/scripts/validate-raw.ts --check-invites
       
           
       - name: Check file naming convention
         run: |
           echo "Checking file naming conventions..."
-          for file in extension/data/discord/raw/*.json; do
+          for file in data/discord/raw/*.json; do
             if [ -f "$file" ]; then
               filename=$(basename "$file")
               filename_lower=$(echo "$filename" | tr '[:upper:]' '[:lower:]')
@@ -84,7 +84,7 @@ jobs:
           
       - name: Summary
         run: |
-          raw_count=$(find extension/data/discord/raw -name "*.json" | wc -l)
+          raw_count=$(find data/discord/raw -name "*.json" | wc -l)
           echo "✅ Successfully validated Discord community data"
           echo "   Raw files: $raw_count"
           echo "   All files passed JSON Schema validation and naming conventions"

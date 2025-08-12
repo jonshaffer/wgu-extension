@@ -1,0 +1,178 @@
+{
+  "filename": "catalog-2022-08.pdf",
+  "parsedAt": "2025-08-12T17:17:53.586Z",
+  "parserVersion": "v2.0-modern-enhanced",
+  "summary": {
+    "totalCourses": 669,
+    "totalDegreePlans": 118,
+    "totalProgramOutcomes": 0,
+    "ccnCoverage": 96,
+    "cuCoverage": 62,
+    "validationIssues": 11,
+    "parsingDuration": 601
+  },
+  "validation": {
+    "degreePlanCourseValidation": {
+      "totalCoursesInPlans": 645,
+      "uniqueCoursesInPlans": 645,
+      "coursesFoundInCatalog": 645,
+      "missingCourses": [],
+      "validationRate": 100
+    },
+    "dataCompleteness": {
+      "coursesWithAllFields": 371,
+      "coursesWithDescription": 626,
+      "coursesWithCCN": 645,
+      "coursesWithCUs": 413,
+      "degreePlansWithTotalCUs": 107
+    },
+    "issues": [
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Science in C",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Science in C",
+          "planKey": "plan_31"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Science, Cloud Computing – Amazon Web Services track",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Science, Cloud Computing – Amazon Web Services track",
+          "planKey": "plan_49"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: associated with the healthcare industry, as well as the values of professionalism.",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "associated with the healthcare industry, as well as the values of professionalism.",
+          "planKey": "plan_81"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: mastery of advanced levels of the key behaviors for clinical practice of medical surgical nursing.",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "mastery of advanced levels of the key behaviors for clinical practice of medical surgical nursing.",
+          "planKey": "plan_82"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Science Business Administration",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Science Business Administration",
+          "planKey": "plan_83"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Science in Business Administration with",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Science in Business Administration with",
+          "planKey": "plan_84"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Science in Cloud Computing - AW",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Science in Cloud Computing - AW",
+          "planKey": "plan_94"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Bachelor of Arts in Elementary Education",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Bachelor of Arts in Elementary Education",
+          "planKey": "plan_103"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Master of Arts in Special Education is",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Master of Arts in Special Education is",
+          "planKey": "plan_107"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Master of Science in Cybersecurity and Information Assurance",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Master of Science in Cybersecurity and Information Assurance",
+          "planKey": "plan_116"
+        }
+      },
+      {
+        "type": "missing_data",
+        "severity": "warning",
+        "location": "DegreePlan: Master of Science in Curriculum and Instruction",
+        "message": "Degree plan missing total CUs",
+        "details": {
+          "planName": "Master of Science in Curriculum and Instruction",
+          "planKey": "plan_117"
+        }
+      }
+    ]
+  },
+  "statistics": {
+    "coursesFound": 669,
+    "degreePlansFound": 118,
+    "standaloneCourses": 0,
+    "certificatePrograms": 0,
+    "programOutcomes": 0,
+    "ccnCoverage": 96,
+    "cuCoverage": 62,
+    "coursesByPrefix": {
+      "C": 370,
+      "D": 299
+    },
+    "degreePlanStatistics": {
+      "totalCourses": 3462,
+      "uniqueCourses": 645,
+      "averageCoursesPerPlan": 29,
+      "plansWithTotalCUs": 107
+    },
+    "dataQuality": {
+      "coursesWithDescription": 626,
+      "coursesWithCCN": 645,
+      "coursesWithCUs": 413,
+      "completeCourseRecords": 626,
+      "problematicCourseCodeCount": 0
+    }
+  },
+  "processingDetails": {
+    "pdfInfo": {
+      "title": "WGU Institutional Catalog",
+      "version": "1.6",
+      "pages": 223
+    },
+    "formatDetected": "2022 (Modern)",
+    "patternsUsed": [],
+    "enhancedFeaturesUsed": []
+  }
+}
