@@ -32,9 +32,8 @@
 
             # Git and version control
             git
-            git-lfs # For storing PDFs and large files
             gh  # GitHub CLI
-            dvc # Data Version Control for large files
+            dvc # Data Version Control for large files (PDFs, JSON)
 
             # General development utilities
             jq          # JSON processing

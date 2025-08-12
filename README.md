@@ -82,8 +82,8 @@ wgu-extension/
 ### Prerequisites
 
 - Node.js 22+ and npm 10+
-- Git and Git LFS
-- DVC (installed automatically with Nix flake)
+- Git
+- DVC (installed automatically with Nix flake or via pip)
 
 ### Nix Development Environment (Recommended)
 

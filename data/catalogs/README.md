@@ -29,8 +29,8 @@ npm run catalog:ensure
 
 - **Git Performance**: Keeps Git repository fast by storing large files externally
 - **Version Control**: Still tracks file versions and changes
-- **Collaboration**: Easy sharing of large datasets without Git LFS costs
-- **Storage**: Free 15GB Google Drive storage vs paid Git LFS
+- **Collaboration**: Easy sharing of large datasets
+- **Storage**: Free 15GB Google Drive storage for all large files
 
 ## 🎯 Current Status (August 2025)
 
