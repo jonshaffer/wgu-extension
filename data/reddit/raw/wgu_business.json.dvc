@@ -1,0 +1,5 @@
+outs:
+- md5: f94d27c65120155be73ce922a958bc7c
+  size: 434
+  hash: md5
+  path: wgu_business.json

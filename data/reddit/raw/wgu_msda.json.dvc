@@ -1,0 +1,5 @@
+outs:
+- md5: 89bd33174d8e5f53c20706df4ac8dff8
+  size: 416
+  hash: md5
+  path: wgu_msda.json

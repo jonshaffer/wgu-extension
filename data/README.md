@@ -4,14 +4,20 @@ This directory contains all data processing infrastructure for the WGU Extension
 
 ## Data Version Control (DVC)
 
-⚠️ **Important**: Catalog JSON files are managed with DVC and stored in Google Drive. You must pull them before running any catalog-related scripts.
+⚠️ **Important**: Large files and raw data are managed with DVC and stored in Google Drive. You must pull them before running any scripts.
+
+### DVC-Managed Files:
+- **Catalog JSON files**: `catalogs/parsed/*.json`
+- **PDF files**: `catalogs/pdfs/*.pdf`
+- **Raw community data**: `*/raw/*.json` (Discord, Reddit, WGU Connect, Student Groups)
 
 ```bash
-# Pull all catalog files
+# Pull all DVC-managed files
 dvc pull
 
-# Or use the ensure script
-npm run catalog:ensure
+# Or pull specific directories
+dvc pull data/catalogs/parsed/
+dvc pull data/discord/raw/
 ```
 
 ## Structure

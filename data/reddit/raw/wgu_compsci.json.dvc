@@ -1,0 +1,5 @@
+outs:
+- md5: 16bb740a1ecb99da2aadda2bb471da0d
+  size: 553
+  hash: md5
+  path: wgu_compsci.json

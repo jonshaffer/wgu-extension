@@ -121,3 +121,9 @@ coverage/
 .node_repl_history
 # DVC managed files (formerly Git LFS)
 data/catalogs/pdfs/*.pdf
+
+# DVC managed raw data files
+data/discord/raw/*.json
+data/reddit/raw/*.json
+data/wgu-connect/raw/*.json
+data/wgu-student-groups/raw/*.json

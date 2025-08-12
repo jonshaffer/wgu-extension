@@ -1,0 +1,5 @@
+outs:
+- md5: 47a9f9c30ac05332b56ebd859d0aa52b
+  size: 372
+  hash: md5
+  path: wgu_accelerators.json

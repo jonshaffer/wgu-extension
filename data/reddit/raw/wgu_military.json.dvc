@@ -1,0 +1,5 @@
+outs:
+- md5: 89ab7a626b77d6fae70e4115da7427d1
+  size: 468
+  hash: md5
+  path: wgu_military.json

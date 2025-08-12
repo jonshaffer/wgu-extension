@@ -25,7 +25,7 @@ npm run build
 
 ## 📦 Data Version Control (DVC)
 
-This repository uses DVC (Data Version Control) to manage large catalog JSON files. The catalog files are stored in Google Drive and tracked via DVC to keep the Git repository size manageable.
+This repository uses DVC (Data Version Control) to manage large files and raw data. All catalog files, PDFs, and raw community data are stored in Google Drive and tracked via DVC to keep the Git repository size manageable.
 
 ### Initial Setup
 
@@ -39,9 +39,14 @@ This repository uses DVC (Data Version Control) to manage large catalog JSON fil
    dvc pull
    ```
 
-### Working with Catalog Files
+### Working with DVC-Managed Files
 
-- **Before building or running scripts**: Always run `dvc pull` to ensure you have the latest catalog files
+DVC manages several types of files:
+- **Catalog JSON files**: Large parsed catalog data
+- **PDF files**: WGU catalog PDFs  
+- **Raw data**: Community data from Discord, Reddit, WGU Connect, etc.
+
+- **Before building or running scripts**: Always run `dvc pull` to ensure you have the latest files
 - **Automatic pulling**: Build scripts include DVC pull commands where needed
 - **Manual pulling**: Run `npm run catalog:ensure --workspace=data` 
 

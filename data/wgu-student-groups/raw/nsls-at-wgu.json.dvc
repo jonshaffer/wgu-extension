@@ -1,0 +1,5 @@
+outs:
+- md5: ec3500fca0cae5c5b3adef0d47d55256
+  size: 808
+  hash: md5
+  path: nsls-at-wgu.json

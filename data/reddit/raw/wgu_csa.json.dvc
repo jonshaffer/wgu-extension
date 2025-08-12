@@ -1,0 +1,5 @@
+outs:
+- md5: 426f5a63247cce53c5968be72999dc3f
+  size: 545
+  hash: md5
+  path: wgu_csa.json

@@ -1,0 +1,5 @@
+outs:
+- md5: 3c8761f8710585f3bf660798daf38f49
+  size: 378
+  hash: md5
+  path: wguit.json

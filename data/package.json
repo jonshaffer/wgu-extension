@@ -34,7 +34,7 @@
     "access": "public"
   },
   "scripts": {
-    "ingest": "npm run ingest:discord && npm run ingest:reddit && npm run ingest:wgu-connect && npm run ingest:catalog",
+    "ingest": "npm run dvc:pull && npm run ingest:discord && npm run ingest:reddit && npm run ingest:wgu-connect && npm run ingest:catalog",
     "ingest:discord": "tsx discord/scripts/ingest-discord.ts",
     "ingest:reddit": "tsx reddit/scripts/ingest-reddit.ts",
     "ingest:wgu-connect": "tsx wgu-connect/scripts/ingest-wgu-connect.ts",
@@ -48,8 +48,9 @@
     "update:discord": "tsx discord/scripts/validate-raw.ts --discord --update",
     "update:reddit": "tsx reddit/scripts/validate-raw.ts --reddit --update",
     "transform": "tsx unified/scripts/transform-unified.ts",
-    "catalog:ensure": "./catalogs/scripts/ensure-catalogs.sh",
-    "catalog:report": "./catalogs/scripts/ensure-catalogs.sh && tsx catalogs/scripts/catalog-reporting.ts",
+    "dvc:pull": "./scripts/ensure-dvc-data.sh",
+    "catalog:ensure": "./scripts/ensure-dvc-data.sh",
+    "catalog:report": "./scripts/ensure-dvc-data.sh && tsx catalogs/scripts/catalog-reporting.ts",
     "catalog:parse": "tsx catalogs/scripts/catalog-parser-unified.ts",
     "catalog:batch": "tsx catalogs/scripts/batch-parse-all.ts",
     "typecheck": "tsc --noEmit",

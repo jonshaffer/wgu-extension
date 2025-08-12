@@ -1,0 +1,5 @@
+outs:
+- md5: 37ad86351cd1fa03d5923520f4b7d446
+  size: 453
+  hash: md5
+  path: wgu_mba.json
