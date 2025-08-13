@@ -1,0 +1,11 @@
+# Ignore built files
+lib/**/*
+
+# Ignore generated files  
+generated/**/*
+
+# Ignore scripts directory
+scripts/**/*
+
+# Build output
+dist/
