@@ -1,12 +1,16 @@
-import {FieldValue} from "firebase-admin/firestore";
+import {FieldValue, Transaction} from "firebase-admin/firestore";
 import {db} from "./firebase";
 
-export async function checkRateLimit(type: string, scope: string, limitPerMinute = 60): Promise<{ ok: boolean; retryAfter?: number }> {
+export async function checkRateLimit(
+  type: string,
+  scope: string,
+  limitPerMinute = 60
+): Promise<{ ok: boolean; retryAfter?: number }> {
   const docId = `${type}:${scope}`;
   const ref = db.collection("rate_limits").doc(docId);
   const now = Date.now();
   const windowKey = Math.floor(now / 60000).toString();
-  const res = await db.runTransaction(async (tx: any) => {
+  const res = await db.runTransaction(async (tx: Transaction) => {
     const snap = await tx.get(ref);
     let count = 0;
     if (snap.exists) {
@@ -18,10 +22,14 @@ export async function checkRateLimit(type: string, scope: string, limitPerMinute
     if (count >= limitPerMinute) {
       return {limited: true} as const;
     }
-    tx.set(ref, {window: windowKey, count: count + 1, updatedAt: FieldValue.serverTimestamp()}, {merge: true});
+    tx.set(
+      ref,
+      {window: windowKey, count: count + 1, updatedAt: FieldValue.serverTimestamp()},
+      {merge: true}
+    );
     return {limited: false} as const;
   });
-  if ((res as any).limited) {
+  if ((res as {limited: boolean}).limited) {
     const secondsIntoWindow = Math.floor((now % 60000) / 1000);
     return {ok: false, retryAfter: 60 - secondsIntoWindow};
   }

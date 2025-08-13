@@ -8,7 +8,10 @@ export function getAllowedOrigins(raw: string | undefined): string[] {
   ];
 }
 
-export function setCors(req: any, res: any, allowedOrigins: string[]) {
+import type {Request} from "firebase-functions/v2/https";
+import type {Response} from "express";
+
+export function setCors(req: Request, res: Response, allowedOrigins: string[]) {
   const origin = (req.headers?.origin as string | undefined) ?? "";
   if (origin && allowedOrigins.includes(origin)) {
     res.setHeader("Access-Control-Allow-Origin", origin);

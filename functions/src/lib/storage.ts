@@ -5,7 +5,7 @@ import {isFingerprintValid} from "./validation";
 export async function storeEvent(params: {
   type: "discord_summary" | "wgu_connect";
   scope: string;
-  payload: Record<string, any>;
+  payload: Record<string, unknown>;
   fingerprint?: string;
   names: { nameKey: string; nameValue: string };
   counts: { countKey: string; countValue: number };
@@ -34,7 +34,7 @@ export async function storeEvent(params: {
   });
 
   const latestRef = db.collection("latest_state").doc(`${type}:${scope}`);
-  const latestData: Record<string, any> = {
+  const latestData: Record<string, unknown> = {
     type,
     scope,
     lastFingerprint: fingerprint ?? null,

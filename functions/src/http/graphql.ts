@@ -27,19 +27,39 @@ app.use(express.json());
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  plugins: [ApolloServerPluginDrainHttpServer({httpServer})],
+  plugins: [
+    // eslint-disable-next-line new-cap
+    ApolloServerPluginDrainHttpServer({httpServer}),
+  ],
 });
 
+let serverStarted = false;
+
 async function startApolloServer() {
+  if (serverStarted) return;
   await server.start();
+  serverStarted = true;
+  
   app.use(
     "/graphql",
     expressMiddleware(server, {
       context: async ({req}) => ({token: req.headers.token}),
     })
   );
+  
+  // Root handler
+  app.get("/", (req, res) => {
+    res.json({
+      message: "GraphQL API",
+      endpoint: "/graphql",
+    });
+  });
 }
 
-startApolloServer();
+// Ensure server starts before handling requests
+app.use(async (req, res, next) => {
+  await startApolloServer();
+  next();
+});
 
-export const graphql = onRequest({cors: false}, app as any);
+export const graphql = onRequest({cors: false}, app as express.Express);
