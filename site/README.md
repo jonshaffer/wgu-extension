@@ -1,18 +1,16 @@
-# Welcome to React Router!
+# WGU Extension Site
 
-A modern, production-ready template for building full-stack React applications using React Router.
-
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
+React Router website for the WGU Extension project.
 
 ## Features
 
-- 🚀 Server-side rendering
+- 🚀 SPA mode (no SSR) for fast client-side navigation
 - ⚡️ Hot Module Replacement (HMR)
 - 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
+- 🔄 GraphQL integration with Apollo Client
 - 🔒 TypeScript by default
 - 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+- 🔍 Community resource search
 
 ## Getting Started
 
@@ -33,6 +31,40 @@ npm run dev
 ```
 
 Your application will be available at `http://localhost:5173`.
+
+### GraphQL Endpoint Configuration
+
+During development, you can configure which GraphQL endpoint to use:
+
+1. **Use Local Emulator (default)**:
+   ```bash
+   # No configuration needed, or create .env with:
+   VITE_GRAPHQL_ENV=local
+   ```
+
+2. **Use Production GraphQL**:
+   ```bash
+   # Create .env file with:
+   VITE_GRAPHQL_ENV=production
+   ```
+
+3. **Use Custom Endpoint**:
+   ```bash
+   # Create .env file with:
+   VITE_GRAPHQL_ENDPOINT=https://your-custom-endpoint.com/graphql
+   ```
+
+### Environment Variables
+
+Copy `.env.example` to `.env` to get started:
+
+```bash
+cp .env.example .env
+```
+
+Available variables:
+- `VITE_GRAPHQL_ENV`: Set to "production" or "local" (default: "local")
+- `VITE_GRAPHQL_ENDPOINT`: Override the GraphQL endpoint URL entirely
 
 ## Building for Production
 
