@@ -53,6 +53,11 @@
     "catalog:report": "./scripts/ensure-dvc-data.sh && tsx catalogs/scripts/catalog-reporting.ts",
     "catalog:parse": "tsx catalogs/scripts/catalog-parser-unified.ts",
     "catalog:batch": "tsx catalogs/scripts/batch-parse-all.ts",
+    "catalog:generate-processed": "tsx catalogs/scripts/generate-processed-data.ts",
+    "upload:academic-registry": "tsx scripts/upload-academic-registry.ts",
+    "upload:wgu-student-groups": "tsx scripts/upload-wgu-student-groups.ts",
+    "upload:all": "npm run upload:academic-registry && npm run upload:wgu-student-groups",
+    "verify:firestore": "tsx scripts/verify-firestore-data.ts",
     "typecheck": "tsc --noEmit",
     "types:clean": "rm -rf types/dist",
     "types:build:esm": "tsc -p types/tsconfig.json",
@@ -62,16 +67,17 @@
     "version:check": "npm view @wgu-extension/data versions --json"
   },
   "dependencies": {
-    "pdf-parse": "^1.1.1",
     "ajv": "^8.17.1",
     "ajv-formats": "^3.0.1",
+    "firebase-admin": "^13.4.0",
+    "pdf-parse": "^1.1.1",
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/jsdom": "^21.1.7",
     "@types/node": "^22.14.1",
-    "tsx": "^4.20.3",
-    "typescript": "^5.8.3",
     "jsdom": "^26.1.0",
-    "@types/jsdom": "^21.1.7"
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
   }
 }
