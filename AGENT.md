@@ -193,7 +193,7 @@ This project uses Nix flakes with direnv to provide a consistent development env
 
 #### Version Control
 - **Git**: Distributed version control
-- **Git LFS**: Large file storage for PDFs and binary files
+- **DVC**: Data Version Control for large files (PDFs, JSON)
 - **GitHub CLI (gh)**: Interact with GitHub from the command line
 
 #### Utilities
@@ -274,6 +274,7 @@ npm run types:publish:local --workspace=extension
 - **Tailwind**: Utility-first CSS framework
 
 ### Data Tools
+- **DVC**: Data Version Control for large files (catalogs, PDFs)
 - **AJV**: JSON Schema validation
 - **pdf-parse**: Extract text from WGU catalog PDFs
 - **tsx**: TypeScript execution for scripts
@@ -319,11 +320,6 @@ npm run types:publish:local --workspace=extension
 - **Purpose**: Process Discord server data
 - **Authentication**: API key required
 - **Rate Limit**: 10 requests per minute
-
-#### Pages Ingestion (Scheduled)
-- **Schedule**: Every 6 hours
-- **Purpose**: Sync unified community data from GitHub Pages
-- **Implementation**: @functions/src/scheduled/ingest-pages.ts
 
 #### Search API
 - **Function**: `search`
