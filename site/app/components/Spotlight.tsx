@@ -13,15 +13,14 @@ import { Input } from '~/components/ui/input';
 import { Button } from '~/components/ui/button';
 import { Search } from 'lucide-react';
 import { debounce } from 'lodash';
-
-import { getFunctions, httpsCallable } from 'firebase/functions'; // Import functions and httpsCallable
-import { app } from '../lib/firebase'; // Import your Firebase app instance
+import { useLazyQuery } from '@apollo/client/index.js';
+import { SEARCH } from '~/graphql/queries';
 
 const formSchema = z.object({
   query: z.string(), // Allow empty string initially
 });
 interface SpotlightProps {
-  onSearch: (results: any[], loading: boolean) => void;
+  onSearch: (results: any[], loading: boolean, queriedFor?: string) => void;
   initialQuery?: string;
   onQueryChange?: (query: string) => void;
   autoFocus?: boolean;
@@ -35,26 +34,31 @@ const Spotlight: React.FC<SpotlightProps> = ({ onSearch, initialQuery = '', onQu
     },
   });
 
-  const functions = getFunctions(app); // Get functions instance
-  const searchCallable = httpsCallable(functions, 'search'); // Create callable function reference
-  const [isSearching, setIsSearching] = React.useState(false);
+  const currentSearchQueryRef = React.useRef<string>(initialQuery);
 
-  const performSearch = async (query: string) => {
-    if (query) {
-      setIsSearching(true);
-      onSearch([], true); // Call onSearch with loading: true
-      try {
-        const result = await searchCallable({ query });
-        // Type assertion for result.data
-        const data = result.data as { results?: any[] };
-        onSearch(data.results || [], false); // Call onSearch with results and loading: false
-        console.log('Search results:', result.data);
-      } catch (error) {
-        console.error('Error searching:', error);
-        onSearch([], false); // Call onSearch with empty results and loading: false on error
-      } finally {
-        setIsSearching(false);
+  const [searchQuery, { loading }] = useLazyQuery(SEARCH, {
+    fetchPolicy: 'network-only',
+    onCompleted: (data) => {
+      if (data?.search) {
+        onSearch(data.search.results, false, currentSearchQueryRef.current);
       }
+    },
+    onError: (error) => {
+      console.error('GraphQL search error:', error);
+      onSearch([], false, currentSearchQueryRef.current);
+    },
+  });
+
+  const performSearch = (query: string) => {
+    if (query) {
+      currentSearchQueryRef.current = query; // Store the query being searched
+      onSearch([], true); // Call onSearch with loading: true
+      searchQuery({
+        variables: {
+          query,
+          limit: 20,
+        },
+      });
     } else {
       onSearch([], false); // Call onSearch with empty results and loading: false if query is empty
     }
@@ -62,7 +66,7 @@ const Spotlight: React.FC<SpotlightProps> = ({ onSearch, initialQuery = '', onQu
 
   const debouncedSearch = React.useCallback(
     debounce(performSearch, 300),
-    [searchCallable, onSearch] // Add onSearch to dependency array
+    [searchQuery, onSearch]
   );
 
   const handleSubmit = form.handleSubmit((data) => {
@@ -79,6 +83,7 @@ const Spotlight: React.FC<SpotlightProps> = ({ onSearch, initialQuery = '', onQu
   // Perform initial search if query provided
   React.useEffect(() => {
     if (initialQuery) {
+      currentSearchQueryRef.current = initialQuery; // Set the ref before searching
       performSearch(initialQuery);
     }
   }, []); // Only run once on mount
@@ -118,9 +123,9 @@ const Spotlight: React.FC<SpotlightProps> = ({ onSearch, initialQuery = '', onQu
           type="submit" 
           size="lg" 
           className="h-12 px-8 shadow-lg"
-          disabled={isSearching || !form.watch('query')}
+          disabled={loading || !form.watch('query')}
         >
-          {isSearching ? (
+          {loading ? (
             <>
               <div className="h-4 w-4 animate-spin rounded-full border-2 border-background border-t-transparent" />
               Searching...

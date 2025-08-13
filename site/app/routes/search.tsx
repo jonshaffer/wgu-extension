@@ -26,12 +26,17 @@ export default function SearchPage() {
   const [searchResults, setSearchResults] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState(false);
   const [hasSearched, setHasSearched] = React.useState(false);
+  const [searchedQuery, setSearchedQuery] = React.useState<string>(query);
 
-  const handleSearchResults = (results: any[], isLoading: boolean) => {
+  const handleSearchResults = (results: any[], isLoading: boolean, queriedFor?: string) => {
     setSearchResults(results);
     setLoading(isLoading);
     if (!isLoading) {
       setHasSearched(true);
+      // Only update the searched query when we actually get results (not loading)
+      if (queriedFor !== undefined) {
+        setSearchedQuery(queriedFor);
+      }
     }
   };
 
@@ -123,7 +128,7 @@ export default function SearchPage() {
               >
                 <div className="mb-6">
                   <h1 className="text-2xl font-bold">
-                    {searchResults.length} result{searchResults.length !== 1 ? 's' : ''} for "{query}"
+                    {searchResults.length} result{searchResults.length !== 1 ? 's' : ''} for "{searchedQuery}"
                   </h1>
                 </div>
                 <SearchResults results={searchResults} loading={false} />
