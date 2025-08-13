@@ -34,10 +34,17 @@ This repository uses DVC (Data Version Control) to manage large files and raw da
    pip install dvc[gdrive]
    ```
 
-2. **Pull catalog files**:
+2. **Pull data files**:
    ```bash
    dvc pull
    ```
+   
+   On first run, DVC will:
+   - Open your browser for Google authentication
+   - Request permission to access Google Drive
+   - Cache credentials for future use
+   
+   **Note**: No setup required for read-only access. The OAuth2 flow handles authentication automatically.
 
 ### Working with DVC-Managed Files
 
