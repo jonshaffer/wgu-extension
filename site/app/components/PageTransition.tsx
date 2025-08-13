@@ -7,49 +7,32 @@ interface PageTransitionProps {
 }
 
 const pageVariants = {
-  initial: (custom: { isBack: boolean }) => ({
+  initial: {
     opacity: 0,
-    x: custom.isBack ? -100 : 100,
-    scale: 0.95,
-  }),
+  },
   animate: {
     opacity: 1,
-    x: 0,
-    scale: 1,
   },
-  exit: (custom: { isBack: boolean }) => ({
+  exit: {
     opacity: 0,
-    x: custom.isBack ? 100 : -100,
-    scale: 0.95,
-  }),
+  },
 };
 
 export function PageTransition({ children }: PageTransitionProps) {
   const location = useLocation();
-  const [prevPath, setPrevPath] = React.useState(location.pathname);
-  
-  // Determine if we're going back based on path comparison
-  const isBack = location.pathname === '/' && prevPath === '/search';
-  
-  React.useEffect(() => {
-    setPrevPath(location.pathname);
-  }, [location.pathname]);
 
   return (
     <LayoutGroup>
-      <AnimatePresence mode="wait" custom={{ isBack }}>
+      <AnimatePresence mode="wait">
         <motion.div
           key={location.pathname}
-          custom={{ isBack }}
           variants={pageVariants}
           initial="initial"
           animate="animate"
           exit="exit"
           transition={{
-            type: "spring",
-            stiffness: 300,
-            damping: 30,
-            duration: 0.3,
+            duration: 0.2,
+            ease: "easeInOut"
           }}
           style={{ position: 'relative' }}
         >
