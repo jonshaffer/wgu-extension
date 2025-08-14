@@ -18,7 +18,7 @@ describe("GraphQL Integration Tests", () => {
     // The graphql function exports an onRequest handler
     // We need to test it as an Express app
     const db = admin.firestore();
-    
+
     // Seed test data
     await seedTestData(db);
   }, 60000); // Increase timeout for setup
@@ -54,7 +54,7 @@ describe("GraphQL Integration Tests", () => {
       expect(response.body.data).toBeDefined();
       expect(response.body.data.search.query).toBe("C172");
       expect(response.body.data.search.results).toBeInstanceOf(Array);
-      
+
       const courseResults = response.body.data.search.results.filter(
         (r: any) => r.type === "course"
       );
@@ -83,7 +83,7 @@ describe("GraphQL Integration Tests", () => {
         .expect(200);
 
       expect(response.body.data.search.results.length).toBeLessThanOrEqual(5);
-      
+
       // Verify results from different platforms
       const platforms = new Set(
         response.body.data.search.results.map((r: any) => r.platform)
@@ -160,7 +160,7 @@ describe("GraphQL Integration Tests", () => {
       const degreeResults = response.body.data.search.results.filter(
         (r: any) => r.type === "degree"
       );
-      
+
       if (degreeResults.length > 0) {
         expect(degreeResults[0]).toHaveProperty("college");
         expect(degreeResults[0]).toHaveProperty("degreeType");
@@ -171,7 +171,7 @@ describe("GraphQL Integration Tests", () => {
 
 async function seedTestData(db: admin.firestore.Firestore) {
   // Seed minimal test data for each collection
-  
+
   // Academic Registry - Courses
   await db.collection("academic-registry").doc("courses").set({
     courses: {

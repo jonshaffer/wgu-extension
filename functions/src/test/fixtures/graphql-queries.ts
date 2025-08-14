@@ -97,25 +97,25 @@ export const SEARCH_VARIABLES = {
     query: "C172",
     limit: 10,
   },
-  
+
   networkSearch: {
     query: "network",
     limit: 20,
   },
-  
+
   degreeSearch: {
     query: "computer science",
   },
-  
+
   communitySearch: {
     query: "cyber",
     limit: 15,
   },
-  
+
   emptySearch: {
     query: "xyzabc123notfound",
   },
-  
+
   broadSearch: {
     query: "a",
     limit: 5,

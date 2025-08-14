@@ -21,7 +21,7 @@ function removeUndefined(obj: any): any {
   if (Array.isArray(obj)) {
     return obj.map(removeUndefined);
   }
-  if (obj !== null && typeof obj === 'object') {
+  if (obj !== null && typeof obj === "object") {
     const cleaned: any = {};
     for (const [key, value] of Object.entries(obj)) {
       if (value !== undefined) {
@@ -41,48 +41,48 @@ async function seedData() {
   if (existsSync(coursesPath)) {
     console.log("📖 Loading production courses data (individual documents)...");
     const fullCoursesData = JSON.parse(readFileSync(coursesPath, "utf-8"));
-    
+
     const allCourses = fullCoursesData.courses || {};
     const courseKeys = Object.keys(allCourses);
-    
+
     // Store each course as an individual document in courses collection
     let totalSeeded = 0;
     const batchSize = 500; // Firestore batch limit
-    
+
     for (let i = 0; i < courseKeys.length; i += batchSize) {
       const batch = db.batch();
       const batchKeys = courseKeys.slice(i, i + batchSize);
-      
+
       for (const courseCode of batchKeys) {
         const courseDoc = db.collection("courses").doc(courseCode);
         batch.set(courseDoc, {
           ...allCourses[courseCode],
           _metadata: {
             sourceCollection: "academic-registry/courses",
-            lastUpdated: new Date().toISOString()
-          }
+            lastUpdated: new Date().toISOString(),
+          },
         });
       }
-      
+
       await batch.commit();
       totalSeeded += batchKeys.length;
       console.log(`   📚 Batch ${Math.floor(i / batchSize) + 1}: ${batchKeys.length} courses`);
     }
-    
+
     // Store metadata document for backward compatibility
     const metadataDoc = {
       metadata: {
         ...fullCoursesData.metadata,
         note: "Production data stored as individual documents in courses collection",
         storagePattern: "courses/{courseCode}",
-        totalCourses: courseKeys.length
+        totalCourses: courseKeys.length,
       },
       courses: {}, // Empty - courses are individual documents
-      _redirect: "courses" // Indicates data is in courses collection
+      _redirect: "courses", // Indicates data is in courses collection
     };
-    
+
     await db.collection("academic-registry").doc("courses").set(metadataDoc);
-    
+
     console.log(`✅ Seeded ${totalSeeded} courses as individual documents in courses collection`);
     console.log("   ℹ️  GraphQL resolver should use collection group queries for optimal performance");
   } else {
@@ -94,10 +94,10 @@ async function seedData() {
   if (existsSync(programsPath)) {
     console.log("📖 Loading production degree programs data...");
     const programsData = JSON.parse(readFileSync(programsPath, "utf-8"));
-    
+
     // Store in production format: academic-registry/degree-programs document
     await db.collection("academic-registry").doc("degree-programs").set(programsData);
-    console.log(`✅ Seeded ${programsData.metadata?.totalPrograms || 'unknown'} degree programs in academic-registry/degree-programs`);
+    console.log(`✅ Seeded ${programsData.metadata?.totalPrograms || "unknown"} degree programs in academic-registry/degree-programs`);
   } else {
     console.log("⚠️  Production degree programs data not found at " + programsPath);
   }
@@ -126,9 +126,9 @@ async function seedData() {
         hierarchy: community.hierarchy,
         channelCounts: community.channelCounts,
         coursesMentioned: community.coursesMentioned,
-        tags: community.tags
+        tags: community.tags,
       });
-      
+
       await db.collection("discord-servers").doc(community.id).set(docData);
     }
     console.log(`✅ Seeded ${communities.length} Discord servers`);
@@ -151,7 +151,7 @@ async function seedData() {
 
     // Add Reddit communities
     for (const community of communities) {
-      const docId = community.subreddit || community.name.replace('r/', '');
+      const docId = community.subreddit || community.name.replace("r/", "");
       const docData = removeUndefined({
         name: community.name,
         description: community.description,
@@ -162,7 +162,7 @@ async function seedData() {
         relevantCourses: community.relevantCourses,
         memberCount: community.memberCount,
         lastUpdated: community.lastUpdated,
-        verified: community.verified
+        verified: community.verified,
       });
       await db.collection("reddit-communities").doc(docId).set(docData);
     }
@@ -175,19 +175,19 @@ async function seedData() {
   console.log("📖 Loading production WGU Student Groups data...");
   const studentGroupsRawPath = resolve(__dirname, "../../../data/wgu-student-groups/raw");
   const groups = [];
-  
+
   if (existsSync(studentGroupsRawPath)) {
     // Load all raw student group files
     const files = [
       "cybersecurity-club.json",
-      "alumni-cybersecurity-club.json", 
+      "alumni-cybersecurity-club.json",
       "ebony-owls-student-group.json",
       "english-learners-exchange.json",
       "latinx-owls-student-group.json",
       "nsls-at-wgu.json",
       "owl-parents-student-group.json",
       "pride-owls-student-group.json",
-      "scta-wgu-chapters.json"
+      "scta-wgu-chapters.json",
     ];
 
     for (const file of files) {
@@ -202,9 +202,9 @@ async function seedData() {
             description: data.description,
             memberCount: data.memberCount,
             category: data.category,
-            tags: data.tags
+            tags: data.tags,
           });
-          
+
           groups.push(groupData);
         } catch (error: any) {
           console.log(`⚠️  Error loading ${file}:`, error.message);
@@ -218,19 +218,19 @@ async function seedData() {
       uploadedAt: new Date().toISOString(),
       metadata: {
         totalGroups: groups.length,
-        lastUpdated: new Date().toISOString()
-      }
+        lastUpdated: new Date().toISOString(),
+      },
     });
     console.log(`✅ Seeded ${groups.length} WGU student groups`);
   } else {
     console.log("⚠️  Production WGU Student Groups data not found at ${studentGroupsRawPath}");
   }
 
-  // Load and seed WGU Connect groups - Production data from raw files  
+  // Load and seed WGU Connect groups - Production data from raw files
   console.log("📖 Loading production WGU Connect groups data...");
   const connectRawPath = resolve(__dirname, "../../../data/wgu-connect/raw");
   let groupCount = 0;
-  
+
   if (existsSync(connectRawPath)) {
     // Clear existing WGU Connect groups
     const connectDocs = await db.collection("wgu-connect-groups").get();
@@ -251,7 +251,7 @@ async function seedData() {
       "d682-ai-optimization-for-computer-scientists.json",
       "d684-intro-to-computer-science.json",
       "d685-practical-applications-of-prompt.json",
-      "d686-operating-systems-for-computer-scientists.json"
+      "d686-operating-systems-for-computer-scientists.json",
     ];
 
     for (const file of files) {
@@ -259,17 +259,17 @@ async function seedData() {
       if (existsSync(filePath)) {
         try {
           const data = JSON.parse(readFileSync(filePath, "utf-8"));
-          const docId = data.id || file.replace('.json', '');
-          
+          const docId = data.id || file.replace(".json", "");
+
           const connectGroupData = removeUndefined({
             name: data.name,
             description: data.description,
             memberCount: data.memberCount,
             courseCode: data.courseCode,
             url: data.url,
-            resources: data.resources
+            resources: data.resources,
           });
-          
+
           await db.collection("wgu-connect-groups").doc(docId).set(connectGroupData);
           groupCount++;
         } catch (error: any) {

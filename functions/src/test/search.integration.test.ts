@@ -14,17 +14,17 @@ describe("Search Resolver Integration Tests", () => {
   beforeAll(async () => {
     // Ensure we're using the emulator
     process.env.FIRESTORE_EMULATOR_HOST = "localhost:8080";
-    
+
     db = admin.firestore();
-    
+
     // Dynamically import after Firebase is initialized
     // Direct import to avoid dynamic import issues
     const {searchResolver: resolver} = require("../graphql/search-resolver");
     searchResolver = resolver;
-    
+
     // Clear existing data
     await clearFirestore(db);
-    
+
     // Seed test data
     await seedTestData(db);
   });
@@ -45,7 +45,7 @@ describe("Search Resolver Integration Tests", () => {
       expect(result.query).toBe("c172"); // lowercase
       expect(result.totalCount).toBeGreaterThan(0);
       expect(result.results).toBeInstanceOf(Array);
-      
+
       const courseResults = result.results.filter(
         (r: any) => r.type === "course"
       );
@@ -61,11 +61,11 @@ describe("Search Resolver Integration Tests", () => {
       );
 
       expect(result.results.length).toBeLessThanOrEqual(10);
-      
+
       // Should find results from different sources
       const types = new Set(result.results.map((r: any) => r.type));
       expect(types.size).toBeGreaterThanOrEqual(1); // At least courses
-      
+
       const platforms = new Set(result.results.map((r: any) => r.platform));
       expect(platforms.size).toBeGreaterThanOrEqual(1);
     });
@@ -99,7 +99,7 @@ describe("Search Resolver Integration Tests", () => {
       const degreeResults = result.results.filter(
         (r: any) => r.type === "degree"
       );
-      
+
       if (degreeResults.length > 0) {
         expect(degreeResults[0]).toHaveProperty("college");
         expect(degreeResults[0]).toHaveProperty("degreeType");
@@ -116,7 +116,7 @@ describe("Search Resolver Integration Tests", () => {
       const courseResults = result.results.filter(
         (r: any) => r.type === "course" && r.courseCode?.startsWith("C17")
       );
-      
+
       expect(courseResults.length).toBeGreaterThan(0);
     });
 
@@ -129,7 +129,7 @@ describe("Search Resolver Integration Tests", () => {
       const discordResults = result.results.filter(
         (r: any) => r.platform === "discord"
       );
-      
+
       if (discordResults.length > 0) {
         expect(discordResults[0]).toHaveProperty("url");
         expect(discordResults[0]).toHaveProperty("memberCount");

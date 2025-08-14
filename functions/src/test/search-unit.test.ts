@@ -5,7 +5,7 @@ describe("Search Logic Tests", () => {
   // Mock search function that mimics the resolver behavior
   function mockSearch(query: string, limit = 20) {
     const searchQuery = query.toLowerCase().trim();
-    
+
     if (!searchQuery) {
       return {
         results: [],
@@ -25,7 +25,7 @@ describe("Search Logic Tests", () => {
         competencyUnits: 3,
       },
       {
-        type: "course", 
+        type: "course",
         courseCode: "C173",
         name: "C173: Scripting and Programming - Foundations",
         description: "Programming course",
@@ -45,15 +45,15 @@ describe("Search Logic Tests", () => {
     ];
 
     const allResults = [...mockCourses, ...mockCommunities];
-    
+
     // Filter results
-    const filtered = allResults.filter(item => {
+    const filtered = allResults.filter((item) => {
       const searchableText = [
         item.name,
         item.description,
         (item as any).courseCode,
       ].filter(Boolean).join(" ").toLowerCase();
-      
+
       return searchableText.includes(searchQuery);
     });
 
@@ -66,7 +66,7 @@ describe("Search Logic Tests", () => {
 
   test("should return empty results for empty query", () => {
     const result = mockSearch("   ");
-    
+
     expect(result.query).toBe("");
     expect(result.totalCount).toBe(0);
     expect(result.results).toEqual([]);
@@ -74,7 +74,7 @@ describe("Search Logic Tests", () => {
 
   test("should search for courses by code", () => {
     const result = mockSearch("C172");
-    
+
     expect(result.query).toBe("c172");
     expect(result.totalCount).toBeGreaterThan(0);
     expect(result.results[0]).toMatchObject({
@@ -86,29 +86,29 @@ describe("Search Logic Tests", () => {
 
   test("should search across multiple types", () => {
     const result = mockSearch("security");
-    
+
     expect(result.totalCount).toBeGreaterThan(1);
-    const types = new Set(result.results.map(r => r.type));
+    const types = new Set(result.results.map((r) => r.type));
     expect(types.size).toBeGreaterThan(1);
   });
 
   test("should respect limit parameter", () => {
     const result = mockSearch("c", 1);
-    
+
     expect(result.results.length).toBe(1);
   });
 
   test("should handle case-insensitive search", () => {
     const result1 = mockSearch("CYBER");
     const result2 = mockSearch("cyber");
-    
+
     expect(result1.totalCount).toBe(result2.totalCount);
   });
 
   test("should find partial matches", () => {
     const result = mockSearch("C17");
-    
-    const courseResults = result.results.filter(r => r.type === "course");
+
+    const courseResults = result.results.filter((r) => r.type === "course");
     expect(courseResults.length).toBe(2); // Both C172 and C173
   });
 });

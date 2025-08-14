@@ -117,16 +117,16 @@ interface SyncConfig<T extends Record<string, any>> {
   sourcePath: string; // file or directory
   schema: ZodSchema;
   idField: string;
-  transform?: (items: T[]) => T[]; // optional transform
+  transform?: (items: T[] | Array<{ id: string; content: string; data: any }>) => T[] | Array<{ id: string; content: string; data: any }>; // optional transform
 }
 
 function buildSyncConfigs(): SyncConfig<any>[] {
-  const root = __dirname; // dist/lib when compiled; relies on relative '../'
+  const root = __dirname; // dist/lib when compiled; relies on relative '../../'
   return [
     // Catalogs: each parsed monthly catalog file -> one document named YYYY-MM
     {
       collection: 'catalogs',
-      sourcePath: path.join(root, '../data/catalogs/parsed'),
+      sourcePath: path.join(root, '../../data/catalogs/parsed'),
       schema: { // custom schema parse wrapper for monthly catalog file structure
         parse: (data: any) => data, // trust file structure; could add zod if defined later
       },
@@ -134,28 +134,108 @@ function buildSyncConfigs(): SyncConfig<any>[] {
       transform: (files: any[]) => files, // no-op; handled specially in syncCollection
     },
     {
+      collection: 'academic-registry',
+      sourcePath: path.join(root, '../../data/catalogs/processed'),
+      schema: { // custom schema for processed courses and degree-programs
+        parse: (data: any) => data, // trust processed structure
+      },
+      idField: '__FILENAME__', // will use filename as document ID (courses, degree-programs)
+      transform: (files: any[]) => {
+        // Split large files into smaller documents to stay under Firestore 1MB limit
+        console.log('Transform function called with files:', files.map(f => ({ id: f.id, dataKeys: Object.keys(f.data || {}) })));
+        const transformedFiles = [];
+        for (const file of files) {
+          console.log(`Processing file: ${file.id}, has courses: ${!!file.data?.courses}, has degrees: ${!!file.data?.degrees}`);
+          console.log(`  courses check: id=${file.id}, id==='courses': ${file.id === 'courses'}, has courses data: ${!!file.data?.courses}, is object: ${typeof file.data?.courses === 'object'}`);
+          if (file.id === 'courses' && file.data?.courses && typeof file.data.courses === 'object') {
+            // Convert courses object to array of entries
+            const coursesEntries = Object.entries(file.data.courses);
+            console.log(`Chunking courses: ${coursesEntries.length} total courses`);
+            const metadata = file.data.metadata;
+            const chunkSize = 500;
+            for (let i = 0; i < coursesEntries.length; i += chunkSize) {
+              const chunk = coursesEntries.slice(i, i + chunkSize);
+              const chunkObject = Object.fromEntries(chunk);
+              const chunkId = `courses-chunk-${Math.floor(i / chunkSize) + 1}`;
+              const chunkData = {
+                metadata: {
+                  ...metadata,
+                  chunk: Math.floor(i / chunkSize) + 1,
+                  totalChunks: Math.ceil(coursesEntries.length / chunkSize),
+                  chunkSize,
+                  chunkStartIndex: i,
+                  chunkEndIndex: Math.min(i + chunkSize - 1, coursesEntries.length - 1)
+                },
+                courses: chunkObject
+              };
+              transformedFiles.push({
+                id: chunkId,
+                data: chunkData,
+                content: JSON.stringify(chunkData)
+              });
+              console.log(`Created chunk: ${chunkId} with ${chunk.length} courses`);
+            }
+          } else if (file.id === 'degree-programs' && file.data?.degrees && typeof file.data.degrees === 'object') {
+            // Convert degrees object to array of entries  
+            const degreesEntries = Object.entries(file.data.degrees);
+            console.log(`Chunking degree programs: ${degreesEntries.length} total programs`);
+            const metadata = file.data.metadata;
+            const chunkSize = 200;
+            for (let i = 0; i < degreesEntries.length; i += chunkSize) {
+              const chunk = degreesEntries.slice(i, i + chunkSize);
+              const chunkObject = Object.fromEntries(chunk);
+              const chunkId = `degree-programs-chunk-${Math.floor(i / chunkSize) + 1}`;
+              const chunkData = {
+                metadata: {
+                  ...metadata,
+                  chunk: Math.floor(i / chunkSize) + 1,
+                  totalChunks: Math.ceil(degreesEntries.length / chunkSize),
+                  chunkSize,
+                  chunkStartIndex: i,
+                  chunkEndIndex: Math.min(i + chunkSize - 1, degreesEntries.length - 1)
+                },
+                degrees: chunkObject
+              };
+              transformedFiles.push({
+                id: chunkId,
+                data: chunkData,
+                content: JSON.stringify(chunkData)
+              });
+              console.log(`Created chunk: ${chunkId} with ${chunk.length} programs`);
+            }
+          } else {
+            console.log(`Keeping file as-is: ${file.id}`);
+            // Keep other files as-is
+            transformedFiles.push(file);
+          }
+        }
+        console.log('Transform returning:', transformedFiles.map(f => ({ id: f.id, dataKeys: Object.keys(f.data || {}) })));
+        return transformedFiles;
+      },
+    },
+    {
       collection: 'wgu-connect-groups',
-      sourcePath: path.join(root, '../data/wgu-connect/raw'),
+      sourcePath: path.join(root, '../../data/wgu-connect/raw'),
       schema: WguConnectGroupRawSchema, // individual files are single objects
       idField: 'id',
     },
     {
       collection: 'reddit-communities',
-      sourcePath: path.join(root, '../data/reddit/raw'),
+      sourcePath: path.join(root, '../../data/reddit/raw'),
       schema: RedditCommunitySchema,
       idField: 'subreddit',
     },
     {
       // Store Discord communities (supporting multiple Discord servers)
       collection: 'discord',
-      sourcePath: path.join(root, '../data/discord/raw'),
+      sourcePath: path.join(root, '../../data/discord/raw'),
       schema: DiscordCommunityFileSchema, // validate community + channels structure
       idField: 'id',
       // No transform needed - store communities directly with their channels
     },
     {
       collection: 'wgu-student-groups',
-      sourcePath: path.join(root, '../data/wgu-student-groups/raw'),
+      sourcePath: path.join(root, '../../data/wgu-student-groups/raw'),
       schema: WguStudentGroupRawSchema,
       idField: 'id',
     },
@@ -241,12 +321,20 @@ async function syncCollection<T extends Record<string, any>>({
 
   // Apply transform if specified
   if (transform && collection !== 'catalogs') {
-    const transformedItems = transform(sourceFiles.map(f => f.data));
-    sourceFiles = transformedItems.map((item) => ({
-      id: String(item[idField]),
-      content: JSON.stringify(item),
-      data: item
-    }));
+    if (collection === 'academic-registry') {
+      // Special handling for academic-registry - transform operates on files, not just data
+      console.log(`  Applying transform for ${collection}, original files:`, sourceFiles.map(f => ({ id: f.id, dataKeys: Object.keys(f.data || {}) })));
+      sourceFiles = transform(sourceFiles) as Array<{ id: string; content: string; data: any }>;
+      console.log(`  Transform result:`, sourceFiles.map(f => ({ id: f.id, dataKeys: Object.keys(f.data || {}) })));
+    } else {
+      // Standard transform for other collections
+      const transformedItems = transform(sourceFiles.map(f => f.data)) as any[];
+      sourceFiles = transformedItems.map((item) => ({
+        id: String(item[idField]),
+        content: JSON.stringify(item),
+        data: item
+      }));
+    }
   }
 
   // Phase 2: Mathematical Transfer - calculate differences via hash comparison
