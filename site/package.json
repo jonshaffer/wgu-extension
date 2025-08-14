@@ -1,5 +1,5 @@
 {
-  "name": "site",
+  "name": "unofficial-wgu-extension-site",
   "type": "module",
   "scripts": {
     "build": "react-router build",

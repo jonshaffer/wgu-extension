@@ -11,11 +11,15 @@
     },
     "functions": {
       "release-type": "node",
-      "package-name": "wgu-extension-functions"
+      "package-name": "@wgu-extension/functions"
     },
     "site": {
       "release-type": "node", 
-      "package-name": "wgu-extension-site"
+      "package-name": "unofficial-wgu-extension-site"
+    },
+    "graphql-client": {
+      "release-type": "node",
+      "package-name": "@wgu-extension/graphql-client"
     }
   },
   "changelog-sections": [
