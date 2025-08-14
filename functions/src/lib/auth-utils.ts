@@ -1,8 +1,8 @@
 /**
  * Authentication utilities for Firebase Functions
  */
-import { CallableRequest } from "firebase-functions/v2/https";
-import { getAuth } from "firebase-admin/auth";
+import {CallableRequest} from "firebase-functions/v2/https";
+import {getAuth} from "firebase-admin/auth";
 
 export interface AuthInfo {
   userId: string;
@@ -19,56 +19,55 @@ async function verifyServiceAccountToken(token: string): Promise<{ isServiceAcco
   try {
     // Use Firebase Admin to verify the token - this cryptographically validates it
     const decodedToken = await getAuth().verifyIdToken(token, true);
-    
+
     // Check if this is a service account token
-    if (decodedToken.firebase?.sign_in_provider === 'custom' || 
-        decodedToken.iss?.includes('firebase-adminsdk') ||
-        decodedToken.email?.includes('.gserviceaccount.com')) {
-      
-      return { 
-        isServiceAccount: true, 
-        email: decodedToken.email || decodedToken.uid 
+    if (decodedToken.firebase?.sign_in_provider === "custom" ||
+        decodedToken.iss?.includes("firebase-adminsdk") ||
+        decodedToken.email?.includes(".gserviceaccount.com")) {
+      return {
+        isServiceAccount: true,
+        email: decodedToken.email || decodedToken.uid,
       };
     }
   } catch (error) {
     // Token verification failed - not a valid service account token
   }
-  
-  return { isServiceAccount: false };
+
+  return {isServiceAccount: false};
 }
 
 /**
  * Detect authenticated Admin SDK requests (secure methods only)
  */
-export async function detectAdminSdk(request: CallableRequest | any): Promise<{ 
-  isAdminSdk: boolean; 
+export async function detectAdminSdk(request: CallableRequest | any): Promise<{
+  isAdminSdk: boolean;
   method?: string;
-  identifier?: string; 
+  identifier?: string;
 }> {
   // Method 1: Explicit admin SDK key
   const adminSdkKey = request.headers["x-admin-sdk-key"];
   if (adminSdkKey && adminSdkKey === (process.env.ADMIN_SDK_KEY || "admin-sdk-12345")) {
     console.log("🔒 Admin SDK authenticated via secure key");
-    return { isAdminSdk: true, method: "sdk-key", identifier: "admin-sdk" };
+    return {isAdminSdk: true, method: "sdk-key", identifier: "admin-sdk"};
   }
 
   // Method 2: Service account JWT token (cryptographically verified)
   const authHeader = request.headers.authorization || "";
-  if (authHeader.startsWith('Bearer ')) {
-    const token = authHeader.split('Bearer ')[1];
+  if (authHeader.startsWith("Bearer ")) {
+    const token = authHeader.split("Bearer ")[1];
     const serviceAccountResult = await verifyServiceAccountToken(token);
-    
+
     if (serviceAccountResult.isServiceAccount) {
       console.log("🔒 Service account authenticated:", serviceAccountResult.email);
-      return { 
-        isAdminSdk: true, 
-        method: "service-account", 
-        identifier: serviceAccountResult.email 
+      return {
+        isAdminSdk: true,
+        method: "service-account",
+        identifier: serviceAccountResult.email,
       };
     }
   }
 
-  return { isAdminSdk: false };
+  return {isAdminSdk: false};
 }
 
 /**
@@ -80,21 +79,21 @@ export async function authenticateRequest(request: CallableRequest | any): Promi
   if (adminSdkResult.isAdminSdk) {
     return {
       userId: adminSdkResult.identifier || "admin-sdk",
-      userEmail: adminSdkResult.identifier || "admin-sdk", 
+      userEmail: adminSdkResult.identifier || "admin-sdk",
       source: adminSdkResult.method === "service-account" ? "service-account" : "admin-sdk",
-      isAdmin: true
+      isAdmin: true,
     };
   }
 
   // Firebase Auth token verification
   const authHeader = request.headers.authorization;
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
     throw new Error("No valid authentication found");
   }
 
-  const idToken = authHeader.split('Bearer ')[1];
+  const idToken = authHeader.split("Bearer ")[1];
   let decodedToken;
-  
+
   try {
     decodedToken = await getAuth().verifyIdToken(idToken);
   } catch (error: any) {
@@ -103,16 +102,16 @@ export async function authenticateRequest(request: CallableRequest | any): Promi
 
   const userId = decodedToken.uid;
   const userEmail = decodedToken.email || "";
-  
+
   // Check admin privileges
   let isAdmin = false;
-  
+
   // Option 1: Custom claims
   if (decodedToken.admin) {
     isAdmin = true;
   } else {
     // Option 2: Admin email list
-    const adminEmails = (process.env.ADMIN_EMAILS || "").split(",").map(e => e.trim()).filter(Boolean);
+    const adminEmails = (process.env.ADMIN_EMAILS || "").split(",").map((e) => e.trim()).filter(Boolean);
     isAdmin = adminEmails.includes(userEmail);
   }
 
@@ -120,7 +119,7 @@ export async function authenticateRequest(request: CallableRequest | any): Promi
     userId,
     userEmail,
     source: "firebase-auth",
-    isAdmin
+    isAdmin,
   };
 }
 
@@ -129,10 +128,10 @@ export async function authenticateRequest(request: CallableRequest | any): Promi
  */
 export async function requireAdmin(request: CallableRequest | any): Promise<AuthInfo> {
   const authInfo = await authenticateRequest(request);
-  
+
   if (!authInfo.isAdmin) {
     throw new Error(`Forbidden - Admin access required. User: ${authInfo.userEmail || authInfo.userId}`);
   }
-  
+
   return authInfo;
 }

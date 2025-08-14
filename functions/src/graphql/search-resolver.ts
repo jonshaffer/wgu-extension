@@ -12,6 +12,11 @@ interface SearchResultItem {
   competencyUnits?: number | null;
   college?: string | null;
   degreeType?: string | null;
+  serverId?: string | null;
+  subredditName?: string | null;
+  groupId?: string | null;
+  degreeId?: string | null;
+  studentGroupId?: string | null;
 }
 
 interface SearchArgs {
@@ -66,6 +71,11 @@ export async function searchResolver(
           competencyUnits: course.competencyUnits,
           college: null,
           degreeType: null,
+          serverId: null,
+          subredditName: null,
+          groupId: null,
+          degreeId: null,
+          studentGroupId: null,
         });
       }
     });
@@ -99,6 +109,11 @@ export async function searchResolver(
             competencyUnits: p.totalCUs,
             college: p.college,
             degreeType: p.degreeType,
+            serverId: null,
+            subredditName: null,
+            groupId: null,
+            degreeId: p.code || null,
+            studentGroupId: null,
           });
         }
       }
@@ -125,6 +140,11 @@ export async function searchResolver(
           icon: server.icon,
           platform: "discord",
           memberCount: server.memberCount,
+          serverId: doc.id,
+          subredditName: null,
+          groupId: null,
+          degreeId: null,
+          studentGroupId: null,
         });
       }
     });
@@ -145,16 +165,56 @@ export async function searchResolver(
           type: "community",
           courseCode: null,
           name: group.name,
-          url: `https://connect.wgu.edu/groups/${doc.id}`,
+          url: group.url,
           description: group.description,
           icon: null,
           platform: "wguConnect",
           memberCount: group.memberCount,
+          serverId: null,
+          subredditName: null,
+          groupId: doc.id,
+          degreeId: null,
+          studentGroupId: null,
         });
       }
     });
   } catch (error) {
     console.error("Error searching WGU Connect groups:", error);
+  }
+
+  // Search Reddit communities
+  try {
+    const redditDoc = await db.collection("public").doc("reddit").get();
+    if (redditDoc.exists) {
+      const data = redditDoc.data() || {};
+      const communities = data.communities || [];
+
+      for (const community of communities) {
+        if (
+          community.name?.toLowerCase().includes(searchQuery) ||
+          community.description?.toLowerCase().includes(searchQuery) ||
+          community.college?.toLowerCase().includes(searchQuery)
+        ) {
+          results.push({
+            type: "community",
+            courseCode: null,
+            name: community.name,
+            url: `https://reddit.com/r/${community.name}`,
+            description: community.description,
+            icon: null,
+            platform: "reddit",
+            memberCount: community.subscriberCount,
+            serverId: null,
+            subredditName: community.name,
+            groupId: null,
+            degreeId: null,
+            studentGroupId: null,
+          });
+        }
+      }
+    }
+  } catch (error) {
+    console.error("Error searching Reddit communities:", error);
   }
 
   // Search WGU Student Groups
@@ -179,6 +239,11 @@ export async function searchResolver(
             icon: null,
             platform: "wgu-student-groups",
             memberCount: group.memberCount,
+            serverId: null,
+            subredditName: null,
+            groupId: null,
+            degreeId: null,
+            studentGroupId: group.id || null,
           });
         }
       }

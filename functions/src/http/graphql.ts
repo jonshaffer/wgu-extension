@@ -39,14 +39,14 @@ async function startApolloServer() {
   if (serverStarted) return;
   await server.start();
   serverStarted = true;
-  
+
   app.use(
     "/graphql",
     expressMiddleware(server, {
       context: async ({req}) => ({token: req.headers.token}),
     })
   );
-  
+
   // Root handler
   app.get("/", (req, res) => {
     res.json({
