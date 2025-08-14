@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import { motion } from 'motion/react';
 import { ExternalLink, MessageCircle, Users, BookOpen } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
@@ -16,6 +17,12 @@ interface SearchResult {
   competencyUnits?: number | null;
   college?: string | null;
   degreeType?: string | null;
+  // IDs for linking
+  serverId?: string | null;
+  subredditName?: string | null;
+  groupId?: string | null;
+  degreeId?: string | null;
+  studentGroupId?: string | null;
 }
 
 interface SearchResultsProps {
@@ -40,6 +47,40 @@ const platformLabels: Record<string, string> = {
 };
 
 const SearchResults: React.FC<SearchResultsProps> = ({ results, loading }) => {
+  const getDetailLink = (result: SearchResult): string | null => {
+    // For courses
+    if (result.type === 'course' && result.courseCode) {
+      return `/courses/${result.courseCode}`;
+    }
+    
+    // For degree plans
+    if (result.type === 'degree' && result.degreeId) {
+      return `/degree-plans/${result.degreeId}`;
+    }
+    
+    // For Discord servers
+    if (result.platform === 'discord' && result.serverId) {
+      return `/discord/${result.serverId}`;
+    }
+    
+    // For Reddit communities
+    if (result.platform === 'reddit' && result.subredditName) {
+      return `/reddit/${result.subredditName}`;
+    }
+    
+    // For WGU Connect groups
+    if (result.platform === 'wguConnect' && result.groupId) {
+      return `/wgu-connect/${result.groupId}`;
+    }
+    
+    // For student groups
+    if (result.platform === 'student-groups' && result.studentGroupId) {
+      return `/student-groups/${result.studentGroupId}`;
+    }
+    
+    return null;
+  };
+
   if (loading) {
     return (
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -64,26 +105,23 @@ const SearchResults: React.FC<SearchResultsProps> = ({ results, loading }) => {
 
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {results.map((result, index) => (
-        <motion.div
-          key={`${result.platform}-${result.url}-${index}`}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: index * 0.05, duration: 0.3 }}
-        >
-          <Card className="h-full hover:shadow-lg transition-shadow">
+      {results.map((result, index) => {
+        const detailLink = getDetailLink(result);
+        const card = (
+          <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer">
             <CardHeader>
               <div className="flex items-start justify-between gap-2">
                 <CardTitle className="text-base line-clamp-2 flex-1">
                   {result.name}
                 </CardTitle>
-                {result.url && (
+                {result.url && !detailLink && (
                   <a
                     href={result.url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-muted-foreground hover:text-primary transition-colors"
                     aria-label={`Open ${result.name} in new tab`}
+                    onClick={(e) => e.stopPropagation()}
                   >
                     <ExternalLink className="h-4 w-4" />
                   </a>
@@ -127,8 +165,25 @@ const SearchResults: React.FC<SearchResultsProps> = ({ results, loading }) => {
               )}
             </CardContent>
           </Card>
-        </motion.div>
-      ))}
+        );
+
+        return (
+          <motion.div
+            key={`${result.type}-${result.platform}-${index}`}
+            initial={{ scale: 0.95, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: index * 0.05, duration: 0.3 }}
+          >
+            {detailLink ? (
+              <Link to={detailLink} className="block">
+                {card}
+              </Link>
+            ) : (
+              card
+            )}
+          </motion.div>
+        );
+      })}
     </div>
   );
 };

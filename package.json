@@ -25,7 +25,14 @@
     "postinstall": "npm run postinstall --workspaces --if-present",
     "types:build": "npm run types:build --workspace=data",
     "types:publish:local": "cd data && npm publish --tag local",
-    "types:publish:local:dry": "cd data && npm publish --tag local --dry-run"
+    "types:publish:local:dry": "cd data && npm publish --tag local --dry-run",
+    "emulators": "cd functions && firebase emulators:start --import=./emulator-data",
+    "emulators:fresh": "cd functions && firebase emulators:start",
+    "emulators:seed": "npm run dvc:pull --workspace=functions && npm run emulators",
+    "emulators:export": "npm run emulator:export --workspace=functions",
+    "seed": "npm run seed --workspace=functions",
+    "dvc:pull": "npm run dvc:pull --workspace=functions",
+    "dvc:push": "npm run dvc:push --workspace=functions"
   },
   "devDependencies": {
   "typescript": "^5.8.3",

@@ -4,9 +4,11 @@ import type { Route } from "./+types/search";
 import { motion, AnimatePresence } from 'motion/react';
 import Spotlight from "../components/Spotlight";
 import SearchResults from "../components/SearchResults";
+import { Navigation } from "../components/Navigation";
+import { Footer } from "../components/Footer";
 import { Container } from "~/components/ui/container";
 import { Button } from "~/components/ui/button";
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, AlertCircle } from 'lucide-react';
 
 export function meta({ location }: Route.MetaArgs) {
   const params = new URLSearchParams(location.search);
@@ -27,10 +29,12 @@ export default function SearchPage() {
   const [loading, setLoading] = React.useState(false);
   const [hasSearched, setHasSearched] = React.useState(false);
   const [searchedQuery, setSearchedQuery] = React.useState<string>(query);
+  const [searchError, setSearchError] = React.useState<Error | null>(null);
 
-  const handleSearchResults = (results: any[], isLoading: boolean, queriedFor?: string) => {
+  const handleSearchResults = (results: any[], isLoading: boolean, queriedFor?: string, error?: Error | null) => {
     setSearchResults(results);
     setLoading(isLoading);
+    setSearchError(error || null);
     if (!isLoading) {
       setHasSearched(true);
       // Only update the searched query when we actually get results (not loading)
@@ -55,12 +59,13 @@ export default function SearchPage() {
 
   return (
     <div className="min-h-screen bg-background">
+      <Navigation />
       {/* Search Header */}
       <motion.header
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.1, duration: 0.4 }}
-        className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+        className="sticky top-14 z-40 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
       >
         <Container className="py-4">
           <div className="flex items-center gap-4">
@@ -111,10 +116,25 @@ export default function SearchPage() {
                 transition={{ duration: 0.3 }}
                 className="text-center py-16"
               >
-                <h2 className="text-2xl font-semibold mb-2">No results found</h2>
-                <p className="text-muted-foreground">
-                  Try adjusting your search terms or browse our categories
-                </p>
+                {searchError ? (
+                  <>
+                    <AlertCircle className="h-12 w-12 text-destructive mx-auto mb-4" />
+                    <h2 className="text-2xl font-semibold mb-2">Search Error</h2>
+                    <p className="text-muted-foreground mb-2">
+                      We encountered an error while searching. Please try again.
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      {searchError.message || 'An unexpected error occurred'}
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <h2 className="text-2xl font-semibold mb-2">No results found</h2>
+                    <p className="text-muted-foreground">
+                      Try adjusting your search terms or browse our categories
+                    </p>
+                  </>
+                )}
               </motion.div>
             )}
 
@@ -149,6 +169,7 @@ export default function SearchPage() {
           </AnimatePresence>
         </Container>
       </main>
+      <Footer />
     </div>
   );
 }

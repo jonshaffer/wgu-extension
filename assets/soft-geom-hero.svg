@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <!-- Soft radial background with cream accent -->
+    <radialGradient id="rg" cx="25%" cy="15%" r="80%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="45%" stop-color="#fefaf7"/>
+      <stop offset="100%" stop-color="#FDF9F5"/>
+    </radialGradient>
+
+    <!-- Subtle grid pattern -->
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#2D3142" stroke-opacity="0.06" stroke-width="1"/>
+    </pattern>
+
+    <!-- Accent gradient using brand colors -->
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#931621" stop-opacity="0.15"/>
+      <stop offset="50%" stop-color="#335142" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#7D5024" stop-opacity="0.10"/>
+    </linearGradient>
+
+    <!-- Secondary accent -->
+    <linearGradient id="accent2" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#335142" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#931621" stop-opacity="0.08"/>
+    </linearGradient>
+
+    <!-- Grain -->
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="1" stitchTiles="stitch" seed="7"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer>
+        <feFuncA type="table" tableValues="0 0.025"/>
+      </feComponentTransfer>
+    </filter>
+  </defs>
+
+  <!-- Background fill -->
+  <rect width="1600" height="900" fill="url(#rg)"/>
+
+  <!-- Grid overlay -->
+  <rect width="1600" height="900" fill="url(#grid)"/>
+
+  <!-- Soft rings with brand colors -->
+  <g opacity="0.5" fill="none" stroke="url(#accent)" stroke-width="1.5">
+    <circle cx="300" cy="160" r="120"/>
+    <circle cx="300" cy="160" r="200"/>
+    <circle cx="1250" cy="220" r="140"/>
+    <circle cx="1250" cy="220" r="220"/>
+  </g>
+
+  <!-- Geometric shapes with brand colors -->
+  <g opacity="0.6" fill="url(#accent2)">
+    <polygon points="980,640 1040,600 1100,640 1100,710 1040,750 980,710" />
+    <polygon points="340,560 380,540 420,560 420,600 380,620 340,600" />
+    <rect x="680" y="140" width="120" height="120" rx="24"/>
+  </g>
+
+  <!-- Additional brand accents -->
+  <g opacity="0.3">
+    <circle cx="800" cy="500" r="80" fill="none" stroke="#931621" stroke-width="1" stroke-opacity="0.3"/>
+    <rect x="1100" y="400" width="60" height="60" rx="12" fill="#335142" fill-opacity="0.2" transform="rotate(45 1130 430)"/>
+  </g>
+
+  <!-- Grain overlay -->
+  <rect width="1600" height="900" filter="url(#grain)" opacity="0.2"/>
+</svg>

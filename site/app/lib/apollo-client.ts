@@ -1,4 +1,6 @@
-import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client/index.js';
+import { ApolloClient, InMemoryCache, createHttpLink, ApolloLink } from '@apollo/client/index.js';
+import { onError } from '@apollo/client/link/error';
+import { toast } from 'sonner';
 
 // Determine GraphQL endpoint based on environment configuration
 const getGraphQLEndpoint = () => {
@@ -28,8 +30,46 @@ const httpLink = createHttpLink({
   credentials: 'same-origin',
 });
 
+// Error handling link for development
+const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) => {
+  if (import.meta.env.DEV) {
+    if (graphQLErrors) {
+      graphQLErrors.forEach(({ message, locations, path }) => {
+        console.error(
+          `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+        );
+        
+        toast.error('GraphQL Error', {
+          description: message,
+          duration: 5000,
+        });
+      });
+    }
+
+    if (networkError) {
+      console.error(`[Network error]: ${networkError}`);
+      
+      toast.error('Network Error', {
+        description: networkError.message || 'Failed to connect to the server',
+        action: {
+          label: 'Retry',
+          onClick: () => {
+            // Retry the operation
+            return forward(operation);
+          }
+        }
+      });
+    }
+  }
+});
+
+// Combine links
+const link = import.meta.env.DEV 
+  ? ApolloLink.from([errorLink, httpLink])
+  : httpLink;
+
 export const apolloClient = new ApolloClient({
-  link: httpLink,
+  link,
   cache: new InMemoryCache(),
   defaultOptions: {
     watchQuery: {

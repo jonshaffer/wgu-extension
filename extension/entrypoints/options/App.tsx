@@ -141,7 +141,7 @@ export default function OptionsPage() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold">WGU Extension Settings</h1>
+            <h1 className="text-3xl font-bold">Unofficial WGU Extension Settings</h1>
             <p className="text-muted-foreground mt-2">
               Configure extension features, integrations, and data collection preferences
             </p>

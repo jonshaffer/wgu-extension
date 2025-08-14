@@ -1,20 +1,34 @@
 import { initializeApp } from 'firebase/app';
+import { getAuth, connectAuthEmulator } from 'firebase/auth';
 import { getAnalytics } from 'firebase/analytics';
 
-// TODO: Replace the following with your App's Firebase configuration
-// See: https://firebase.google.com/docs/web/learn-more#config-object
+// Firebase configuration for WGU Extension
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID",
-  measurementId: "YOUR_MEASUREMENT_ID"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "demo-api-key",
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "wgu-extension-site-prod.firebaseapp.com",
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "wgu-extension-site-prod",
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "wgu-extension-site-prod.appspot.com",
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "123456789",
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || "demo-app-id",
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || "demo-measurement-id"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+const auth = getAuth(app);
 
-export { app, analytics };
+// Connect to emulator in development
+if (import.meta.env.DEV) {
+  try {
+    connectAuthEmulator(auth, "http://localhost:9099");
+  } catch (error) {
+    // Emulator already connected, ignore error
+  }
+}
+
+let analytics: any;
+if (typeof window !== "undefined" && !import.meta.env.DEV) {
+  analytics = getAnalytics(app);
+}
+
+export { app, auth, analytics };

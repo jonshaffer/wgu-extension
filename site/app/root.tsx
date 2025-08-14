@@ -6,6 +6,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from "react-router";
+import { Toaster } from "sonner";
 
 import type { Route } from "./+types/root";
 import { PageTransition } from "./components/PageTransition";
@@ -49,6 +50,16 @@ export default function App() {
       <PageTransition>
         <Outlet />
       </PageTransition>
+      {import.meta.env.DEV && (
+        <Toaster 
+          position="bottom-right"
+          richColors
+          closeButton
+          expand
+          duration={5000}
+          theme="system"
+        />
+      )}
     </ApolloWrapper>
   );
 }

@@ -11,16 +11,23 @@ import {
 } from '~/components/ui/form';
 import { Input } from '~/components/ui/input';
 import { Button } from '~/components/ui/button';
-import { Search } from 'lucide-react';
+import { Search, HelpCircle } from 'lucide-react';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '~/components/ui/tooltip';
 import { debounce } from 'lodash';
 import { useLazyQuery } from '@apollo/client/index.js';
-import { SEARCH } from '~/graphql/queries';
+import { SEARCH, ADVANCED_SEARCH } from '~/graphql/queries';
+import { parseSearchQuery, toGraphQLVariables } from '~/lib/search-parser';
 
 const formSchema = z.object({
   query: z.string(), // Allow empty string initially
 });
 interface SpotlightProps {
-  onSearch: (results: any[], loading: boolean, queriedFor?: string) => void;
+  onSearch: (results: any[], loading: boolean, queriedFor?: string, error?: Error | null) => void;
   initialQuery?: string;
   onQueryChange?: (query: string) => void;
   autoFocus?: boolean;
@@ -36,31 +43,64 @@ const Spotlight: React.FC<SpotlightProps> = ({ onSearch, initialQuery = '', onQu
 
   const currentSearchQueryRef = React.useRef<string>(initialQuery);
 
-  const [searchQuery, { loading }] = useLazyQuery(SEARCH, {
+  // Use basic search for simple queries
+  const [searchQuery, { loading: basicLoading }] = useLazyQuery(SEARCH, {
     fetchPolicy: 'network-only',
     onCompleted: (data) => {
       if (data?.search) {
-        onSearch(data.search.results, false, currentSearchQueryRef.current);
+        onSearch(data.search.results, false, currentSearchQueryRef.current, null);
       }
     },
     onError: (error) => {
       console.error('GraphQL search error:', error);
-      onSearch([], false, currentSearchQueryRef.current);
+      onSearch([], false, currentSearchQueryRef.current, error);
     },
   });
+
+  // Use advanced search for queries with operators
+  const [advancedSearchQuery, { loading: advancedLoading }] = useLazyQuery(ADVANCED_SEARCH, {
+    fetchPolicy: 'network-only',
+    onCompleted: (data) => {
+      if (data?.advancedSearch) {
+        onSearch(data.advancedSearch.results, false, currentSearchQueryRef.current, null);
+      }
+    },
+    onError: (error) => {
+      console.error('GraphQL advanced search error:', error);
+      onSearch([], false, currentSearchQueryRef.current, error);
+    },
+  });
+
+  const loading = basicLoading || advancedLoading;
 
   const performSearch = (query: string) => {
     if (query) {
       currentSearchQueryRef.current = query; // Store the query being searched
-      onSearch([], true); // Call onSearch with loading: true
-      searchQuery({
-        variables: {
-          query,
-          limit: 20,
-        },
-      });
+      onSearch([], true, query, null); // Call onSearch with loading: true
+      
+      // Parse the query to check if it has advanced operators
+      const parsed = parseSearchQuery(query);
+      
+      // If we have filters or it's a complex query, use advanced search
+      if (parsed.filters.length > 0) {
+        const variables = toGraphQLVariables(parsed);
+        advancedSearchQuery({
+          variables: {
+            ...variables,
+            limit: 20,
+          },
+        });
+      } else {
+        // Otherwise use basic search
+        searchQuery({
+          variables: {
+            query,
+            limit: 20,
+          },
+        });
+      }
     } else {
-      onSearch([], false); // Call onSearch with empty results and loading: false if query is empty
+      onSearch([], false, '', null); // Call onSearch with empty results and loading: false if query is empty
     }
   };
 
@@ -104,8 +144,8 @@ const Spotlight: React.FC<SpotlightProps> = ({ onSearch, initialQuery = '', onQu
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                   <Input
-                    placeholder="Search Discord servers, Reddit communities, study groups..."
-                    className="h-12 pl-10 pr-4 text-base shadow-lg border-input/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+                    placeholder="Find Discord servers, Reddit communities, study groups..."
+                    className="h-12 pl-10 pr-12 text-base shadow-lg border-input/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
                     {...field}
                     onChange={(e) => {
                       field.onChange(e);
@@ -114,6 +154,33 @@ const Spotlight: React.FC<SpotlightProps> = ({ onSearch, initialQuery = '', onQu
                     }}
                     autoFocus={autoFocus}
                   />
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <button
+                          type="button"
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                          tabIndex={-1}
+                        >
+                          <HelpCircle className="h-4 w-4" />
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent side="top" className="max-w-sm">
+                        <div className="space-y-2 text-sm">
+                          <p className="font-semibold">Advanced Search Tips:</p>
+                          <ul className="space-y-1 text-xs">
+                            <li><code>type:course</code> - Search only courses</li>
+                            <li><code>platform:discord</code> - Search Discord servers</li>
+                            <li><code>level:upper</code> - Upper-level courses</li>
+                            <li><code>members:&gt;500</code> - Communities with 500+ members</li>
+                            <li><code>code:C779</code> - Search by course code</li>
+                            <li><code>college:IT</code> - Filter by college</li>
+                            <li><code>"exact phrase"</code> - Search exact phrases</li>
+                          </ul>
+                        </div>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                 </div>
               </FormControl>
             </FormItem>

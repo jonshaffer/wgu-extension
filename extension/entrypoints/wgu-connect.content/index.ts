@@ -145,7 +145,7 @@ export default defineContentScript({
       let content = `
         <div style="display: flex; align-items: center; margin-bottom: 8px;">
           <img src="${browser.runtime.getURL('icons/16.png' as any)}" style="height: 20px; margin-right: 8px;">
-          <strong style="color: #0073e6;">WGU Extension</strong>
+          <strong style="color: #0073e6;">Unofficial WGU Extension</strong>
         </div>
       `;
 

@@ -57,71 +57,80 @@ body {
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  /* WGU Extension Brand Colors:
+     Palette: https://coolors.co/fdf9f5-2d3142-335142-931621-7d5024
+     Cream: #FDF9F5 (warm accent/secondary background)
+     Dark Blue: #2D3142 (primary text)
+     Forest Green: #335142 (secondary accent)
+     Crimson Red: #931621 (primary brand)
+     Golden Brown: #7D5024 (tertiary accent)
+  */
+  --background: oklch(1 0 0); /* Pure white for main background */
+  --foreground: oklch(0.21 0.012 231.8); /* #2D3142 */
+  --card: oklch(1 0 0); /* White cards by default */
+  --card-foreground: oklch(0.21 0.012 231.8); /* #2D3142 */
+  --popover: oklch(1 0 0); /* White popovers */
+  --popover-foreground: oklch(0.21 0.012 231.8); /* #2D3142 */
+  --primary: oklch(0.32 0.113 6.5); /* #931621 - Crimson Red */
+  --primary-foreground: oklch(1 0 0); /* White for better contrast */
+  --secondary: oklch(0.32 0.051 148.7); /* #335142 - Forest Green */
+  --secondary-foreground: oklch(1 0 0); /* White for better contrast */
+  --muted: oklch(0.976 0.012 79.2); /* #FDF9F5 - Warm cream for muted backgrounds */
+  --muted-foreground: oklch(0.4 0.018 231.8); /* Darker muted text for better contrast */
+  --accent: oklch(0.976 0.012 79.2); /* #FDF9F5 - Warm cream for accent backgrounds */
+  --accent-foreground: oklch(0.21 0.012 231.8); /* #2D3142 - Dark text on cream */
+  --destructive: oklch(0.32 0.113 6.5); /* #931621 - Crimson Red */
+  --border: oklch(0.9 0 0); /* Light gray border */
+  --input: oklch(0.98 0 0); /* Very light gray for input backgrounds */
+  --ring: oklch(0.32 0.113 6.5); /* #931621 - Crimson Red */
+  --chart-1: oklch(0.32 0.113 6.5); /* #931621 - Crimson Red */
+  --chart-2: oklch(0.32 0.051 148.7); /* #335142 - Forest Green */
+  --chart-3: oklch(0.29 0.081 57.8); /* #7D5024 - Golden Brown */
+  --chart-4: oklch(0.21 0.012 231.8); /* #2D3142 - Dark Blue */
+  --chart-5: oklch(0.976 0.012 79.2); /* #FDF9F5 - Background */
+  --sidebar: oklch(1 0 0); /* White sidebar background */
+  --sidebar-foreground: oklch(0.21 0.012 231.8); /* #2D3142 */
+  --sidebar-primary: oklch(0.32 0.113 6.5); /* #931621 - Crimson Red */
+  --sidebar-primary-foreground: oklch(1 0 0); /* White */
+  --sidebar-accent: oklch(0.976 0.012 79.2); /* #FDF9F5 - Cream accent */
+  --sidebar-accent-foreground: oklch(0.21 0.012 231.8); /* #2D3142 */
+  --sidebar-border: oklch(0.9 0 0); /* Light gray border */
+  --sidebar-ring: oklch(0.32 0.113 6.5); /* #931621 - Crimson Red */
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  /* Dark theme adaptations of WGU Extension brand colors */
+  --background: oklch(0.15 0.008 231.8); /* Darker version of #2D3142 */
+  --foreground: oklch(0.976 0.012 79.2); /* #FDF9F5 - cream for text */
+  --card: oklch(0.18 0.010 231.8); /* Slightly lighter than background */
+  --card-foreground: oklch(0.976 0.012 79.2); /* #FDF9F5 */
+  --popover: oklch(0.18 0.010 231.8); /* Same as card */
+  --popover-foreground: oklch(0.976 0.012 79.2); /* #FDF9F5 */
+  --primary: oklch(0.45 0.113 6.5); /* Lighter version of #931621 - Crimson Red */
+  --primary-foreground: oklch(0.976 0.012 79.2); /* #FDF9F5 */
+  --secondary: oklch(0.45 0.051 148.7); /* Lighter version of #335142 - Forest Green */
+  --secondary-foreground: oklch(0.976 0.012 79.2); /* #FDF9F5 */
+  --muted: oklch(0.22 0.010 231.8); /* Muted background */
+  --muted-foreground: oklch(0.65 0.015 79.2); /* Better contrast while maintaining hierarchy */
+  --accent: oklch(0.45 0.051 148.7); /* Lighter Forest Green */
+  --accent-foreground: oklch(0.976 0.012 79.2); /* #FDF9F5 */
+  --destructive: oklch(0.45 0.113 6.5); /* Lighter Crimson Red */
+  --border: oklch(0.28 0.012 231.8); /* More visible border in dark mode */
+  --input: oklch(0.25 0.010 231.8); /* Input background */
+  --ring: oklch(0.45 0.113 6.5); /* Crimson Red for focus rings */
+  --chart-1: oklch(0.45 0.113 6.5); /* Crimson Red */
+  --chart-2: oklch(0.45 0.051 148.7); /* Forest Green */
+  --chart-3: oklch(0.5 0.081 57.8); /* Lighter Golden Brown */
+  --chart-4: oklch(0.35 0.012 231.8); /* Lighter Dark Blue */
+  --chart-5: oklch(0.976 0.012 79.2); /* Cream */
+  --sidebar: oklch(0.15 0.008 231.8); /* Same as background */
+  --sidebar-foreground: oklch(0.976 0.012 79.2); /* #FDF9F5 */
+  --sidebar-primary: oklch(0.45 0.113 6.5); /* Crimson Red */
+  --sidebar-primary-foreground: oklch(0.976 0.012 79.2); /* #FDF9F5 */
+  --sidebar-accent: oklch(0.45 0.051 148.7); /* Forest Green */
+  --sidebar-accent-foreground: oklch(0.976 0.012 79.2); /* #FDF9F5 */
+  --sidebar-border: oklch(0.28 0.012 231.8); /* More visible sidebar border */
+  --sidebar-ring: oklch(0.45 0.113 6.5); /* Crimson Red */
 }
 
 @layer base {

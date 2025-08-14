@@ -60,6 +60,7 @@ The main pipeline orchestrator coordinates processing across all sources while m
 ## Future
 
 Course Descriptions & Course of Study
+https://cm.wgu.edu/t5/Information-Resources/Course-Descriptions-and-Course-of-Study/ta-p/38923
 https://app.sharebase.com/#/folder/6002/share/138-4wgYt3vWGssTwqC11wc--K-ggKp8
 
 All Degree Programs (to get Program Guides)

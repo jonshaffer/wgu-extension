@@ -18,7 +18,7 @@ function App() {
     <div className="min-w-[320px] min-h-[400px] p-4">
       <Card className="h-full">
         <CardHeader className="text-center pb-4">
-          <CardTitle className="text-xl">WGU Extension</CardTitle>
+          <CardTitle className="text-xl">Unofficial WGU Extension</CardTitle>
           <CardDescription>
             Enhance your WGU experience with community features and integrations
           </CardDescription>
