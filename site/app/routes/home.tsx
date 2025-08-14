@@ -240,7 +240,7 @@ export default function Home() {
             transition={{ duration: 0.5 }}
             className="text-center mb-12"
           >
-            <h2 className="text-3xl font-bold mb-4">Why Use WGU Extension?</h2>
+            <h2 className="text-3xl font-bold mb-4">Why Use Unofficial WGU Extension?</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Connect with thousands of WGU students across Discord, Reddit, and official study groups
             </p>

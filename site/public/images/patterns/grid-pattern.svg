@@ -1,0 +1,27 @@
+<svg width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="grid-pattern" x="0" y="0" width="50" height="50" patternUnits="userSpaceOnUse">
+      <!-- Horizontal lines -->
+      <line x1="0" y1="0" x2="50" y2="0" stroke="currentColor" stroke-width="0.5" opacity="0.1"/>
+      <line x1="0" y1="25" x2="50" y2="25" stroke="currentColor" stroke-width="0.5" opacity="0.1"/>
+      <line x1="0" y1="50" x2="50" y2="50" stroke="currentColor" stroke-width="0.5" opacity="0.1"/>
+      
+      <!-- Vertical lines -->
+      <line x1="0" y1="0" x2="0" y2="50" stroke="currentColor" stroke-width="0.5" opacity="0.1"/>
+      <line x1="25" y1="0" x2="25" y2="50" stroke="currentColor" stroke-width="0.5" opacity="0.1"/>
+      <line x1="50" y1="0" x2="50" y2="50" stroke="currentColor" stroke-width="0.5" opacity="0.1"/>
+      
+      <!-- Dots at intersections -->
+      <circle cx="0" cy="0" r="1.5" fill="currentColor" opacity="0.2"/>
+      <circle cx="25" cy="0" r="1.5" fill="currentColor" opacity="0.2"/>
+      <circle cx="50" cy="0" r="1.5" fill="currentColor" opacity="0.2"/>
+      <circle cx="0" cy="25" r="1.5" fill="currentColor" opacity="0.2"/>
+      <circle cx="25" cy="25" r="1.5" fill="currentColor" opacity="0.2"/>
+      <circle cx="50" cy="25" r="1.5" fill="currentColor" opacity="0.2"/>
+      <circle cx="0" cy="50" r="1.5" fill="currentColor" opacity="0.2"/>
+      <circle cx="25" cy="50" r="1.5" fill="currentColor" opacity="0.2"/>
+      <circle cx="50" cy="50" r="1.5" fill="currentColor" opacity="0.2"/>
+    </pattern>
+  </defs>
+  <rect width="50" height="50" fill="url(#grid-pattern)"/>
+</svg>

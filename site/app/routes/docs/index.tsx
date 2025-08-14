@@ -10,8 +10,8 @@ import { ArrowRight, Search, Shield, Code, Users, BookOpen } from 'lucide-react'
 
 export function meta() {
   return [
-    { title: "Documentation - WGU Extension" },
-    { name: "description", content: "Documentation for the WGU Extension - search syntax, privacy policy, and developer guides" },
+    { title: "Documentation - Unofficial WGU Extension" },
+    { name: "description", content: "Documentation for the Unofficial WGU Extension - search syntax, privacy policy, and developer guides" },
   ];
 }
 
@@ -40,7 +40,7 @@ export default function DocsIndex() {
     },
     {
       title: "Style Guide",
-      description: "Design system and brand guidelines for WGU Extension",
+      description: "Design system and brand guidelines for Unofficial WGU Extension",
       icon: Users,
       href: "/docs/style-guide",
       color: "text-orange-500"
@@ -60,7 +60,7 @@ export default function DocsIndex() {
           <BookOpen className="h-16 w-16 mx-auto mb-6 text-primary" />
           <h1 className="text-4xl font-bold mb-4">Documentation</h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Everything you need to know about using the WGU Extension and its features
+            Everything you need to know about using the Unofficial WGU Extension and its features
           </p>
         </motion.div>
 

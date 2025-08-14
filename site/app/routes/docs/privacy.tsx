@@ -1,159 +1,258 @@
-import React from 'react';
+import React, { useMemo, useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import { motion } from 'motion/react';
+import { marked, Marked } from 'marked';
 import { Navigation } from "../../components/Navigation";
 import { Footer } from "../../components/Footer";
 import { Container } from "~/components/ui/container";
-import { Button } from "~/components/ui/button";
 import { Card } from "~/components/ui/card";
-import { ArrowLeft, Shield, Lock, Database, Users, RefreshCw, Mail } from 'lucide-react';
+import { Button } from "~/components/ui/button";
+import { cn } from "~/lib/utils";
+import { Shield, Lock, Database, Users, Scale, Mail, Twitter, Linkedin } from 'lucide-react';
+// @ts-ignore - Raw imports may not have types
+import privacyContent from '../../content/PRIVACY.md?raw';
+// @ts-ignore - License file may not have types
+import licenseText from '../../../../LICENSE?raw';
 
 export function meta() {
   return [
-    { title: "Privacy Policy - WGU Extension" },
-    { name: "description", content: "Privacy policy for the WGU Extension - we don't collect, store, or process any personal data" },
+    { title: "Privacy Policy - Unofficial WGU Extension" },
+    { name: "description", content: "Privacy policy for the Unofficial WGU Extension - we don't collect, store, or process any personal data" },
   ];
 }
 
+interface Section {
+  id: string;
+  title: string;
+  level: number;
+}
+
 export default function PrivacyPolicy() {
-  const sections = [
-    {
-      title: "No Data Collection",
-      icon: Database,
-      content: "We do not collect, store, or process any personal data from users. The app functions entirely on your device without transmitting any information to external servers."
-    },
-    {
-      title: "No Third-Party Services",
-      icon: Users,
-      content: "Our app does not use third-party analytics, advertisements, or tracking services. Your usage remains private and is not shared with any external entities."
-    },
-    {
-      title: "Local Data Storage",
-      icon: Lock,
-      content: "Any data you enter into the app is stored locally on your device. We do not have access to this data, nor do we back it up to any external servers."
-    },
-    {
-      title: "Security",
-      icon: Shield,
-      content: "Since no data is collected or transmitted, there are no security risks associated with sharing information through the app. However, we recommend that you take appropriate measures to secure your device."
-    },
-    {
-      title: "Changes to This Privacy Policy",
-      icon: RefreshCw,
-      content: "If any changes are made to this policy, we will update this document accordingly. Continued use of the app after changes are made indicates your acceptance of the updated policy."
+  const [activeSection, setActiveSection] = useState<string>('');
+  const [sections, setSections] = useState<Section[]>([]);
+  
+  // Calculate read time based on word count (200 words per minute)
+  const wordCount = privacyContent.split(/\s+/).length;
+  const readTime = Math.ceil(wordCount / 200);
+
+  // Parse markdown content, removing the main title since BlogHero provides it
+  const parsedContent = useMemo(() => {
+    const contentWithoutTitle = privacyContent.replace(/^# Privacy Policy\n+/, '');
+    
+    // Extract sections for table of contents
+    const sectionMatches = contentWithoutTitle.matchAll(/^(#{2,3})\s+(.+)$/gm);
+    const extractedSections: Section[] = [];
+    
+    for (const match of sectionMatches) {
+      const level = match[1].length;
+      const title = match[2];
+      const id = title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
+      extractedSections.push({ id, title, level });
     }
-  ];
+    
+    setSections(extractedSections);
+    
+    // Create a new marked instance with custom renderer
+    const markedWithHeadingIds = new Marked({
+      renderer: {
+        heading(token) {
+          const text = this.parser.parseInline(token.tokens);
+          const id = text.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
+          return `<h${token.depth} id="${id}" class="scroll-mt-24">${text}</h${token.depth}>`;
+        }
+      }
+    });
+    
+    return markedWithHeadingIds.parse(contentWithoutTitle);
+  }, [privacyContent]);
+
+  // Handle scroll spy
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + 100;
+      
+      for (const section of sections) {
+        const element = document.getElementById(section.id);
+        if (element) {
+          const { offsetTop, offsetHeight } = element;
+          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+            setActiveSection(section.id);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [sections]);
+
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      <Container className="py-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <div className="flex items-center gap-4 mb-8">
-            <Button variant="ghost" size="icon" asChild>
-              <Link to="/docs">
-                <ArrowLeft className="h-4 w-4" />
-              </Link>
-            </Button>
-            <div>
-              <h1 className="text-3xl font-bold">Privacy Policy</h1>
-              <p className="text-muted-foreground">Effective Date: April 12, 2025</p>
-            </div>
-          </div>
+      
+      <section className="pb-32">
+        {/* Hero Section */}
+        <div className="bg-muted bg-[url('/images/patterns/dot-pattern-2.svg')] bg-[length:3.125rem_3.125rem] bg-repeat py-20">
+          <div className="flex flex-col items-start justify-start gap-16 py-20 lg:flex-row lg:items-end lg:justify-between">
+            <div className="flex w-full flex-col items-center justify-center gap-12">
+              <div className="flex w-full max-w-[36rem] flex-col items-center justify-center gap-8">
+                {/* Breadcrumb */}
+                <nav aria-label="breadcrumb">
+                  <ol className="text-muted-foreground flex flex-wrap items-center gap-1.5 text-sm break-words sm:gap-2.5">
+                    <li className="inline-flex items-center gap-1.5">
+                      <Link to="/docs" className="hover:text-foreground transition-colors">
+                        Docs
+                      </Link>
+                    </li>
+                    <li role="presentation" aria-hidden="true" className="[&>svg]:size-3.5">
+                      /
+                    </li>
+                    <li className="inline-flex items-center gap-1.5">
+                      <span className="text-foreground">Privacy Policy</span>
+                    </li>
+                  </ol>
+                </nav>
 
-          <div className="max-w-4xl space-y-6">
-            {/* Introduction */}
-            <Card className="p-6">
-              <div className="flex items-start gap-4">
-                <Shield className="h-8 w-8 text-green-500 flex-shrink-0 mt-1" />
-                <div>
-                  <h2 className="text-xl font-semibold mb-3">Our Commitment to Privacy</h2>
-                  <p className="text-muted-foreground">
-                    WGU Extension is committed to protecting your privacy. This Privacy Policy explains 
-                    how we handle your information when you use our browser extension and website.
+                <div className="flex w-full flex-col gap-5">
+                  {/* Meta */}
+                  <div className="text-muted-foreground flex items-center justify-center gap-2.5 text-sm font-medium">
+                    <div>{readTime} min read</div>
+                    <div>|</div>
+                    <div>April 12, 2025</div>
+                  </div>
+
+                  {/* Title */}
+                  <h1 className="text-center text-[2.5rem] font-semibold leading-[1.2] md:text-5xl lg:text-6xl">
+                    Privacy Policy
+                  </h1>
+
+                  {/* Subtitle */}
+                  <p className="text-foreground text-center text-xl font-semibold leading-[1.4]">
+                    Unofficial WGU Extension is committed to protecting your privacy. Learn how we handle your information.
                   </p>
+
+                  {/* Share buttons */}
+                  <div className="flex items-center justify-center gap-2.5">
+                    <Button size="icon" className="size-9" asChild>
+                      <a 
+                        href={`https://twitter.com/intent/tweet?text=${encodeURIComponent('Unofficial WGU Extension Privacy Policy')}&url=${encodeURIComponent('https://wgu-extension.com/docs/privacy')}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Twitter className="h-4 w-4" aria-hidden="true" />
+                      </a>
+                    </Button>
+                    <Button size="icon" className="size-9" asChild>
+                      <a 
+                        href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent('https://wgu-extension.com/docs/privacy')}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Linkedin className="h-4 w-4" aria-hidden="true" />
+                      </a>
+                    </Button>
+                  </div>
                 </div>
               </div>
-            </Card>
+            </div>
+          </div>
+        </div>
 
-            {/* Policy Sections */}
-            {sections.map((section, index) => (
-              <motion.div
-                key={section.title}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 + index * 0.1 }}
-              >
-                <Card className="p-6">
-                  <div className="flex items-start gap-4">
-                    <section.icon className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
-                    <div>
-                      <h3 className="text-lg font-semibold mb-3">{index + 1}. {section.title}</h3>
-                      <p className="text-muted-foreground leading-relaxed">
-                        {section.content}
-                      </p>
-                    </div>
-                  </div>
-                </Card>
-              </motion.div>
-            ))}
+        {/* Main Content */}
+        <div className="container pt-20">
+          <div className="relative mx-auto w-full max-w-5xl items-start justify-between gap-20 lg:flex">
+            {/* Left Sidebar - Chapters */}
+            <div className="bg-background top-20 flex-1 pb-10 lg:sticky lg:pb-0">
+              <div className="text-xl font-medium leading-snug">Chapters</div>
+              <div className="flex flex-col gap-2 pl-2 pt-2">
+                {sections.map((section) => (
+                  <button
+                    key={section.id}
+                    onClick={() => scrollToSection(section.id)}
+                    className={cn(
+                      "block text-sm font-medium leading-normal transition duration-300",
+                      activeSection === section.id 
+                        ? "lg:bg-muted lg:!text-primary lg:rounded-md lg:p-2 lg:font-bold" 
+                        : "text-muted-foreground",
+                      section.level === 3 && "pl-4"
+                    )}
+                  >
+                    {section.title}
+                  </button>
+                ))}
+              </div>
+            </div>
 
-            {/* Contact Section */}
-            <Card className="p-6">
-              <div className="flex items-start gap-4">
-                <Mail className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
+            {/* Main Content Area */}
+            <div className="flex w-full max-w-[40rem] flex-col gap-10">
+              {/* Author Info */}
+              <div className="flex items-center gap-2.5">
+                <span className="relative flex shrink-0 overflow-hidden rounded-full size-12 border bg-muted">
+                  <span className="flex h-full w-full items-center justify-center rounded-full bg-muted text-sm font-medium">
+                    WGU
+                  </span>
+                </span>
                 <div>
-                  <h3 className="text-lg font-semibold mb-3">6. Contact Us</h3>
-                  <p className="text-muted-foreground mb-4">
-                    If you have any questions about this Privacy Policy, you can contact us at:
-                  </p>
-                  <Button variant="outline" asChild>
-                    <a href="mailto:jon@hyperfluidsolutions.com">
-                      jon@hyperfluidsolutions.com
+                  <div className="text-sm font-normal leading-normal">Unofficial WGU Extension Team</div>
+                  <div className="text-muted-foreground text-sm font-normal leading-normal">Privacy & Compliance</div>
+                </div>
+              </div>
+
+              {/* Main Privacy Content */}
+              <div className="prose dark:prose-invert">
+                {/* Key Takeaways */}
+                <h2>Key Takeaways</h2>
+                <p>• We do not collect, store, or process any personal data from users</p>
+                <p>• All extension data remains locally on your device</p>
+                <p>• No third-party analytics or tracking services are used</p>
+                <p>• Your privacy is our top priority - we believe in complete transparency</p>
+                
+                {/* Rendered Markdown Content */}
+                <div dangerouslySetInnerHTML={{ __html: parsedContent }} />
+              </div>
+
+              {/* Contact Card */}
+              <div className="bg-muted flex flex-col gap-4 rounded-lg p-5">
+                <div className="flex items-center gap-2.5">
+                  <span className="relative flex shrink-0 overflow-hidden rounded-full size-12 border bg-background">
+                    <span className="flex h-full w-full items-center justify-center rounded-full text-sm font-medium">
+                      <Mail className="h-5 w-5" />
+                    </span>
+                  </span>
+                  <div>
+                    <div className="text-sm font-normal leading-normal">Privacy Team</div>
+                    <div className="text-muted-foreground text-sm font-normal leading-normal">Unofficial WGU Extension</div>
+                  </div>
+                </div>
+                <p>
+                  If you have any questions about this Privacy Policy or our privacy practices, 
+                  please don't hesitate to contact us. We're committed to transparency and are 
+                  happy to address any concerns you may have.
+                </p>
+                <div className="flex items-center gap-2.5">
+                  <Button size="sm" asChild>
+                    <a href="mailto:privacy@hyperfluidsolutions.com">
+                      <Mail className="h-4 w-4 mr-2" />
+                      Contact Privacy Team
                     </a>
                   </Button>
                 </div>
               </div>
-            </Card>
-
-            {/* Agreement */}
-            <Card className="p-6 bg-muted/50">
-              <p className="text-center text-muted-foreground">
-                <strong>By using WGU Extension, you agree to this Privacy Policy.</strong>
-              </p>
-            </Card>
-
-            {/* Key Points Summary */}
-            <Card className="p-6 border-green-200 bg-green-50 dark:bg-green-950/20 dark:border-green-800">
-              <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-400">
-                Key Privacy Points
-              </h3>
-              <ul className="space-y-2 text-green-700 dark:text-green-300">
-                <li className="flex items-center gap-2">
-                  <Shield className="h-4 w-4" />
-                  No personal data collection
-                </li>
-                <li className="flex items-center gap-2">
-                  <Lock className="h-4 w-4" />
-                  All data stays on your device
-                </li>
-                <li className="flex items-center gap-2">
-                  <Database className="h-4 w-4" />
-                  No external data transmission
-                </li>
-                <li className="flex items-center gap-2">
-                  <Users className="h-4 w-4" />
-                  No third-party tracking
-                </li>
-              </ul>
-            </Card>
+            </div>
           </div>
-        </motion.div>
-      </Container>
+        </div>
+      </section>
+      
       <Footer />
     </div>
   );

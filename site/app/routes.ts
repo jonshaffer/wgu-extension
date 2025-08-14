@@ -34,6 +34,8 @@ export default [
   route("docs/search-syntax", "routes/docs/search-syntax.tsx"),
   route("docs/privacy", "routes/docs/privacy.tsx"),
   route("docs/style-guide", "routes/docs/style-guide.tsx"),
+  route("docs/api", "routes/docs.api.tsx"),
+  route("docs/api-explorer", "routes/docs.api-explorer.tsx"),
   
   // Admin routes
   route("admin", "routes/admin/layout.tsx", [
