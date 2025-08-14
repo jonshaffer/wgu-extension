@@ -1,27 +1,29 @@
 {
   "name": "wgu-extension-monorepo",
   "version": "0.1.0",
-  "private": true,
   "description": "WGU Extension monorepo with browser extension, Firebase functions, and website",
   "workspaces": [
     "extension",
     "functions",
     "site",
-    "data"
+    "data",
+    "graphql-client"
   ],
   "scripts": {
     "dev": "npm run dev --workspace=extension",
     "dev:extension": "npm run dev --workspace=extension",
     "dev:functions": "npm run serve --workspace=functions",
     "dev:site": "npm run dev --workspace=site",
-    "build": "npm run build --workspaces",
+    "build": "npm run build:libs && npm run build --workspaces",
+    "build:libs": "npm run build --workspace=data && npm run build --workspace=functions && npm run build --workspace=graphql-client",
     "build:extension": "npm run build --workspace=extension",
     "build:functions": "npm run build --workspace=functions", 
     "build:site": "npm run build --workspace=site",
+    "build:graphql-client": "npm run build --workspace=graphql-client",
     "deploy:functions": "npm run deploy --workspace=functions",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
-    "clean": "rm -rf node_modules extension/node_modules functions/node_modules site/node_modules",
+    "clean": "rm -rf node_modules extension/node_modules functions/node_modules site/node_modules data/node_modules graphql-client/node_modules",
     "postinstall": "npm run postinstall --workspaces --if-present",
     "types:build": "npm run types:build --workspace=data",
     "types:publish:local": "cd data && npm publish --tag local",

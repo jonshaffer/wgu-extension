@@ -33,10 +33,13 @@ export default defineConfig({
       ],
       web_accessible_resources: [
         {
-          resources: ['data/communities/*.json', 'data/courses/*.json', 'data/*.json', 'data/reddit/processed/*.json', 'icons/128.png'],
+          resources: ['icons/128.png'],
           matches: ['https://my.wgu.edu/*']
         }
-      ]
+      ],
+      content_security_policy: {
+        extension_pages: "script-src 'self'; object-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;"
+      }
     };
   },
   vite: () => ({

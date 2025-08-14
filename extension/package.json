@@ -13,8 +13,6 @@
     "build:dev": "wxt build --mode development",
     "build:preview": "wxt build --mode preview",
     "build:prod": "wxt build --mode production",
-    "build:with-data": "npm run catalog:ensure --workspace=../data && npm run ingest --workspace=../data && wxt build",
-    "build:prod:with-data": "npm run catalog:ensure --workspace=../data && npm run ingest --workspace=../data && wxt build --mode production",
     "build:firefox": "wxt build -b firefox",
     "build:chrome": "wxt build -b chrome",
     "build:edge": "wxt build -b edge",
@@ -32,6 +30,7 @@
     "types:build": "npm -w ../data run types:build"
   },
   "dependencies": {
+    "@wgu-extension/graphql-client": "^0.1.0",
     "@radix-ui/react-checkbox": "^1.1.5",
     "@radix-ui/react-dropdown-menu": "^2.1.7",
     "@radix-ui/react-label": "^2.1.7",

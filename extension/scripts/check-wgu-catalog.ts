@@ -14,7 +14,7 @@ import { URL } from 'url';
 
 // Configuration
 const WGU_CATALOG_BASE_URL = 'https://www.wgu.edu/content/dam/wgu-65-assets/western-governors/documents/institutional-catalog';
-const CATALOG_DIR = './data/catalogs/pdfs';
+const CATALOG_DIR = './data/sources/catalogs';
 const TIMEOUT_MS = 30000;
 
 // Month names for filename patterns

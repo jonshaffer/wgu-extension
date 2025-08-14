@@ -1,8 +1,35 @@
 {
-  "name": "functions",
+  "name": "@wgu-extension/functions",
+  "version": "0.1.0",
+  "private": false,
+  "description": "Firebase Functions and GraphQL schema for WGU Extension",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonshaffer/wgu-extension.git"
+  },
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./lib/index.js",
+      "require": "./lib/index.js",
+      "types": "./lib/index.d.ts"
+    },
+    "./graphql": {
+      "import": "./lib/graphql/index.js",
+      "require": "./lib/graphql/index.js",
+      "types": "./lib/graphql/index.d.ts"
+    }
+  },
+  "files": [
+    "lib/graphql/**/*"
+  ],
   "scripts": {
     "lint": "eslint --ext .js,.ts . --fix",
     "build": "tsc",
+    "build:types": "tsc --declaration --emitDeclarationOnly",
+    "prepublishOnly": "npm run build",
     "build:watch": "tsc --watch",
     "serve": "npm run build && firebase emulators:start --only functions,firestore --import=./emulator-data --export-on-exit=./emulator-data",
     "serve:fresh": "npm run build && firebase emulators:start --only functions,firestore",
@@ -30,7 +57,6 @@
   "engines": {
     "node": "22"
   },
-  "main": "lib/index.js",
   "dependencies": {
     "@apollo/server": "^5.0.0",
     "@as-integrations/express4": "^1.1.2",
@@ -64,6 +90,5 @@
   },
   "optionalDependencies": {
     "dotenv": "^16.4.5"
-  },
-  "private": true
+  }
 }

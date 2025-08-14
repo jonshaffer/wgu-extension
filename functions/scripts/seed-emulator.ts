@@ -50,18 +50,9 @@ async function seedCollection(collectionName: string, sourcePath: string, idFiel
 }
 
 async function seedUnifiedData() {
-  const unifiedPath = path.join(__dirname, '../data/processed/unified-community-data.json');
-  if (await pathExists(unifiedPath)) {
-    console.log('Seeding unified community data');
-    const data = JSON.parse(await fs.readFile(unifiedPath, 'utf8'));
-    
-    await db.collection('public').doc('unifiedCommunityData').set({
-      ...data,
-      updatedAt: new Date().toISOString(),
-      source: 'emulator-seed'
-    });
-    console.log('  Seeded unified community data');
-  }
+  console.log('Skipping unified data seeding - data now comes from Firestore directly');
+  // Unified data is no longer stored as a single document
+  // Data is queried directly from individual collections
 }
 
 async function main() {
