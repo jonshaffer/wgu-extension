@@ -1,0 +1,22 @@
+{
+  "filename": "catalog-2017-01.pdf",
+  "parsedAt": "2025-08-14T06:12:47.111Z",
+  "parserVersion": "v1.0-legacy-enhanced",
+  "success": true,
+  "metrics": {
+    "coursesFound": 417,
+    "coursesWithCCN": 417,
+    "coursesWithDescription": 417,
+    "coursesWithCUs": 322,
+    "ccnCoverage": 100,
+    "descriptionCoverage": 100,
+    "avgDescriptionLength": 861,
+    "shortDescriptions": 0,
+    "missingFromDegreePlans": 9,
+    "parseTimeMs": 487,
+    "pdfPages": 203,
+    "coursesPerPage": 2.0541871921182264
+  },
+  "warnings": [],
+  "errors": []
+}

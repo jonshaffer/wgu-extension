@@ -1,0 +1,24 @@
+{
+  "filename": "test.pdf",
+  "parsedAt": "2025-08-14T06:10:01.780Z",
+  "parserVersion": "unknown",
+  "success": true,
+  "metrics": {
+    "coursesFound": 1,
+    "coursesWithCCN": 1,
+    "coursesWithDescription": 1,
+    "coursesWithCUs": 1,
+    "ccnCoverage": 100,
+    "descriptionCoverage": 100,
+    "avgDescriptionLength": 13,
+    "shortDescriptions": 1,
+    "missingFromDegreePlans": 0,
+    "parseTimeMs": 1000,
+    "pdfPages": 0,
+    "coursesPerPage": 0
+  },
+  "warnings": [
+    "Short average description length: 13 chars"
+  ],
+  "errors": []
+}

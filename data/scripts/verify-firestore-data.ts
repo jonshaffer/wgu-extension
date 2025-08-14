@@ -13,15 +13,16 @@ import { getFirestore } from 'firebase-admin/firestore';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // Initialize Firebase Admin
-const serviceAccountPath = process.env.FIREBASE_SERVICE_ACCOUNT_PATH;
+const serviceAccountPath = process.env.GOOGLE_APPLICATION_CREDENTIALS || process.env.FIREBASE_SERVICE_ACCOUNT_PATH;
 if (!serviceAccountPath) {
-  console.error('❌ FIREBASE_SERVICE_ACCOUNT_PATH environment variable not set');
+  console.error('❌ GOOGLE_APPLICATION_CREDENTIALS or FIREBASE_SERVICE_ACCOUNT_PATH environment variable not set');
   process.exit(1);
 }
 
 const serviceAccount = JSON.parse(readFileSync(serviceAccountPath, 'utf-8'));
 initializeApp({
   credential: cert(serviceAccount),
+  projectId: process.env.GCLOUD_PROJECT || serviceAccount.project_id || 'wgu-extension-site-prod',
 });
 
 const db = getFirestore();
