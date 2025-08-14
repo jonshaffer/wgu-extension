@@ -2,7 +2,7 @@
 
 **Effective Date:** 12 April 2025
 
-WGU Extension is committed to protecting your privacy. This Privacy Policy explains how we handle your information when you use our app.
+Unofficial WGU Extension is committed to protecting your privacy. This Privacy Policy explains how we handle your information when you use our app.
 
 ## 1. No Data Collection
 
@@ -26,6 +26,6 @@ If any changes are made to this policy, we will update this document accordingly
 
 ## 6. Contact Us
 
-If you have any questions about this Privacy Policy, you can contact us at [jon@hyperfluidsolutions.com](mailto:jon@hyperfluidsolutions.com).
+If you have any questions about this Privacy Policy, you can contact us at [privacy@hyperfluidsolutions.com](mailto:privacy@hyperfluidsolutions.com).
 
-By using WGU Extension, you agree to this Privacy Policy.
+By using Unofficial WGU Extension, you agree to this Privacy Policy.

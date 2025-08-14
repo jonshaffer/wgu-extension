@@ -110,17 +110,23 @@ npm run data:validate:reddit --workspace=extension
 - **Background Worker**: Handle cross-tab communication  
 - **Storage**: `@wxt-dev/storage` for persistent data
 - **Entrypoints**: Separate contexts for different WGU domains
+- **Data Access**: GraphQL API via feature flag (migrating from static files)
 
 ### Data Processing Pipeline
-- **Collection**: Extract data from WGU sources (catalogs, Discord, Reddit)
-- **Validation**: JSON Schema + AJV runtime validation
-- **Processing**: Transform raw data into unified format
-- **Storage**: Local JSON + Firebase for backup
+- **Collection**: Contributors submit parsing logic via PRs
+- **Validation**: CI/CD runs parsers and validates output
+- **Processing**: Automated upload to Firestore on merge
+- **Storage**: Firestore as single source of truth
 
 ### Monorepo Structure
-- **Workspaces**: npm workspaces for data, extension, functions, site
-- **Types Package**: Shared types published to npm with local development tags
+- **Workspaces**: npm workspaces for data, extension, functions, site, graphql-client
+- **Types Package**: Shared types from @wgu-extension/data and @wgu-extension/functions
 - **Scripts**: Cross-workspace automation in root package.json
+
+### API Architecture
+- **GraphQL Endpoint**: Unified data access via Firebase Functions
+- **Type Safety**: Types flow from functions → graphql-client → consumers
+- **Caching**: Built-in client-side caching for performance
 
 ### Data Workspace
 The data workspace (@wgu-extension/data) handles all community data collection, processing, and shared types:

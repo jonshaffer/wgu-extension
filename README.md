@@ -1,4 +1,4 @@
-# WGU Extension Monorepo
+# Unofficial WGU Extension Monorepo
 
 **Unofficial WGU Extension** - Adds simple UI changes to WGU pages. Student-made tool for WGU students. Not endorsed by WGU.
 
