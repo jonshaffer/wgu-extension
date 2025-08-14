@@ -69,7 +69,7 @@ async function seedData() {
       console.log(`   📚 Batch ${Math.floor(i / batchSize) + 1}: ${batchKeys.length} courses`);
     }
 
-    // Store metadata document for backward compatibility
+    // Store metadata document
     const metadataDoc = {
       metadata: {
         ...fullCoursesData.metadata,
@@ -81,7 +81,7 @@ async function seedData() {
       _redirect: "courses", // Indicates data is in courses collection
     };
 
-    await db.collection("academic-registry").doc("courses").set(metadataDoc);
+    await db.collection("courses").doc("metadata").set(metadataDoc);
 
     console.log(`✅ Seeded ${totalSeeded} courses as individual documents in courses collection`);
     console.log("   ℹ️  GraphQL resolver should use collection group queries for optimal performance");
@@ -89,15 +89,55 @@ async function seedData() {
     console.log("⚠️  Production courses data not found at " + coursesPath);
   }
 
-  // Load and seed academic-registry/degree-programs - Production format
+  // Load and seed degree programs as individual documents (Firestore best practice)
   const programsPath = resolve(__dirname, "../../../data/catalogs/processed/degree-programs.json");
   if (existsSync(programsPath)) {
-    console.log("📖 Loading production degree programs data...");
-    const programsData = JSON.parse(readFileSync(programsPath, "utf-8"));
+    console.log("📖 Loading production degree programs data (individual documents)...");
+    const fullProgramsData = JSON.parse(readFileSync(programsPath, "utf-8"));
 
-    // Store in production format: academic-registry/degree-programs document
-    await db.collection("academic-registry").doc("degree-programs").set(programsData);
-    console.log(`✅ Seeded ${programsData.metadata?.totalPrograms || "unknown"} degree programs in academic-registry/degree-programs`);
+    const allPrograms = fullProgramsData.degrees || {};
+    const programKeys = Object.keys(allPrograms);
+
+    // Store each program as an individual document in degree-plans collection
+    let totalSeeded = 0;
+    const batchSize = 500; // Firestore batch limit
+
+    for (let i = 0; i < programKeys.length; i += batchSize) {
+      const batch = db.batch();
+      const batchKeys = programKeys.slice(i, i + batchSize);
+
+      for (const programCode of batchKeys) {
+        const programDoc = db.collection("degree-plans").doc(programCode);
+        batch.set(programDoc, {
+          ...allPrograms[programCode],
+          _metadata: {
+            sourceCollection: "degree-plans",
+            lastUpdated: new Date().toISOString(),
+          },
+        });
+      }
+
+      await batch.commit();
+      totalSeeded += batchKeys.length;
+      console.log(`   🎓 Batch ${Math.floor(i / batchSize) + 1}: ${batchKeys.length} degree programs`);
+    }
+
+    // Store metadata document
+    const metadataDoc = {
+      metadata: {
+        ...fullProgramsData.metadata,
+        note: "Production data stored as individual documents in degree-plans collection",
+        storagePattern: "degree-plans/{programCode}",
+        totalPrograms: programKeys.length,
+      },
+      degrees: {}, // Empty - programs are individual documents
+      _redirect: "degree-plans", // Indicates data is in degree-plans collection
+    };
+
+    await db.collection("degree-plans").doc("metadata").set(metadataDoc);
+
+    console.log(`✅ Seeded ${totalSeeded} degree programs as individual documents in degree-plans collection`);
+    console.log("   ℹ️  GraphQL resolver should use collection group queries for optimal performance");
   } else {
     console.log("⚠️  Production degree programs data not found at " + programsPath);
   }

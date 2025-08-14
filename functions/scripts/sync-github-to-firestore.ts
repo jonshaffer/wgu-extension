@@ -133,85 +133,111 @@ function buildSyncConfigs(): SyncConfig<any>[] {
       idField: '__FILENAME__',
       transform: (files: any[]) => files, // no-op; handled specially in syncCollection
     },
+    
+    // New Collection-Based Approach: Individual documents for better performance
     {
-      collection: 'academic-registry',
-      sourcePath: path.join(root, '../../data/catalogs/processed'),
-      schema: { // custom schema for processed courses and degree-programs
-        parse: (data: any) => data, // trust processed structure
-      },
-      idField: '__FILENAME__', // will use filename as document ID (courses, degree-programs)
+      collection: 'courses',
+      sourcePath: path.join(root, '../../data/catalogs/processed/courses.json'),
+      schema: { parse: (data: any) => data },
+      idField: 'courseCode',
       transform: (files: any[]) => {
-        // Split large files into smaller documents to stay under Firestore 1MB limit
-        console.log('Transform function called with files:', files.map(f => ({ id: f.id, dataKeys: Object.keys(f.data || {}) })));
-        const transformedFiles = [];
-        for (const file of files) {
-          console.log(`Processing file: ${file.id}, has courses: ${!!file.data?.courses}, has degrees: ${!!file.data?.degrees}`);
-          console.log(`  courses check: id=${file.id}, id==='courses': ${file.id === 'courses'}, has courses data: ${!!file.data?.courses}, is object: ${typeof file.data?.courses === 'object'}`);
-          if (file.id === 'courses' && file.data?.courses && typeof file.data.courses === 'object') {
-            // Convert courses object to array of entries
-            const coursesEntries = Object.entries(file.data.courses);
-            console.log(`Chunking courses: ${coursesEntries.length} total courses`);
-            const metadata = file.data.metadata;
-            const chunkSize = 500;
-            for (let i = 0; i < coursesEntries.length; i += chunkSize) {
-              const chunk = coursesEntries.slice(i, i + chunkSize);
-              const chunkObject = Object.fromEntries(chunk);
-              const chunkId = `courses-chunk-${Math.floor(i / chunkSize) + 1}`;
-              const chunkData = {
-                metadata: {
-                  ...metadata,
-                  chunk: Math.floor(i / chunkSize) + 1,
-                  totalChunks: Math.ceil(coursesEntries.length / chunkSize),
-                  chunkSize,
-                  chunkStartIndex: i,
-                  chunkEndIndex: Math.min(i + chunkSize - 1, coursesEntries.length - 1)
-                },
-                courses: chunkObject
-              };
-              transformedFiles.push({
-                id: chunkId,
-                data: chunkData,
-                content: JSON.stringify(chunkData)
-              });
-              console.log(`Created chunk: ${chunkId} with ${chunk.length} courses`);
-            }
-          } else if (file.id === 'degree-programs' && file.data?.degrees && typeof file.data.degrees === 'object') {
-            // Convert degrees object to array of entries  
-            const degreesEntries = Object.entries(file.data.degrees);
-            console.log(`Chunking degree programs: ${degreesEntries.length} total programs`);
-            const metadata = file.data.metadata;
-            const chunkSize = 200;
-            for (let i = 0; i < degreesEntries.length; i += chunkSize) {
-              const chunk = degreesEntries.slice(i, i + chunkSize);
-              const chunkObject = Object.fromEntries(chunk);
-              const chunkId = `degree-programs-chunk-${Math.floor(i / chunkSize) + 1}`;
-              const chunkData = {
-                metadata: {
-                  ...metadata,
-                  chunk: Math.floor(i / chunkSize) + 1,
-                  totalChunks: Math.ceil(degreesEntries.length / chunkSize),
-                  chunkSize,
-                  chunkStartIndex: i,
-                  chunkEndIndex: Math.min(i + chunkSize - 1, degreesEntries.length - 1)
-                },
-                degrees: chunkObject
-              };
-              transformedFiles.push({
-                id: chunkId,
-                data: chunkData,
-                content: JSON.stringify(chunkData)
-              });
-              console.log(`Created chunk: ${chunkId} with ${chunk.length} programs`);
-            }
-          } else {
-            console.log(`Keeping file as-is: ${file.id}`);
-            // Keep other files as-is
-            transformedFiles.push(file);
-          }
+        console.log('Transforming courses for collection-based sync');
+        const coursesFile = files.find(f => f.id === 'courses');
+        if (!coursesFile?.data?.courses) return [];
+        
+        const transformedDocs = [];
+        const coursesData = coursesFile.data.courses;
+        const metadata = coursesFile.data.metadata;
+        
+        // Add individual course documents
+        for (const [courseCode, courseData] of Object.entries(coursesData)) {
+          transformedDocs.push({
+            id: courseCode,
+            data: {
+              courseCode,
+              ...courseData as any,
+              collection: 'courses'
+            },
+            content: JSON.stringify({ courseCode, ...courseData })
+          });
         }
-        console.log('Transform returning:', transformedFiles.map(f => ({ id: f.id, dataKeys: Object.keys(f.data || {}) })));
-        return transformedFiles;
-      },
+        
+        // Add metadata document
+        transformedDocs.push({
+          id: 'metadata',
+          data: {
+            totalCourses: Object.keys(coursesData).length,
+            lastUpdated: metadata.generatedAt,
+            catalogVersionsIncluded: metadata.catalogVersionsIncluded,
+            statistics: {
+              total: Object.keys(coursesData).length,
+              // Add more stats as needed
+            },
+            collection: 'courses',
+            type: 'metadata'
+          },
+          content: JSON.stringify({
+            totalCourses: Object.keys(coursesData).length,
+            lastUpdated: metadata.generatedAt,
+            catalogVersionsIncluded: metadata.catalogVersionsIncluded
+          })
+        });
+        
+        console.log(`Created ${transformedDocs.length} documents (${transformedDocs.length - 1} courses + 1 metadata)`);
+        return transformedDocs;
+      }
+    },
+    {
+      collection: 'degree-plans',
+      sourcePath: path.join(root, '../../data/catalogs/processed/degree-programs.json'),
+      schema: { parse: (data: any) => data },
+      idField: 'programCode',
+      transform: (files: any[]) => {
+        console.log('Transforming degree programs for collection-based sync');
+        const degreesFile = files.find(f => f.id === 'degree-programs');
+        if (!degreesFile?.data?.degrees) return [];
+        
+        const transformedDocs = [];
+        const degreesData = degreesFile.data.degrees;
+        const metadata = degreesFile.data.metadata;
+        
+        // Add individual degree program documents
+        for (const [programCode, degreeData] of Object.entries(degreesData)) {
+          transformedDocs.push({
+            id: programCode,
+            data: {
+              programCode,
+              ...degreeData as any,
+              collection: 'degree-plans'
+            },
+            content: JSON.stringify({ programCode, ...degreeData })
+          });
+        }
+        
+        // Add metadata document
+        transformedDocs.push({
+          id: 'metadata',
+          data: {
+            totalPrograms: Object.keys(degreesData).length,
+            lastUpdated: metadata.generatedAt,
+            catalogVersionsIncluded: metadata.catalogVersionsIncluded,
+            statistics: {
+              total: Object.keys(degreesData).length,
+              // Add more stats as needed
+            },
+            collection: 'degree-plans',
+            type: 'metadata'
+          },
+          content: JSON.stringify({
+            totalPrograms: Object.keys(degreesData).length,
+            lastUpdated: metadata.generatedAt,
+            catalogVersionsIncluded: metadata.catalogVersionsIncluded
+          })
+        });
+        
+        console.log(`Created ${transformedDocs.length} documents (${transformedDocs.length - 1} degree programs + 1 metadata)`);
+        return transformedDocs;
+      }
     },
     {
       collection: 'wgu-connect-groups',
@@ -260,7 +286,7 @@ async function syncCollection<T extends Record<string, any>>({
   // Phase 1: Load and process source data
   let sourceFiles: Array<{ id: string; content: string; data: any }> = [];
 
-  // Special handling for catalogs: sync all catalogs with reports
+  // Special handling for different collection types
   if (collection === 'catalogs') {
     console.log('  Syncing all catalogs with reports (hash-based efficiency)');
     const dirEntries = await fs.readdir(sourcePath);
@@ -303,8 +329,15 @@ async function syncCollection<T extends Record<string, any>>({
         });
       }
     }
+  } else if (collection === 'courses' || collection === 'degree-plans') {
+    // Special handling for single-file collections that get transformed into multiple documents
+    console.log(`  Loading single file for ${collection} collection`);
+    const content = await fs.readFile(sourcePath, 'utf8');
+    const data = JSON.parse(content);
+    const fileName = path.basename(sourcePath, '.json');
+    sourceFiles.push({ id: fileName, content, data });
   } else {
-    // For non-catalog collections, read individual files
+    // For standard collections, read individual files from directory
     const isDir = (await fs.stat(sourcePath)).isDirectory();
     if (isDir) {
       const files = await fs.readdir(sourcePath);
@@ -316,16 +349,22 @@ async function syncCollection<T extends Record<string, any>>({
         const docId = data[idField] || path.basename(file, '.json');
         sourceFiles.push({ id: docId, content, data });
       }
+    } else {
+      // Single file collection (like the new courses/degree-plans)
+      const content = await fs.readFile(sourcePath, 'utf8');
+      const data = JSON.parse(content);
+      const fileName = path.basename(sourcePath, '.json');
+      sourceFiles.push({ id: fileName, content, data });
     }
   }
 
   // Apply transform if specified
   if (transform && collection !== 'catalogs') {
-    if (collection === 'academic-registry') {
-      // Special handling for academic-registry - transform operates on files, not just data
-      console.log(`  Applying transform for ${collection}, original files:`, sourceFiles.map(f => ({ id: f.id, dataKeys: Object.keys(f.data || {}) })));
+    if (collection === 'courses' || collection === 'degree-plans') {
+      // Collection-based transform: convert single file into multiple documents
+      console.log(`  Applying collection-based transform for ${collection}`);
       sourceFiles = transform(sourceFiles) as Array<{ id: string; content: string; data: any }>;
-      console.log(`  Transform result:`, sourceFiles.map(f => ({ id: f.id, dataKeys: Object.keys(f.data || {}) })));
+      console.log(`  Transform created ${sourceFiles.length} documents for ${collection} collection`);
     } else {
       // Standard transform for other collections
       const transformedItems = transform(sourceFiles.map(f => f.data)) as any[];
