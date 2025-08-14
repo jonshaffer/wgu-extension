@@ -21,6 +21,7 @@
             nodePackages.yarn
 
             # Development tools
+            google-cloud-sdk  # Includes gcloud CLI
             firebase-tools
             nodePackages.typescript
             nodePackages.typescript-language-server
