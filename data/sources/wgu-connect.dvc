@@ -1,0 +1,6 @@
+outs:
+- md5: 36d080dafedc95c5414e13ece4139f20.dir
+  size: 7047
+  nfiles: 12
+  hash: md5
+  path: wgu-connect

@@ -15,27 +15,30 @@ if command -v dvc &> /dev/null; then
     echo "🔄 Running DVC pull to fetch all data files..."
     cd "$ROOT_DIR"
     
-    # Pull all DVC-managed data
-    echo "  📂 Pulling catalog files..."
-    dvc pull data/catalogs/parsed/ data/catalogs/pdfs/
+    # Pull all DVC-managed data from sources/
+    echo "  📂 Pulling all source data..."
+    dvc pull data/sources/
     
-    echo "  📂 Pulling raw community data..."
-    dvc pull data/discord/raw/ data/reddit/raw/ data/wgu-connect/raw/ data/wgu-student-groups/raw/
+    # Also pull parsed catalogs if they exist (legacy support during transition)
+    if [ -d "$ROOT_DIR/data/catalogs/parsed" ]; then
+        echo "  📂 Pulling legacy parsed catalog data..."
+        dvc pull data/catalogs/parsed/ || true
+    fi
     
     echo "✅ DVC pull completed"
 else
     echo "⚠️  DVC not found. Checking if data files exist..."
     
-    # Check for catalog files
-    if [ -z "$(ls -A $ROOT_DIR/data/catalogs/parsed/*.json 2>/dev/null)" ]; then
-        echo "❌ No catalog files found and DVC is not available!"
+    # Check for source files
+    if [ -z "$(ls -A $ROOT_DIR/data/sources/catalogs/*.pdf 2>/dev/null)" ]; then
+        echo "❌ No catalog PDFs found and DVC is not available!"
         echo "Please install DVC or ensure data files are present."
         exit 1
     fi
     
-    # Check for raw data files
-    if [ -z "$(ls -A $ROOT_DIR/data/discord/raw/*.json 2>/dev/null)" ]; then
-        echo "⚠️  No raw community data found. Some scripts may fail."
+    # Check for community data files
+    if [ -z "$(ls -A $ROOT_DIR/data/sources/discord/*.json 2>/dev/null)" ]; then
+        echo "⚠️  No community data found. Some scripts may fail."
     fi
     
     echo "✅ Some data files already present"

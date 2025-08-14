@@ -1,0 +1,6 @@
+outs:
+- md5: 3079aa6b5e5b5e593ddd9ce1908eca44.dir
+  size: 7027
+  nfiles: 15
+  hash: md5
+  path: reddit
