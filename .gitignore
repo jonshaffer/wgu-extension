@@ -130,3 +130,15 @@ data/wgu-student-groups/raw/*.json
 
 # Python environment for DVC plugins
 .python-env/
+
+# =======================
+# gcloud CLI local config
+# =======================
+.gcloud/
+
+# =======================
+# Backup files (temporary during development)
+# =======================
+backup-*.tar.gz
+backups/
+production-backup/
