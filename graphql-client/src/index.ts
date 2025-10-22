@@ -2,6 +2,9 @@
 export { createClient, defaultClient } from './client.js';
 export type { ClientConfig } from './client.js';
 
+// Cache exports
+export { withCache, clearCache } from './cache.js';
+
 // Query exports
 export * from './queries.js';
 
@@ -9,4 +12,4 @@ export * from './queries.js';
 export * from './types.js';
 
 // Convenience functions
-export { getCourses, getCommunitiesForCourse, searchCommunities } from './api.js';
+export { getCourses, getCommunitiesForCourse, getCommunitiesForCourseV2, searchCommunities } from './api.js';

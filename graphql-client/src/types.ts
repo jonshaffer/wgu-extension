@@ -9,6 +9,11 @@ export {
   SearchResponse,
   DegreePlan,
   DegreePlanList,
+  DiscordServer,
+  RedditCommunity,
+  WguConnectGroup,
+  StudentGroup,
+  CourseCommunitiesResponse,
   
   // Response types
   GetCoursesResponse,
@@ -20,9 +25,13 @@ export {
 } from '@wgu-extension/functions/graphql';
 
 // Import types for use in interface definition
-import type { SearchResult as SR, CommunityType as CT } from '@wgu-extension/functions/graphql';
+import type { SearchResult as SR, CommunityType as CT, CourseCommunitiesResponse as CCR } from '@wgu-extension/functions/graphql';
 
 // Additional convenience types
 export interface Community extends SR {
   type: CT;
+}
+
+export interface GetCommunitiesForCourseV2Response {
+  getCommunitiesForCourse: CCR;
 }
