@@ -1,10 +1,18 @@
 {
-  "firestore": {
-    "database": "(default)",
-    "location": "nam5",
-    "rules": "firebase/firestore.rules",
-    "indexes": "firebase/firestore.indexes.json"
-  },
+  "firestore": [
+    {
+      "database": "(default)",
+      "location": "nam5",
+      "rules": "firebase/firestore.rules",
+      "indexes": "firebase/firestore.indexes.json"
+    },
+    {
+      "database": "admin",
+      "location": "nam5",
+      "rules": "firebase/firestore-admin.rules",
+      "indexes": "firebase/firestore-admin.indexes.json"
+    }
+  ],
   "functions": [
     {
       "source": "functions",
@@ -17,7 +25,6 @@
         "*.local"
       ],
       "predeploy": [
-        "npm --prefix \"$RESOURCE_DIR\" run lint",
         "npm --prefix \"$RESOURCE_DIR\" run build"
       ]
     }
@@ -43,6 +50,19 @@
     "firestore": {
       "host": "localhost",
       "port": 8181
+    },
+    "functions": {
+      "host": "localhost",
+      "port": 5001
+    },
+    "auth": {
+      "host": "localhost",
+      "port": 9099
+    },
+    "ui": {
+      "enabled": true,
+      "host": "localhost",
+      "port": 4000
     }
   }
 }

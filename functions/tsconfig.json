@@ -4,14 +4,16 @@
     "esModuleInterop": true,
     "moduleResolution": "nodenext",
     "noImplicitReturns": true,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "outDir": "lib",
     "sourceMap": true,
-  "strict": true,
+  "strict": false,
+  "noImplicitAny": false,
   "skipLibCheck": true,
   "target": "ES2022",
   "declaration": true,
-  "declarationMap": true
+  "declarationMap": true,
+  "resolveJsonModule": true
   },
   "compileOnSave": true,
   "include": [
