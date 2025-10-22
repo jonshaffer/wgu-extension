@@ -1,6 +1,6 @@
 /**
  * WGU Extension Data Model
- * 
+ *
  * This file defines the comprehensive data model for the WGU Extension,
  * separating core data from derived data and establishing relationships.
  */
@@ -38,7 +38,7 @@ export interface DiscordServer {
   channels?: {
     id: string;
     name: string;
-    type: 'course' | 'general' | 'study-group' | 'other';
+    type: "course" | "general" | "study-group" | "other";
     associatedCourses?: string[]; // Course codes
   }[];
   tags: string[]; // e.g., ["computer-science", "official", "study-group"]
@@ -55,7 +55,7 @@ export interface RedditCommunity {
   description?: string;
   url: string;
   subscriberCount?: number;
-  type: 'main' | 'program-specific' | 'course-specific';
+  type: "main" | "program-specific" | "course-specific";
   associatedPrograms?: string[]; // Degree program IDs
   associatedCourses?: string[]; // Course codes
   tags: string[];
@@ -74,7 +74,7 @@ export interface WguConnectGroup {
   resources: {
     id: string;
     title: string;
-    type: 'document' | 'video' | 'link' | 'discussion';
+    type: "document" | "video" | "link" | "discussion";
     url: string;
     upvotes?: number;
   }[];
@@ -90,7 +90,7 @@ export interface WguStudentGroup {
   id: string;
   name: string;
   description?: string;
-  type: 'academic' | 'social' | 'professional' | 'diversity';
+  type: "academic" | "social" | "professional" | "diversity";
   contactEmail?: string;
   websiteUrl?: string;
   socialLinks?: {
@@ -115,10 +115,10 @@ export interface Course {
   name: string;
   description?: string;
   units: number;
-  level: 'undergraduate' | 'graduate';
-  type: 'general' | 'major' | 'elective';
+  level: "undergraduate" | "graduate";
+  type: "general" | "major" | "elective";
   prerequisites?: string[]; // Course codes
-  
+
   // Metadata
   firstSeenCatalog: string; // catalog ID
   lastSeenCatalog: string; // catalog ID
@@ -126,7 +126,7 @@ export interface Course {
     catalogId: string;
     changes?: string[]; // What changed in this catalog
   }[];
-  
+
   // Associations (populated during transformation)
   communities: {
     discord: {
@@ -135,17 +135,17 @@ export interface Course {
     }[];
     reddit: {
       subredditId: string;
-      relevance: 'direct' | 'program' | 'general';
+      relevance: "direct" | "program" | "general";
     }[];
     wguConnect?: {
       groupId: string;
     };
   };
-  
+
   // Computed fields
   popularityScore?: number; // Based on community activity
   difficultyRating?: number; // Based on community feedback
-  
+
   lastUpdated: Date;
 }
 
@@ -158,17 +158,17 @@ export interface DegreeProgram {
   code: string; // e.g., "BSCS"
   name: string;
   description?: string;
-  level: 'bachelor' | 'master';
+  level: "bachelor" | "master";
   college: string;
   totalUnits: number;
-  
+
   // Course requirements
   courses: {
     courseCode: string;
-    type: 'core' | 'general-education' | 'elective';
+    type: "core" | "general-education" | "elective";
     term?: number; // Suggested term
   }[];
-  
+
   // Catalog tracking
   firstSeenCatalog: string;
   lastSeenCatalog: string;
@@ -176,7 +176,7 @@ export interface DegreeProgram {
     catalogId: string;
     changes?: string[];
   }[];
-  
+
   // Associations
   communities: {
     discord: {
@@ -186,13 +186,13 @@ export interface DegreeProgram {
       subredditId: string;
     }[];
   };
-  
+
   // Statistics
   stats?: {
     averageCompletionTime?: number; // months
     popularCourseSequences?: string[][]; // Common course orderings
   };
-  
+
   lastUpdated: Date;
 }
 
@@ -202,19 +202,19 @@ export interface DegreeProgram {
  */
 export interface CommunityResourceIndex {
   id: string; // Composite key
-  type: 'discord' | 'reddit' | 'wgu-connect' | 'student-group';
+  type: "discord" | "reddit" | "wgu-connect" | "student-group";
   resourceId: string; // ID in the source collection
-  
+
   // Denormalized fields for search
   title: string;
   description?: string;
   url?: string;
-  
+
   // Associations
   courseCodes: string[]; // All associated courses
   programIds: string[]; // All associated programs
   tags: string[]; // All tags
-  
+
   // Metadata
   popularity: number; // Calculated metric
   verified: boolean;
@@ -232,23 +232,23 @@ export interface CommunityResourceIndex {
  */
 export interface CourseCommunityMapping {
   courseCode: string;
-  
+
   communities: {
     primary: {
       // Most relevant community for this course
-      type: 'discord' | 'reddit' | 'wgu-connect';
+      type: "discord" | "reddit" | "wgu-connect";
       id: string;
       confidence: number; // 0-1, how confident we are in this match
     };
-    
+
     all: Array<{
-      type: 'discord' | 'reddit' | 'wgu-connect' | 'student-group';
+      type: "discord" | "reddit" | "wgu-connect" | "student-group";
       id: string;
-      relevance: 'direct' | 'program' | 'general';
+      relevance: "direct" | "program" | "general";
       confidence: number;
     }>;
   };
-  
+
   // Reddit-specific
   topRedditPosts?: Array<{
     postId: string;
@@ -258,7 +258,7 @@ export interface CourseCommunityMapping {
     commentCount: number;
     createdAt: Date;
   }>;
-  
+
   lastUpdated: Date;
 }
 
@@ -273,22 +273,22 @@ export interface CourseCommunityMapping {
 export interface StudentCourseView {
   course: Course;
   degree?: DegreeProgram; // If viewing in context of a degree
-  
+
   communities: {
     wguConnect?: WguConnectGroup;
     discord: Array<{
       server: DiscordServer;
-      channels?: DiscordServer['channels'];
+      channels?: DiscordServer["channels"];
     }>;
     reddit: Array<{
       community: RedditCommunity;
-      topPosts?: CourseCommunityMapping['topRedditPosts'];
+      topPosts?: CourseCommunityMapping["topRedditPosts"];
     }>;
     studentGroups: WguStudentGroup[];
   };
-  
+
   insights?: {
-    enrollmentTrend?: 'increasing' | 'stable' | 'decreasing';
+    enrollmentTrend?: "increasing" | "stable" | "decreasing";
     commonPairings?: string[]; // Courses often taken together
     tipFromCommunity?: string; // AI-extracted tip
   };
@@ -300,15 +300,15 @@ export interface StudentCourseView {
 
 export interface TransformationJob {
   id: string;
-  type: 'catalog-extract' | 'community-mapping' | 'index-update';
-  status: 'pending' | 'running' | 'completed' | 'failed';
-  
+  type: "catalog-extract" | "community-mapping" | "index-update";
+  status: "pending" | "running" | "completed" | "failed";
+
   input: {
     source: string; // Collection name
     documentIds?: string[];
     options?: Record<string, any>;
   };
-  
+
   output?: {
     documentsProcessed: number;
     documentsCreated: number;
@@ -318,7 +318,7 @@ export interface TransformationJob {
       error: string;
     }>;
   };
-  
+
   startedAt?: Date;
   completedAt?: Date;
   error?: string;
@@ -330,19 +330,19 @@ export interface TransformationJob {
 
 export const COLLECTIONS = {
   // Core data (source of truth)
-  INSTITUTION_CATALOGS: 'institution-catalogs',
-  DISCORD_SERVERS: 'discord-servers',
-  REDDIT_COMMUNITIES: 'reddit-communities',
-  WGU_CONNECT_GROUPS: 'wgu-connect-groups',
-  WGU_STUDENT_GROUPS: 'wgu-student-groups',
-  
+  INSTITUTION_CATALOGS: "institution-catalogs",
+  DISCORD_SERVERS: "discord-servers",
+  REDDIT_COMMUNITIES: "reddit-communities",
+  WGU_CONNECT_GROUPS: "wgu-connect-groups",
+  WGU_STUDENT_GROUPS: "wgu-student-groups",
+
   // Derived data (generated from core)
-  COURSES: 'courses',
-  DEGREE_PROGRAMS: 'degree-programs',
-  COMMUNITY_INDEX: 'community-resource-index',
-  COURSE_MAPPINGS: 'course-community-mappings',
-  
+  COURSES: "courses",
+  DEGREE_PROGRAMS: "degree-programs",
+  COMMUNITY_INDEX: "community-resource-index",
+  COURSE_MAPPINGS: "course-community-mappings",
+
   // System
-  TRANSFORMATION_JOBS: 'transformation-jobs',
-  CACHE: 'cache',
+  TRANSFORMATION_JOBS: "transformation-jobs",
+  CACHE: "cache",
 } as const;
