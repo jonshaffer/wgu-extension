@@ -1,0 +1,67 @@
+{
+  "ping_query": "query Ping { ping }",
+  
+  "search_basic": "query Search($query: String!, $limit: Int) { search(query: $query, limit: $limit) { results { type id title description url courseCode tags } totalCount } }",
+  
+  "search_full": "query Search($query: String!, $limit: Int) { search(query: $query, limit: $limit) { results { type courseCode name url description icon platform memberCount competencyUnits college degreeType serverId subredditName groupId degreeId studentGroupId } totalCount query } }",
+  
+  "search_subreddits": "query SearchSubreddits($query: String!, $subreddits: [String!]!, $sortBy: RedditSortBy, $timeWindow: RedditTimeWindow, $limit: Int) { searchSubreddits(query: $query, subreddits: $subreddits, sortBy: $sortBy, timeWindow: $timeWindow, limit: $limit) { results { id title text url author subreddit score upvoteRatio numComments created permalink tags } totalCount searchQuery subreddits sortBy timeWindow } }",
+  
+  "advanced_search": "query AdvancedSearch($query: String!, $filters: [SearchFilter!], $textSearch: String, $limit: Int, $offset: Int) { advancedSearch(query: $query, filters: $filters, textSearch: $textSearch, limit: $limit, offset: $offset) { results { type courseCode name url description icon platform memberCount competencyUnits college degreeType level units serverId subredditName groupId degreeId studentGroupId tags } totalCount query appliedFilters } }",
+  
+  "get_courses": "query GetCourses($limit: Int, $offset: Int) { courses(limit: $limit, offset: $offset) { items { courseCode name description units level } totalCount } }",
+  
+  "get_courses_full": "query GetCourses($limit: Int, $offset: Int) { courses(limit: $limit, offset: $offset) { items { courseCode name units level competencyUnits } totalCount } }",
+  
+  "get_course": "query GetCourse($courseCode: String!) { course(courseCode: $courseCode) { courseCode name description units level competencyUnits prerequisites corequisites } }",
+  
+  "get_course_by_code": "query GetCourseByCode($courseCode: String!) { search(query: $courseCode, limit: 1) { results { type id title description courseCode } } }",
+  
+  "get_course_simple": "query GetCourse($courseCode: String!) { course(courseCode: $courseCode) { courseCode name description competencyUnits level college lastUpdated } }",
+  
+  "get_discord_servers": "query GetDiscordServers($limit: Int, $offset: Int) { discordServers(limit: $limit, offset: $offset) { items { id name icon memberCount description categories } totalCount } }",
+  
+  "get_discord_servers_full": "query GetDiscordServers($limit: Int, $offset: Int) { discordServers(limit: $limit, offset: $offset) { items { serverId name invite description memberCount courseMappings icon lastChecked } totalCount } }",
+  
+  "get_discord_server": "query GetDiscordServer($serverId: String!) { discordServer(serverId: $serverId) { id name icon memberCount description categories channels { id name type category } inviteUrl } }",
+  
+  "get_discord_server_full": "query GetDiscordServer($serverId: String!) { discordServer(serverId: $serverId) { serverId name invite description memberCount onlineCount icon banner courseMappings features boostLevel verificationLevel categories { id name channels { id name type description } } lastChecked } }",
+  
+  "get_reddit_communities": "query GetRedditCommunities($limit: Int, $offset: Int) { redditCommunities(limit: $limit, offset: $offset) { items { name fullName description subscriberCount isActive college } totalCount } }",
+  
+  "get_reddit_communities_full": "query GetRedditCommunities($limit: Int, $offset: Int) { redditCommunities(limit: $limit, offset: $offset) { items { subredditName displayName title description subscriberCount activeUserCount courseMappings icon isNsfw lastChecked } totalCount } }",
+  
+  "get_reddit_community": "query GetRedditCommunity($subredditName: String!) { redditCommunity(subredditName: $subredditName) { name fullName description subscriberCount isActive college url createdAt } }",
+  
+  "get_reddit_community_full": "query GetRedditCommunity($subredditName: String!) { redditCommunity(subredditName: $subredditName) { subredditName displayName title description subscriberCount activeUserCount courseMappings icon banner isNsfw rules { name description } lastChecked } }",
+  
+  "get_wgu_connect_groups": "query GetWguConnectGroups($limit: Int, $offset: Int) { wguConnectGroups(limit: $limit, offset: $offset) { items { id name courseCode memberCount lastActivity } totalCount } }",
+  
+  "get_wgu_connect_groups_full": "query GetWguConnectGroups($limit: Int, $offset: Int) { wguConnectGroups(limit: $limit, offset: $offset) { items { groupId name courseCode description memberCount postCount lastActivity } totalCount } }",
+  
+  "get_wgu_connect_group": "query GetWguConnectGroup($groupId: String!) { wguConnectGroup(groupId: $groupId) { id name courseCode memberCount lastActivity description resources { id title type category link } } }",
+  
+  "get_wgu_connect_group_full": "query GetWguConnectGroup($groupId: String!) { wguConnectGroup(groupId: $groupId) { groupId name courseCode description memberCount postCount lastActivity resources { id title type url author timestamp upvotes } } }",
+  
+  "get_degree_plans": "query GetDegreePlans($limit: Int, $offset: Int) { degreePlans(limit: $limit, offset: $offset) { items { id name description totalCUs courses } totalCount } }",
+  
+  "get_degree_plans_full": "query GetDegreePlans($limit: Int, $offset: Int) { degreePlans(limit: $limit, offset: $offset) { items { id name code type college totalCUs description } totalCount } }",
+  
+  "get_degree_plan": "query GetDegreePlan($degreeId: String!) { degreePlan(degreeId: $degreeId) { id name code type college totalCUs description courses { courseCode name units term isCore } competencies certifications } }",
+  
+  "get_degree_plan_simple": "query GetDegreePlan($degreeId: String!) { degreePlan(degreeId: $degreeId) { degreeId name code description college level totalCUs courses { courseCode name competencyUnits term isCore } lastUpdated } }",
+  
+  "get_student_groups": "query GetStudentGroups($limit: Int, $offset: Int) { studentGroups(limit: $limit, offset: $offset) { items { id name type platform memberCount description tags } totalCount } }",
+  
+  "get_student_groups_full": "query GetStudentGroups($limit: Int, $offset: Int) { studentGroups(limit: $limit, offset: $offset) { items { studentGroupId name description category memberCount platform joinUrl courseMappings icon isOfficial lastChecked } totalCount } }",
+  
+  "get_student_group": "query GetStudentGroup($studentGroupId: String!) { studentGroup(studentGroupId: $studentGroupId) { id name type platform memberCount description tags url admins created rules resources { title description url type } } }",
+  
+  "get_student_group_full": "query GetStudentGroup($studentGroupId: String!) { studentGroup(studentGroupId: $studentGroupId) { studentGroupId name description category memberCount platform joinUrl courseMappings icon banner isOfficial socialLinks { platform url } lastChecked } }",
+  
+  "get_communities": "query GetCommunities($query: String = \"\", $limit: Int = 100) { search(query: $query, limit: $limit) { results { type id title description url courseCode tags } totalCount } }",
+  
+  "get_communities_for_course": "query GetCommunitiesForCourse($courseCode: String!) { search(query: $courseCode, limit: 50) { results { type id title description url courseCode tags } totalCount } }",
+  
+  "get_communities_for_course_v2": "query GetCommunitiesForCourseV2($courseCode: String!) { getCommunitiesForCourse(courseCode: $courseCode) { courseCode courseName discord { id name description inviteUrl memberCount tags verified } reddit { id name description url subscriberCount type tags active } wguConnect { id courseCode name description memberCount resources { id title type url upvotes } } studentGroups { id name description type websiteUrl tags active } } }"
+}
