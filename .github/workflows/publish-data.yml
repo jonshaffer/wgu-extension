@@ -1,0 +1,50 @@
+name: Publish @wgu-extension/data
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry run (do not actually publish)"
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  publish:
+    name: Publish package
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build @wgu-extension/data types
+        run: npm run types:build --workspace=data
+
+      - name: Verify npm auth
+        run: npm whoami
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish to npm (dry-run)
+        if: inputs.dry_run == true
+        run: npm publish --workspace=data --access public --dry-run
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish to npm
+        if: inputs.dry_run == false
+        run: npm publish --workspace=data --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

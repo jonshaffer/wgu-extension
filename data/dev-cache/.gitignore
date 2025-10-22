@@ -1,0 +1,4 @@
+# Dev cache - auto-populated for local development
+*
+!.gitignore
+!README.md

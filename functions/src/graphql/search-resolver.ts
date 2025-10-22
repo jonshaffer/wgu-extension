@@ -1,0 +1,344 @@
+import {defaultDb as db} from "../lib/firebase-admin-db";
+import {searchCourses, searchCommunities} from "../lib/data-queries";
+
+interface SearchResultItem {
+  type: string;
+  courseCode?: string | null;
+  name: string;
+  url?: string | null;
+  description?: string | null;
+  icon?: string | null;
+  platform: string;
+  memberCount?: number | null;
+  competencyUnits?: number | null;
+  college?: string | null;
+  degreeType?: string | null;
+  serverId?: string | null;
+  subredditName?: string | null;
+  groupId?: string | null;
+  degreeId?: string | null;
+  studentGroupId?: string | null;
+}
+
+interface SearchArgs {
+  query: string;
+  limit?: number;
+}
+
+
+interface DegreeProgramLegacy {
+  name?: string;
+  code?: string;
+  college?: string;
+  degreeType?: string;
+  totalCUs?: number;
+}
+
+export async function searchResolver(
+  _parent: unknown,
+  {query, limit = 20}: SearchArgs
+) {
+  const searchQuery = query.toLowerCase().trim();
+  if (!searchQuery) {
+    return {
+      results: [],
+      totalCount: 0,
+      query,
+    };
+  }
+
+  const results: SearchResultItem[] = [];
+
+  // Use the data query functions when available
+  try {
+    // Search courses using the optimized query
+    const courses = await searchCourses(query, Math.floor(limit / 3));
+    courses.forEach((course) => {
+      results.push({
+        type: "course",
+        courseCode: course.courseCode,
+        name: `${course.courseCode}: ${course.name}`,
+        url: null,
+        description: course.description,
+        icon: null,
+        platform: "academic-registry",
+        memberCount: null,
+        competencyUnits: course.units,
+        college: null,
+        degreeType: null,
+        serverId: null,
+        subredditName: null,
+        groupId: null,
+        degreeId: null,
+        studentGroupId: null,
+      });
+    });
+
+    // Search communities using the index
+    const communities = await searchCommunities(query, {}, Math.floor(limit / 2));
+    communities.forEach((community) => {
+      const baseItem = {
+        type: "community" as const,
+        courseCode: null,
+        name: community.title,
+        url: community.url,
+        description: community.description,
+        icon: null,
+        memberCount: community.popularity,
+        competencyUnits: null,
+        college: null,
+        degreeType: null,
+        studentGroupId: null,
+      };
+
+      switch (community.type) {
+      case "discord":
+        results.push({
+          ...baseItem,
+          platform: "discord",
+          serverId: community.resourceId,
+          subredditName: null,
+          groupId: null,
+          degreeId: null,
+        });
+        break;
+      case "reddit":
+        results.push({
+          ...baseItem,
+          platform: "reddit",
+          serverId: null,
+          subredditName: community.resourceId,
+          groupId: null,
+          degreeId: null,
+        });
+        break;
+      case "wgu-connect":
+        results.push({
+          ...baseItem,
+          platform: "wguConnect",
+          serverId: null,
+          subredditName: null,
+          groupId: community.resourceId,
+          degreeId: null,
+        });
+        break;
+      }
+    });
+  } catch (error) {
+    console.error("Error using optimized search:", error);
+    // Fall back to direct collection searches below
+  }
+
+  // Search courses collection (individual documents)
+  try {
+    const coursesSnapshot = await db.collection("courses").get();
+    coursesSnapshot.forEach((doc) => {
+      const course = doc.data();
+      if (
+        doc.id.toLowerCase().includes(searchQuery) ||
+        course.name?.toLowerCase().includes(searchQuery) ||
+        course.description?.toLowerCase().includes(searchQuery) ||
+        course.ccn?.toLowerCase().includes(searchQuery)
+      ) {
+        results.push({
+          type: "course",
+          courseCode: doc.id, // Document ID is the course code
+          name: `${doc.id}: ${course.name}`,
+          url: null,
+          description: course.description,
+          icon: null,
+          platform: "academic-registry",
+          memberCount: null,
+          competencyUnits: course.competencyUnits,
+          college: null,
+          degreeType: null,
+          serverId: null,
+          subredditName: null,
+          groupId: null,
+          degreeId: null,
+          studentGroupId: null,
+        });
+      }
+    });
+  } catch (error) {
+    console.error("Error searching courses:", error);
+  }
+
+  // Search academic-registry/degree-programs
+  try {
+    const programsDoc = await db.collection("academic-registry").doc("degree-programs").get();
+    if (programsDoc.exists) {
+      const data = programsDoc.data() || {};
+      const programs = data.programs || {};
+
+      for (const [, program] of Object.entries(programs)) {
+        const p = program as DegreeProgramLegacy;
+        if (
+          p.name?.toLowerCase().includes(searchQuery) ||
+          p.code?.toLowerCase().includes(searchQuery) ||
+          p.college?.toLowerCase().includes(searchQuery)
+        ) {
+          results.push({
+            type: "degree",
+            courseCode: null,
+            name: p.name || "",
+            url: null,
+            description: `${p.college} - ${p.degreeType} - ${p.totalCUs || 0} CUs`,
+            icon: null,
+            platform: "academic-registry",
+            memberCount: null,
+            competencyUnits: p.totalCUs,
+            college: p.college,
+            degreeType: p.degreeType,
+            serverId: null,
+            subredditName: null,
+            groupId: null,
+            degreeId: p.code || null,
+            studentGroupId: null,
+          });
+        }
+      }
+    }
+  } catch (error) {
+    console.error("Error searching degree programs:", error);
+  }
+
+  // Search Discord servers
+  try {
+    const discordSnapshot = await db.collection("discord-servers").get();
+    discordSnapshot.forEach((doc) => {
+      const server = doc.data();
+      if (
+        server.name?.toLowerCase().includes(searchQuery) ||
+        server.description?.toLowerCase().includes(searchQuery)
+      ) {
+        results.push({
+          type: "community",
+          courseCode: null,
+          name: server.name,
+          url: server.inviteUrl || `https://discord.gg/${doc.id}`,
+          description: server.description,
+          icon: server.icon,
+          platform: "discord",
+          memberCount: server.memberCount,
+          serverId: doc.id,
+          subredditName: null,
+          groupId: null,
+          degreeId: null,
+          studentGroupId: null,
+        });
+      }
+    });
+  } catch (error) {
+    console.error("Error searching Discord servers:", error);
+  }
+
+  // Search WGU Connect groups
+  try {
+    const connectSnapshot = await db.collection("wgu-connect-groups").get();
+    connectSnapshot.forEach((doc) => {
+      const group = doc.data();
+      if (
+        group.name?.toLowerCase().includes(searchQuery) ||
+        group.description?.toLowerCase().includes(searchQuery)
+      ) {
+        results.push({
+          type: "community",
+          courseCode: null,
+          name: group.name,
+          url: group.url,
+          description: group.description,
+          icon: null,
+          platform: "wguConnect",
+          memberCount: group.memberCount,
+          serverId: null,
+          subredditName: null,
+          groupId: doc.id,
+          degreeId: null,
+          studentGroupId: null,
+        });
+      }
+    });
+  } catch (error) {
+    console.error("Error searching WGU Connect groups:", error);
+  }
+
+  // Search Reddit communities
+  try {
+    const redditDoc = await db.collection("public").doc("reddit").get();
+    if (redditDoc.exists) {
+      const data = redditDoc.data() || {};
+      const communities = data.communities || [];
+
+      for (const community of communities) {
+        if (
+          community.name?.toLowerCase().includes(searchQuery) ||
+          community.description?.toLowerCase().includes(searchQuery) ||
+          community.college?.toLowerCase().includes(searchQuery)
+        ) {
+          results.push({
+            type: "community",
+            courseCode: null,
+            name: community.name,
+            url: `https://reddit.com/r/${community.name}`,
+            description: community.description,
+            icon: null,
+            platform: "reddit",
+            memberCount: community.subscriberCount,
+            serverId: null,
+            subredditName: community.name,
+            groupId: null,
+            degreeId: null,
+            studentGroupId: null,
+          });
+        }
+      }
+    }
+  } catch (error) {
+    console.error("Error searching Reddit communities:", error);
+  }
+
+  // Search WGU Student Groups
+  try {
+    const studentGroupsDoc = await db.collection("public").doc("wguStudentGroups").get();
+    if (studentGroupsDoc.exists) {
+      const data = studentGroupsDoc.data() || {};
+      const groups = data.groups || [];
+
+      for (const group of groups) {
+        if (
+          group.name?.toLowerCase().includes(searchQuery) ||
+          group.description?.toLowerCase().includes(searchQuery) ||
+          group.courseCode?.toLowerCase().includes(searchQuery)
+        ) {
+          results.push({
+            type: group.courseCode ? "course" : "university",
+            courseCode: group.courseCode,
+            name: group.name,
+            url: group.url,
+            description: group.description,
+            icon: null,
+            platform: "wgu-student-groups",
+            memberCount: group.memberCount,
+            serverId: null,
+            subredditName: null,
+            groupId: null,
+            degreeId: null,
+            studentGroupId: group.id || null,
+          });
+        }
+      }
+    }
+  } catch (error) {
+    console.error("Error searching student groups:", error);
+  }
+
+  // Apply limit
+  const limitedResults = results.slice(0, limit);
+
+  return {
+    results: limitedResults,
+    totalCount: results.length,
+    query,
+  };
+}

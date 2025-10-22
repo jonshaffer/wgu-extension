@@ -1,0 +1,52 @@
+{
+  "name": "@wgu-extension/graphql-client",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "description": "GraphQL client and types for WGU Extension API",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonshaffer/wgu-extension.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jonshaffer/wgu-extension/issues"
+  },
+  "homepage": "https://github.com/jonshaffer/wgu-extension#readme",
+  "sideEffects": false,
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "npm run clean && tsc",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@wgu-extension/functions": "^0.1.0",
+    "graphql": "^16.11.0",
+    "graphql-request": "^7.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.1",
+    "typescript": "^5.8.3"
+  },
+  "peerDependencies": {
+    "@wgu-extension/data": "^0.1.0"
+  }
+}

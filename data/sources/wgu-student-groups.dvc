@@ -1,0 +1,6 @@
+outs:
+- md5: 8af038d1d5b12c5b0d633c5fad3585af.dir
+  size: 5508
+  nfiles: 9
+  hash: md5
+  path: wgu-student-groups

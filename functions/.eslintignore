@@ -1,0 +1,20 @@
+# Ignore built files
+lib/**/*
+
+# Ignore generated files  
+generated/**/*
+
+# Ignore scripts directory
+scripts/**/*
+
+# Build output
+dist/
+
+# Test coverage output
+coverage/**/*
+
+# Jest config
+jest.config.js
+
+# Test files (temporarily during deployment)
+src/test/**/*

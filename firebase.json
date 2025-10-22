@@ -1,0 +1,68 @@
+{
+  "firestore": [
+    {
+      "database": "(default)",
+      "location": "nam5",
+      "rules": "firebase/firestore.rules",
+      "indexes": "firebase/firestore.indexes.json"
+    },
+    {
+      "database": "admin",
+      "location": "nam5",
+      "rules": "firebase/firestore-admin.rules",
+      "indexes": "firebase/firestore-admin.indexes.json"
+    }
+  ],
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "predeploy": [
+        "npm --prefix \"$RESOURCE_DIR\" run build"
+      ]
+    }
+  ],
+  "hosting": {
+    "public": "site/build/client",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "predeploy": [
+ "npm --prefix site/ run build"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  },
+  "emulators": {
+    "firestore": {
+      "host": "localhost",
+      "port": 8181
+    },
+    "functions": {
+      "host": "localhost",
+      "port": 5001
+    },
+    "auth": {
+      "host": "localhost",
+      "port": 9099
+    },
+    "ui": {
+      "enabled": true,
+      "host": "localhost",
+      "port": 4000
+    }
+  }
+}

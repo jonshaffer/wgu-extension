@@ -1,0 +1,8 @@
+@media print {
+    .rubric-grid, .rubric-result {
+        break-inside: avoid;
+    }
+    table.table.table--block.rubric-grid span {
+        color: black;
+    }
+}

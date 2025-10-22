@@ -1,0 +1,34 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper function to check if user is admin
+    function isAdmin() {
+      return request.auth != null && request.auth.token.admin == true;
+    }
+    
+    // Suggestions collection - special case for admin review system
+    match /suggestions/{suggestionId} {
+      // Only admins can read suggestions
+      allow read: if isAdmin();
+      
+      // Only admins can update (review) suggestions
+      allow update: if isAdmin() && 
+        // Ensure only review fields can be updated
+        request.resource.data.keys().hasAll(['status', 'reviewedAt', 'reviewedBy', 'approved']) &&
+        // Prevent modification of original submission data
+        request.resource.data.type == resource.data.type &&
+        request.resource.data.submittedAt == resource.data.submittedAt &&
+        request.resource.data.submittedBy == resource.data.submittedBy;
+      
+      // No direct create or delete through Firestore rules
+      // (handled by Cloud Functions with proper validation)
+      allow create, delete: if false;
+    }
+    
+    // All other collections - completely locked down
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

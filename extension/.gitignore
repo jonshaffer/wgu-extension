@@ -1,0 +1,44 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+.output
+stats.html
+stats-*.json
+.wxt
+web-ext.config.ts
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Nix and direnv
+.direnv/
+result
+result-*
+.npm-cache/
+
+# Environment files
+# Keep .env.example (template)
+# Keep .env.development and .env.production (shared configs)
+# Ignore personal overrides and sensitive data
+.env
+.env.local
+.env.*.local
+
+# Generated data files
+public/data/
+# data/**/*.pdf

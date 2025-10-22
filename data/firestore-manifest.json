@@ -1,0 +1,66 @@
+{
+  "collections": {
+    "public": {
+      "description": "Public data accessible by the extension",
+      "documents": {
+        "wguStudentGroups": {
+          "description": "WGU Student Groups data",
+          "source": "data/wgu-student-groups/processed/wgu-student-groups.json",
+          "fields": ["groups", "metadata", "updatedAt"]
+        }
+      }
+    },
+    "catalogs": {
+      "description": "Raw parsed catalog data by version",
+      "documents": {
+        "{catalogVersion}": {
+          "description": "Individual catalog data (e.g., 2025-08)",
+          "source": "data/catalogs/parsed/catalog-{catalogVersion}.json",
+          "fields": ["courses", "degreePlans", "metadata", "statistics"]
+        }
+      }
+    },
+    "academic-registry": {
+      "description": "Processed academic data aggregated across all catalogs",
+      "documents": {
+        "courses": {
+          "description": "All unique courses across catalog versions",
+          "source": "data/catalogs/processed/courses.json",
+          "fields": ["courses", "metadata"]
+        },
+        "degree-programs": {
+          "description": "All unique degree programs across catalog versions", 
+          "source": "data/catalogs/processed/degree-programs.json",
+          "fields": ["programs", "metadata"]
+        }
+      }
+    },
+    "discord-servers": {
+      "description": "Discord server metadata from extension ingestion",
+      "documents": {
+        "{serverId}": {
+          "description": "Individual Discord server data",
+          "source": "extension ingestion",
+          "fields": ["name", "description", "memberCount", "features", "ingestedAt"]
+        }
+      }
+    },
+    "wgu-connect-groups": {
+      "description": "WGU Connect group resources from extension ingestion",
+      "documents": {
+        "{groupId}": {
+          "description": "Individual WGU Connect group data",
+          "source": "extension ingestion", 
+          "fields": ["name", "resources", "memberCount", "ingestedAt"]
+        }
+      }
+    }
+  },
+  "searchableCollections": [
+    "academic-registry/courses",
+    "academic-registry/degree-programs",
+    "public/wguStudentGroups",
+    "discord-servers",
+    "wgu-connect-groups"
+  ]
+}

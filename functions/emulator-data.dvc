@@ -1,0 +1,6 @@
+outs:
+- md5: 5a48141acf7c1b573c462226e7a9c758.dir
+  size: 34744568
+  nfiles: 4
+  hash: md5
+  path: emulator-data

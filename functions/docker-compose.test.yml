@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  firebase-emulators:
+    image: andreysenov/firebase-tools:latest
+    command: firebase emulators:start --project demo-test
+    ports:
+      - "5001:5001"  # Functions
+      - "8181:8181"  # Firestore
+      - "9099:9099"  # Auth
+      - "4000:4000"  # Emulator UI
+    volumes:
+      - ./firebase.json:/workspace/firebase.json
+      - ./firestore.rules:/workspace/firestore.rules
+      - ./firestore.indexes.json:/workspace/firestore.indexes.json
+      - ./emulator-data:/workspace/emulator-data
+      - ./lib:/workspace/functions/lib
+      - ./package.json:/workspace/functions/package.json
+    environment:
+      - FIRESTORE_EMULATOR_HOST=0.0.0.0:8181
+      - FIREBASE_AUTH_EMULATOR_HOST=0.0.0.0:9099
+    working_dir: /workspace
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4000"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  test-runner:
+    image: node:22-alpine
+    depends_on:
+      firebase-emulators:
+        condition: service_healthy
+    volumes:
+      - ./:/workspace
+      - node_modules:/workspace/node_modules
+      - ~/.npm:/root/.npm
+    working_dir: /workspace
+    environment:
+      - FIRESTORE_EMULATOR_HOST=firebase-emulators:8181
+      - FIREBASE_AUTH_EMULATOR_HOST=firebase-emulators:9099
+      - FUNCTIONS_EMULATOR_HOST=firebase-emulators:5001
+      - NODE_ENV=test
+    command: >
+      sh -c "
+        npm ci &&
+        npm run build &&
+        npm run seed:test-data minimal &&
+        npm test
+      "
+
+volumes:
+  node_modules:

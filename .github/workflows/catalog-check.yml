@@ -1,0 +1,223 @@
+name: WGU Catalog Check
+
+on:
+  schedule:
+    # Run on the 5th day of every month at 9:00 AM UTC
+    - cron: '0 9 5 * *'
+  workflow_dispatch:
+    # Allow manual triggering
+
+env:
+  WGU_CATALOG_URL: 'https://www.wgu.edu/about/institutional-catalog.html'
+  WGU_CATALOG_BASE_URL: 'https://www.wgu.edu/content/dam/wgu-65-assets/western-governors/documents/institutional-catalog'
+
+jobs:
+  check-new-catalog:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          
+      - name: Install poppler-utils (for PDF parsing)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y poppler-utils
+          
+      - name: Install dependencies
+        run: |
+          cd extension && npm ci
+          cd ../data && npm ci
+        
+      - name: Check catalog page structure
+        id: page_check
+        run: |
+          echo "🔍 Validating WGU catalog page structure..."
+          cd extension && npx tsx scripts/check-wgu-catalog-page.ts
+          
+          # Check if page validation passed
+          if [ $? -eq 0 ]; then
+            echo "✅ Catalog page validation passed"
+            echo "PAGE_CHECK_PASSED=true" >> $GITHUB_ENV
+          else
+            echo "❌ Catalog page validation failed"
+            echo "PAGE_CHECK_PASSED=false" >> $GITHUB_ENV
+            
+            # Still continue with catalog check but add warning
+            echo "⚠️ Continuing with catalog check despite page validation issues"
+          fi
+          
+      - name: Run catalog check
+        id: catalog_check
+        run: cd extension && npx tsx scripts/check-wgu-catalog.ts
+        
+      - name: Process new catalogs
+        if: success()
+        run: |
+          # Check if we have results
+          if [ -f "catalog-check-results.json" ]; then
+            echo "📊 Catalog check results:"
+            cat catalog-check-results.json
+            
+            # Parse results
+            NEW_COUNT=$(node -p "JSON.parse(require('fs').readFileSync('catalog-check-results.json', 'utf8')).newCatalogs.length")
+            
+            if [ "$NEW_COUNT" -gt "0" ]; then
+              echo "🎉 Found $NEW_COUNT new catalog(s)"
+              echo "HAS_NEW_CATALOGS=true" >> $GITHUB_ENV
+              
+              # Parse and process new catalogs if we have the parsing tools
+              if [ -d "data/sources/catalogs" ] && [ -f "data/pipelines/catalog/parse.ts" ]; then
+                echo "🔄 Processing new catalogs..."
+                cd data
+                
+                # Run the parser on new catalogs and generate reports
+                for catalog in sources/catalogs/catalog-*.pdf; do
+                  if [ -f "$catalog" ]; then
+                    catalog_name=$(basename "$catalog")
+                    # Check if this is a newly downloaded catalog
+                    if grep -q "$catalog_name" ../catalog-check-results.json 2>/dev/null; then
+                      echo "📄 Processing $(basename "$catalog")"
+                      
+                      # Parse the catalog
+                      if npx tsx pipelines/catalog/parse.ts "$catalog"; then
+                        echo "✅ Successfully parsed $catalog_name"
+                        
+                        # Generate health report
+                        echo "📊 Generating health report for $catalog_name"
+                        npx tsx pipelines/catalog/analytics/generate-report.ts "$catalog" || echo "⚠️ Could not generate health report"
+                        
+                        # Copy report to artifacts directory
+                        report_name="${catalog_name%.pdf}.report.json"
+                        if [ -f "sources/catalogs/$report_name" ]; then
+                          cp "sources/catalogs/$report_name" "../$report_name"
+                          echo "📋 Copied report: $report_name"
+                        fi
+                      else
+                        echo "❌ Failed to parse $catalog_name"
+                      fi
+                    fi
+                  fi
+                done
+                
+                cd ..
+              fi
+            else
+              echo "✅ No new catalogs found"
+              echo "HAS_NEW_CATALOGS=false" >> $GITHUB_ENV
+            fi
+          else
+            echo "❌ No results file found"
+            echo "HAS_NEW_CATALOGS=false" >> $GITHUB_ENV
+          fi
+          
+      - name: Generate catalog comparison
+        if: env.HAS_NEW_CATALOGS == 'true'
+        run: |
+          echo "📊 Generating catalog comparison report..."
+          
+          # Get the list of new catalogs from results
+          NEW_CATALOG_LIST=$(node -p "JSON.parse(require('fs').readFileSync('catalog-check-results.json', 'utf8')).newCatalogs.join(' ')")
+          
+          if [ -n "$NEW_CATALOG_LIST" ]; then
+            echo "🔍 Comparing catalogs: $NEW_CATALOG_LIST"
+            
+            # Generate comparison report
+            cd extension && npx tsx scripts/compare-catalogs.ts $NEW_CATALOG_LIST > ../catalog-comparison-report.md 2>/dev/null || {
+              echo "⚠️ Could not generate comparison report" > ../catalog-comparison-report.md
+              echo "The catalog comparison tool encountered an error. Manual review may be needed." >> ../catalog-comparison-report.md
+            }
+            
+            echo "✅ Comparison report generated"
+          else
+            echo "⚠️ No catalogs to compare" > catalog-comparison-report.md
+          fi
+          
+      - name: Create Pull Request
+        if: env.HAS_NEW_CATALOGS == 'true'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: |
+            feat: Add new WGU catalog(s) - $(date +%Y-%m)
+            
+            - Automatically detected and downloaded new WGU institutional catalog(s)
+            - Processed catalogs with enhanced degree plan parsing
+            - Updated catalog collection for extension
+          title: 🎓 New WGU Catalog(s) Available - $(date +%Y-%m)
+          body: |
+            ## 🎓 New WGU Catalog(s) Detected
+            
+            This PR was automatically created by the monthly catalog check workflow.
+            
+            ### 📋 Changes
+            - ✅ Downloaded new WGU institutional catalog(s)
+            - ✅ Parsed catalogs with unified parser
+            - ✅ Generated parsing health reports
+            - 📊 Parsing results included below
+            
+            ### 🔍 Page Validation
+            $(if [ "$PAGE_CHECK_PASSED" = "true" ]; then echo "✅ **WGU catalog page structure validated successfully**"; else echo "⚠️ **WGU catalog page validation had issues** - see artifacts for details"; fi)
+            
+            ### 🔍 Catalog Details
+            ```json
+            $(cat catalog-check-results.json)
+            ```
+            
+            $(cat catalog-comparison-report.md 2>/dev/null || echo "### 📊 Catalog Comparison\n\nComparison report not available.")
+            
+            ### 📊 Parsing Results
+            $(for report in catalog-*.report.json; do
+              if [ -f "$report" ]; then
+                echo "\n#### $(basename "$report" .report.json)"
+                echo '```json'
+                cat "$report" | jq -r '.summary // {}'
+                echo '```'
+              fi
+            done || echo "No parsing reports available.")
+            
+            ### 🎯 Next Steps
+            1. Review the new catalog(s) for any significant changes
+            2. Check the comparison report above for detailed changes
+            3. $(if [ "$PAGE_CHECK_PASSED" = "false" ]; then echo "⚠️ **Review page validation report for potential issues**"; else echo "Verify degree plan parsing worked correctly"; fi)
+            4. Test extension functionality with new catalog data
+            5. Merge when ready to deploy
+            
+            ---
+            *This PR was automatically generated by the WGU Catalog Check workflow*
+          branch: feat/catalog-update-$(date +%Y-%m)
+          branch-suffix: short-commit-hash
+          delete-branch: true
+          
+      - name: Notify if no changes
+        if: env.HAS_NEW_CATALOGS == 'false'
+        run: |
+          echo "✅ Catalog check completed - no new catalogs found"
+          echo "📅 Next check: $(date -d 'next month' '+%Y-%m-01')"
+          
+      - name: Upload catalog check results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: catalog-check-results-$(date +%Y-%m)
+          path: |
+            catalog-check-results.json
+            catalog-comparison-report.md
+            catalog-page-check-results.json
+            catalog-page-check-report.md
+            catalog-*.report.json
+            data/sources/catalogs/*.pdf
+            data/sources/catalogs/*.json
+            data/analytics/reports/*.json
+          retention-days: 30

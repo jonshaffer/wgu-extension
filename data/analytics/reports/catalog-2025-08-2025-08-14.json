@@ -1,0 +1,22 @@
+{
+  "filename": "catalog-2025-08.pdf",
+  "parsedAt": "2025-08-14T06:19:33.389Z",
+  "parserVersion": "v2.1-current-enhanced",
+  "success": true,
+  "metrics": {
+    "coursesFound": 829,
+    "coursesWithCCN": 774,
+    "coursesWithDescription": 795,
+    "coursesWithCUs": 549,
+    "ccnCoverage": 93,
+    "descriptionCoverage": 96,
+    "avgDescriptionLength": 102,
+    "shortDescriptions": 0,
+    "missingFromDegreePlans": 2,
+    "parseTimeMs": 1011,
+    "pdfPages": 355,
+    "coursesPerPage": 2.335211267605634
+  },
+  "warnings": [],
+  "errors": []
+}

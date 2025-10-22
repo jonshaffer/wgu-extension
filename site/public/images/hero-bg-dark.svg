@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <!-- Dark radial background with brand tint -->
+    <radialGradient id="rg" cx="25%" cy="15%" r="80%">
+      <stop offset="0%" stop-color="#0f111a"/>
+      <stop offset="55%" stop-color="#0a0c14"/>
+      <stop offset="100%" stop-color="#080a12"/>
+    </radialGradient>
+
+    <!-- Subtle grid pattern -->
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#FDF9F5" stroke-opacity="0.04" stroke-width="1"/>
+    </pattern>
+
+    <!-- Accent gradient using brand colors for dark mode -->
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#931621" stop-opacity="0.35"/>
+      <stop offset="50%" stop-color="#335142" stop-opacity="0.30"/>
+      <stop offset="100%" stop-color="#7D5024" stop-opacity="0.25"/>
+    </linearGradient>
+
+    <!-- Secondary accent -->
+    <linearGradient id="accent2" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#335142" stop-opacity="0.40"/>
+      <stop offset="100%" stop-color="#931621" stop-opacity="0.20"/>
+    </linearGradient>
+
+    <!-- Grain -->
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.95" numOctaves="1" stitchTiles="stitch" seed="5"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer>
+        <feFuncA type="table" tableValues="0 0.05"/>
+      </feComponentTransfer>
+    </filter>
+
+    <!-- Corner fade mask -->
+    <mask id="cornerFade">
+      <rect width="1600" height="900" fill="white"/>
+      <!-- Top left corner fade -->
+      <radialGradient id="tlFade" cx="0%" cy="0%" r="50%">
+        <stop offset="0%" stop-color="white" stop-opacity="0"/>
+        <stop offset="70%" stop-color="white" stop-opacity="0.5"/>
+        <stop offset="100%" stop-color="white" stop-opacity="1"/>
+      </radialGradient>
+      <rect x="0" y="0" width="800" height="450" fill="url(#tlFade)"/>
+      
+      <!-- Top right corner fade -->
+      <radialGradient id="trFade" cx="100%" cy="0%" r="50%">
+        <stop offset="0%" stop-color="white" stop-opacity="0"/>
+        <stop offset="70%" stop-color="white" stop-opacity="0.5"/>
+        <stop offset="100%" stop-color="white" stop-opacity="1"/>
+      </radialGradient>
+      <rect x="800" y="0" width="800" height="450" fill="url(#trFade)"/>
+      
+      <!-- Bottom left corner fade -->
+      <radialGradient id="blFade" cx="0%" cy="100%" r="50%">
+        <stop offset="0%" stop-color="white" stop-opacity="0"/>
+        <stop offset="70%" stop-color="white" stop-opacity="0.5"/>
+        <stop offset="100%" stop-color="white" stop-opacity="1"/>
+      </radialGradient>
+      <rect x="0" y="450" width="800" height="450" fill="url(#blFade)"/>
+      
+      <!-- Bottom right corner fade -->
+      <radialGradient id="brFade" cx="100%" cy="100%" r="50%">
+        <stop offset="0%" stop-color="white" stop-opacity="0"/>
+        <stop offset="70%" stop-color="white" stop-opacity="0.5"/>
+        <stop offset="100%" stop-color="white" stop-opacity="1"/>
+      </radialGradient>
+      <rect x="800" y="450" width="800" height="450" fill="url(#brFade)"/>
+    </mask>
+  </defs>
+
+  <!-- Dark background base -->
+  <rect width="1600" height="900" fill="#080a12"/>
+
+  <!-- All content with corner fade mask -->
+  <g mask="url(#cornerFade)">
+    <!-- Background fill -->
+    <rect width="1600" height="900" fill="url(#rg)"/>
+
+    <!-- Grid overlay -->
+    <rect width="1600" height="900" fill="url(#grid)"/>
+
+    <!-- Soft rings with brand colors -->
+    <g opacity="0.4" fill="none" stroke="url(#accent)" stroke-width="1.5">
+      <circle cx="300" cy="160" r="120">
+        <animateTransform
+          attributeName="transform"
+          type="rotate"
+          from="0 300 160"
+          to="360 300 160"
+          dur="60s"
+          repeatCount="indefinite"/>
+      </circle>
+      <circle cx="300" cy="160" r="200">
+        <animateTransform
+          attributeName="transform"
+          type="rotate"
+          from="0 300 160"
+          to="-360 300 160"
+          dur="90s"
+          repeatCount="indefinite"/>
+      </circle>
+      <circle cx="1250" cy="220" r="140">
+        <animateTransform
+          attributeName="transform"
+          type="rotate"
+          from="0 1250 220"
+          to="-360 1250 220"
+          dur="75s"
+          repeatCount="indefinite"/>
+      </circle>
+      <circle cx="1250" cy="220" r="220">
+        <animateTransform
+          attributeName="transform"
+          type="rotate"
+          from="0 1250 220"
+          to="360 1250 220"
+          dur="100s"
+          repeatCount="indefinite"/>
+      </circle>
+    </g>
+
+    <!-- Geometric shapes with brand colors -->
+    <g opacity="0.5" fill="url(#accent2)">
+      <polygon points="980,640 1040,600 1100,640 1100,710 1040,750 980,710">
+        <animateTransform
+          attributeName="transform"
+          type="rotate"
+          from="0 1040 675"
+          to="360 1040 675"
+          dur="120s"
+          repeatCount="indefinite"/>
+      </polygon>
+      <polygon points="340,560 380,540 420,560 420,600 380,620 340,600">
+        <animateTransform
+          attributeName="transform"
+          type="rotate"
+          from="0 380 580"
+          to="-360 380 580"
+          dur="150s"
+          repeatCount="indefinite"/>
+      </polygon>
+      <rect x="680" y="140" width="120" height="120" rx="24">
+        <animateTransform
+          attributeName="transform"
+          type="rotate"
+          from="0 740 200"
+          to="360 740 200"
+          dur="180s"
+          repeatCount="indefinite"/>
+      </rect>
+    </g>
+
+    <!-- Additional brand accents -->
+    <g opacity="0.4">
+      <circle cx="800" cy="500" r="80" fill="none" stroke="#931621" stroke-width="1" stroke-opacity="0.5">
+        <animate
+          attributeName="r"
+          values="80;90;80"
+          dur="8s"
+          repeatCount="indefinite"/>
+        <animate
+          attributeName="stroke-opacity"
+          values="0.5;0.7;0.5"
+          dur="8s"
+          repeatCount="indefinite"/>
+      </circle>
+      <rect x="1100" y="400" width="60" height="60" rx="12" fill="#335142" fill-opacity="0.3">
+        <animateTransform
+          attributeName="transform"
+          type="rotate"
+          from="45 1130 430"
+          to="405 1130 430"
+          dur="240s"
+          repeatCount="indefinite"/>
+      </rect>
+    </g>
+
+    <!-- Grain overlay -->
+    <rect width="1600" height="900" filter="url(#grain)" opacity="0.3"/>
+  </g>
+</svg>

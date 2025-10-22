@@ -1,0 +1,58 @@
+name: Publish @wgu-extension/data prerelease (next) on Release PR
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [ main ]
+    paths:
+      - 'data/**'
+      - '.release-please-manifest.json'
+
+permissions:
+  contents: read
+
+jobs:
+  publish-beta:
+    name: Publish prerelease (next) to npm
+    runs-on: ubuntu-latest
+    if: startsWith(github.head_ref, 'release-please--')
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build @wgu-extension/data types
+        run: npm run types:build --workspace=data
+
+      - name: Compute prerelease version (-next.<sha>)
+        id: semver
+        run: |
+          ORIG=$(node -p "require('./data/package.json').version")
+          SHORT_SHA=${GITHUB_SHA::7}
+          PRE="${ORIG}-next.${SHORT_SHA}"
+          echo "orig=${ORIG}" >> $GITHUB_OUTPUT
+          echo "pre=${PRE}" >> $GITHUB_OUTPUT
+
+      - name: Bump to prerelease version (no git tag)
+        run: |
+          cd data
+          npm version "${{ steps.semver.outputs.pre }}" --no-git-tag-version
+
+      - name: Publish prerelease to npm (tag=next)
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          # Skip if this prerelease already exists
+          if npm view @wgu-extension/data@"${{ steps.semver.outputs.pre }}" version >/dev/null 2>&1; then
+            echo "Prerelease version ${{ steps.semver.outputs.pre }} already exists; skipping."
+            exit 0
+          fi
+          npm publish --workspace=data --access public --tag next

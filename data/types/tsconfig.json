@@ -1,0 +1,21 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "declaration": true,
+    "emitDeclarationOnly": false,
+    "composite": false,
+    "noEmit": false,
+  "allowImportingTsExtensions": false,
+  "module": "NodeNext",
+  "target": "ES2020",
+  "moduleResolution": "NodeNext",
+    "isolatedModules": true,
+    "strict": true,
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*", "src/canonical-raw.d.ts"],
+  "files": ["src/canonical-raw.d.ts"],
+  "exclude": ["src/canonical-types.ts"]
+}

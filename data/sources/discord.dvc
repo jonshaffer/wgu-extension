@@ -1,0 +1,6 @@
+outs:
+- md5: 31ed030a18a2665ff33bac96289abd6e.dir
+  size: 14241
+  nfiles: 2
+  hash: md5
+  path: discord

@@ -1,0 +1,25 @@
+<svg width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="dot-pattern-2" x="0" y="0" width="50" height="50" patternUnits="userSpaceOnUse">
+      <!-- Main dots -->
+      <circle cx="12.5" cy="12.5" r="1.5" fill="currentColor" opacity="0.2"/>
+      <circle cx="37.5" cy="12.5" r="1.5" fill="currentColor" opacity="0.2"/>
+      <circle cx="12.5" cy="37.5" r="1.5" fill="currentColor" opacity="0.2"/>
+      <circle cx="37.5" cy="37.5" r="1.5" fill="currentColor" opacity="0.2"/>
+      
+      <!-- Center dot slightly larger -->
+      <circle cx="25" cy="25" r="2" fill="currentColor" opacity="0.15"/>
+      
+      <!-- Additional smaller dots for texture -->
+      <circle cx="0" cy="0" r="1" fill="currentColor" opacity="0.1"/>
+      <circle cx="50" cy="0" r="1" fill="currentColor" opacity="0.1"/>
+      <circle cx="0" cy="50" r="1" fill="currentColor" opacity="0.1"/>
+      <circle cx="50" cy="50" r="1" fill="currentColor" opacity="0.1"/>
+      <circle cx="25" cy="0" r="1" fill="currentColor" opacity="0.1"/>
+      <circle cx="0" cy="25" r="1" fill="currentColor" opacity="0.1"/>
+      <circle cx="50" cy="25" r="1" fill="currentColor" opacity="0.1"/>
+      <circle cx="25" cy="50" r="1" fill="currentColor" opacity="0.1"/>
+    </pattern>
+  </defs>
+  <rect width="50" height="50" fill="url(#dot-pattern-2)"/>
+</svg>
