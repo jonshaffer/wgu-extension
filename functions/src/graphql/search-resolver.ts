@@ -1,4 +1,5 @@
-import {db} from "../lib/firebase";
+import {defaultDb as db} from "../lib/firebase-admin-db";
+import {searchCourses, searchCommunities} from "../lib/data-queries";
 
 interface SearchResultItem {
   type: string;
@@ -25,7 +26,7 @@ interface SearchArgs {
 }
 
 
-interface DegreeProgram {
+interface DegreeProgramLegacy {
   name?: string;
   code?: string;
   college?: string;
@@ -47,6 +48,86 @@ export async function searchResolver(
   }
 
   const results: SearchResultItem[] = [];
+
+  // Use the data query functions when available
+  try {
+    // Search courses using the optimized query
+    const courses = await searchCourses(query, Math.floor(limit / 3));
+    courses.forEach((course) => {
+      results.push({
+        type: "course",
+        courseCode: course.courseCode,
+        name: `${course.courseCode}: ${course.name}`,
+        url: null,
+        description: course.description,
+        icon: null,
+        platform: "academic-registry",
+        memberCount: null,
+        competencyUnits: course.units,
+        college: null,
+        degreeType: null,
+        serverId: null,
+        subredditName: null,
+        groupId: null,
+        degreeId: null,
+        studentGroupId: null,
+      });
+    });
+
+    // Search communities using the index
+    const communities = await searchCommunities(query, {}, Math.floor(limit / 2));
+    communities.forEach((community) => {
+      const baseItem = {
+        type: "community" as const,
+        courseCode: null,
+        name: community.title,
+        url: community.url,
+        description: community.description,
+        icon: null,
+        memberCount: community.popularity,
+        competencyUnits: null,
+        college: null,
+        degreeType: null,
+        studentGroupId: null,
+      };
+
+      switch (community.type) {
+      case "discord":
+        results.push({
+          ...baseItem,
+          platform: "discord",
+          serverId: community.resourceId,
+          subredditName: null,
+          groupId: null,
+          degreeId: null,
+        });
+        break;
+      case "reddit":
+        results.push({
+          ...baseItem,
+          platform: "reddit",
+          serverId: null,
+          subredditName: community.resourceId,
+          groupId: null,
+          degreeId: null,
+        });
+        break;
+      case "wgu-connect":
+        results.push({
+          ...baseItem,
+          platform: "wguConnect",
+          serverId: null,
+          subredditName: null,
+          groupId: community.resourceId,
+          degreeId: null,
+        });
+        break;
+      }
+    });
+  } catch (error) {
+    console.error("Error using optimized search:", error);
+    // Fall back to direct collection searches below
+  }
 
   // Search courses collection (individual documents)
   try {
@@ -91,7 +172,7 @@ export async function searchResolver(
       const programs = data.programs || {};
 
       for (const [, program] of Object.entries(programs)) {
-        const p = program as DegreeProgram;
+        const p = program as DegreeProgramLegacy;
         if (
           p.name?.toLowerCase().includes(searchQuery) ||
           p.code?.toLowerCase().includes(searchQuery) ||
