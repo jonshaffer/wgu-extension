@@ -1,0 +1,285 @@
+name: Firebase Functions CI Enhanced
+
+on:
+  push:
+    branches: [ main, develop, feat/* ]
+    paths:
+      - 'functions/**'
+      - '!functions/**/*.md'
+      - '.github/workflows/firebase-functions-ci-enhanced.yml'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'functions/**'
+      - '!functions/**/*.md'
+      - '.github/workflows/firebase-functions-ci-enhanced.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write  # For test coverage comments
+
+concurrency:
+  group: functions-ci-enhanced-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint-and-type-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: |
+          npm ci --workspace=data
+          npm ci --workspace=functions
+          npm ci --workspace=graphql-client
+      
+      - name: Type check
+        run: npm run typecheck --workspace=functions
+      
+      - name: Lint
+        run: npm run lint --workspace=functions
+
+  unit-tests:
+    runs-on: ubuntu-latest
+    needs: lint-and-type-check
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: |
+          npm ci --workspace=data
+          npm ci --workspace=functions
+          npm ci --workspace=graphql-client
+      
+      - name: Run unit tests with coverage
+        run: npm run test:coverage --workspace=functions -- --testMatch="**/*.test.ts" --testPathIgnorePatterns="integration"
+      
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@v3
+        with:
+          directory: ./functions/coverage
+          flags: unit-tests
+          name: functions-unit-tests
+
+  integration-tests:
+    runs-on: ubuntu-latest
+    needs: lint-and-type-check
+    strategy:
+      matrix:
+        dataset: [minimal, standard]
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+      
+      - name: Install Java (required for Firebase emulators)
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+      
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+      
+      - name: Install dependencies
+        run: |
+          npm ci --workspace=data
+          npm ci --workspace=functions
+          npm ci --workspace=graphql-client
+      
+      - name: Build functions
+        run: npm run build --workspace=functions
+      
+      - name: Start Firebase emulators
+        run: |
+          cd functions
+          firebase emulators:start --only firestore,functions --project demo-test &
+          echo "Waiting for emulators to start..."
+          npx wait-on http://localhost:8181 http://localhost:5001 -t 60000
+        env:
+          FIRESTORE_EMULATOR_HOST: localhost:8181
+      
+      - name: Seed test data (${{ matrix.dataset }})
+        run: |
+          cd functions
+          npm run seed:test-data ${{ matrix.dataset }}
+        env:
+          FIRESTORE_EMULATOR_HOST: localhost:8181
+      
+      - name: Run integration tests
+        run: |
+          cd functions
+          npm test -- --testMatch="**/*.integration.test.ts"
+        env:
+          FIRESTORE_EMULATOR_HOST: localhost:8181
+          FIREBASE_AUTH_EMULATOR_HOST: localhost:9099
+      
+      - name: Test GraphQL endpoints
+        run: |
+          cd functions
+          ./test-graphql-comprehensive.sh
+        env:
+          GRAPHQL_ENDPOINT: http://localhost:5001/demo-test/us-central1/publicApi
+      
+      - name: Test admin API with validation
+        run: |
+          cd functions
+          ./test-admin-api.sh
+        env:
+          ADMIN_ENDPOINT: http://localhost:5001/demo-test/us-central1/adminApi
+          ADMIN_TOKEN: test-admin-token
+      
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-${{ matrix.dataset }}
+          path: functions/test-results/
+          retention-days: 7
+
+  graphql-client-tests:
+    runs-on: ubuntu-latest
+    needs: [unit-tests, integration-tests]
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+      
+      - name: Install Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+      
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+      
+      - name: Install dependencies
+        run: |
+          npm ci --workspace=data
+          npm ci --workspace=functions
+          npm ci --workspace=graphql-client
+      
+      - name: Build all packages
+        run: npm run build
+      
+      - name: Start Firebase emulators
+        run: |
+          cd functions
+          firebase emulators:start --only firestore,functions --project demo-test &
+          npx wait-on http://localhost:8181 http://localhost:5001 -t 60000
+        env:
+          FIRESTORE_EMULATOR_HOST: localhost:8181
+      
+      - name: Seed test data
+        run: |
+          cd functions
+          npm run seed:test-data standard
+        env:
+          FIRESTORE_EMULATOR_HOST: localhost:8181
+      
+      - name: Test GraphQL client package
+        run: |
+          cd functions
+          npm run build
+          tsx scripts/test-graphql-client.ts
+        env:
+          GRAPHQL_ENDPOINT: http://localhost:5001/demo-test/us-central1/publicApi
+
+  test-summary:
+    runs-on: ubuntu-latest
+    needs: [unit-tests, integration-tests, graphql-client-tests]
+    if: always()
+    steps:
+      - name: Check test results
+        run: |
+          if [[ "${{ needs.unit-tests.result }}" == "failure" || 
+                "${{ needs.integration-tests.result }}" == "failure" || 
+                "${{ needs.graphql-client-tests.result }}" == "failure" ]]; then
+            echo "❌ Tests failed"
+            exit 1
+          else
+            echo "✅ All tests passed"
+          fi
+      
+      - name: Post PR comment with results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const unitResult = '${{ needs.unit-tests.result }}';
+            const integrationResult = '${{ needs.integration-tests.result }}';
+            const clientResult = '${{ needs.graphql-client-tests.result }}';
+            
+            const getEmoji = (result) => result === 'success' ? '✅' : '❌';
+            
+            const comment = `## Firebase Functions Test Results
+            
+            | Test Suite | Status |
+            |------------|--------|
+            | Unit Tests | ${getEmoji(unitResult)} ${unitResult} |
+            | Integration Tests | ${getEmoji(integrationResult)} ${integrationResult} |
+            | GraphQL Client Tests | ${getEmoji(clientResult)} ${clientResult} |
+            
+            View the [workflow run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) for details.`;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+
+  build-production:
+    runs-on: ubuntu-latest
+    needs: [unit-tests, integration-tests]
+    if: success()
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: |
+          npm ci --workspace=data
+          npm ci --workspace=functions
+          npm ci --workspace=graphql-client
+      
+      - name: Build for production
+        run: npm run build --workspace=functions
+        env:
+          NODE_ENV: production
+      
+      - name: Check bundle size
+        run: |
+          cd functions
+          echo "Checking function bundle sizes..."
+          du -sh lib/*
+      
+      - name: Upload production build
+        uses: actions/upload-artifact@v4
+        with:
+          name: functions-production-build
+          path: functions/lib/
+          retention-days: 30
