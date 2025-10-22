@@ -1,4 +1,6 @@
 import { loadCommunityData as loadUnifiedCommunityData } from '@/utils/community-data';
+import { loadCourseCommunitiesForUI } from '@/utils/community-data-graphql';
+import { useGraphQLData } from '@/utils/feature-flags';
 
 interface CommunityLink {
   type: 'discord' | 'reddit' | 'wgu-connect' | 'wgu-student-groups';
@@ -138,9 +140,17 @@ async function loadFromUnified(wrapper: HTMLElement, courseCode: string) {
   if (!contentDiv) return;
 
   try {
-    const { unifiedData } = await loadUnifiedCommunityData();
-    const mapping = (unifiedData?.courseMappings || []).find((m: any) => (m.courseCode || '').toLowerCase() === courseCode.toLowerCase());
-    const data: Partial<{ discord: CommunityLink[]; reddit: CommunityLink[]; wguConnect: CommunityLink[]; wguStudentGroups: CommunityLink[]; }> = mapping || {};
+    let data: CourseData;
+    
+    if (useGraphQLData()) {
+      // Use GraphQL API
+      data = await loadCourseCommunitiesForUI(courseCode);
+    } else {
+      // Legacy mode - try to load from static data
+      const { unifiedData } = await loadUnifiedCommunityData();
+      const mapping = (unifiedData?.courseMappings || []).find((m: any) => (m.courseCode || '').toLowerCase() === courseCode.toLowerCase());
+      data = mapping || { discord: [], reddit: [], wguConnect: [], wguStudentGroups: [] };
+    }
 
     const allLinks = [
       ...(data.discord || []),

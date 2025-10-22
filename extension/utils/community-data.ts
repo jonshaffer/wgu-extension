@@ -19,7 +19,8 @@ export async function loadCommunityData() {
       discordServers: [], 
       communities: {}, 
       reddit: {}, 
-      wguConnect: {} 
+      wguConnect: {},
+      courseMappings: [] 
     } 
   };
 }

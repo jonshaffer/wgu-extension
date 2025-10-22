@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { WguExpansionPanel } from './WguExpansionPanel';
 import { loadCommunityData } from '@/utils/community-data';
+import { loadCourseCommunitiesForUI } from '@/utils/community-data-graphql';
+import { useGraphQLData } from '@/utils/feature-flags';
 
 interface CommunityLink {
   type: 'discord' | 'reddit' | 'wgu-connect' | 'wgu-student-groups';
@@ -45,18 +47,26 @@ export function CommunitiesPanel({
     async function loadCourseData() {
       try {
         setIsLoading(true);
-        const { unifiedData } = await loadCommunityData();
-        const mapping = (unifiedData?.courseMappings || []).find((m: any) => (m.courseCode || '').toLowerCase() === courseCode.toLowerCase());
-        if (mapping) {
-          setCourseData({
-            discord: mapping.discord || [],
-            reddit: mapping.reddit || [],
-            wguConnect: mapping.wguConnect || [],
-            wguStudentGroups: mapping.wguStudentGroups || [],
-          });
+        
+        if (useGraphQLData()) {
+          // Use GraphQL API
+          const data = await loadCourseCommunitiesForUI(courseCode);
+          setCourseData(data);
         } else {
-          console.log(`No unified mapping found for ${courseCode}`);
-          setCourseData({ discord: [], reddit: [], wguConnect: [], wguStudentGroups: [] });
+          // Legacy mode - try to load from static data
+          const { unifiedData } = await loadCommunityData();
+          const mapping = (unifiedData?.courseMappings || []).find((m: any) => (m.courseCode || '').toLowerCase() === courseCode.toLowerCase());
+          if (mapping) {
+            setCourseData({
+              discord: mapping.discord || [],
+              reddit: mapping.reddit || [],
+              wguConnect: mapping.wguConnect || [],
+              wguStudentGroups: mapping.wguStudentGroups || [],
+            });
+          } else {
+            console.log(`No unified mapping found for ${courseCode}`);
+            setCourseData({ discord: [], reddit: [], wguConnect: [], wguStudentGroups: [] });
+          }
         }
       } catch (error) {
         console.error(`Error loading course data for ${courseCode}:`, error);
