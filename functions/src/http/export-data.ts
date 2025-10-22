@@ -4,11 +4,11 @@
  */
 import {onRequest} from "firebase-functions/v2/https";
 import {getFirestore} from "firebase-admin/firestore";
-import {getAllowedOrigins, setCors} from "../lib/cors";
-import {checkRateLimit} from "../lib/rate-limit";
-import {requireAdmin} from "../lib/auth-utils";
+import {getAllowedOrigins, setCors} from "../lib/cors.js";
+import {checkRateLimit} from "../lib/rate-limit.js";
+import {requireAdmin} from "../lib/auth-utils.js";
 
-export const exportData = onRequest(
+export const exportDataApi = onRequest(
   {
     cors: true,
     maxInstances: 2,
