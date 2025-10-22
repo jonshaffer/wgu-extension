@@ -39,6 +39,7 @@ Thumbs.db
 *.swp
 *.swo
 *~
+.playwright-mcp/
 
 # Build outputs (monorepo-wide)
 dist/
