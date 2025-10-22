@@ -7,12 +7,23 @@ This is a monorepo containing:
 - **functions/**: Firebase Cloud Functions for backend services (@firebase.json)  
 - **site/**: React Router website for public documentation
 
+## Project Governance
+
+This project follows [GitHub Spec Kit](https://github.com/github/spec-kit) principles:
+
+- **🏛️ [Project Constitution](.specify/memory/constitution.md)** - Core principles, coding standards, and technical decision-making processes
+- **📋 [Feature Specifications](.specify/features/)** - Detailed specifications for all major features
+- **📝 [Templates](.specify/templates/)** - Templates for specifications and technical decisions
+
+**IMPORTANT**: Before making significant changes, consult the constitution for established standards and create specifications for new features.
+
 ## Key Configuration Files
 - **@package.json**: Root workspace configuration with all npm scripts
-- **@firebase.json**: Firebase deployment configuration
+- **@firebase.json**: Firebase deployment configuration (dual databases)
 - **@extension/manifest.json**: Browser extension permissions and settings
 - **@extension/wxt.config.ts**: WXT framework configuration
 - **@flake.nix**: Development environment specification
+- **@functions/src/graphql/allowlist.json**: Whitelisted GraphQL queries
 
 ## Project Structure
 
@@ -32,8 +43,13 @@ wgu-extension/
 │   └── public/              # Static assets and generated community data
 ├── functions/               # Firebase Cloud Functions
 │   └── src/                 # TypeScript source for HTTP endpoints
-└── site/                    # React Router website
-    └── app/                 # Routes and components
+├── site/                    # React Router website
+│   └── app/                 # Routes and components
+├── graphql-client/          # GraphQL client library (npm package)
+│   └── src/                 # Client code with caching and types
+└── firebase/                # Firebase configuration
+    ├── firestore.rules      # Security rules for default database
+    └── firestore-admin.rules # Security rules for admin database
 ```
 
 ## Build Commands
@@ -124,9 +140,15 @@ npm run data:validate:reddit --workspace=extension
 - **Scripts**: Cross-workspace automation in root package.json
 
 ### API Architecture
-- **GraphQL Endpoint**: Unified data access via Firebase Functions
+- **GraphQL Endpoints**: 
+  - Public API (`publicApi`): Read-only access with persisted queries
+  - Admin API (`adminApi`): Protected data management operations
+- **GraphQL Yoga**: Modern GraphQL server with security features
 - **Type Safety**: Types flow from functions → graphql-client → consumers
+- **Persisted Queries**: Only whitelisted queries allowed for security
 - **Caching**: Built-in client-side caching for performance
+
+> 📊 **[Functions Status Dashboard](functions/STATUS.md)** - Track GraphQL implementation progress and deployment readiness
 
 ### Data Workspace
 The data workspace (@wgu-extension/data) handles all community data collection, processing, and shared types:
@@ -430,8 +452,9 @@ npm run analyze --workspace=extension
 # Deploy all functions
 npm run deploy --workspace=functions
 
-# Deploy specific function
-firebase deploy --only functions:graphql
+# Deploy specific functions
+firebase deploy --only functions:publicApi
+firebase deploy --only functions:adminApi
 ```
 
 #### Firestore Rules
@@ -453,10 +476,13 @@ firebase deploy --only hosting
 ## Contributing Guidelines for AI Agents
 
 ### Before Making Changes
-1. Read relevant existing code to understand patterns
-2. Check @package.json for available scripts
-3. Run `npm run typecheck` to ensure type safety
-4. Respect existing code style (Prettier will auto-format)
+1. **Review the [Project Constitution](.specify/memory/constitution.md)** for coding standards and principles
+2. **Check existing [Feature Specifications](.specify/features/)** to understand current architecture
+3. **Create specifications for new features** using [templates](.specify/templates/) before implementation
+4. Read relevant existing code to understand patterns
+5. Check @package.json for available scripts
+6. Run `npm run typecheck` to ensure type safety
+7. Respect existing code style (Prettier will auto-format)
 
 ### Making Code Changes
 1. **Always** run type checking before committing

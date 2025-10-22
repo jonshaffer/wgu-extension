@@ -8,6 +8,18 @@ This is a monorepo containing:
 - **site/**: React Router website for public documentation
 - **data/**: Data collection and processing scripts
 
+## 📋 Project Specifications
+
+This project follows [GitHub Spec Kit](https://github.com/github/spec-kit) principles for specification-driven development:
+
+- **🏛️ [Project Constitution](.specify/memory/constitution.md)** - Core principles, standards, and decision-making processes
+- **📋 [Feature Specifications](.specify/features/)** - Detailed specifications for major features:
+  - [Community Data Integration](.specify/features/community-data-integration.md)
+  - [Course Enhancement](.specify/features/course-enhancement.md)
+  - [Search Functionality](.specify/features/search-functionality.md) 
+  - [Data Processing Pipeline](.specify/features/data-processing-pipeline.md)
+- **📝 [Templates](.specify/templates/)** - Templates for new specifications and decisions
+
 ## 🚀 Quick Start
 
 ```bash
@@ -146,12 +158,20 @@ npm run catalog:report --workspace=data
 
 ## 🤝 Contributing
 
+This project follows specification-driven development. For new features:
+
+1. **Review the [Project Constitution](.specify/memory/constitution.md)** for standards and principles
+2. **Create or review feature specifications** in `.specify/features/` before implementation
+3. **Use provided templates** in `.specify/templates/` for consistency
+
+### Development Process
 1. Fork the repository
 2. Create a feature branch
 3. Run `dvc pull` to get catalog files
-4. Make your changes
-5. Run tests and linting
-6. Submit a pull request
+4. Review relevant specifications and create new ones if needed
+5. Make your changes following the project constitution
+6. Run tests and linting (`npm run typecheck` and `npm run lint`)
+7. Submit a pull request with links to relevant specifications
 
 ## 📄 License
 
