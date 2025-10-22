@@ -29,7 +29,8 @@ export default defineConfig({
       host_permissions: [
         'https://raw.githubusercontent.com/jonshaffer/wgu-extension/*',
         '*://discord.com/*',
-        '*://wguconnect.wgu.edu/*'
+        '*://wguconnect.wgu.edu/*',
+        'https://tasks.wgu.edu/*'
       ],
       web_accessible_resources: [
         {
