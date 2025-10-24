@@ -27,6 +27,7 @@
   ],
   "scripts": {
     "lint": "eslint --ext .js,.ts . --fix",
+    "typecheck": "tsc --noEmit",
     "build": "tsc",
     "build:types": "tsc --declaration --emitDeclarationOnly",
     "prepublishOnly": "npm run build",

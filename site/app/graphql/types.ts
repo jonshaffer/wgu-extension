@@ -15,7 +15,7 @@ export type {
   GetCommunitiesResponse,
   GetDegreePlansResponse,
   CommunityType
-} from '@wgu-extension/functions/graphql';
+} from '../../../functions/lib/graphql/index';
 
 // Site-specific types for extended queries
 export interface DiscordServer {
