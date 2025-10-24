@@ -22,7 +22,7 @@
     "zip:edge": "wxt zip -b edge",
     "zip:preview": "wxt zip --mode preview",
     "compile": "tsc --noEmit",
-    "postinstall": "npx wxt prepare",
+    "postinstall": "test \"$CI\" = \"true\" || npx wxt prepare",
     "release": "npm run build:prod && npm run zip && npm run zip:firefox",
     "catalog:check": "tsx scripts/check-wgu-catalog.ts",
     "catalog:compare": "tsx scripts/compare-catalogs.ts",
