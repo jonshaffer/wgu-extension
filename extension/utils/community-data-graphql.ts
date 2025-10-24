@@ -30,7 +30,7 @@ const client = createClient({
  * Load all community data (courses and communities)
  * This maintains compatibility with the old loadCommunityData function
  */
-export async function loadCommunityData() {
+export async function loadCommunityDataGraphQL() {
   try {
     const debugMode = import.meta.env.WXT_DEBUG_MODE === 'true';
     
