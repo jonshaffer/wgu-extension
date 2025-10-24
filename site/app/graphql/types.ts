@@ -3,8 +3,8 @@
  * Re-exports from shared packages and adds site-specific types
  */
 
-// Re-export shared types from packages
-export type {
+// Import shared types from packages
+import type {
   Course,
   CourseList,
   SearchResult,
@@ -16,6 +16,20 @@ export type {
   GetDegreePlansResponse,
   CommunityType
 } from '../../../functions/lib/graphql/index';
+
+// Re-export shared types
+export type {
+  Course,
+  CourseList,
+  SearchResult,
+  SearchResponse,
+  DegreePlan,
+  DegreePlanList,
+  GetCoursesResponse,
+  GetCommunitiesResponse,
+  GetDegreePlansResponse,
+  CommunityType
+};
 
 // Site-specific types for extended queries
 export interface DiscordServer {
