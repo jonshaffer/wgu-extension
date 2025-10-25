@@ -23,6 +23,8 @@
     "deploy:functions": "npm run deploy --workspace=functions",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
+    "ci:validate": "npm run typecheck && npm run lint",
+    "ci:build": "npm run build:libs && npm run build --workspaces",
     "clean": "rm -rf node_modules extension/node_modules functions/node_modules site/node_modules data/node_modules graphql-client/node_modules",
     "postinstall": "npm run postinstall --workspaces --if-present",
     "types:build": "npm run types:build --workspace=data",

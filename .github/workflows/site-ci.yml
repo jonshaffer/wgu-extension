@@ -30,18 +30,12 @@ jobs:
         with:
           node-version: '22'
           cache: 'npm'
-          cache-dependency-path: 'site/package-lock.json'
       
       - name: Install dependencies
-        run: |
-          npm ci --workspace=data
-          npm ci --workspace=functions
-          npm ci --workspace=graphql-client
-          npm ci --workspace=extension
-          npm ci --workspace=site
+        run: npm ci
       
-      - name: Build functions (required for site imports)
-        run: npm run build --workspace=functions
+      - name: Build required packages
+        run: npm run build:libs
       
       - name: Type check
         run: npm run typecheck
@@ -62,18 +56,12 @@ jobs:
         with:
           node-version: '22'
           cache: 'npm'
-          cache-dependency-path: 'site/package-lock.json'
       
       - name: Install dependencies
-        run: |
-          npm ci --workspace=data
-          npm ci --workspace=functions
-          npm ci --workspace=graphql-client
-          npm ci --workspace=extension
-          npm ci --workspace=site
+        run: npm ci
       
-      - name: Build functions (required for site imports)
-        run: npm run build --workspace=functions
+      - name: Build required packages
+        run: npm run build:libs
       
       - name: Build preview
         run: npm run build
@@ -97,18 +85,12 @@ jobs:
         with:
           node-version: '22'
           cache: 'npm'
-          cache-dependency-path: 'site/package-lock.json'
       
       - name: Install dependencies
-        run: |
-          npm ci --workspace=data
-          npm ci --workspace=functions
-          npm ci --workspace=graphql-client
-          npm ci --workspace=extension
-          npm ci --workspace=site
+        run: npm ci
       
-      - name: Build functions (required for site imports)
-        run: npm run build --workspace=functions
+      - name: Build required packages
+        run: npm run build:libs
       
       - name: Build production
         run: npm run build

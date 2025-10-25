@@ -22,6 +22,8 @@
     "zip:edge": "wxt zip -b edge",
     "zip:preview": "wxt zip --mode preview",
     "compile": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
+    "lint": "echo 'No linting configured for extension'",
     "postinstall": "test \"$CI\" = \"true\" || npx wxt prepare",
     "release": "npm run build:prod && npm run zip && npm run zip:firefox",
     "catalog:check": "tsx scripts/check-wgu-catalog.ts",
