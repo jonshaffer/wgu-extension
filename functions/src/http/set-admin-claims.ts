@@ -80,7 +80,10 @@ export const setAdminClaims = onRequest(
 
         // Check if calling user has admin privileges
         if (!decodedToken.admin) {
-          const adminEmails = (process.env.ADMIN_EMAILS || "").split(",").map((e) => e.trim()).filter(Boolean);
+          const adminEmails = (process.env.ADMIN_EMAILS || "")
+            .split(",")
+            .map((e) => e.trim())
+            .filter(Boolean);
           if (!adminEmails.includes(decodedToken.email || "")) {
             response.status(403).json({
               error: "Forbidden - Admin access required to grant admin privileges",
@@ -125,11 +128,15 @@ export const setAdminClaims = onRequest(
 
       await getAuth().setCustomUserClaims(userRecord.uid, customClaims);
 
-      console.log(`🔐 Admin claims ${grantAdmin ? "granted to" : "revoked from"}: ${userRecord.email} (${userRecord.uid})`);
+      console.log(
+        `🔐 Admin claims ${grantAdmin ? "granted to" : "revoked from"}: ` +
+        `${userRecord.email} (${userRecord.uid})`
+      );
 
       response.status(200).json({
         success: true,
-        message: `Admin privileges ${grantAdmin ? "granted to" : "revoked from"} ${userRecord.email}`,
+        message: "Admin privileges " +
+          `${grantAdmin ? "granted to" : "revoked from"} ${userRecord.email}`,
         user: {
           uid: userRecord.uid,
           email: userRecord.email,

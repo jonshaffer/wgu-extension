@@ -142,7 +142,8 @@ export const exportDataApi = onRequest(
           }
 
           console.log(
-            `✅ Exported ${collectionName}: ${exportData.collections[collectionName].documentCount} documents`
+            `✅ Exported ${collectionName}: ` +
+            `${exportData.collections[collectionName].documentCount} documents`
           );
         } catch (collectionError: any) {
           console.error(`❌ Error exporting ${collectionName}:`, collectionError);
@@ -164,11 +165,15 @@ export const exportDataApi = onRequest(
         collectionsExported: Object.keys(exportData.collections),
       };
 
-      console.log(`🎉 Export complete: ${totalDocuments} total documents across ${targetCollections.length} collections`);
+      console.log(
+        `🎉 Export complete: ${totalDocuments} total documents across ` +
+        `${targetCollections.length} collections`
+      );
 
       // Set appropriate headers for download
       if (request.query.download === "true") {
-        const filename = `firestore-export-${format}-${new Date().toISOString().split("T")[0]}.json`;
+        const filename = `firestore-export-${format}-` +
+          `${new Date().toISOString().split("T")[0]}.json`;
         response.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
         response.setHeader("Content-Type", "application/json");
       }
@@ -186,7 +191,11 @@ export const exportDataApi = onRequest(
 );
 
 // Helper function to get sample documents from a collection
-async function getSampleDocuments(db: FirebaseFirestore.Firestore, collectionName: string, limit: number) {
+async function getSampleDocuments(
+  db: FirebaseFirestore.Firestore,
+  collectionName: string,
+  limit: number
+) {
   try {
     const snapshot = await db.collection(collectionName).limit(limit).get();
     const samples: any[] = [];

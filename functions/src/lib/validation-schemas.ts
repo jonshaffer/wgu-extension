@@ -58,7 +58,8 @@ const courseCodeSchema = z.string()
  * Kebab-case format (e.g., bs-computer-science)
  */
 const degreeProgramIdSchema = z.string()
-  .regex(/^[a-z]+(-[a-z]+)*$/, "Degree program ID must be in kebab-case (e.g., bs-computer-science)");
+  .regex(/^[a-z]+(-[a-z]+)*$/,
+    "Degree program ID must be in kebab-case (e.g., bs-computer-science)");
 
 /**
  * Degree code validator
@@ -275,6 +276,8 @@ export const degreePlanInputSchema = z.object({
 
 /**
  * Convert Zod validation errors to GraphQL errors
+ * @param {z.ZodError} error - The Zod validation error
+ * @return {GraphQLError} The formatted GraphQL error
  */
 export function formatZodError(error: z.ZodError): GraphQLError {
   const issues = error.issues.map((issue) => {
@@ -295,6 +298,10 @@ export function formatZodError(error: z.ZodError): GraphQLError {
 
 /**
  * Validate input with a Zod schema and return parsed data or throw GraphQL error
+ * @param {z.ZodSchema<T>} schema - The Zod schema to validate against
+ * @param {unknown} input - The input data to validate
+ * @param {string} context - The context for validation errors
+ * @return {T} The validated and parsed data
  */
 export function validateInput<T>(
   schema: z.ZodSchema<T>,

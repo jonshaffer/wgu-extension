@@ -25,8 +25,12 @@ import {
 /**
  * Get complete course information with all communities
  * This is the main query for displaying course details to students
+ * @param {string} courseCode - The course code to look up
+ * @return {Promise<StudentCourseView | null>} The course with all community data or null
  */
-export async function getCourseWithCommunities(courseCode: string): Promise<StudentCourseView | null> {
+export async function getCourseWithCommunities(
+  courseCode: string
+): Promise<StudentCourseView | null> {
   // Get course
   const courseDoc = await firestore
     .collection(COLLECTIONS.COURSES)
@@ -124,6 +128,9 @@ export async function getCourseWithCommunities(courseCode: string): Promise<Stud
 
 /**
  * Search courses by name or code
+ * @param {string} query - The search query
+ * @param {number} limit - Maximum number of results
+ * @return {Promise<Course[]>} Matching courses
  */
 export async function searchCourses(query: string, limit = 10): Promise<Course[]> {
   const normalizedQuery = query.toUpperCase();
@@ -166,6 +173,8 @@ export async function searchCourses(query: string, limit = 10): Promise<Course[]
 
 /**
  * Get degree program with all courses
+ * @param {string} programId - The degree program ID
+ * @return {Promise<Object|null>} Program and courses object
  */
 export async function getDegreeProgramWithCourses(programId: string): Promise<{
   program: DegreeProgram;
@@ -202,6 +211,10 @@ export async function getDegreeProgramWithCourses(programId: string): Promise<{
 
 /**
  * Search communities by query
+ * @param {string} query - The search query
+ * @param {object} filters - Optional filters for the search
+ * @param {number} limit - Maximum number of results
+ * @return {Promise<CommunityResourceIndex[]>} Matching community resources
  */
 export async function searchCommunities(
   query: string,
@@ -248,6 +261,8 @@ export async function searchCommunities(
 
 /**
  * Get trending communities based on activity
+ * @param {number} limit - Maximum number of results per type
+ * @return {Promise<Object>} Trending communities object
  */
 export async function getTrendingCommunities(limit = 10): Promise<{
   discord: DiscordServer[];
@@ -282,6 +297,8 @@ export async function getTrendingCommunities(limit = 10): Promise<{
 
 /**
  * Get course popularity rankings
+ * @param {Object} options - Options for filtering popular courses
+ * @return {Promise<Array>} Popular courses with enrollment count
  */
 export async function getPopularCourses(
   options: {
@@ -315,6 +332,8 @@ export async function getPopularCourses(
 
 /**
  * Get multiple courses by IDs efficiently
+ * @param {string[]} courseCodes - Array of course codes to fetch
+ * @return {Promise<Course[]>} Array of courses
  */
 export async function getCoursesByIds(courseCodes: string[]): Promise<Course[]> {
   if (courseCodes.length === 0) return [];
@@ -348,6 +367,10 @@ export async function getCoursesByIds(courseCodes: string[]): Promise<Course[]> 
 
 /**
  * Get or set cached query result
+ * @param {string} cacheKey - The cache key
+ * @param {function} fetcher - Function to fetch data if not cached
+ * @param {number} ttlMinutes - Time to live in minutes
+ * @return {Promise<T>} The cached or fetched data
  */
 export async function getCachedOrFetch<T>(
   cacheKey: string,

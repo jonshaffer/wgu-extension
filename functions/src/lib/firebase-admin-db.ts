@@ -25,6 +25,11 @@ export const DATABASES = {
 
 /**
  * Helper function to copy approved suggestions to the default database
+ * @param {string} sourceCollection - The source collection name
+ * @param {string} sourceDocId - The source document ID
+ * @param {string} targetCollection - The target collection name
+ * @param {string} targetDocId - Optional target document ID
+ * @return {Promise<void>}
  */
 export async function copyToDefaultDatabase(
   sourceCollection: string,
@@ -43,12 +48,12 @@ export async function copyToDefaultDatabase(
 
   // Remove admin-specific fields before copying
   const {
-    submittedBy,
+    submittedBy, // eslint-disable-line @typescript-eslint/no-unused-vars
     reviewedBy,
-    reviewNotes,
-    validationErrors,
-    version,
-    previousVersionId,
+    reviewNotes, // eslint-disable-line @typescript-eslint/no-unused-vars
+    validationErrors, // eslint-disable-line @typescript-eslint/no-unused-vars
+    version, // eslint-disable-line @typescript-eslint/no-unused-vars
+    previousVersionId, // eslint-disable-line @typescript-eslint/no-unused-vars
     ...publicData
   } = data;
 
@@ -66,6 +71,8 @@ export async function copyToDefaultDatabase(
 
 /**
  * Batch copy multiple approved suggestions
+ * @param {Array} operations - Array of copy operations
+ * @return {Promise<Object>} Batch operation results
  */
 export async function batchCopyToDefaultDatabase(
   operations: Array<{
