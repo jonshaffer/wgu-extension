@@ -14,8 +14,12 @@ export interface AuthInfo {
 /**
  * Secure authentication for Admin SDK requests
  * SECURITY: Only accepts cryptographically verifiable credentials
+ * @param {string} token - The service account token to verify
+ * @return {Promise} Verification result
  */
-async function verifyServiceAccountToken(token: string): Promise<{ isServiceAccount: boolean; email?: string }> {
+async function verifyServiceAccountToken(
+  token: string
+): Promise<{ isServiceAccount: boolean; email?: string }> {
   try {
     // Use Firebase Admin to verify the token - this cryptographically validates it
     const decodedToken = await getAuth().verifyIdToken(token, true);
@@ -38,6 +42,8 @@ async function verifyServiceAccountToken(token: string): Promise<{ isServiceAcco
 
 /**
  * Detect authenticated Admin SDK requests (secure methods only)
+ * @param {any} request - The request to check for admin SDK authentication
+ * @return {Promise} Detection result
  */
 export async function detectAdminSdk(request: CallableRequest | any): Promise<{
   isAdminSdk: boolean;
@@ -72,6 +78,8 @@ export async function detectAdminSdk(request: CallableRequest | any): Promise<{
 
 /**
  * Comprehensive authentication check supporting multiple auth methods
+ * @param {CallableRequest | any} request - The request object
+ * @return {Promise<AuthInfo>} Authentication information
  */
 export async function authenticateRequest(request: CallableRequest | any): Promise<AuthInfo> {
   // Check for Admin SDK first
@@ -111,7 +119,10 @@ export async function authenticateRequest(request: CallableRequest | any): Promi
     isAdmin = true;
   } else {
     // Option 2: Admin email list
-    const adminEmails = (process.env.ADMIN_EMAILS || "").split(",").map((e) => e.trim()).filter(Boolean);
+    const adminEmails = (process.env.ADMIN_EMAILS || "")
+      .split(",")
+      .map((e) => e.trim())
+      .filter(Boolean);
     isAdmin = adminEmails.includes(userEmail);
   }
 
@@ -125,12 +136,17 @@ export async function authenticateRequest(request: CallableRequest | any): Promi
 
 /**
  * Middleware-style auth check for HTTP functions
+ * @param {CallableRequest | any} request - The request object
+ * @return {Promise<AuthInfo>} Authentication information if admin
+ * @throws {Error} If user is not an admin
  */
 export async function requireAdmin(request: CallableRequest | any): Promise<AuthInfo> {
   const authInfo = await authenticateRequest(request);
 
   if (!authInfo.isAdmin) {
-    throw new Error(`Forbidden - Admin access required. User: ${authInfo.userEmail || authInfo.userId}`);
+    throw new Error(
+      `Forbidden - Admin access required. User: ${authInfo.userEmail || authInfo.userId}`
+    );
   }
 
   return authInfo;

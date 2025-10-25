@@ -26,6 +26,8 @@ import {
 
 /**
  * Apply an approved suggestion to the default database
+ * @param {string} suggestionId - The ID of the suggestion to apply
+ * @return {Promise<ApplicationResult>} The result of applying the suggestion
  */
 export async function applySuggestion(suggestionId: string): Promise<ApplicationResult> {
   try {
@@ -108,13 +110,15 @@ export async function applySuggestion(suggestionId: string): Promise<Application
 
 /**
  * Apply course suggestions
+ * @param {CourseSuggestion} suggestion - The course suggestion to apply
+ * @return {Promise<ApplicationResult>} The result of applying the suggestion
  */
 async function applyCourseSuggestion(suggestion: CourseSuggestion): Promise<ApplicationResult> {
   const courseRef = defaultDb.collection(COLLECTIONS.COURSES).doc(suggestion.data.courseCode);
 
   try {
     switch (suggestion.operation) {
-    case "add":
+    case "add": {
       // Check if course already exists
       const existingDoc = await courseRef.get();
       if (existingDoc.exists) {
@@ -155,8 +159,9 @@ async function applyCourseSuggestion(suggestion: CourseSuggestion): Promise<Appl
         rollbackable: true,
         rollbackId: suggestion.data.courseCode,
       };
+    }
 
-    case "update":
+    case "update": {
       if (!suggestion.targetId) {
         throw new Error("Target course code required for update");
       }
@@ -199,8 +204,9 @@ async function applyCourseSuggestion(suggestion: CourseSuggestion): Promise<Appl
         rollbackable: true,
         rollbackId: `${suggestion.targetId}_${Date.now()}`,
       };
+    }
 
-    case "delete":
+    case "delete": {
       if (!suggestion.targetId) {
         throw new Error("Target course code required for delete");
       }
@@ -223,6 +229,7 @@ async function applyCourseSuggestion(suggestion: CourseSuggestion): Promise<Appl
         rollbackable: true,
         rollbackId: suggestion.targetId,
       };
+    }
 
     default:
       throw new Error(`Unknown operation: ${suggestion.operation}`);
@@ -238,6 +245,8 @@ async function applyCourseSuggestion(suggestion: CourseSuggestion): Promise<Appl
 
 /**
  * Apply Discord server suggestions
+ * @param {DiscordServerSuggestion} suggestion - The Discord server suggestion to apply
+ * @return {Promise<ApplicationResult>} The result of applying the suggestion
  */
 async function applyDiscordSuggestion(suggestion: DiscordServerSuggestion): Promise<ApplicationResult> {
   try {

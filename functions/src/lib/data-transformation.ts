@@ -36,6 +36,8 @@ import {
 /**
  * Extract courses from institution catalogs
  * Creates/updates the courses collection
+ * @param {string} catalogId - The catalog ID to transform
+ * @return {Promise<void>}
  */
 export async function transformCatalogToCourses(catalogId: string): Promise<void> {
   const catalogDoc = await firestore
@@ -176,9 +178,8 @@ export async function mapCommunitiesToCourses(): Promise<void> {
           relevance: "direct",
           confidence: 0.8,
         });
-      }
-      // Program-level association
-      else if (reddit.type === "main" || reddit.type === "program-specific") {
+      } else if (reddit.type === "main" || reddit.type === "program-specific") {
+        // Program-level association
         mapping.communities.all.push({
           type: "reddit",
           id: reddit.id,

@@ -1,7 +1,7 @@
 import {onRequest} from "firebase-functions/v2/https";
 import {createYoga, maskError} from "graphql-yoga";
 import {buildSchema, GraphQLError} from "graphql";
-const depthLimit = require("graphql-depth-limit");
+import depthLimit from "graphql-depth-limit";
 import {getComplexity, simpleEstimator} from "graphql-query-complexity";
 import {publicTypeDefs} from "../graphql/public-schema.js";
 import {publicResolvers} from "../graphql/public-resolvers.js";
@@ -135,7 +135,9 @@ const yoga = createYoga({
         });
 
         if (complexity > 300) {
-          throw new GraphQLError(`Query complexity ${complexity} exceeds maximum allowed complexity of 300`);
+          throw new GraphQLError(
+            `Query complexity ${complexity} exceeds maximum allowed complexity of 300`
+          );
         }
       },
 

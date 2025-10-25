@@ -1,6 +1,11 @@
 import {searchResolver} from "./search-resolver.js";
 import {searchSubredditsResolver} from "./reddit-search-resolver.js";
-import {coursesResolver, courseDiscordResolver, courseRedditResolver, courseWguConnectResolver} from "./courses-resolver.js";
+import {
+  coursesResolver,
+  courseDiscordResolver,
+  courseRedditResolver,
+  courseWguConnectResolver,
+} from "./courses-resolver.js";
 import {degreeProgramsResolver, degreeProgramCoursesResolver} from "./degree-programs-resolver.js";
 import {discordServersResolver} from "./discord-resolver.js";
 import {

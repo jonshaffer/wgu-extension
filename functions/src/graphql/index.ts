@@ -17,7 +17,13 @@ export * from "./types.js";
 export * from "./queries.js";
 
 // Re-export legacy queries object for backwards compatibility
-import {GET_COURSES, GET_COMMUNITIES, GET_COMMUNITIES_FOR_COURSE, GET_DEGREE_PLANS, GET_COMMUNITIES_FOR_COURSE_V2} from "./queries.js";
+import {
+  GET_COURSES,
+  GET_COMMUNITIES,
+  GET_COMMUNITIES_FOR_COURSE,
+  GET_DEGREE_PLANS,
+  GET_COMMUNITIES_FOR_COURSE_V2,
+} from "./queries.js";
 export const queries = {
   GET_COURSES,
   GET_COMMUNITIES,
