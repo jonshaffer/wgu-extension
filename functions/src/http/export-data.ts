@@ -57,7 +57,9 @@ export const exportDataApi = onRequest(
         return;
       }
 
-      console.log(`🔐 Admin export requested by: ${authInfo.userEmail || authInfo.userId} (${authInfo.source})`);
+      console.log(
+        `🔐 Admin export requested by: ${authInfo.userEmail || authInfo.userId} (${authInfo.source})`
+      );
 
       const db = getFirestore();
       const exportData: any = {
@@ -139,7 +141,9 @@ export const exportDataApi = onRequest(
             };
           }
 
-          console.log(`✅ Exported ${collectionName}: ${exportData.collections[collectionName].documentCount} documents`);
+          console.log(
+            `✅ Exported ${collectionName}: ${exportData.collections[collectionName].documentCount} documents`
+          );
         } catch (collectionError: any) {
           console.error(`❌ Error exporting ${collectionName}:`, collectionError);
           exportData.collections[collectionName] = {

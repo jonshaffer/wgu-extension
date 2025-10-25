@@ -7,7 +7,7 @@ import {
   DiscordServer,
   RedditCommunity,
   Course,
-  DegreeProgram
+  DegreeProgram,
 } from "../lib/data-model.js";
 import {
   validateDiscordServerInput,
