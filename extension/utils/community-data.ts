@@ -3,7 +3,7 @@
  * Switches between GraphQL API and static files based on feature flag
  */
 import { useGraphQLData } from './feature-flags';
-import { loadCommunityData as loadGraphQLData } from './community-data-graphql';
+import { loadCommunityDataGraphQL as loadGraphQLData } from './community-data-graphql';
 
 export async function loadCommunityData() {
   // Use GraphQL if feature flag is enabled

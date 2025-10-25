@@ -14,7 +14,7 @@ import {
   GET_DEGREE_PLAN as GET_DEGREE_PLAN_QUERY,
   GET_STUDENT_GROUPS as GET_STUDENT_GROUPS_QUERY,
   GET_STUDENT_GROUP as GET_STUDENT_GROUP_QUERY
-} from '@wgu-extension/functions/graphql';
+} from '../../../functions/src/graphql/queries';
 
 // Wrap imported queries with gql tag for Apollo Client
 export const SEARCH = gql`${SEARCH_QUERY}`;

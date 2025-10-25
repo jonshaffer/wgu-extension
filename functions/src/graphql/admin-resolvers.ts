@@ -2,7 +2,13 @@ import {GraphQLError} from "graphql";
 import {searchResolver} from "./search-resolver";
 import {searchSubredditsResolver} from "./reddit-search-resolver";
 import {defaultDb, adminDb} from "../lib/firebase-admin-db.js";
-import {COLLECTIONS, DiscordServer, RedditCommunity, Course, DegreeProgram} from "../lib/data-model.js";
+import {
+  COLLECTIONS,
+  DiscordServer,
+  RedditCommunity,
+  Course,
+  DegreeProgram
+} from "../lib/data-model.js";
 import {
   validateDiscordServerInput,
   validateDiscordServerUpdateInput,
@@ -176,7 +182,11 @@ async function ingestionStatsResolver() {
 }
 
 // Mutation resolvers
-async function ingestDiscordServerResolver(_parent: any, args: { input: any }, context: { user: any }) {
+async function ingestDiscordServerResolver(
+  _parent: any,
+  args: { input: any },
+  context: { user: any }
+) {
   requireAdmin(context);
 
   try {
@@ -196,7 +206,10 @@ async function ingestDiscordServerResolver(_parent: any, args: { input: any }, c
     };
 
     // Save to Firestore
-    await defaultDb.collection(COLLECTIONS.DISCORD_SERVERS).doc(validatedInput.serverId).set(serverData);
+    await defaultDb
+      .collection(COLLECTIONS.DISCORD_SERVERS)
+      .doc(validatedInput.serverId)
+      .set(serverData);
 
     // Log the change
     await logChange(
@@ -215,7 +228,11 @@ async function ingestDiscordServerResolver(_parent: any, args: { input: any }, c
   }
 }
 
-async function updateDiscordServerResolver(_parent: any, args: { id: string; input: any }, context: { user: any }) {
+async function updateDiscordServerResolver(
+  _parent: any,
+  args: { id: string; input: any },
+  context: { user: any }
+) {
   requireAdmin(context);
   const {id} = args;
 
@@ -256,7 +273,11 @@ async function updateDiscordServerResolver(_parent: any, args: { id: string; inp
   }
 }
 
-async function deleteDiscordServerResolver(_parent: any, args: { id: string }, context: { user: any }) {
+async function deleteDiscordServerResolver(
+  _parent: any,
+  args: { id: string },
+  context: { user: any }
+) {
   requireAdmin(context);
   const {id} = args;
 
@@ -290,7 +311,11 @@ async function deleteDiscordServerResolver(_parent: any, args: { id: string }, c
   }
 }
 
-async function ingestRedditCommunityResolver(_parent: any, args: { input: any }, context: { user: any }) {
+async function ingestRedditCommunityResolver(
+  _parent: any,
+  args: { input: any },
+  context: { user: any }
+) {
   requireAdmin(context);
 
   try {
@@ -312,7 +337,10 @@ async function ingestRedditCommunityResolver(_parent: any, args: { input: any },
     };
 
     // Save to Firestore
-    await defaultDb.collection(COLLECTIONS.REDDIT_COMMUNITIES).doc(validatedInput.subreddit).set(communityData);
+    await defaultDb
+      .collection(COLLECTIONS.REDDIT_COMMUNITIES)
+      .doc(validatedInput.subreddit)
+      .set(communityData);
 
     // Log the change
     await logChange(
@@ -331,7 +359,11 @@ async function ingestRedditCommunityResolver(_parent: any, args: { input: any },
   }
 }
 
-async function updateRedditCommunityResolver(_parent: any, args: { id: string; input: any }, context: { user: any }) {
+async function updateRedditCommunityResolver(
+  _parent: any,
+  args: { id: string; input: any },
+  context: { user: any }
+) {
   requireAdmin(context);
   const {id} = args;
 
@@ -372,7 +404,11 @@ async function updateRedditCommunityResolver(_parent: any, args: { id: string; i
   }
 }
 
-async function deleteRedditCommunityResolver(_parent: any, args: { id: string }, context: { user: any }) {
+async function deleteRedditCommunityResolver(
+  _parent: any,
+  args: { id: string },
+  context: { user: any }
+) {
   requireAdmin(context);
   const {id} = args;
 
@@ -463,7 +499,11 @@ async function upsertCourseResolver(_parent: any, args: { input: any }, context:
   }
 }
 
-async function deleteCourseResolver(_parent: any, args: { courseCode: string }, context: { user: any }) {
+async function deleteCourseResolver(
+  _parent: any,
+  args: { courseCode: string },
+  context: { user: any }
+) {
   requireAdmin(context);
   const {courseCode} = args;
 
@@ -497,7 +537,11 @@ async function deleteCourseResolver(_parent: any, args: { courseCode: string }, 
   }
 }
 
-async function upsertDegreePlanResolver(_parent: any, args: { input: any }, context: { user: any }) {
+async function upsertDegreePlanResolver(
+  _parent: any,
+  args: { input: any },
+  context: { user: any }
+) {
   requireAdmin(context);
 
   try {
@@ -549,7 +593,11 @@ async function upsertDegreePlanResolver(_parent: any, args: { input: any }, cont
   }
 }
 
-async function deleteDegreePlanResolver(_parent: any, args: { id: string }, context: { user: any }) {
+async function deleteDegreePlanResolver(
+  _parent: any,
+  args: { id: string },
+  context: { user: any }
+) {
   requireAdmin(context);
   const {id} = args;
 

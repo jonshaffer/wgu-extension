@@ -39,6 +39,8 @@ jobs:
           npm ci --workspace=data
           npm ci --workspace=functions
           npm ci --workspace=graphql-client
+          npm ci --workspace=extension
+          npm ci --workspace=extension
       
       - name: Type check
         run: npm run typecheck --workspace=functions
@@ -62,6 +64,8 @@ jobs:
           npm ci --workspace=data
           npm ci --workspace=functions
           npm ci --workspace=graphql-client
+          npm ci --workspace=extension
+          npm ci --workspace=extension
       
       - name: Run unit tests with coverage
         run: npm run test:coverage --workspace=functions -- --testMatch="**/*.test.ts" --testPathIgnorePatterns="integration"
@@ -101,6 +105,8 @@ jobs:
           npm ci --workspace=data
           npm ci --workspace=functions
           npm ci --workspace=graphql-client
+          npm ci --workspace=extension
+          npm ci --workspace=extension
       
       - name: Build functions
         run: npm run build --workspace=functions
@@ -177,6 +183,8 @@ jobs:
           npm ci --workspace=data
           npm ci --workspace=functions
           npm ci --workspace=graphql-client
+          npm ci --workspace=extension
+          npm ci --workspace=extension
       
       - name: Build all packages
         run: npm run build
@@ -265,6 +273,8 @@ jobs:
           npm ci --workspace=data
           npm ci --workspace=functions
           npm ci --workspace=graphql-client
+          npm ci --workspace=extension
+          npm ci --workspace=extension
       
       - name: Build for production
         run: npm run build --workspace=functions

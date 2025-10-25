@@ -27,6 +27,7 @@
   ],
   "scripts": {
     "lint": "eslint --ext .js,.ts . --fix",
+    "typecheck": "tsc --noEmit",
     "build": "tsc",
     "build:types": "tsc --declaration --emitDeclarationOnly",
     "prepublishOnly": "npm run build",
@@ -65,7 +66,7 @@
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "firebase-admin": "^12.7.0",
-    "firebase-functions": "^6.0.1",
+    "firebase-functions": "^6.6.0",
     "graphql": "^16.11.0",
     "graphql-depth-limit": "^1.1.0",
     "graphql-query-complexity": "^1.1.0",

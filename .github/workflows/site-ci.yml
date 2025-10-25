@@ -33,8 +33,15 @@ jobs:
           cache-dependency-path: 'site/package-lock.json'
       
       - name: Install dependencies
-        run: npm ci
-        working-directory: site
+        run: |
+          npm ci --workspace=data
+          npm ci --workspace=functions
+          npm ci --workspace=graphql-client
+          npm ci --workspace=extension
+          npm ci --workspace=site
+      
+      - name: Build functions (required for site imports)
+        run: npm run build --workspace=functions
       
       - name: Type check
         run: npm run typecheck
@@ -58,8 +65,15 @@ jobs:
           cache-dependency-path: 'site/package-lock.json'
       
       - name: Install dependencies
-        run: npm ci
-        working-directory: site
+        run: |
+          npm ci --workspace=data
+          npm ci --workspace=functions
+          npm ci --workspace=graphql-client
+          npm ci --workspace=extension
+          npm ci --workspace=site
+      
+      - name: Build functions (required for site imports)
+        run: npm run build --workspace=functions
       
       - name: Build preview
         run: npm run build
@@ -86,8 +100,15 @@ jobs:
           cache-dependency-path: 'site/package-lock.json'
       
       - name: Install dependencies
-        run: npm ci
-        working-directory: site
+        run: |
+          npm ci --workspace=data
+          npm ci --workspace=functions
+          npm ci --workspace=graphql-client
+          npm ci --workspace=extension
+          npm ci --workspace=site
+      
+      - name: Build functions (required for site imports)
+        run: npm run build --workspace=functions
       
       - name: Build production
         run: npm run build
