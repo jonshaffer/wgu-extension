@@ -15,7 +15,7 @@ export interface AuthInfo {
  * Secure authentication for Admin SDK requests
  * SECURITY: Only accepts cryptographically verifiable credentials
  * @param {string} token - The service account token to verify
- * @returns {Promise<{isServiceAccount: boolean; email?: string}>} Verification result
+ * @returns {Promise} Verification result
  */
 async function verifyServiceAccountToken(
   token: string
@@ -42,8 +42,8 @@ async function verifyServiceAccountToken(
 
 /**
  * Detect authenticated Admin SDK requests (secure methods only)
- * @param {CallableRequest | any} request - The request to check for admin SDK authentication
- * @returns {Promise<{isAdminSdk: boolean; method?: string; identifier?: string}>} Detection result
+ * @param {any} request - The request to check for admin SDK authentication
+ * @returns {Promise} Detection result
  */
 export async function detectAdminSdk(request: CallableRequest | any): Promise<{
   isAdminSdk: boolean;
