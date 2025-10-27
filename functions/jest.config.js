@@ -9,6 +9,8 @@ module.exports = {
         esModuleInterop: true,
         allowSyntheticDefaultImports: true,
         isolatedModules: true,
+        module: 'CommonJS',
+        target: 'ES2020',
       },
     }],
   },
@@ -20,6 +22,7 @@ module.exports = {
   ],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
+    '^(\\.{1,2}/.*)\\.js$': '$1',
   },
   setupFilesAfterEnv: ['<rootDir>/src/test/setup.ts'],
   testTimeout: 120000,

@@ -52,9 +52,9 @@
     "seed:test-data:standard": "FIRESTORE_EMULATOR_HOST=localhost:8181 tsx scripts/seed-test-data.ts standard",
     "emulator:export": "firebase emulators:export ./emulator-data",
     "emulator:clear": "rm -rf ./emulator-data",
-    "test": "NODE_OPTIONS='--experimental-vm-modules' jest",
+    "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "NODE_OPTIONS='--experimental-vm-modules' jest --coverage",
+    "test:coverage": "jest --coverage",
     "test:integration": "firebase emulators:exec --only firestore 'jest --testMatch=\"**/*.integration.test.ts\"'",
     "test:emulator": "npm run build && firebase emulators:exec --only functions,firestore 'npm test'"
   },

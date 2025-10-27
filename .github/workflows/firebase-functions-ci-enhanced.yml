@@ -107,7 +107,12 @@ jobs:
           cd functions
           firebase emulators:start --only firestore,functions --project demo-test &
           echo "Waiting for emulators to start..."
-          npx wait-on http://localhost:8181 http://localhost:5001 -t 60000
+          npx wait-on http://localhost:8181 http://localhost:5001 -t 120000 --interval 2000
+          echo "Testing Firestore emulator connectivity..."
+          curl -f http://localhost:8181 || echo "Firestore emulator check failed"
+          echo "Testing Functions emulator connectivity..."
+          curl -f http://localhost:5001 || echo "Functions emulator check failed"
+          sleep 5
         env:
           FIRESTORE_EMULATOR_HOST: localhost:8181
       
@@ -179,7 +184,13 @@ jobs:
         run: |
           cd functions
           firebase emulators:start --only firestore,functions --project demo-test &
-          npx wait-on http://localhost:8181 http://localhost:5001 -t 60000
+          echo "Waiting for emulators to start..."
+          npx wait-on http://localhost:8181 http://localhost:5001 -t 120000 --interval 2000
+          echo "Testing Firestore emulator connectivity..."
+          curl -f http://localhost:8181 || echo "Firestore emulator check failed"
+          echo "Testing Functions emulator connectivity..."
+          curl -f http://localhost:5001 || echo "Functions emulator check failed"
+          sleep 5
         env:
           FIRESTORE_EMULATOR_HOST: localhost:8181
       
@@ -205,13 +216,28 @@ jobs:
     steps:
       - name: Check test results
         run: |
-          if [[ "${{ needs.unit-tests.result }}" == "failure" || 
-                "${{ needs.integration-tests.result }}" == "failure" || 
-                "${{ needs.graphql-client-tests.result }}" == "failure" ]]; then
-            echo "❌ Tests failed"
+          unit_result="${{ needs.unit-tests.result }}"
+          integration_result="${{ needs.integration-tests.result }}"
+          client_result="${{ needs.graphql-client-tests.result }}"
+          
+          echo "Test Results Summary:"
+          echo "  Unit Tests: $unit_result"
+          echo "  Integration Tests: $integration_result"
+          echo "  GraphQL Client Tests: $client_result"
+          
+          # Fail if any critical tests failed (allow skipped)
+          if [[ "$unit_result" == "failure" || 
+                "$integration_result" == "failure" || 
+                "$client_result" == "failure" ]]; then
+            echo "❌ Critical tests failed"
+            exit 1
+          elif [[ "$unit_result" == "skipped" && 
+                  "$integration_result" == "skipped" && 
+                  "$client_result" == "skipped" ]]; then
+            echo "⚠️  All tests were skipped"
             exit 1
           else
-            echo "✅ All tests passed"
+            echo "✅ Tests completed successfully"
           fi
       
       - name: Post PR comment with results
