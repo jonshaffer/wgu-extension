@@ -8,9 +8,13 @@ const isCI = process.env.CI === "true";
 const explicitIntegrationFlag = process.env.RUN_INTEGRATION_TESTS === "true";
 const runningIntegrationTestFiles = process.argv.some(arg => arg.includes('integration.test'));
 
-// Only run integration tests if explicitly requested AND emulators are available
-// In CI, unit tests should run without emulator dependency
-const isIntegrationTest = (explicitIntegrationFlag || runningIntegrationTestFiles) && hasEmulatorHost;
+// Run integration tests if:
+// 1. Explicit flag is set, OR
+// 2. Running integration test files AND emulator is available, OR
+// 3. Jest is being run with integration test pattern
+const isIntegrationTest = explicitIntegrationFlag || 
+  (runningIntegrationTestFiles && hasEmulatorHost) ||
+  (hasEmulatorHost && process.env.npm_lifecycle_event?.includes('integration'));
 
 // Debug logging to help troubleshoot environment detection
 console.log('🔧 Test environment debug:');

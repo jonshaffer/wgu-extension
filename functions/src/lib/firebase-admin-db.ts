@@ -43,19 +43,27 @@ export async function copyToDefaultDatabase(
     throw new Error("Source document not found");
   }
 
-  const data = sourceDoc.data()!;
+  const data = sourceDoc.data();
+  if (!data) {
+    throw new Error("Source document has no data");
+  }
   const docId = targetDocId || sourceDocId;
 
   // Remove admin-specific fields before copying
-  const {
-    submittedBy: _submittedBy,
-    reviewedBy,
-    reviewNotes: _reviewNotes,
-    validationErrors: _validationErrors,
-    version: _version,
-    previousVersionId: _previousVersionId,
-    ...publicData
-  } = data;
+  // Extract only the reviewedBy field that we need
+  const {reviewedBy} = data;
+
+  // Create public data by omitting admin-specific fields
+  const adminFields = [
+    "submittedBy",
+    "reviewNotes",
+    "validationErrors",
+    "version",
+    "previousVersionId",
+  ];
+  const publicData = Object.fromEntries(
+    Object.entries(data).filter(([key]) => !adminFields.includes(key))
+  );
 
   await defaultDb.collection(targetCollection).doc(docId).set({
     ...publicData,
@@ -96,10 +104,10 @@ export async function batchCopyToDefaultDatabase(
         op.targetDocId
       );
       results.successful.push(op.sourceDocId);
-    } catch (error: any) {
+    } catch (error: unknown) {
       results.failed.push({
         id: op.sourceDocId,
-        error: error.message || "Unknown error",
+        error: error instanceof Error ? error.message : "Unknown error",
       });
     }
   }

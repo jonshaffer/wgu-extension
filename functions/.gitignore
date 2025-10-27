@@ -12,3 +12,6 @@ node_modules/
 # Emulator data
 emulator-data/
 /emulator-data
+
+# Test results
+test-results/

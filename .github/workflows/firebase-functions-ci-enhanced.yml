@@ -69,6 +69,7 @@ jobs:
           directory: ./functions/coverage
           flags: unit-tests
           name: functions-unit-tests
+          token: ${{ secrets.CODECOV_TOKEN }}
 
   integration-tests:
     runs-on: ubuntu-latest
