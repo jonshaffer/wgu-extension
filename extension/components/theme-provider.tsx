@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react"
+import React, { createContext, useContext, useEffect, useState } from "react"
 import { storage } from "@wxt-dev/storage"
 import { APP_THEME } from "@/utils/storage.constants"
 

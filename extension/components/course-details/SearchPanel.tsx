@@ -57,7 +57,7 @@ export function SearchPanel({
       try {
         setIsLoading(true);
         const { unifiedData } = await loadCommunityData();
-        const mapping = (unifiedData?.courseMappings || []).find((m: any) => (m.courseCode || '').toLowerCase() === courseCode.toLowerCase());
+        const mapping = (unifiedData?.courseMappings || []).find((m: any) => (m.courseCode || '').toLowerCase() === courseCode.toLowerCase()) as any;
         if (mapping) {
           setCourseData({
             discord: mapping.discord || [],
