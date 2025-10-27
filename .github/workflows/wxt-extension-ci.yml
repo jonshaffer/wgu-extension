@@ -85,8 +85,8 @@ jobs:
       - name: Create preview ZIPs
         run: |
           npm run zip:preview --workspace=extension
-          npm run zip:firefox --workspace=extension -- --mode preview
-          npm run zip:edge --workspace=extension -- --mode preview
+          npm run zip:firefox:preview --workspace=extension
+          npm run zip:edge:preview --workspace=extension
       
       - name: Upload preview artifacts
         uses: actions/upload-artifact@v4
