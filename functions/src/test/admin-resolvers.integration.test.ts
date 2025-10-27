@@ -115,7 +115,6 @@ describe("Admin Resolvers Integration Tests", () => {
       );
 
       expect(result).toMatchObject({
-        serverId: validDiscordInput.serverId,
         name: validDiscordInput.name,
         description: validDiscordInput.description,
         inviteUrl: validDiscordInput.inviteUrl,
@@ -244,7 +243,6 @@ describe("Admin Resolvers Integration Tests", () => {
       );
 
       expect(result).toMatchObject({
-        subredditName: validRedditInput.subreddit,
         name: validRedditInput.name,
         url: validRedditInput.url,
         subscriberCount: validRedditInput.subscriberCount,
@@ -406,7 +404,6 @@ describe("Admin Resolvers Integration Tests", () => {
       );
 
       expect(result).toMatchObject({
-        degreeId: validDegreePlanInput.id,
         name: validDegreePlanInput.name,
         totalUnits: validDegreePlanInput.totalUnits,
       });

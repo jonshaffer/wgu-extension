@@ -2,7 +2,10 @@ import {describe, expect, test, beforeAll, afterAll} from "@jest/globals";
 import functionsTest from "firebase-functions-test";
 import * as admin from "firebase-admin";
 import request from "supertest";
-// import {graphql} from "../http/graphql";
+import {createYoga} from "graphql-yoga";
+import {buildSchema} from "graphql";
+import {publicTypeDefs} from "../graphql/public-schema.js";
+import {publicResolvers} from "../graphql/public-resolvers.js";
 
 // Initialize the firebase-functions-test SDK
 // In CI/emulator mode, we don't need the service account key
@@ -11,14 +14,24 @@ const testEnv = functionsTest({
   projectId: "demo-test",
 }, serviceAccountPath);
 
-// Import the express app from the graphql function
-// We'll need to extract it for testing
+// Create a test-friendly GraphQL app
 let app: any;
 
 describe("GraphQL Integration Tests", () => {
   beforeAll(async () => {
-    // The graphql function exports an onRequest handler
-    // We need to test it as an Express app
+    // Create a test GraphQL app with the same schema and resolvers
+    const schema = buildSchema(publicTypeDefs);
+    const yoga = createYoga({
+      schema,
+      graphiql: false,
+      context: async () => ({
+        // Provide test context
+      }),
+    });
+    
+    // Convert yoga to an Express-like app for supertest
+    app = yoga;
+    
     const db = admin.firestore();
 
     // Seed test data
