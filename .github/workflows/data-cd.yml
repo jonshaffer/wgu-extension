@@ -49,10 +49,10 @@ jobs:
         run: |
           pip install dvc[gdrive]
 
-      - name: Configure DVC
+      - name: Configure DVC  
         run: |
-          # Check if we can access the remote without service account first
-          dvc remote list || echo "DVC remotes not configured, skipping auth setup"
+          echo "ℹ️ DVC configured to use existing remote settings"
+          dvc remote list
 
       - name: Pull source data from DVC
         run: |
