@@ -21,7 +21,7 @@ describe("GraphQL Integration Tests", () => {
 
     // Seed test data
     await seedTestData(db);
-  }, 60000); // Increase timeout for setup
+  }, 120000); // Increase timeout for setup (2 minutes)
 
   afterAll(async () => {
     // Clean up

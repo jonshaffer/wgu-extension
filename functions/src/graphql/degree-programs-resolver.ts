@@ -1,5 +1,5 @@
 import {getDegreeProgramWithCourses} from "../lib/data-queries.js";
-import {db} from "../lib/firebase.js";
+import {defaultDb as db} from "../lib/firebase-admin-db.js";
 import {DegreeProgram, COLLECTIONS, Course} from "../lib/data-model.js";
 
 interface DegreeProgramsArgs {

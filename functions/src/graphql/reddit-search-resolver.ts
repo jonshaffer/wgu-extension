@@ -1,5 +1,5 @@
 import {GraphQLError} from "graphql";
-import {db} from "../lib/firebase.js";
+import {defaultDb as db} from "../lib/firebase-admin-db.js";
 import {COLLECTIONS, RedditCommunity, CourseCommunityMapping} from "../lib/data-model.js";
 
 interface RedditSearchArgs {

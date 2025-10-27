@@ -13,7 +13,7 @@ describe("Search Resolver Integration Tests", () => {
 
   beforeAll(async () => {
     // Ensure we're using the emulator
-    process.env.FIRESTORE_EMULATOR_HOST = "localhost:8080";
+    process.env.FIRESTORE_EMULATOR_HOST = "localhost:8181";
 
     db = admin.firestore();
 
