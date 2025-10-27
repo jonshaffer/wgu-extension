@@ -8,7 +8,9 @@ const isCI = process.env.CI === "true";
 const explicitIntegrationFlag = process.env.RUN_INTEGRATION_TESTS === "true";
 const runningIntegrationTestFiles = process.argv.some(arg => arg.includes('integration.test'));
 
-const isIntegrationTest = hasEmulatorHost && (isCI || explicitIntegrationFlag || runningIntegrationTestFiles);
+// Only run integration tests if explicitly requested AND emulators are available
+// In CI, unit tests should run without emulator dependency
+const isIntegrationTest = (explicitIntegrationFlag || runningIntegrationTestFiles) && hasEmulatorHost;
 
 // Debug logging to help troubleshoot environment detection
 console.log('🔧 Test environment debug:');
