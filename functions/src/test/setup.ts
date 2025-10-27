@@ -1,9 +1,25 @@
 import * as admin from "firebase-admin";
 
 // Determine if we're running integration tests that need emulators
-// Look for explicit integration test signal or CI environment with emulator
-const isIntegrationTest = process.env.FIRESTORE_EMULATOR_HOST === "localhost:8181" && 
-                          (process.env.CI === "true" || process.env.RUN_INTEGRATION_TESTS === "true");
+// Check multiple signals for integration test environment
+const hasEmulatorHost = process.env.FIRESTORE_EMULATOR_HOST === "localhost:8181";
+const isCI = process.env.CI === "true";
+const explicitIntegrationFlag = process.env.RUN_INTEGRATION_TESTS === "true";
+const runningIntegrationTestFiles = process.argv.some(arg => arg.includes('integration.test'));
+
+const isIntegrationTest = hasEmulatorHost && (isCI || explicitIntegrationFlag || runningIntegrationTestFiles);
+
+// Debug logging to help troubleshoot environment detection
+console.log('🔧 Test environment debug:');
+console.log(`  FIRESTORE_EMULATOR_HOST: ${process.env.FIRESTORE_EMULATOR_HOST}`);
+console.log(`  CI: ${process.env.CI}`);
+console.log(`  RUN_INTEGRATION_TESTS: ${process.env.RUN_INTEGRATION_TESTS}`);
+console.log(`  process.argv: ${process.argv.join(' ')}`);
+console.log(`  hasEmulatorHost: ${hasEmulatorHost}`);
+console.log(`  isCI: ${isCI}`);
+console.log(`  explicitIntegrationFlag: ${explicitIntegrationFlag}`);
+console.log(`  runningIntegrationTestFiles: ${runningIntegrationTestFiles}`);
+console.log(`  isIntegrationTest: ${isIntegrationTest}`);
 
 // Set up Firebase Admin SDK with emulator configuration for integration tests
 if (isIntegrationTest) {

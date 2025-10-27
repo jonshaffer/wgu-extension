@@ -120,6 +120,8 @@ jobs:
         env:
           FIRESTORE_EMULATOR_HOST: localhost:8181
           FIREBASE_AUTH_EMULATOR_HOST: localhost:9099
+          CI: true
+          RUN_INTEGRATION_TESTS: true
       
       
       - name: Upload test results
