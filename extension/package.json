@@ -21,6 +21,8 @@
     "zip:chrome": "wxt zip -b chrome",
     "zip:edge": "wxt zip -b edge",
     "zip:preview": "wxt zip --mode preview",
+    "zip:firefox:preview": "wxt zip -b firefox --mode preview",
+    "zip:edge:preview": "wxt zip -b edge --mode preview",
     "compile": "tsc --noEmit",
     "typecheck": "tsc --noEmit",
     "lint": "echo 'No linting configured for extension'",
