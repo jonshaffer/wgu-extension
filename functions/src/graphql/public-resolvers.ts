@@ -15,6 +15,16 @@ import {
   submitCommunityMapping,
 } from "./suggestion-resolvers.js";
 
+interface RedditCommunitiesArgs {
+  search?: string;
+  courseCode?: string;
+  limit?: number;
+}
+
+interface SearchResult {
+  resourceId: string;
+}
+
 export const publicResolvers = {
   Query: {
     ping: () => "pong",
@@ -49,7 +59,7 @@ export const publicResolvers = {
       };
     },
     discordServers: discordServersResolver,
-    redditCommunities: async (_parent: unknown, args: any) => {
+    redditCommunities: async (_parent: unknown, args: RedditCommunitiesArgs) => {
       const {searchCommunities, getTrendingCommunities} = await import("../lib/data-queries.js");
       const {search, courseCode, limit = 20} = args;
 
@@ -60,7 +70,7 @@ export const publicResolvers = {
         }, limit);
 
         const {db} = await import("../lib/firebase.js");
-        const communityPromises = results.map((r: any) =>
+        const communityPromises = results.map((r: SearchResult) =>
           db.collection("reddit-communities").doc(r.resourceId).get()
         );
         const docs = await Promise.all(communityPromises);

@@ -17,16 +17,102 @@ import {
   validateCourseInput,
   validateDegreePlanInput,
 } from "../lib/validation-schemas.js";
+import {AdminUser} from "../lib/auth.js";
+
+// GraphQL context interfaces
+interface GraphQLContext {
+  user: AdminUser;
+}
+
+interface QueryArgs {
+  limit?: number;
+  offset?: number;
+}
+
+interface ChangeLog {
+  before?: DiscordServer | RedditCommunity | Course | DegreeProgram;
+  after?: DiscordServer | RedditCommunity | Course | DegreeProgram;
+  changedFields?: string[];
+}
+
+interface DiscordServerInput {
+  serverId: string;
+  name: string;
+  description?: string;
+  inviteUrl: string;
+  memberCount?: number;
+  channels?: Array<{
+    id: string;
+    name: string;
+    type: string;
+    associatedCourses?: string[];
+  }>;
+  tags: string[];
+  verified: boolean;
+}
+
+interface RedditCommunityInput {
+  subreddit: string;
+  name: string;
+  description?: string;
+  url: string;
+  subscriberCount?: number;
+  type: string;
+  associatedPrograms: string[];
+  associatedCourses: string[];
+  tags: string[];
+  active: boolean;
+}
+
+interface CourseInput {
+  courseCode: string;
+  name: string;
+  description?: string;
+  units: number;
+  level: string;
+  type: string;
+  prerequisites: string[];
+  communities?: {
+    discord?: string[];
+    reddit?: string[];
+    wguConnect?: string;
+  };
+  popularityScore: number;
+  difficultyRating?: number;
+}
+
+interface DegreePlanInput {
+  id: string;
+  code: string;
+  name: string;
+  description?: string;
+  level: string;
+  college: string;
+  totalUnits: number;
+  courses: Array<{
+    courseCode: string;
+    type: string;
+    term?: number;
+  }>;
+  communities?: {
+    discord: string[];
+    reddit: string[];
+  };
+  stats?: {
+    averageCompletionTime?: number;
+    popularCourseSequences?: string[][];
+  };
+}
 
 // Helper function to validate admin permissions
-function requireAdmin(context: { user: any }) {
+function requireAdmin(context: GraphQLContext) {
   if (!context.user) {
     throw new GraphQLError("Authentication required", {
       extensions: {code: "UNAUTHENTICATED"},
     });
   }
 
-  if (!context.user.admin) {
+  if (context.user.role !== "admin") {
     throw new GraphQLError("Admin privileges required", {
       extensions: {code: "FORBIDDEN"},
     });
@@ -38,7 +124,7 @@ async function logChange(
   action: "CREATE" | "UPDATE" | "DELETE",
   collection: string,
   documentId: string,
-  changes: { before?: any; after?: any; changedFields?: string[] },
+  changes: ChangeLog,
   userId: string,
   userEmail: string,
   source = "admin-api"
@@ -58,7 +144,7 @@ async function logChange(
 }
 
 // Query resolvers
-async function coursesResolver(_parent: any, args: { limit?: number; offset?: number }) {
+async function coursesResolver(_parent: unknown, args: QueryArgs) {
   const {limit = 50, offset = 0} = args;
 
   try {
@@ -78,12 +164,13 @@ async function coursesResolver(_parent: any, args: { limit?: number; offset?: nu
     const totalCount = totalSnapshot.size;
 
     return {items, totalCount};
-  } catch (error: any) {
-    throw new GraphQLError(`Failed to fetch courses: ${error.message}`);
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    throw new GraphQLError(`Failed to fetch courses: ${errorMessage}`);
   }
 }
 
-async function degreePlansResolver(_parent: any, args: { limit?: number; offset?: number }) {
+async function degreePlansResolver(_parent: unknown, args: QueryArgs) {
   const {limit = 50, offset = 0} = args;
 
   try {
@@ -103,13 +190,14 @@ async function degreePlansResolver(_parent: any, args: { limit?: number; offset?
     const totalCount = totalSnapshot.size;
 
     return {items, totalCount};
-  } catch (error: any) {
-    throw new GraphQLError(`Failed to fetch degree plans: ${error.message}`);
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    throw new GraphQLError(`Failed to fetch degree plans: ${errorMessage}`);
   }
 }
 
 // Admin-only resolvers
-async function discordServersResolver(_parent: any, args: { limit?: number; offset?: number }) {
+async function discordServersResolver(_parent: unknown, args: QueryArgs) {
   const {limit = 50, offset = 0} = args;
 
   try {
@@ -129,12 +217,13 @@ async function discordServersResolver(_parent: any, args: { limit?: number; offs
     const totalCount = totalSnapshot.size;
 
     return {items, totalCount};
-  } catch (error: any) {
-    throw new GraphQLError(`Failed to fetch Discord servers: ${error.message}`);
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    throw new GraphQLError(`Failed to fetch Discord servers: ${errorMessage}`);
   }
 }
 
-async function redditCommunitiesResolver(_parent: any, args: { limit?: number; offset?: number }) {
+async function redditCommunitiesResolver(_parent: unknown, args: QueryArgs) {
   const {limit = 50, offset = 0} = args;
 
   try {
@@ -154,8 +243,9 @@ async function redditCommunitiesResolver(_parent: any, args: { limit?: number; o
     const totalCount = totalSnapshot.size;
 
     return {items, totalCount};
-  } catch (error: any) {
-    throw new GraphQLError(`Failed to fetch Reddit communities: ${error.message}`);
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    throw new GraphQLError(`Failed to fetch Reddit communities: ${errorMessage}`);
   }
 }
 
@@ -176,16 +266,17 @@ async function ingestionStatsResolver() {
       degreePlans: degreeSnapshot.size,
       lastUpdated: new Date().toISOString(),
     };
-  } catch (error: any) {
-    throw new GraphQLError(`Failed to calculate ingestion stats: ${error.message}`);
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    throw new GraphQLError(`Failed to calculate ingestion stats: ${errorMessage}`);
   }
 }
 
 // Mutation resolvers
 async function ingestDiscordServerResolver(
-  _parent: any,
-  args: { input: any },
-  context: { user: any }
+  _parent: unknown,
+  args: { input: DiscordServerInput },
+  context: GraphQLContext
 ) {
   requireAdmin(context);
 
@@ -222,16 +313,17 @@ async function ingestDiscordServerResolver(
     );
 
     return {...serverData, serverId: validatedInput.serverId};
-  } catch (error: any) {
+  } catch (error: unknown) {
     if (error instanceof GraphQLError) throw error;
-    throw new GraphQLError(`Failed to ingest Discord server: ${error.message}`);
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    throw new GraphQLError(`Failed to ingest Discord server: ${errorMessage}`);
   }
 }
 
 async function updateDiscordServerResolver(
-  _parent: any,
-  args: { id: string; input: any },
-  context: { user: any }
+  _parent: unknown,
+  args: { id: string; input: Partial<DiscordServerInput> },
+  context: GraphQLContext
 ) {
   requireAdmin(context);
   const {id} = args;
@@ -267,16 +359,17 @@ async function updateDiscordServerResolver(
     );
 
     return {...updatedData, serverId: id};
-  } catch (error: any) {
+  } catch (error: unknown) {
     if (error instanceof GraphQLError) throw error;
-    throw new GraphQLError(`Failed to update Discord server: ${error.message}`);
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    throw new GraphQLError(`Failed to update Discord server: ${errorMessage}`);
   }
 }
 
 async function deleteDiscordServerResolver(
-  _parent: any,
+  _parent: unknown,
   args: { id: string },
-  context: { user: any }
+  context: GraphQLContext
 ) {
   requireAdmin(context);
   const {id} = args;
@@ -305,16 +398,17 @@ async function deleteDiscordServerResolver(
     );
 
     return true;
-  } catch (error: any) {
+  } catch (error: unknown) {
     if (error instanceof GraphQLError) throw error;
-    throw new GraphQLError(`Failed to delete Discord server: ${error.message}`);
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    throw new GraphQLError(`Failed to delete Discord server: ${errorMessage}`);
   }
 }
 
 async function ingestRedditCommunityResolver(
-  _parent: any,
-  args: { input: any },
-  context: { user: any }
+  _parent: unknown,
+  args: { input: RedditCommunityInput },
+  context: GraphQLContext
 ) {
   requireAdmin(context);
 
@@ -353,16 +447,17 @@ async function ingestRedditCommunityResolver(
     );
 
     return {...communityData, subredditName: validatedInput.subreddit};
-  } catch (error: any) {
+  } catch (error: unknown) {
     if (error instanceof GraphQLError) throw error;
-    throw new GraphQLError(`Failed to ingest Reddit community: ${error.message}`);
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    throw new GraphQLError(`Failed to ingest Reddit community: ${errorMessage}`);
   }
 }
 
 async function updateRedditCommunityResolver(
-  _parent: any,
-  args: { id: string; input: any },
-  context: { user: any }
+  _parent: unknown,
+  args: { id: string; input: Partial<RedditCommunityInput> },
+  context: GraphQLContext
 ) {
   requireAdmin(context);
   const {id} = args;
@@ -398,16 +493,17 @@ async function updateRedditCommunityResolver(
     );
 
     return {...updatedData, subredditName: id};
-  } catch (error: any) {
+  } catch (error: unknown) {
     if (error instanceof GraphQLError) throw error;
-    throw new GraphQLError(`Failed to update Reddit community: ${error.message}`);
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    throw new GraphQLError(`Failed to update Reddit community: ${errorMessage}`);
   }
 }
 
 async function deleteRedditCommunityResolver(
-  _parent: any,
+  _parent: unknown,
   args: { id: string },
-  context: { user: any }
+  context: GraphQLContext
 ) {
   requireAdmin(context);
   const {id} = args;
@@ -436,13 +532,18 @@ async function deleteRedditCommunityResolver(
     );
 
     return true;
-  } catch (error: any) {
+  } catch (error: unknown) {
     if (error instanceof GraphQLError) throw error;
-    throw new GraphQLError(`Failed to delete Reddit community: ${error.message}`);
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    throw new GraphQLError(`Failed to delete Reddit community: ${errorMessage}`);
   }
 }
 
-async function upsertCourseResolver(_parent: any, args: { input: any }, context: { user: any }) {
+async function upsertCourseResolver(
+  _parent: unknown,
+  args: { input: CourseInput },
+  context: GraphQLContext
+) {
   requireAdmin(context);
 
   try {
@@ -493,16 +594,17 @@ async function upsertCourseResolver(_parent: any, args: { input: any }, context:
     );
 
     return {...courseData};
-  } catch (error: any) {
+  } catch (error: unknown) {
     if (error instanceof GraphQLError) throw error;
-    throw new GraphQLError(`Failed to upsert course: ${error.message}`);
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    throw new GraphQLError(`Failed to upsert course: ${errorMessage}`);
   }
 }
 
 async function deleteCourseResolver(
-  _parent: any,
+  _parent: unknown,
   args: { courseCode: string },
-  context: { user: any }
+  context: GraphQLContext
 ) {
   requireAdmin(context);
   const {courseCode} = args;
@@ -531,16 +633,17 @@ async function deleteCourseResolver(
     );
 
     return true;
-  } catch (error: any) {
+  } catch (error: unknown) {
     if (error instanceof GraphQLError) throw error;
-    throw new GraphQLError(`Failed to delete course: ${error.message}`);
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    throw new GraphQLError(`Failed to delete course: ${errorMessage}`);
   }
 }
 
 async function upsertDegreePlanResolver(
-  _parent: any,
-  args: { input: any },
-  context: { user: any }
+  _parent: unknown,
+  args: { input: DegreePlanInput },
+  context: GraphQLContext
 ) {
   requireAdmin(context);
 
@@ -587,16 +690,17 @@ async function upsertDegreePlanResolver(
     );
 
     return {...degreePlanData, degreeId: validatedInput.id};
-  } catch (error: any) {
+  } catch (error: unknown) {
     if (error instanceof GraphQLError) throw error;
-    throw new GraphQLError(`Failed to upsert degree plan: ${error.message}`);
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    throw new GraphQLError(`Failed to upsert degree plan: ${errorMessage}`);
   }
 }
 
 async function deleteDegreePlanResolver(
-  _parent: any,
+  _parent: unknown,
   args: { id: string },
-  context: { user: any }
+  context: GraphQLContext
 ) {
   requireAdmin(context);
   const {id} = args;
@@ -625,9 +729,10 @@ async function deleteDegreePlanResolver(
     );
 
     return true;
-  } catch (error: any) {
+  } catch (error: unknown) {
     if (error instanceof GraphQLError) throw error;
-    throw new GraphQLError(`Failed to delete degree plan: ${error.message}`);
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    throw new GraphQLError(`Failed to delete degree plan: ${errorMessage}`);
   }
 }
 

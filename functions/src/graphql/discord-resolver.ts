@@ -37,7 +37,10 @@ export async function discordServersResolver(
       return serverDocs
         .filter((doc) => doc.exists)
         .map((doc) => {
-          const data = doc.data()!;
+          const data = doc.data();
+          if (!data) {
+            throw new Error(`No data found for Discord server: ${doc.id}`);
+          }
           return {
             id: doc.id,
             name: data.name,

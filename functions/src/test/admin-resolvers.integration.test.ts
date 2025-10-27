@@ -9,7 +9,8 @@ const adminContext = {
   user: {
     uid: "test-admin-user",
     email: "admin@test.com",
-    admin: true,
+    role: "admin",
+    permissions: ["read", "write", "delete", "ingest"],
   },
 };
 
@@ -18,7 +19,8 @@ const userContext = {
   user: {
     uid: "test-regular-user",
     email: "user@test.com",
-    admin: false,
+    role: "user",
+    permissions: ["read"],
   },
 };
 
@@ -66,6 +68,8 @@ describe("Admin Resolvers Integration Tests", () => {
               serverId: "123456789012345678",
               name: "Test Server",
               inviteUrl: "https://discord.gg/test",
+              tags: [],
+              verified: false,
             },
           },
           noAuthContext
@@ -82,6 +86,8 @@ describe("Admin Resolvers Integration Tests", () => {
               serverId: "123456789012345678",
               name: "Test Server",
               inviteUrl: "https://discord.gg/test",
+              tags: [],
+              verified: false,
             },
           },
           userContext
@@ -224,6 +230,8 @@ describe("Admin Resolvers Integration Tests", () => {
       url: "https://reddit.com/r/WGU_CompSci",
       subscriberCount: 25000,
       type: "program-specific" as const,
+      associatedPrograms: ["bs-computer-science"],
+      associatedCourses: ["C779", "C867"],
       tags: ["computer-science", "bs-cs"],
       active: true,
     };

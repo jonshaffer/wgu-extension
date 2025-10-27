@@ -37,7 +37,7 @@ interface RedditSearchResponse {
 // This resolver reads from our cached Reddit data in Firestore
 // It does NOT make live API calls to Reddit during query execution
 export async function searchSubredditsResolver(
-  _parent: any,
+  _parent: unknown,
   args: RedditSearchArgs
 ): Promise<RedditSearchResponse> {
   const {query, subreddits, sortBy = "NEW", timeWindow = "WEEK", limit = 50} = args;
