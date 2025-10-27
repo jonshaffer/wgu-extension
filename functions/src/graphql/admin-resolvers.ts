@@ -584,7 +584,7 @@ async function upsertCourseResolver(
         discord: validatedInput.communities.discord || [],
         reddit: validatedInput.communities.reddit || [],
         ...(validatedInput.communities.wguConnect && {
-          wguConnect: validatedInput.communities.wguConnect
+          wguConnect: validatedInput.communities.wguConnect,
         }),
       } : {
         discord: [],
