@@ -30,6 +30,8 @@ describe("GraphQL Integration Tests", () => {
       context: async () => ({
         // Provide test context
       }),
+      // For testing, allow all operations (no persisted query restrictions)
+      plugins: [],
     });
     
     // Convert yoga to an Express-like app for supertest
@@ -65,10 +67,11 @@ describe("GraphQL Integration Tests", () => {
       `;
 
       const response = await request(app)
-        .post("/graphql")
+        .post("/")
         .send({query})
         .expect(200);
 
+      console.log("GraphQL Response:", JSON.stringify(response.body, null, 2));
       expect(response.body.data).toBeDefined();
       expect(response.body.data.search.query).toBe("C172");
       expect(response.body.data.search.results).toBeInstanceOf(Array);
@@ -96,7 +99,7 @@ describe("GraphQL Integration Tests", () => {
       `;
 
       const response = await request(app)
-        .post("/graphql")
+        .post("/")
         .send({query})
         .expect(200);
 
@@ -123,7 +126,7 @@ describe("GraphQL Integration Tests", () => {
       `;
 
       const response = await request(app)
-        .post("/graphql")
+        .post("/")
         .send({query})
         .expect(200);
 
@@ -145,7 +148,7 @@ describe("GraphQL Integration Tests", () => {
       `;
 
       const response = await request(app)
-        .post("/graphql")
+        .post("/")
         .send({query})
         .expect(200);
 
@@ -171,7 +174,7 @@ describe("GraphQL Integration Tests", () => {
       `;
 
       const response = await request(app)
-        .post("/graphql")
+        .post("/")
         .send({query})
         .expect(200);
 
