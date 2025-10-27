@@ -61,7 +61,7 @@ jobs:
         run: npm run build:libs
       
       - name: Run unit tests with coverage
-        run: npm run test:coverage --workspace=functions -- --testPathPatterns="**/*.test.ts" --testPathIgnorePatterns="integration"
+        run: npm run test:coverage --workspace=functions -- --testMatch="**/*.test.ts" --testPathIgnorePatterns="integration"
       
       - name: Upload coverage reports
         uses: codecov/codecov-action@v3
@@ -115,7 +115,7 @@ jobs:
             echo "Seeding test data for ${{ matrix.dataset }}..."
             npm run seed:test-data:${{ matrix.dataset }}
             echo "Running integration tests..."
-            npm test -- --testPathPatterns="**/*.integration.test.ts"
+            npm test -- --testMatch="**/*.integration.test.ts"
           '
         env:
           FIRESTORE_EMULATOR_HOST: localhost:8181

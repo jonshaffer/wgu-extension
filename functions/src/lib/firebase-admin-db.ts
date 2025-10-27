@@ -48,12 +48,12 @@ export async function copyToDefaultDatabase(
 
   // Remove admin-specific fields before copying
   const {
-    submittedBy, // eslint-disable-line @typescript-eslint/no-unused-vars
+    submittedBy: _submittedBy,
     reviewedBy,
-    reviewNotes, // eslint-disable-line @typescript-eslint/no-unused-vars
-    validationErrors, // eslint-disable-line @typescript-eslint/no-unused-vars
-    version, // eslint-disable-line @typescript-eslint/no-unused-vars
-    previousVersionId, // eslint-disable-line @typescript-eslint/no-unused-vars
+    reviewNotes: _reviewNotes,
+    validationErrors: _validationErrors,
+    version: _version,
+    previousVersionId: _previousVersionId,
     ...publicData
   } = data;
 

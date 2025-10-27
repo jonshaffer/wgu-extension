@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { SearchButton } from './SearchButton';
 import { loadCommunityData } from '@/utils/community-data';
+import type { CourseCommunitiesMappings } from '@/types/community-data';
 
 interface SearchOption {
   id: string;
@@ -57,7 +58,7 @@ export function SearchPanel({
       try {
         setIsLoading(true);
         const { unifiedData } = await loadCommunityData();
-        const mapping = (unifiedData?.courseMappings || []).find((m: any) => (m.courseCode || '').toLowerCase() === courseCode.toLowerCase()) as any;
+        const mapping: CourseCommunitiesMappings | undefined = (unifiedData?.courseMappings || []).find((m) => (m.courseCode || '').toLowerCase() === courseCode.toLowerCase());
         if (mapping) {
           setCourseData({
             discord: mapping.discord || [],
