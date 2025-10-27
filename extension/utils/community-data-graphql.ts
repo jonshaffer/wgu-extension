@@ -42,7 +42,7 @@ export async function loadCommunityDataGraphQL() {
     // Fetch courses and communities in parallel
     const [courses, communities] = await Promise.all([
       cachedGetCourses(client),
-      cachedSearchCommunities('', 1000, client)
+      cachedSearchCommunities(client, '', 1000)
     ]);
 
     // Transform to match the old format for compatibility
@@ -96,7 +96,7 @@ export async function loadCommunityDataGraphQL() {
  */
 export async function getCommunitiesForCourseCode(courseCode: string): Promise<Community[]> {
   try {
-    return await cachedGetCommunitiesForCourse(courseCode, client);
+    return await cachedGetCommunitiesForCourse(client, courseCode);
   } catch (error) {
     console.warn(`Failed to load communities for course ${courseCode}:`, error);
     return [];
@@ -108,7 +108,7 @@ export async function getCommunitiesForCourseCode(courseCode: string): Promise<C
  */
 export async function getCourseCommunitiesV2(courseCode: string): Promise<CourseCommunitiesResponse | null> {
   try {
-    return await cachedGetCommunitiesForCourseV2(courseCode, client);
+    return await cachedGetCommunitiesForCourseV2(client, courseCode);
   } catch (error) {
     console.warn(`Failed to load community data for course ${courseCode}:`, error);
     return null;
