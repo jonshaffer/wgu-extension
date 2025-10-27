@@ -49,11 +49,14 @@ jobs:
 
       - name: Pull community data from DVC
         run: |
-          # Try to pull data, but don't fail if it doesn't work (e.g., in fork PRs)
-          dvc pull data/sources/discord/ || echo "⚠️ Discord DVC pull failed"
-          dvc pull data/sources/reddit/ || echo "⚠️ Reddit DVC pull failed"
-          dvc pull data/sources/wgu-connect/ || echo "⚠️ WGU Connect DVC pull failed"
-          dvc pull data/sources/wgu-student-groups/ || echo "⚠️ Student Groups DVC pull failed"
+          if [ "$GITHUB_ACTIONS" = "true" ]; then
+            echo "ℹ️ Skipping DVC pulls in CI - using existing local data"
+          else
+            dvc pull data/sources/discord/ || echo "⚠️ Discord DVC pull failed"
+            dvc pull data/sources/reddit/ || echo "⚠️ Reddit DVC pull failed"
+            dvc pull data/sources/wgu-connect/ || echo "⚠️ WGU Connect DVC pull failed"
+            dvc pull data/sources/wgu-student-groups/ || echo "⚠️ Student Groups DVC pull failed"
+          fi
 
       - name: Install dependencies
         working-directory: data
@@ -146,8 +149,11 @@ jobs:
 
       - name: Pull community data from DVC
         run: |
-          # Try to pull data, but don't fail if it doesn't work (e.g., in fork PRs)
-          dvc pull data/sources/ || echo "⚠️ DVC pull failed - continuing with existing data"
+          if [ "$GITHUB_ACTIONS" = "true" ]; then
+            echo "ℹ️ Skipping DVC pulls in CI - using existing local data"
+          else
+            dvc pull data/sources/ || echo "⚠️ DVC pull failed - continuing with existing data"
+          fi
 
       - name: Install dependencies
         working-directory: data
