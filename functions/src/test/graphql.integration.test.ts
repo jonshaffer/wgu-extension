@@ -5,9 +5,11 @@ import request from "supertest";
 // import {graphql} from "../http/graphql";
 
 // Initialize the firebase-functions-test SDK
+// In CI/emulator mode, we don't need the service account key
+const serviceAccountPath = process.env.CI ? undefined : "./service-account-key.json";
 const testEnv = functionsTest({
   projectId: "demo-test",
-}, "./service-account-key.json"); // Optional: path to service account key
+}, serviceAccountPath);
 
 // Import the express app from the graphql function
 // We'll need to extract it for testing
