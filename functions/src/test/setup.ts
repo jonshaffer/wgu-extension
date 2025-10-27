@@ -1,7 +1,12 @@
 import * as admin from "firebase-admin";
 
-// Set up Firebase Admin SDK with emulator configuration only for integration tests
-if (process.env.NODE_ENV === 'test' && process.env.FIRESTORE_EMULATOR_HOST) {
+// Determine if we're running integration tests that need emulators
+// Look for explicit integration test signal or CI environment with emulator
+const isIntegrationTest = process.env.FIRESTORE_EMULATOR_HOST === "localhost:8181" && 
+                          (process.env.CI === "true" || process.env.RUN_INTEGRATION_TESTS === "true");
+
+// Set up Firebase Admin SDK with emulator configuration for integration tests
+if (isIntegrationTest) {
   process.env.FIRESTORE_EMULATOR_HOST = "localhost:8181";
   process.env.FIREBASE_AUTH_EMULATOR_HOST = "localhost:9099";
 
@@ -17,7 +22,7 @@ if (process.env.NODE_ENV === 'test' && process.env.FIRESTORE_EMULATOR_HOST) {
           projectId: "demo-test",
         });
         
-        // Test Firestore connectivity
+        // Test Firestore connectivity with a simple operation
         const db = admin.firestore(app);
         await db.collection('_health_check').doc('test').set({
           timestamp: admin.firestore.FieldValue.serverTimestamp(),
@@ -43,4 +48,7 @@ if (process.env.NODE_ENV === 'test' && process.env.FIRESTORE_EMULATOR_HOST) {
       await waitForEmulatorConnectivity();
     }
   }, 60000); // 60 second timeout for setup
+} else {
+  // For unit tests, just log that we're skipping Firebase setup
+  console.log('ℹ️  Skipping Firebase initialization for unit tests');
 }

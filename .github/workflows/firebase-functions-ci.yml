@@ -45,14 +45,17 @@ jobs:
         run: npm run lint
         working-directory: functions
       
-      - name: Test Firebase Functions emulator (if tests exist)
+      - name: Test Firebase Functions (unit tests only)
         run: |
           if [ -f "package.json" ] && npm run | grep -q "test"; then
-            npm test
+            # Run only unit tests, exclude integration tests
+            npm test -- --testPathIgnorePatterns="integration.test.ts"
           else
             echo "No tests found, skipping..."
           fi
         working-directory: functions
+        env:
+          NODE_ENV: test
 
   build:
     runs-on: ubuntu-latest

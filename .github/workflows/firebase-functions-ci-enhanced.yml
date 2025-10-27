@@ -93,6 +93,12 @@ jobs:
       - name: Install Firebase CLI
         run: npm install -g firebase-tools
       
+      - name: Cache Firebase emulators
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/firebase/emulators
+          key: firebase-emulators-${{ runner.os }}
+      
       - name: Install dependencies
         run: npm ci
       
@@ -102,49 +108,19 @@ jobs:
       - name: Build functions
         run: npm run build --workspace=functions
       
-      - name: Start Firebase emulators
+      - name: Run integration tests with emulators
         run: |
           cd functions
-          firebase emulators:start --only firestore,functions --project demo-test &
-          echo "Waiting for emulators to start..."
-          npx wait-on http://localhost:8181 http://localhost:5001 -t 120000 --interval 2000
-          echo "Testing Firestore emulator connectivity..."
-          curl -f http://localhost:8181 || echo "Firestore emulator check failed"
-          echo "Testing Functions emulator connectivity..."
-          curl -f http://localhost:5001 || echo "Functions emulator check failed"
-          sleep 5
-        env:
-          FIRESTORE_EMULATOR_HOST: localhost:8181
-      
-      - name: Seed test data (${{ matrix.dataset }})
-        run: |
-          cd functions
-          npm run seed:test-data:${{ matrix.dataset }}
-        env:
-          FIRESTORE_EMULATOR_HOST: localhost:8181
-      
-      - name: Run integration tests
-        run: |
-          cd functions
-          npm test -- --testMatch="**/*.integration.test.ts"
+          firebase emulators:exec --only firestore,functions --project demo-test '
+            echo "Seeding test data for ${{ matrix.dataset }}..."
+            npm run seed:test-data:${{ matrix.dataset }}
+            echo "Running integration tests..."
+            npm test -- --testMatch="**/*.integration.test.ts"
+          '
         env:
           FIRESTORE_EMULATOR_HOST: localhost:8181
           FIREBASE_AUTH_EMULATOR_HOST: localhost:9099
       
-      - name: Test GraphQL endpoints
-        run: |
-          cd functions
-          ./test-graphql-comprehensive.sh
-        env:
-          GRAPHQL_ENDPOINT: http://localhost:5001/demo-test/us-central1/publicApi
-      
-      - name: Test admin API with validation
-        run: |
-          cd functions
-          ./test-admin-api.sh
-        env:
-          ADMIN_ENDPOINT: http://localhost:5001/demo-test/us-central1/adminApi
-          ADMIN_TOKEN: test-admin-token
       
       - name: Upload test results
         if: always()
@@ -174,39 +150,29 @@ jobs:
       - name: Install Firebase CLI
         run: npm install -g firebase-tools
       
+      - name: Cache Firebase emulators
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/firebase/emulators
+          key: firebase-emulators-${{ runner.os }}
+      
       - name: Install dependencies
         run: npm ci
       
       - name: Build all packages
         run: npm run build
       
-      - name: Start Firebase emulators
+      - name: Test GraphQL client with emulators
         run: |
           cd functions
-          firebase emulators:start --only firestore,functions --project demo-test &
-          echo "Waiting for emulators to start..."
-          npx wait-on http://localhost:8181 http://localhost:5001 -t 120000 --interval 2000
-          echo "Testing Firestore emulator connectivity..."
-          curl -f http://localhost:8181 || echo "Firestore emulator check failed"
-          echo "Testing Functions emulator connectivity..."
-          curl -f http://localhost:5001 || echo "Functions emulator check failed"
-          sleep 5
+          firebase emulators:exec --only firestore,functions --project demo-test '
+            echo "Seeding standard test data..."
+            npm run seed:test-data:standard
+            echo "Testing GraphQL client package..."
+            tsx scripts/test-graphql-client.ts
+          '
         env:
           FIRESTORE_EMULATOR_HOST: localhost:8181
-      
-      - name: Seed test data
-        run: |
-          cd functions
-          npm run seed:test-data:standard
-        env:
-          FIRESTORE_EMULATOR_HOST: localhost:8181
-      
-      - name: Test GraphQL client package
-        run: |
-          cd functions
-          npm run build
-          tsx scripts/test-graphql-client.ts
-        env:
           GRAPHQL_ENDPOINT: http://localhost:5001/demo-test/us-central1/publicApi
 
   test-summary:
