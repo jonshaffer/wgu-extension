@@ -284,17 +284,24 @@ async function ingestDiscordServerResolver(
     // Validate input using Zod schema
     const validatedInput = validateDiscordServerInput(args.input);
 
-    const serverData: DiscordServer = {
+    // Build server data object, excluding undefined values for Firestore compatibility
+    const serverData: Partial<DiscordServer> = {
       id: validatedInput.serverId,
       name: validatedInput.name,
-      description: validatedInput.description ?? undefined,
       inviteUrl: validatedInput.inviteUrl,
-      memberCount: validatedInput.memberCount ?? undefined,
       channels: validatedInput.channels || [],
       tags: validatedInput.tags,
       verified: validatedInput.verified,
       lastUpdated: new Date(),
     };
+
+    // Add optional fields only if they have values
+    if (validatedInput.description !== undefined) {
+      serverData.description = validatedInput.description;
+    }
+    if (validatedInput.memberCount !== undefined) {
+      serverData.memberCount = validatedInput.memberCount;
+    }
 
     // Save to Firestore
     await defaultDb
@@ -307,12 +314,12 @@ async function ingestDiscordServerResolver(
       "CREATE",
       COLLECTIONS.DISCORD_SERVERS,
       validatedInput.serverId,
-      {after: serverData},
+      {after: serverData as DiscordServer},
       context.user.uid,
       context.user.email
     );
 
-    return {...serverData, serverId: validatedInput.serverId};
+    return serverData as DiscordServer;
   } catch (error: unknown) {
     if (error instanceof GraphQLError) throw error;
     const errorMessage = error instanceof Error ? error.message : "Unknown error";
@@ -416,12 +423,11 @@ async function ingestRedditCommunityResolver(
     // Validate input using Zod schema
     const validatedInput = validateRedditCommunityInput(args.input);
 
-    const communityData: RedditCommunity = {
+    // Build community data object, excluding undefined values for Firestore compatibility
+    const communityData: Partial<RedditCommunity> = {
       id: validatedInput.subreddit,
       name: validatedInput.name,
-      description: validatedInput.description ?? undefined,
       url: validatedInput.url,
-      subscriberCount: validatedInput.subscriberCount ?? undefined,
       type: validatedInput.type,
       associatedPrograms: validatedInput.associatedPrograms,
       associatedCourses: validatedInput.associatedCourses,
@@ -429,6 +435,14 @@ async function ingestRedditCommunityResolver(
       active: validatedInput.active,
       lastUpdated: new Date(),
     };
+
+    // Add optional fields only if they have values
+    if (validatedInput.description !== undefined) {
+      communityData.description = validatedInput.description;
+    }
+    if (validatedInput.subscriberCount !== undefined) {
+      communityData.subscriberCount = validatedInput.subscriberCount;
+    }
 
     // Save to Firestore
     await defaultDb
@@ -441,12 +455,12 @@ async function ingestRedditCommunityResolver(
       "CREATE",
       COLLECTIONS.REDDIT_COMMUNITIES,
       validatedInput.subreddit,
-      {after: communityData},
+      {after: communityData as RedditCommunity},
       context.user.uid,
       context.user.email
     );
 
-    return {...communityData, subredditName: validatedInput.subreddit};
+    return communityData as RedditCommunity;
   } catch (error: unknown) {
     if (error instanceof GraphQLError) throw error;
     const errorMessage = error instanceof Error ? error.message : "Unknown error";
@@ -555,10 +569,10 @@ async function upsertCourseResolver(
     const isUpdate = existingDoc.exists;
     const currentData = isUpdate ? existingDoc.data() as Course : null;
 
-    const courseData: Course = {
+    // Build course data object, excluding undefined values for Firestore compatibility
+    const courseData: Partial<Course> = {
       courseCode: validatedInput.courseCode,
       name: validatedInput.name,
-      description: validatedInput.description ?? undefined,
       units: validatedInput.units,
       level: validatedInput.level,
       type: validatedInput.type,
@@ -569,16 +583,22 @@ async function upsertCourseResolver(
       communities: validatedInput.communities ? {
         discord: validatedInput.communities.discord || [],
         reddit: validatedInput.communities.reddit || [],
-        wguConnect: validatedInput.communities.wguConnect ?? undefined,
+        ...(validatedInput.communities.wguConnect && { wguConnect: validatedInput.communities.wguConnect }),
       } : {
         discord: [],
         reddit: [],
-        wguConnect: undefined,
       },
       popularityScore: validatedInput.popularityScore,
-      difficultyRating: validatedInput.difficultyRating ?? undefined,
       lastUpdated: new Date(),
     };
+
+    // Add optional fields only if they have values
+    if (validatedInput.description !== undefined) {
+      courseData.description = validatedInput.description;
+    }
+    if (validatedInput.difficultyRating !== undefined) {
+      courseData.difficultyRating = validatedInput.difficultyRating;
+    }
 
     // Save to Firestore
     await docRef.set(courseData, {merge: true});
@@ -588,12 +608,12 @@ async function upsertCourseResolver(
       isUpdate ? "UPDATE" : "CREATE",
       COLLECTIONS.COURSES,
       validatedInput.courseCode,
-      {before: currentData, after: courseData},
+      {before: currentData, after: courseData as Course},
       context.user.uid,
       context.user.email
     );
 
-    return {...courseData};
+    return courseData as Course;
   } catch (error: unknown) {
     if (error instanceof GraphQLError) throw error;
     const errorMessage = error instanceof Error ? error.message : "Unknown error";
@@ -656,11 +676,11 @@ async function upsertDegreePlanResolver(
     const isUpdate = existingDoc.exists;
     const currentData = isUpdate ? existingDoc.data() as DegreeProgram : null;
 
-    const degreePlanData: DegreeProgram = {
+    // Build degree plan data object, excluding undefined values for Firestore compatibility
+    const degreePlanData: Partial<DegreeProgram> = {
       id: validatedInput.id,
       code: validatedInput.code,
       name: validatedInput.name,
-      description: validatedInput.description ?? undefined,
       level: validatedInput.level,
       college: validatedInput.college,
       totalUnits: validatedInput.totalUnits,
@@ -672,9 +692,16 @@ async function upsertDegreePlanResolver(
         discord: [],
         reddit: [],
       },
-      stats: validatedInput.stats ?? undefined,
       lastUpdated: new Date(),
     };
+
+    // Add optional fields only if they have values
+    if (validatedInput.description !== undefined) {
+      degreePlanData.description = validatedInput.description;
+    }
+    if (validatedInput.stats !== undefined) {
+      degreePlanData.stats = validatedInput.stats;
+    }
 
     // Save to Firestore
     await docRef.set(degreePlanData, {merge: true});
@@ -684,12 +711,12 @@ async function upsertDegreePlanResolver(
       isUpdate ? "UPDATE" : "CREATE",
       COLLECTIONS.DEGREE_PROGRAMS,
       validatedInput.id,
-      {before: currentData, after: degreePlanData},
+      {before: currentData, after: degreePlanData as DegreeProgram},
       context.user.uid,
       context.user.email
     );
 
-    return {...degreePlanData, degreeId: validatedInput.id};
+    return degreePlanData as DegreeProgram;
   } catch (error: unknown) {
     if (error instanceof GraphQLError) throw error;
     const errorMessage = error instanceof Error ? error.message : "Unknown error";
