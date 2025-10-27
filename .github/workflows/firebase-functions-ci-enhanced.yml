@@ -111,12 +111,51 @@ jobs:
       - name: Run integration tests with emulators
         run: |
           cd functions
-          firebase emulators:exec --only firestore,functions --project demo-test '
-            echo "Seeding test data for ${{ matrix.dataset }}..."
+          
+          # Start emulators with timeout and health check
+          timeout 300 firebase emulators:exec --only firestore,functions --project demo-test '
+            echo "🚀 Emulators started, waiting for readiness..."
+            
+            # Wait for emulator readiness
+            for i in {1..30}; do
+              if curl -s -f http://localhost:8181 > /dev/null 2>&1; then
+                echo "✅ Firestore emulator is ready"
+                break
+              fi
+              echo "⏳ Waiting for Firestore emulator... ($i/30)"
+              sleep 2
+            done
+            
+            # Verify functions emulator
+            for i in {1..30}; do
+              if curl -s -f http://localhost:5001 > /dev/null 2>&1; then
+                echo "✅ Functions emulator is ready"
+                break
+              fi
+              echo "⏳ Waiting for Functions emulator... ($i/30)"
+              sleep 2
+            done
+            
+            echo "🌱 Seeding test data for ${{ matrix.dataset }}..."
             npm run seed:test-data:${{ matrix.dataset }}
-            echo "Running integration tests..."
-            npm test -- --testMatch="**/*.integration.test.ts"
-          '
+            
+            echo "🧪 Running integration tests..."
+            npm test -- --testMatch="**/*.integration.test.ts" --verbose --maxWorkers=1
+          ' || {
+            echo "❌ Integration tests failed or timed out"
+            # Collect debug information
+            echo "🐛 Debug information:"
+            echo "Node.js version: $(node --version)"
+            echo "npm version: $(npm --version)"
+            echo "Firebase CLI version: $(firebase --version)"
+            echo "Available disk space:"
+            df -h
+            echo "Memory usage:"
+            free -h || vm_stat
+            echo "Process list:"
+            ps aux | grep -E "(firebase|node|java)" | head -20
+            exit 1
+          }
         env:
           FIRESTORE_EMULATOR_HOST: localhost:8181
           FIREBASE_AUTH_EMULATOR_HOST: localhost:9099

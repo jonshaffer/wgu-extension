@@ -26,4 +26,17 @@ module.exports = {
   },
   setupFilesAfterEnv: ['<rootDir>/src/test/setup.ts'],
   testTimeout: 120000,
+  // Add test results output for CI
+  reporters: [
+    'default',
+    ['jest-junit', {
+      outputDirectory: './test-results',
+      outputName: 'junit.xml',
+      suiteName: 'Firebase Functions Tests',
+      classNameTemplate: '{classname}',
+      titleTemplate: '{title}',
+      ancestorSeparator: ' › ',
+      usePathForSuiteName: true,
+    }],
+  ],
 };

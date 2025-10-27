@@ -540,13 +540,53 @@ async function seedData() {
   console.log('\n✨ Seeding complete!\n');
 }
 
+async function validateSeedingSuccess() {
+  console.log('\n🔍 Validating seeding success...');
+  
+  const validations = [
+    { collection: COLLECTIONS.COURSES, expected: selectedDataset.courses.length },
+    { collection: COLLECTIONS.DISCORD_SERVERS, expected: selectedDataset.discordServers.length },
+    { collection: COLLECTIONS.REDDIT_COMMUNITIES, expected: selectedDataset.redditCommunities.length },
+    { collection: COLLECTIONS.DEGREE_PROGRAMS, expected: selectedDataset.degreePrograms.length },
+    { collection: COLLECTIONS.WGU_STUDENT_GROUPS, expected: selectedDataset.studentGroups.length },
+    { collection: COLLECTIONS.WGU_CONNECT_GROUPS, expected: selectedDataset.wguConnectGroups.length }
+  ];
+
+  for (const { collection, expected } of validations) {
+    const snapshot = await defaultDb.collection(collection).get();
+    const actual = snapshot.size;
+    
+    if (actual !== expected) {
+      throw new Error(`Validation failed for ${collection}: expected ${expected}, got ${actual}`);
+    }
+    console.log(`  ✅ ${collection}: ${actual} documents`);
+  }
+
+  // Validate course-community mappings
+  const mappingsSnapshot = await defaultDb.collection('course-community-mappings').get();
+  const expectedMappings = selectedDataset.courses.length;
+  if (mappingsSnapshot.size !== expectedMappings) {
+    throw new Error(`Mapping validation failed: expected ${expectedMappings}, got ${mappingsSnapshot.size}`);
+  }
+  console.log(`  ✅ course-community-mappings: ${mappingsSnapshot.size} documents`);
+}
+
 async function main() {
   try {
+    console.log(`🚀 Starting data seeding for ${datasetType} dataset...`);
+    console.log(`📍 Environment: ${process.env.FIRESTORE_EMULATOR_HOST || 'production'}`);
+    
+    // Test initial connectivity
+    console.log('🔗 Testing Firestore connectivity...');
+    await defaultDb.collection('_connectivity_test').add({ timestamp: new Date() });
+    console.log('✅ Firestore connection successful');
+
     await clearCollections();
     await seedData();
+    await validateSeedingSuccess();
     
     // Summary
-    console.log('📊 Summary:');
+    console.log('\n📊 Seeding Summary:');
     console.log(`  Dataset: ${datasetType}`);
     console.log(`  Courses: ${selectedDataset.courses.length}`);
     console.log(`  Discord Servers: ${selectedDataset.discordServers.length}`);
@@ -554,10 +594,17 @@ async function main() {
     console.log(`  Degree Programs: ${selectedDataset.degreePrograms.length}`);
     console.log(`  Student Groups: ${selectedDataset.studentGroups.length}`);
     console.log(`  WGU Connect Groups: ${selectedDataset.wguConnectGroups.length}`);
+    console.log('\n🎉 Seeding completed successfully!');
     
     process.exit(0);
   } catch (error) {
-    console.error('❌ Error seeding data:', error);
+    console.error('\n❌ Error seeding data:');
+    console.error(error);
+    console.error('\n🐛 Environment debug:');
+    console.error(`  FIRESTORE_EMULATOR_HOST: ${process.env.FIRESTORE_EMULATOR_HOST}`);
+    console.error(`  Working directory: ${process.cwd()}`);
+    console.error(`  Node.js version: ${process.version}`);
+    console.error(`  Dataset type: ${datasetType}`);
     process.exit(1);
   }
 }

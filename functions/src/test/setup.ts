@@ -35,9 +35,11 @@ if (isIntegrationTest) {
   }
 
   // Wait for emulator connectivity before running tests
-  async function waitForEmulatorConnectivity() {
-    const maxAttempts = 30;
-    const delay = 2000; // 2 seconds
+  async function waitForEmulatorConnectivity(): Promise<admin.app.App> {
+    const maxAttempts = 60; // Increased for CI environment
+    const delay = 1000; // 1 second delay
+    
+    console.log('🔌 Waiting for Firebase emulator connectivity...');
     
     for (let attempt = 1; attempt <= maxAttempts; attempt++) {
       try {
@@ -48,21 +50,49 @@ if (isIntegrationTest) {
         
         // Test Firestore connectivity with a simple operation
         const db = admin.firestore(app);
-        await db.collection('_health_check').doc('test').set({
-          timestamp: admin.firestore.FieldValue.serverTimestamp(),
-          attempt: attempt
-        });
+        
+        // Use a more reliable connectivity test
+        await Promise.race([
+          db.collection('_health_check').doc('test').set({
+            timestamp: admin.firestore.FieldValue.serverTimestamp(),
+            attempt: attempt,
+            pid: process.pid
+          }),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Operation timeout')), 5000)
+          )
+        ]);
+        
+        // Verify we can read back the document
+        const doc = await db.collection('_health_check').doc('test').get();
+        if (!doc.exists) {
+          throw new Error('Document was not created successfully');
+        }
         
         console.log(`✅ Emulator connectivity established on attempt ${attempt}`);
-        return;
+        return app;
       } catch (error: any) {
-        console.log(`⏳ Attempt ${attempt}/${maxAttempts} failed: ${error.message}`);
+        const errorMsg = error.message || 'Unknown error';
+        console.log(`⏳ Attempt ${attempt}/${maxAttempts} failed: ${errorMsg}`);
+        
         if (attempt === maxAttempts) {
-          throw new Error(`Failed to connect to emulators after ${maxAttempts} attempts`);
+          console.error('❌ Failed to connect to Firebase emulators');
+          console.error('Environment details:');
+          console.error(`  FIRESTORE_EMULATOR_HOST: ${process.env.FIRESTORE_EMULATOR_HOST}`);
+          console.error(`  FIREBASE_AUTH_EMULATOR_HOST: ${process.env.FIREBASE_AUTH_EMULATOR_HOST}`);
+          console.error(`  Current working directory: ${process.cwd()}`);
+          console.error(`  Node.js version: ${process.version}`);
+          throw new Error(`Failed to connect to emulators after ${maxAttempts} attempts. Last error: ${errorMsg}`);
         }
-        await new Promise(resolve => setTimeout(resolve, delay));
+        
+        // Progressive backoff for CI environments
+        const backoffDelay = isCI ? delay * Math.min(attempt, 5) : delay;
+        await new Promise(resolve => setTimeout(resolve, backoffDelay));
       }
     }
+    
+    // This should never be reached due to the throw above, but TypeScript needs it
+    throw new Error('Unexpected end of connectivity attempts');
   }
 
   // Initialize Firebase only for integration tests
@@ -71,7 +101,7 @@ if (isIntegrationTest) {
     if (!apps.length) {
       await waitForEmulatorConnectivity();
     }
-  }, 60000); // 60 second timeout for setup
+  }, 120000); // 2 minute timeout for setup in CI
 } else {
   // For unit tests, just log that we're skipping Firebase setup
   console.log('ℹ️  Skipping Firebase initialization for unit tests');
