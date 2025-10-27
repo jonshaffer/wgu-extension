@@ -22,12 +22,16 @@ describe("Search Resolver Integration Tests", () => {
     const {searchResolver: resolver} = require("../graphql/search-resolver");
     searchResolver = resolver;
 
-    // Clear existing data
-    await clearFirestore(db);
-
-    // Seed test data
-    await seedTestData(db);
-  });
+    // Check if data already exists (seeded by CI script)
+    const coursesSnapshot = await db.collection("courses").limit(1).get();
+    if (coursesSnapshot.empty) {
+      console.log("📝 No existing data found, clearing and seeding test data...");
+      await clearFirestore(db);
+      await seedTestData(db);
+    } else {
+      console.log("✅ Test data already exists, skipping seeding");
+    }
+  }, 180000); // Increase timeout for setup (3 minutes)
 
   afterAll(async () => {
     // Clean up
@@ -151,10 +155,13 @@ describe("Search Resolver Integration Tests", () => {
 
 async function clearFirestore(db: admin.firestore.Firestore) {
   const collections = [
-    "academic-registry",
+    "courses",
     "discord-servers",
+    "reddit-communities",
+    "degree-programs",
     "wgu-connect-groups",
-    "public",
+    "wgu-student-groups",
+    "course-community-mappings",
   ];
 
   for (const collection of collections) {
@@ -163,96 +170,155 @@ async function clearFirestore(db: admin.firestore.Firestore) {
     snapshot.docs.forEach((doc) => batch.delete(doc.ref));
     await batch.commit();
   }
+  console.log("🧹 Cleared test collections");
 }
 
 async function seedTestData(db: admin.firestore.Firestore) {
-  // Academic Registry - Courses
-  await db.collection("academic-registry").doc("courses").set({
-    courses: {
-      "C172": {
-        code: "C172",
-        name: "Network and Security - Foundations",
-        description: "This course introduces students to the components of a computer network and the concepts and methods used in network security.",
-        ccn: "12345",
-        competencyUnits: 3,
-      },
-      "C173": {
-        code: "C173",
-        name: "Scripting and Programming - Foundations",
-        description: "This course provides an introduction to programming covering data structures, algorithms, and programming paradigms.",
-        ccn: "12346",
-        competencyUnits: 3,
-      },
-      "C175": {
-        code: "C175",
-        name: "Data Management - Foundations",
-        description: "This course covers the fundamentals of data management systems.",
-        ccn: "12347",
-        competencyUnits: 3,
-      },
+  console.log("🌱 Seeding test data for search integration tests...");
+  
+  // Seed courses collection (matches current data model)
+  await db.collection("courses").doc("C172").set({
+    courseCode: "C172",
+    name: "Network and Security - Foundations",
+    description: "This course introduces students to the components of a computer network and the concepts and methods used in network security.",
+    units: 3,
+    competencyUnits: 3,
+    level: "undergraduate",
+    type: "general",
+    prerequisites: [],
+    firstSeenCatalog: "2024-01",
+    lastSeenCatalog: "2024-01",
+    catalogHistory: [],
+    communities: {
+      discord: [{ serverId: "wgu-cyber-club", channelIds: ["c172-channel"] }],
+      reddit: [{ subredditId: "WGU", relevance: "general" }],
+      wguConnect: { groupId: "c172-study" }
     },
+    popularityScore: 85,
+    difficultyRating: 3.5,
+    lastUpdated: new Date()
   });
 
-  // Academic Registry - Degree Programs
-  await db.collection("academic-registry").doc("degree-programs").set({
-    programs: {
-      "BSCS": {
-        name: "Bachelor of Science Computer Science",
-        code: "BSCS",
-        college: "College of Information Technology",
-        degreeType: "Bachelor's",
-        totalCUs: 120,
-      },
-      "BSCSIA": {
-        name: "Bachelor of Science Cybersecurity and Information Assurance",
-        code: "BSCSIA",
-        college: "College of Information Technology",
-        degreeType: "Bachelor's",
-        totalCUs: 120,
-      },
+  await db.collection("courses").doc("C173").set({
+    courseCode: "C173",
+    name: "Scripting and Programming - Foundations",
+    description: "This course provides an introduction to programming covering data structures, algorithms, and programming paradigms.",
+    units: 3,
+    competencyUnits: 3,
+    level: "undergraduate",
+    type: "general",
+    prerequisites: [],
+    firstSeenCatalog: "2024-01",
+    lastSeenCatalog: "2024-01",
+    catalogHistory: [],
+    communities: {
+      discord: [{ serverId: "wgu-compsci", channelIds: ["c173-channel"] }],
+      reddit: [{ subredditId: "WGU", relevance: "general" }]
     },
+    popularityScore: 80,
+    difficultyRating: 3.0,
+    lastUpdated: new Date()
+  });
+
+  await db.collection("courses").doc("C175").set({
+    courseCode: "C175",
+    name: "Data Management - Foundations",
+    description: "This course covers the fundamentals of data management systems.",
+    units: 3,
+    competencyUnits: 3,
+    level: "undergraduate",
+    type: "general",
+    prerequisites: [],
+    firstSeenCatalog: "2024-01",
+    lastSeenCatalog: "2024-01",
+    catalogHistory: [],
+    communities: {
+      discord: [{ serverId: "wgu-compsci", channelIds: ["c175-channel"] }],
+      reddit: [{ subredditId: "WGU", relevance: "general" }]
+    },
+    popularityScore: 75,
+    difficultyRating: 2.8,
+    lastUpdated: new Date()
   });
 
   // Discord Servers
   await db.collection("discord-servers").doc("wgu-cyber-club").set({
+    id: "wgu-cyber-club",
     name: "WGU Cyber Security Club",
     description: "A community for WGU cybersecurity students and alumni",
     inviteUrl: "https://discord.gg/wgucyber",
     icon: "https://example.com/icon.png",
     memberCount: 5000,
+    channels: [
+      { id: "c172-channel", name: "c172-network-security", type: "course", associatedCourses: ["C172"] }
+    ],
+    tags: ["cybersecurity", "official"],
+    verified: true,
+    lastUpdated: new Date()
   });
 
   await db.collection("discord-servers").doc("wgu-compsci").set({
+    id: "wgu-compsci",
     name: "WGU Computer Science",
     description: "Community for Computer Science students at WGU",
     inviteUrl: "https://discord.gg/wgucs",
     memberCount: 3500,
+    channels: [
+      { id: "c173-channel", name: "c173-programming", type: "course", associatedCourses: ["C173"] },
+      { id: "c175-channel", name: "c175-data-mgmt", type: "course", associatedCourses: ["C175"] }
+    ],
+    tags: ["computer-science", "official"],
+    verified: true,
+    lastUpdated: new Date()
   });
 
   // WGU Connect Groups
   await db.collection("wgu-connect-groups").doc("c172-study").set({
+    id: "c172-study",
+    groupId: "c172-study",
     name: "C172 Network and Security Study Group",
+    courseCode: "C172",
     description: "Study group for Network and Security Foundations course",
     memberCount: 150,
+    postCount: 300,
+    lastActivity: new Date(),
+    resources: []
   });
 
-  // WGU Student Groups
-  await db.collection("public").doc("wguStudentGroups").set({
-    groups: [
-      {
-        name: "Computer Science Club",
-        courseCode: null,
-        url: "https://example.com/cs-club",
-        description: "WGU Computer Science student organization",
-        memberCount: 1200,
-      },
-      {
-        name: "Cybersecurity Club",
-        courseCode: null,
-        url: "https://example.com/cyber-club",
-        description: "WGU Cybersecurity student organization",
-        memberCount: 800,
-      },
+  // Student Groups
+  await db.collection("wgu-student-groups").doc("cs-club").set({
+    id: "cs-club",
+    studentGroupId: "cs-club",
+    name: "Computer Science Club",
+    description: "WGU Computer Science student organization",
+    category: "academic",
+    memberCount: 1200,
+    platform: "website",
+    joinUrl: "https://example.com/cs-club",
+    courseMappings: ["C172", "C173", "C175"],
+    isOfficial: false,
+    socialLinks: [
+      { platform: "website", url: "https://example.com/cs-club" }
     ],
+    lastChecked: new Date()
   });
+
+  await db.collection("wgu-student-groups").doc("cyber-club").set({
+    id: "cyber-club", 
+    studentGroupId: "cyber-club",
+    name: "Cybersecurity Club",
+    description: "WGU Cybersecurity student organization",
+    category: "academic",
+    memberCount: 800,
+    platform: "website",
+    joinUrl: "https://example.com/cyber-club",
+    courseMappings: ["C172"],
+    isOfficial: false,
+    socialLinks: [
+      { platform: "website", url: "https://example.com/cyber-club" }
+    ],
+    lastChecked: new Date()
+  });
+
+  console.log("✅ Search test data seeded successfully");
 }

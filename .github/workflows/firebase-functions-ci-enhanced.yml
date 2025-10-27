@@ -113,28 +113,34 @@ jobs:
           cd functions
           
           # Start emulators with timeout and health check
-          timeout 300 firebase emulators:exec --only firestore,functions --project demo-test '
+          timeout 600 firebase emulators:exec --only firestore,functions --project demo-test '
             echo "🚀 Emulators started, waiting for readiness..."
             
-            # Wait for emulator readiness
-            for i in {1..30}; do
-              if curl -s -f http://localhost:8181 > /dev/null 2>&1; then
-                echo "✅ Firestore emulator is ready"
+            # Wait for emulator readiness with proper endpoint checks
+            echo "⏳ Waiting for Firestore emulator..."
+            for i in {1..60}; do
+              if curl -s -f "http://localhost:8181/v1/projects/demo-test/databases/(default)/documents" > /dev/null 2>&1; then
+                echo "✅ Firestore emulator is ready ($i/60)"
                 break
               fi
-              echo "⏳ Waiting for Firestore emulator... ($i/30)"
-              sleep 2
+              echo "⏳ Firestore not ready yet... ($i/60)"
+              sleep 1
             done
             
-            # Verify functions emulator
-            for i in {1..30}; do
-              if curl -s -f http://localhost:5001 > /dev/null 2>&1; then
-                echo "✅ Functions emulator is ready"
+            # Verify functions emulator with proper health endpoint
+            echo "⏳ Waiting for Functions emulator..."
+            for i in {1..60}; do
+              if curl -s -f "http://localhost:5001/demo-test/us-central1" > /dev/null 2>&1; then
+                echo "✅ Functions emulator is ready ($i/60)"
                 break
               fi
-              echo "⏳ Waiting for Functions emulator... ($i/30)"
-              sleep 2
+              echo "⏳ Functions emulator not ready yet... ($i/60)"
+              sleep 1
             done
+            
+            # Give emulators a moment to fully initialize
+            echo "⏱️  Allowing emulators to fully initialize..."
+            sleep 5
             
             echo "🌱 Seeding test data for ${{ matrix.dataset }}..."
             npm run seed:test-data:${{ matrix.dataset }}
