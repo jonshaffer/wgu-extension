@@ -5,8 +5,8 @@ import path from 'path';
 import Ajv from 'ajv';
 import type { ErrorObject, ValidateFunction } from 'ajv';
 import addFormats from 'ajv-formats';
-import { isDiscordCommunityFile } from '../types/raw-discord.ts';
-import { checkInvitesInRawDir } from './lib/invites.ts';
+import { isDiscordCommunityFile } from '../types/raw-discord.js';
+import { checkInvitesInRawDir } from './lib/invites.js';
 
 interface ValidationResult {
   file: string;

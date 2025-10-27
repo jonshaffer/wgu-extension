@@ -4,20 +4,20 @@
 // repo-relative paths in .d.ts. For external consumers, prefer the Zod types.
 
 // Discord
-export type CanonicalDiscordHierarchyLevel = import('../../../data/discord/types/raw-discord').DiscordHierarchyLevel;
-export type CanonicalDiscordHierarchy = import('../../../data/discord/types/raw-discord').DiscordHierarchy;
-export type CanonicalDiscordChannelType = import('../../../data/discord/types/raw-discord').DiscordChannelType;
-export type CanonicalDiscordChannel = import('../../../data/discord/types/raw-discord').DiscordChannel;
-export type CanonicalDiscordCommunity = import('../../../data/discord/types/raw-discord').DiscordCommunity;
-export type CanonicalDiscordCommunityFile = import('../../../data/discord/types/raw-discord').DiscordCommunityFile;
+export type CanonicalDiscordHierarchyLevel = import('../../../data/discord/types/raw-discord.js').DiscordHierarchyLevel;
+export type CanonicalDiscordHierarchy = import('../../../data/discord/types/raw-discord.js').DiscordHierarchy;
+export type CanonicalDiscordChannelType = import('../../../data/discord/types/raw-discord.js').DiscordChannelType;
+export type CanonicalDiscordChannel = import('../../../data/discord/types/raw-discord.js').DiscordChannel;
+export type CanonicalDiscordCommunity = import('../../../data/discord/types/raw-discord.js').DiscordCommunity;
+export type CanonicalDiscordCommunityFile = import('../../../data/discord/types/raw-discord.js').DiscordCommunityFile;
 
 // Reddit
-export type CanonicalRedditCommunity = import('../../../data/reddit/types/reddit-community').RedditCommunity;
+export type CanonicalRedditCommunity = import('../../../data/reddit/types/reddit-community.js').RedditCommunity;
 
 // Catalogs
-export type CanonicalCatalogCourse = import('../../../data/catalogs/types/catalog-data').Course;
-export type CanonicalCatalogDegreePlan = import('../../../data/catalogs/types/catalog-data').DegreePlan;
-export type CanonicalCatalogDegreePlanCourse = import('../../../data/catalogs/types/catalog-data').DegreePlanCourse;
-export type CanonicalCatalogFormatVersion = import('../../../data/catalogs/types/catalog-data').CatalogFormatVersion;
-export type CanonicalCatalogMetadata = import('../../../data/catalogs/types/catalog-data').Metadata;
-export type CanonicalCatalogData = import('../../../data/catalogs/types/catalog-data').CatalogData;
+export type CanonicalCatalogCourse = import('../../../data/catalogs/types/catalog-data.js').Course;
+export type CanonicalCatalogDegreePlan = import('../../../data/catalogs/types/catalog-data.js').DegreePlan;
+export type CanonicalCatalogDegreePlanCourse = import('../../../data/catalogs/types/catalog-data.js').DegreePlanCourse;
+export type CanonicalCatalogFormatVersion = import('../../../data/catalogs/types/catalog-data.js').CatalogFormatVersion;
+export type CanonicalCatalogMetadata = import('../../../data/catalogs/types/catalog-data.js').Metadata;
+export type CanonicalCatalogData = import('../../../data/catalogs/types/catalog-data.js').CatalogData;
