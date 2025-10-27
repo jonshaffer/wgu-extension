@@ -3,7 +3,7 @@ import functionsTest from "firebase-functions-test";
 import * as admin from "firebase-admin";
 import request from "supertest";
 import {createYoga} from "graphql-yoga";
-import {buildSchema} from "graphql";
+import {makeExecutableSchema} from "@graphql-tools/schema";
 import {publicTypeDefs} from "../graphql/public-schema.js";
 import {publicResolvers} from "../graphql/public-resolvers.js";
 
@@ -20,7 +20,10 @@ let app: any;
 describe("GraphQL Integration Tests", () => {
   beforeAll(async () => {
     // Create a test GraphQL app with the same schema and resolvers
-    const schema = buildSchema(publicTypeDefs);
+    const schema = makeExecutableSchema({
+      typeDefs: publicTypeDefs,
+      resolvers: publicResolvers,
+    });
     const yoga = createYoga({
       schema,
       graphiql: false,
