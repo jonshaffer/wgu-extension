@@ -2,7 +2,8 @@ import * as admin from "firebase-admin";
 
 // Determine if we're running integration tests that need emulators
 // Check multiple signals for integration test environment
-const hasEmulatorHost = process.env.FIRESTORE_EMULATOR_HOST === "localhost:8181";
+const emulatorHost = process.env.FIRESTORE_EMULATOR_HOST;
+const hasEmulatorHost = emulatorHost === "localhost:8181" || emulatorHost === "127.0.0.1:8181";
 const isCI = process.env.CI === "true";
 const explicitIntegrationFlag = process.env.RUN_INTEGRATION_TESTS === "true";
 const runningIntegrationTestFiles = process.argv.some(arg => arg.includes('integration.test'));
@@ -23,8 +24,13 @@ console.log(`  isIntegrationTest: ${isIntegrationTest}`);
 
 // Set up Firebase Admin SDK with emulator configuration for integration tests
 if (isIntegrationTest) {
-  process.env.FIRESTORE_EMULATOR_HOST = "localhost:8181";
-  process.env.FIREBASE_AUTH_EMULATOR_HOST = "localhost:9099";
+  // Use the existing emulator host or default to localhost
+  if (!process.env.FIRESTORE_EMULATOR_HOST) {
+    process.env.FIRESTORE_EMULATOR_HOST = "localhost:8181";
+  }
+  if (!process.env.FIREBASE_AUTH_EMULATOR_HOST) {
+    process.env.FIREBASE_AUTH_EMULATOR_HOST = "localhost:9099";
+  }
 
   // Wait for emulator connectivity before running tests
   async function waitForEmulatorConnectivity() {
