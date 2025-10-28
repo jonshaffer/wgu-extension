@@ -32,7 +32,18 @@ jobs:
           cache: 'npm'
       
       - name: Install dependencies
-        run: npm ci
+        run: |
+          # Ensure optional dependencies are installed for CI environment
+          npm ci --include=optional --foreground-scripts
+          # Force reinstall lightningcss platform-specific binaries if missing
+          npm ls lightningcss-linux-x64-gnu || npm install lightningcss-linux-x64-gnu --no-save
+        env:
+          npm_config_target_arch: x64
+          npm_config_target_platform: linux
+          npm_config_optional: true
+      
+      - name: Validate build dependencies
+        run: node scripts/validate-build-dependencies.js
       
       - name: Build required packages
         run: npm run build:libs
@@ -58,7 +69,18 @@ jobs:
           cache: 'npm'
       
       - name: Install dependencies
-        run: npm ci
+        run: |
+          # Ensure optional dependencies are installed for CI environment
+          npm ci --include=optional --foreground-scripts
+          # Force reinstall lightningcss platform-specific binaries if missing
+          npm ls lightningcss-linux-x64-gnu || npm install lightningcss-linux-x64-gnu --no-save
+        env:
+          npm_config_target_arch: x64
+          npm_config_target_platform: linux
+          npm_config_optional: true
+      
+      - name: Validate build dependencies
+        run: node scripts/validate-build-dependencies.js
       
       - name: Build required packages
         run: npm run build:libs
@@ -87,7 +109,18 @@ jobs:
           cache: 'npm'
       
       - name: Install dependencies
-        run: npm ci
+        run: |
+          # Ensure optional dependencies are installed for CI environment
+          npm ci --include=optional --foreground-scripts
+          # Force reinstall lightningcss platform-specific binaries if missing
+          npm ls lightningcss-linux-x64-gnu || npm install lightningcss-linux-x64-gnu --no-save
+        env:
+          npm_config_target_arch: x64
+          npm_config_target_platform: linux
+          npm_config_optional: true
+      
+      - name: Validate build dependencies
+        run: node scripts/validate-build-dependencies.js
       
       - name: Build required packages
         run: npm run build:libs
