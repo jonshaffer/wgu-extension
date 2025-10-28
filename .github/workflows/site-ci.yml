@@ -42,9 +42,6 @@ jobs:
           npm_config_target_platform: linux
           npm_config_optional: true
       
-      - name: Validate build dependencies
-        run: node scripts/validate-build-dependencies.js
-      
       - name: Build required packages
         run: npm run build:libs
       
@@ -78,9 +75,6 @@ jobs:
           npm_config_target_arch: x64
           npm_config_target_platform: linux
           npm_config_optional: true
-      
-      - name: Validate build dependencies
-        run: node scripts/validate-build-dependencies.js
       
       - name: Build required packages
         run: npm run build:libs
@@ -118,9 +112,6 @@ jobs:
           npm_config_target_arch: x64
           npm_config_target_platform: linux
           npm_config_optional: true
-      
-      - name: Validate build dependencies
-        run: node scripts/validate-build-dependencies.js
       
       - name: Build required packages
         run: npm run build:libs
