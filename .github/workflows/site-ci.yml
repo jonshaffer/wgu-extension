@@ -35,8 +35,9 @@ jobs:
         run: |
           # Ensure optional dependencies are installed for CI environment
           npm ci --include=optional --foreground-scripts
-          # Force reinstall lightningcss platform-specific binaries if missing
+          # Force reinstall platform-specific binaries if missing
           npm ls lightningcss-linux-x64-gnu || npm install lightningcss-linux-x64-gnu --no-save
+          npm ls @tailwindcss/oxide-linux-x64-gnu || npm install @tailwindcss/oxide-linux-x64-gnu --no-save
         env:
           npm_config_target_arch: x64
           npm_config_target_platform: linux
@@ -72,8 +73,9 @@ jobs:
         run: |
           # Ensure optional dependencies are installed for CI environment
           npm ci --include=optional --foreground-scripts
-          # Force reinstall lightningcss platform-specific binaries if missing
+          # Force reinstall platform-specific binaries if missing
           npm ls lightningcss-linux-x64-gnu || npm install lightningcss-linux-x64-gnu --no-save
+          npm ls @tailwindcss/oxide-linux-x64-gnu || npm install @tailwindcss/oxide-linux-x64-gnu --no-save
         env:
           npm_config_target_arch: x64
           npm_config_target_platform: linux
@@ -112,8 +114,9 @@ jobs:
         run: |
           # Ensure optional dependencies are installed for CI environment
           npm ci --include=optional --foreground-scripts
-          # Force reinstall lightningcss platform-specific binaries if missing
+          # Force reinstall platform-specific binaries if missing
           npm ls lightningcss-linux-x64-gnu || npm install lightningcss-linux-x64-gnu --no-save
+          npm ls @tailwindcss/oxide-linux-x64-gnu || npm install @tailwindcss/oxide-linux-x64-gnu --no-save
         env:
           npm_config_target_arch: x64
           npm_config_target_platform: linux

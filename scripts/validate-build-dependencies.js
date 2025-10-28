@@ -13,6 +13,10 @@ const CRITICAL_DEPENDENCIES = [
   { 
     name: 'lightningcss', 
     platforms: ['lightningcss-linux-x64-gnu', 'lightningcss-darwin-arm64', 'lightningcss-darwin-x64'] 
+  },
+  { 
+    name: '@tailwindcss/oxide', 
+    platforms: ['@tailwindcss/oxide-linux-x64-gnu', '@tailwindcss/oxide-darwin-arm64', '@tailwindcss/oxide-darwin-x64'] 
   }
 ];
 
@@ -74,6 +78,7 @@ function main() {
     console.error('💡 Try running:');
     console.error('   npm ci --include=optional');
     console.error('   npm install lightningcss-linux-x64-gnu --no-save  # For CI environments');
+    console.error('   npm install @tailwindcss/oxide-linux-x64-gnu --no-save  # For CI environments');
     process.exit(1);
   }
 }
