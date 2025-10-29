@@ -106,7 +106,7 @@ jobs:
           java-version: '11'
 
       - name: Install Firebase CLI
-        run: npm install -g firebase-tools
+        run: pnpm add -g firebase-tools
 
       - name: Cache Firebase emulators
         uses: actions/cache@v3
@@ -158,16 +158,16 @@ jobs:
             sleep 5
             
             echo "🌱 Seeding test data for ${{ matrix.dataset }}..."
-            npm run seed:test-data:${{ matrix.dataset }}
-            
+            pnpm run seed:test-data:${{ matrix.dataset }}
+
             echo "🧪 Running integration tests..."
-            npm test -- --testMatch="**/*.integration.test.ts" --verbose --maxWorkers=1
+            pnpm test -- --testMatch="**/*.integration.test.ts" --verbose --maxWorkers=1
           ' || {
             echo "❌ Integration tests failed or timed out"
             # Collect debug information
             echo "🐛 Debug information:"
             echo "Node.js version: $(node --version)"
-            echo "npm version: $(npm --version)"
+            echo "pnpm version: $(pnpm --version)"
             echo "Firebase CLI version: $(firebase --version)"
             echo "Available disk space:"
             df -h
@@ -214,7 +214,7 @@ jobs:
           java-version: '11'
 
       - name: Install Firebase CLI
-        run: npm install -g firebase-tools
+        run: pnpm add -g firebase-tools
 
       - name: Cache Firebase emulators
         uses: actions/cache@v3
@@ -233,7 +233,7 @@ jobs:
           cd functions
           firebase emulators:exec --only firestore,functions --project demo-test '
             echo "Seeding standard test data..."
-            npm run seed:test-data:standard
+            pnpm run seed:test-data:standard
             echo "Testing GraphQL client package..."
             tsx scripts/test-graphql-client.ts
           '

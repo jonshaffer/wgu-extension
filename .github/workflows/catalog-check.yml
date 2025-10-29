@@ -24,21 +24,26 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.14.0
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'npm'
-          
+          cache: 'pnpm'
+
       - name: Install poppler-utils (for PDF parsing)
         run: |
           sudo apt-get update
           sudo apt-get install -y poppler-utils
-          
+
       - name: Install dependencies
         run: |
-          cd extension && npm ci
-          cd ../data && npm ci
+          cd extension && pnpm install --frozen-lockfile
+          cd ../data && pnpm install --frozen-lockfile
         
       - name: Check catalog page structure
         id: page_check
