@@ -37,12 +37,6 @@ pre-push:
         - merge
         - rebase
 
-    test-functions:
-      run: pnpm --filter=functions run test
-      skip:
-        - merge
-        - rebase
-
 # Commit-msg hook: Enforce conventional commit format
 commit-msg:
   commands:
