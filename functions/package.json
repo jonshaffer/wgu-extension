@@ -30,15 +30,15 @@
     "typecheck": "tsc --noEmit",
     "build": "tsc",
     "build:types": "tsc --declaration --emitDeclarationOnly",
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "pnpm run build",
     "build:watch": "tsc --watch",
-    "serve": "npm run build && firebase emulators:start --only functions,firestore --import=./emulator-data --export-on-exit=./emulator-data",
-    "serve:fresh": "npm run build && firebase emulators:start --only functions,firestore",
-    "serve:dvc": "npm run dvc:pull && npm run serve",
+    "serve": "pnpm run build && firebase emulators:start --only functions,firestore --import=./emulator-data --export-on-exit=./emulator-data",
+    "serve:fresh": "pnpm run build && firebase emulators:start --only functions,firestore",
+    "serve:dvc": "pnpm run dvc:pull && pnpm run serve",
     "dvc:pull": "cd .. && nix develop --command dvc pull",
     "dvc:push": "cd .. && nix develop --command dvc push",
-    "shell": "npm run build && firebase functions:shell",
-    "start": "npm run shell",
+    "shell": "pnpm run build && firebase functions:shell",
+    "start": "pnpm run shell",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log",
     "sync:data": "ts-node scripts/sync-github-to-firestore.ts",
@@ -56,7 +56,7 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "test:integration": "firebase emulators:exec --only firestore 'jest --testMatch=\"**/*.integration.test.ts\"'",
-    "test:emulator": "npm run build && firebase emulators:exec --only functions,firestore 'npm test'"
+    "test:emulator": "pnpm run build && firebase emulators:exec --only functions,firestore 'pnpm test'"
   },
   "engines": {
     "node": "22"

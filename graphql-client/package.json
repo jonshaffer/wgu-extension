@@ -32,13 +32,13 @@
   },
   "scripts": {
     "dev": "tsc --watch",
-    "build": "npm run clean && tsc",
+    "build": "pnpm run clean && tsc",
     "clean": "rm -rf dist",
     "typecheck": "tsc --noEmit",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "pnpm run build"
   },
   "dependencies": {
-    "@wgu-extension/functions": "^0.1.0",
+    "@wgu-extension/functions": "workspace:*",
     "graphql": "^16.11.0",
     "graphql-request": "^7.2.0"
   },
@@ -47,6 +47,6 @@
     "typescript": "^5.8.3"
   },
   "peerDependencies": {
-    "@wgu-extension/data": "^0.1.0"
+    "@wgu-extension/data": "workspace:*"
   }
 }
