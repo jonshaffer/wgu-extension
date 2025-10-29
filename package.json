@@ -10,6 +10,7 @@
     "graphql-client"
   ],
   "scripts": {
+    "prepare": "npx lefthook install",
     "dev": "pnpm --filter=extension run dev",
     "dev:extension": "pnpm --filter=extension run dev",
     "dev:functions": "pnpm --filter=functions run serve",
@@ -30,6 +31,8 @@
     "types:build": "pnpm --filter=data run types:build",
     "types:publish:local": "cd data && pnpm publish --tag local",
     "types:publish:local:dry": "cd data && pnpm publish --tag local --dry-run",
+    "hooks:install": "npx lefthook install",
+    "hooks:uninstall": "npx lefthook uninstall",
     "emulators": "cd functions && firebase emulators:start --import=./emulator-data",
     "emulators:fresh": "cd functions && firebase emulators:start",
     "emulators:seed": "pnpm --filter=functions run dvc:pull && pnpm run emulators",
