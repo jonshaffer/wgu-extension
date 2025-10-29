@@ -527,3 +527,60 @@ Follow conventional commits:
 - Content Security Policy enforced
 - No eval() or inline scripts
 - Sanitize all user inputs
+
+## CI/CD Troubleshooting
+
+### Common CI Issues
+
+#### Platform-Specific Binary Errors
+**Symptoms**: `Cannot find module '../lightningcss.linux-x64-gnu.node'` or similar platform binary errors
+
+**Solution**:
+```bash
+# Enhanced dependency installation for CI
+npm ci --include=optional --foreground-scripts
+npm rebuild lightningcss --build-from-source --verbose
+npm install @tailwindcss/oxide-linux-x64-gnu --no-save
+npm install @esbuild/linux-x64 --no-save
+```
+
+**Environment Variables for CI**:
+```bash
+export npm_config_target_arch=x64
+export npm_config_target_platform=linux
+export npm_config_optional=true
+```
+
+#### Build Dependency Validation
+**Command**: `node scripts/validate-build-dependencies.js`
+
+**Common Fixes**:
+- **Missing @tailwindcss/oxide**: `npm install @tailwindcss/oxide-linux-x64-gnu --no-save`
+- **Missing lightningcss binary**: `npm rebuild lightningcss --build-from-source --verbose`
+- **Missing esbuild binary**: `npm install @esbuild/linux-x64 --no-save`
+
+#### Codecov Upload Issues
+**Symptoms**: Rate limiting or upload timeouts
+
+**Current Setup**: 
+- Coverage uploads are non-blocking (`continue-on-error: true`)
+- Uses `CODECOV_TOKEN` secret for authentication
+- Fails gracefully without blocking CI success
+
+### CI Workflow Status
+- **Site CI**: ✅ Platform binaries handled automatically
+- **Functions CI Enhanced**: ✅ Enhanced with platform binary installation
+- **GraphQL Client Tests**: ✅ Includes dependency validation and recovery
+
+### Troubleshooting Steps
+1. **Check CI logs** for specific error messages
+2. **Run validation script** locally: `node scripts/validate-build-dependencies.js`
+3. **Manual binary installation** if validation fails
+4. **Review platform compatibility** for new dependencies
+5. **Consult [CI Error Analysis](docs/ci-error-analysis-review.md)** for detailed solutions
+
+### Prevention
+- Always test new dependencies in CI environment
+- Use `npm ci --include=optional` for consistent installs
+- Add platform-specific dependencies to validation script
+- Monitor CI success rates and build times

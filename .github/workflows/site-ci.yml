@@ -39,6 +39,8 @@ jobs:
           npm rebuild lightningcss --build-from-source --verbose
           # Force reinstall @tailwindcss/oxide platform-specific binaries if missing
           npm ls @tailwindcss/oxide-linux-x64-gnu || npm install @tailwindcss/oxide-linux-x64-gnu --no-save
+          # Force reinstall esbuild platform-specific binaries if missing
+          npm ls @esbuild/linux-x64 || npm install @esbuild/linux-x64 --no-save
         env:
           npm_config_target_arch: x64
           npm_config_target_platform: linux
@@ -75,6 +77,8 @@ jobs:
           npm rebuild lightningcss --build-from-source --verbose
           # Force reinstall @tailwindcss/oxide platform-specific binaries if missing
           npm ls @tailwindcss/oxide-linux-x64-gnu || npm install @tailwindcss/oxide-linux-x64-gnu --no-save
+          # Force reinstall esbuild platform-specific binaries if missing
+          npm ls @esbuild/linux-x64 || npm install @esbuild/linux-x64 --no-save
         env:
           npm_config_target_arch: x64
           npm_config_target_platform: linux
@@ -114,6 +118,8 @@ jobs:
           npm rebuild lightningcss --build-from-source --verbose
           # Force reinstall @tailwindcss/oxide platform-specific binaries if missing
           npm ls @tailwindcss/oxide-linux-x64-gnu || npm install @tailwindcss/oxide-linux-x64-gnu --no-save
+          # Force reinstall esbuild platform-specific binaries if missing
+          npm ls @esbuild/linux-x64 || npm install @esbuild/linux-x64 --no-save
         env:
           npm_config_target_arch: x64
           npm_config_target_platform: linux
