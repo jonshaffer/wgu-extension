@@ -1,8 +1,8 @@
 # Lefthook Configuration
 # Runs Git hooks using npx lefthook (no global installation required)
 #
-# Setup: npm run hooks:install
-# Uninstall: npm run hooks:uninstall
+# Setup: pnpm run hooks:install
+# Uninstall: pnpm run hooks:uninstall
 
 # Pre-commit hook: Fast validation of staged files only
 pre-commit:
@@ -20,25 +20,25 @@ pre-push:
   parallel: false
   commands:
     validate-dependencies:
-      run: npm run validate:dependencies
+      run: pnpm run validate:dependencies
       skip:
         - merge
         - rebase
 
     typecheck:
-      run: npm run typecheck
+      run: pnpm run typecheck
       skip:
         - merge
         - rebase
 
     lint:
-      run: npm run lint
+      run: pnpm run lint
       skip:
         - merge
         - rebase
 
     test-functions:
-      run: npm run test --workspace=functions
+      run: pnpm --filter=functions run test
       skip:
         - merge
         - rebase
