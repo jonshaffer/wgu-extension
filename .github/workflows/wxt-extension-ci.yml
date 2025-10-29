@@ -37,41 +37,33 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.14.0
+
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'npm'
-      
+          cache: 'pnpm'
+
       - name: Install dependencies
-        run: |
-          # Ensure optional dependencies are installed for CI environment
-          npm ci --include=optional --foreground-scripts
-          # Rebuild lightningcss for correct platform (proven community solution)
-          npm rebuild lightningcss --build-from-source --verbose
-          # Force reinstall @tailwindcss/oxide platform-specific binaries if missing
-          npm ls @tailwindcss/oxide-linux-x64-gnu || npm install @tailwindcss/oxide-linux-x64-gnu --no-save
-          # Force reinstall esbuild platform-specific binaries if missing
-          npm ls @esbuild/linux-x64 || npm install @esbuild/linux-x64 --no-save
-        env:
-          npm_config_target_arch: x64
-          npm_config_target_platform: linux
-          npm_config_optional: true
-      
+        run: pnpm install --frozen-lockfile
+
       - name: Build required packages
-        run: npm run build:libs
-      
+        run: pnpm run build:libs
+
       - name: Type check
-        run: npm run typecheck --workspace=extension
-      
+        run: pnpm run typecheck --filter=extension
+
       - name: Lint
-        run: npm run lint --workspace=extension
-      
+        run: pnpm run lint --filter=extension
+
       - name: Test development build
-        run: npm run build:dev --workspace=extension
-      
-      - name: Test production build  
-        run: npm run build:prod --workspace=extension
+        run: pnpm run build:dev --filter=extension
+
+      - name: Test production build
+        run: pnpm run build:prod --filter=extension
 
   build-preview:
     runs-on: ubuntu-latest
@@ -79,35 +71,30 @@ jobs:
     needs: test
     steps:
       - uses: actions/checkout@v4
-      
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.14.0
+
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'npm'
-      
+          cache: 'pnpm'
+
       - name: Install dependencies
-        run: |
-          # Enhanced dependency installation for CI
-          npm ci --include=optional --foreground-scripts
-          npm rebuild lightningcss --build-from-source --verbose
-          npm ls @tailwindcss/oxide-linux-x64-gnu || npm install @tailwindcss/oxide-linux-x64-gnu --no-save
-          npm ls @esbuild/linux-x64 || npm install @esbuild/linux-x64 --no-save
-        env:
-          npm_config_target_arch: x64
-          npm_config_target_platform: linux
-          npm_config_optional: true
-      
+        run: pnpm install --frozen-lockfile
+
       - name: Build required packages
-        run: npm run build:libs
-      
+        run: pnpm run build:libs
+
       - name: Build preview
-        run: npm run build:preview --workspace=extension
-        
+        run: pnpm run build:preview --filter=extension
+
       - name: Create preview ZIPs
         run: |
-          npm run zip:preview --workspace=extension
-          npm run zip:firefox:preview --workspace=extension
-          npm run zip:edge:preview --workspace=extension
+          pnpm run zip:preview --filter=extension
+          pnpm run zip:firefox:preview --filter=extension
+          pnpm run zip:edge:preview --filter=extension
       
       - name: Upload preview artifacts
         uses: actions/upload-artifact@v4
@@ -122,35 +109,30 @@ jobs:
     needs: test
     steps:
       - uses: actions/checkout@v4
-      
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.14.0
+
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'npm'
-      
+          cache: 'pnpm'
+
       - name: Install dependencies
-        run: |
-          # Enhanced dependency installation for CI
-          npm ci --include=optional --foreground-scripts
-          npm rebuild lightningcss --build-from-source --verbose
-          npm ls @tailwindcss/oxide-linux-x64-gnu || npm install @tailwindcss/oxide-linux-x64-gnu --no-save
-          npm ls @esbuild/linux-x64 || npm install @esbuild/linux-x64 --no-save
-        env:
-          npm_config_target_arch: x64
-          npm_config_target_platform: linux
-          npm_config_optional: true
-      
+        run: pnpm install --frozen-lockfile
+
       - name: Build required packages
-        run: npm run build:libs
-      
+        run: pnpm run build:libs
+
       - name: Build production
-        run: npm run build:prod --workspace=extension
-        
+        run: pnpm run build:prod --filter=extension
+
       - name: Create production ZIPs
         run: |
-          npm run zip --workspace=extension
-          npm run zip:firefox --workspace=extension
-          npm run zip:edge --workspace=extension
+          pnpm run zip --filter=extension
+          pnpm run zip:firefox --filter=extension
+          pnpm run zip:edge --filter=extension
       
       - name: Upload production artifacts
         uses: actions/upload-artifact@v4
