@@ -42,10 +42,10 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Type check
-        run: pnpm run typecheck --filter=functions
+        run: pnpm --filter=functions run typecheck
 
       - name: Lint
-        run: pnpm run lint --filter=functions
+        run: pnpm --filter=functions run lint
 
   unit-tests:
     runs-on: ubuntu-latest
@@ -69,7 +69,7 @@ jobs:
         run: pnpm run build:libs
 
       - name: Run unit tests with coverage
-        run: pnpm run test:coverage --filter=functions -- --testMatch="**/*.test.ts" --testPathIgnorePatterns="integration"
+        run: pnpm --filter=functions run test:coverage -- --testMatch="**/*.test.ts" --testPathIgnorePatterns="integration"
       
       - name: Upload coverage reports
         uses: codecov/codecov-action@v3
@@ -121,7 +121,7 @@ jobs:
         run: pnpm run build:libs
 
       - name: Build functions
-        run: pnpm run build --filter=functions
+        run: pnpm --filter=functions run build
       
       - name: Run integration tests with emulators
         run: |
@@ -320,7 +320,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build for production
-        run: pnpm run build --filter=functions
+        run: pnpm --filter=functions run build
         env:
           NODE_ENV: production
       

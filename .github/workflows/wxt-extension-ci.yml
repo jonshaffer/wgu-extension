@@ -54,16 +54,16 @@ jobs:
         run: pnpm run build:libs
 
       - name: Type check
-        run: pnpm run typecheck --filter=extension
+        run: pnpm --filter=extension run typecheck
 
       - name: Lint
-        run: pnpm run lint --filter=extension
+        run: pnpm --filter=extension run lint
 
       - name: Test development build
-        run: pnpm run build:dev --filter=extension
+        run: pnpm --filter=extension run build:dev
 
       - name: Test production build
-        run: pnpm run build:prod --filter=extension
+        run: pnpm --filter=extension run build:prod
 
   build-preview:
     runs-on: ubuntu-latest
@@ -88,13 +88,13 @@ jobs:
         run: pnpm run build:libs
 
       - name: Build preview
-        run: pnpm run build:preview --filter=extension
+        run: pnpm --filter=extension run build:preview
 
       - name: Create preview ZIPs
         run: |
-          pnpm run zip:preview --filter=extension
-          pnpm run zip:firefox:preview --filter=extension
-          pnpm run zip:edge:preview --filter=extension
+          pnpm --filter=extension run zip:preview
+          pnpm --filter=extension run zip:firefox:preview
+          pnpm --filter=extension run zip:edge:preview
       
       - name: Upload preview artifacts
         uses: actions/upload-artifact@v4
@@ -126,13 +126,13 @@ jobs:
         run: pnpm run build:libs
 
       - name: Build production
-        run: pnpm run build:prod --filter=extension
+        run: pnpm --filter=extension run build:prod
 
       - name: Create production ZIPs
         run: |
-          pnpm run zip --filter=extension
-          pnpm run zip:firefox --filter=extension
-          pnpm run zip:edge --filter=extension
+          pnpm --filter=extension run zip
+          pnpm --filter=extension run zip:firefox
+          pnpm --filter=extension run zip:edge
       
       - name: Upload production artifacts
         uses: actions/upload-artifact@v4

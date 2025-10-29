@@ -40,7 +40,7 @@ describe("GraphQL Integration Tests", () => {
       typeDefs: publicTypeDefs,
       resolvers: publicResolvers,
     });
-    
+
     const yoga = createYoga({
       schema,
       graphiql: false,
