@@ -24,15 +24,15 @@ This project follows [GitHub Spec Kit](https://github.com/github/spec-kit) princ
 
 ```bash
 # Install dependencies
-npm install
+pnpm install
 
 # Development
-npm run dev:extension    # Browser extension with hot reload
-npm run dev:functions    # Firebase functions emulator
-npm run dev:site        # Documentation website
+pnpm run dev:extension    # Browser extension with hot reload
+pnpm run dev:functions    # Firebase functions emulator
+pnpm run dev:site        # Documentation website
 
 # Build everything
-npm run build
+pnpm run build
 ```
 
 ## 📦 Data Version Control (DVC)
@@ -67,7 +67,7 @@ DVC manages several types of files:
 
 - **Before building or running scripts**: Always run `dvc pull` to ensure you have the latest files
 - **Automatic pulling**: Build scripts include DVC pull commands where needed
-- **Manual pulling**: Run `npm run catalog:ensure --workspace=data` 
+- **Manual pulling**: Run `pnpm run catalog:ensure --filter=data` 
 
 ### For Contributors
 
@@ -105,7 +105,7 @@ wgu-extension/
 
 ### Prerequisites
 
-- Node.js 22+ and npm 10+
+- Node.js 22+ and pnpm 9+
 - Git
 - DVC (installed automatically with Nix flake or via pip)
 
@@ -140,13 +140,13 @@ Catalog JSON files are large (several MB each) and are managed with DVC:
 
 ```bash
 # Ensure catalog files are available
-npm run catalog:ensure --workspace=data
+pnpm run catalog:ensure --filter=data
 
 # Process new catalogs
-npm run catalog:parse --workspace=data <pdf-file>
+pnpm run catalog:parse --filter=data <pdf-file>
 
 # Generate reports
-npm run catalog:report --workspace=data
+pnpm run catalog:report --filter=data
 ```
 
 ## 🔐 Security
@@ -170,7 +170,7 @@ This project follows specification-driven development. For new features:
 3. Run `dvc pull` to get catalog files
 4. Review relevant specifications and create new ones if needed
 5. Make your changes following the project constitution
-6. Run tests and linting (`npm run typecheck` and `npm run lint`)
+6. Run tests and linting (`pnpm run typecheck` and `pnpm run lint`)
 7. Submit a pull request with links to relevant specifications
 
 ## 📄 License

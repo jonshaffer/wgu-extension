@@ -5,7 +5,7 @@ GraphQL client library for the WGU Extension API.
 ## Installation
 
 ```bash
-npm install @wgu-extension/graphql-client
+pnpm install @wgu-extension/graphql-client
 ```
 
 ## Usage
@@ -68,11 +68,11 @@ All GraphQL types are imported from `@wgu-extension/functions` and re-exported:
 
 ```bash
 # Build the package
-npm run build
+pnpm runbuild
 
 # Watch mode
-npm run dev
+pnpm rundev
 
 # Type check
-npm run typecheck
+pnpm runtypecheck
 ```

@@ -18,7 +18,7 @@ This project follows [GitHub Spec Kit](https://github.com/github/spec-kit) princ
 **IMPORTANT**: Before making significant changes, consult the constitution for established standards and create specifications for new features.
 
 ## Key Configuration Files
-- **@package.json**: Root workspace configuration with all npm scripts
+- **@package.json**: Root workspace configuration with all pnpm scripts
 - **@firebase.json**: Firebase deployment configuration (dual databases)
 - **@extension/manifest.json**: Browser extension permissions and settings
 - **@extension/wxt.config.ts**: WXT framework configuration
@@ -57,43 +57,43 @@ wgu-extension/
 ### Development
 ```bash
 # Extension development (with hot reload)
-npm run dev:extension
+pnpm run dev:extension
 
 # Functions development (with emulator)
-npm run dev:functions
+pnpm run dev:functions
 
 # Website development
-npm run dev:site
+pnpm run dev:site
 
 # All workspaces
-npm run dev
+pnpm run dev
 ```
 
 ### Building
 ```bash
 # Build all workspaces
-npm run build
+pnpm run build
 
 # Build specific workspace
-npm run build:extension
-npm run build:functions
-npm run build:site
+pnpm run build:extension
+pnpm run build:functions
+pnpm run build:site
 
 # Extension production build with data
-npm run build:prod:with-data --workspace=extension
+pnpm run build:prod:with-data --workspace=extension
 ```
 
 ### Testing & Quality
 ```bash
 # Type check all workspaces
-npm run typecheck
+pnpm run typecheck
 
 # Lint all workspaces  
-npm run lint
+pnpm run lint
 
 # Data validation
-npm run data:validate:discord --workspace=extension
-npm run data:validate:reddit --workspace=extension
+pnpm run data:validate:discord --workspace=extension
+pnpm run data:validate:reddit --workspace=extension
 ```
 
 ## Code Style & Conventions
@@ -135,7 +135,7 @@ npm run data:validate:reddit --workspace=extension
 - **Storage**: Firestore as single source of truth
 
 ### Monorepo Structure
-- **Workspaces**: npm workspaces for data, extension, functions, site, graphql-client
+- **Workspaces**: pnpm workspaces for data, extension, functions, site, graphql-client
 - **Types Package**: Shared types from @wgu-extension/data and @wgu-extension/functions
 - **Scripts**: Cross-workspace automation in root package.json
 
@@ -162,18 +162,18 @@ The data workspace (@wgu-extension/data) handles all community data collection, 
 ### Data Validation
 ```bash
 # Validate Discord data
-npm run validate:discord --workspace=data
+pnpm run validate:discord --workspace=data
 
 # Validate Reddit communities  
-npm run validate:reddit --workspace=data
+pnpm run validate:reddit --workspace=data
 
 # Test catalog parsing
-npm run catalog:check --workspace=extension
+pnpm run catalog:check --workspace=extension
 ```
 
 ### Extension Testing
-- **Manual**: Use `npm run dev:extension` with browser developer tools
-- **Data Pipeline**: Test with `npm run data:ingest --workspace=extension`
+- **Manual**: Use `pnpm run dev:extension` with browser developer tools
+- **Data Pipeline**: Test with `pnpm run data:ingest --workspace=extension`
 
 ## Security Considerations
 
@@ -238,10 +238,10 @@ cd wgu-extension
 direnv allow
 
 # Install all dependencies
-npm install
+pnpm install
 
 # Prepare extension development
-npm run postinstall --workspace=extension
+pnpm run postinstall --workspace=extension
 ```
 
 ### Verifying Setup
@@ -252,7 +252,7 @@ npm --version   # Should show v10.x
 firebase --version  # Should show Firebase CLI version
 
 # Verify workspaces
-npm run typecheck  # Should complete without errors
+pnpm run typecheck  # Should complete without errors
 ```
 
 ### Environment Variables
@@ -282,7 +282,7 @@ cp extension/.env.example extension/.env.development
 ### Types Package (NPM)
 ```bash
 # Local development
-npm run types:publish:local --workspace=extension
+pnpm run types:publish:local --workspace=extension
 
 # Production release (automated via GitHub Actions)
 # Triggered by conventional commits and release-please
@@ -317,19 +317,19 @@ npm run types:publish:local --workspace=extension
 ### Adding New Community Data
 1. Add raw data to appropriate `data/{source}/raw/` directory
 2. Update JSON schema in `data/{source}/types/`  
-3. Run validation: `npm run validate:{source} --workspace=data`
-4. Process data: `npm run transform --workspace=data`
+3. Run validation: `pnpm run validate:{source} --workspace=data`
+4. Process data: `pnpm run transform --workspace=data`
 
 ### Updating Extension UI
 1. Modify components in `extension/components/`
-2. Test with `npm run dev:extension`
-3. Build production: `npm run build:prod --workspace=extension`
+2. Test with `pnpm run dev:extension`
+3. Build production: `pnpm run build:prod --workspace=extension`
 
 ### Adding Firebase Functions
 1. Create function in `functions/src/http/`
 2. Export in `functions/src/index.ts`
-3. Test locally: `npm run serve --workspace=functions`
-4. Deploy: `npm run deploy --workspace=functions`
+3. Test locally: `pnpm run serve --workspace=functions`
+4. Deploy: `pnpm run deploy --workspace=functions`
 
 ## API Documentation
 
@@ -373,16 +373,16 @@ npm run types:publish:local --workspace=extension
 #### Extension Not Loading
 ```bash
 # Check manifest is valid
-npm run build:extension
+pnpm run build:extension
 # Look for errors in browser console (chrome://extensions)
 ```
 
 #### TypeScript Errors
 ```bash
 # Clean and rebuild
-npm run clean --workspaces
-npm install
-npm run typecheck
+pnpm run clean --workspaces
+pnpm install
+pnpm run typecheck
 ```
 
 #### Firebase Functions Failing
@@ -390,7 +390,7 @@ npm run typecheck
 # Check logs
 firebase functions:log
 # Test locally with emulator
-npm run serve --workspace=functions
+pnpm run serve --workspace=functions
 ```
 
 #### PDF Parsing Issues
@@ -422,10 +422,10 @@ pdfinfo data/catalogs/pdfs/catalog-YYYY-MM.pdf
 ### Build Performance
 ```bash
 # Production build with optimizations
-npm run build:prod --workspace=extension
+pnpm run build:prod --workspace=extension
 
 # Check bundle size
-npm run analyze --workspace=extension
+pnpm run analyze --workspace=extension
 ```
 
 ## Deployment Workflow
@@ -450,7 +450,7 @@ npm run analyze --workspace=extension
 #### Functions
 ```bash
 # Deploy all functions
-npm run deploy --workspace=functions
+pnpm run deploy --workspace=functions
 
 # Deploy specific functions
 firebase deploy --only functions:publicApi
@@ -460,7 +460,7 @@ firebase deploy --only functions:adminApi
 #### Firestore Rules
 ```bash
 # Test rules
-npm run test:rules --workspace=functions
+pnpm run test:rules --workspace=functions
 
 # Deploy rules
 firebase deploy --only firestore:rules
@@ -469,7 +469,7 @@ firebase deploy --only firestore:rules
 ### Site Deployment
 ```bash
 # Build and deploy to Firebase Hosting
-npm run build --workspace=site
+pnpm run build --workspace=site
 firebase deploy --only hosting
 ```
 
@@ -481,18 +481,18 @@ firebase deploy --only hosting
 3. **Create specifications for new features** using [templates](.specify/templates/) before implementation
 4. Read relevant existing code to understand patterns
 5. Check @package.json for available scripts
-6. Run `npm run typecheck` to ensure type safety
+6. Run `pnpm run typecheck` to ensure type safety
 7. Respect existing code style (Prettier will auto-format)
 
 ### Making Code Changes
 1. **Always** run type checking before committing
 2. **Never** commit secrets or API keys
 3. **Follow** existing patterns in nearby code
-4. **Test** changes locally with `npm run dev`
+4. **Test** changes locally with `pnpm run dev`
 5. **Update** tests if modifying functionality
 
 ### Data Modifications
-1. Validate JSON with schemas: `npm run data:validate`
+1. Validate JSON with schemas: `pnpm run data:validate`
 2. Keep raw data in `*/raw/` directories
 3. Process data to `*/parsed/` directories
 4. Update types in `*/types/` when schema changes
@@ -538,10 +538,10 @@ Follow conventional commits:
 **Solution**:
 ```bash
 # Enhanced dependency installation for CI
-npm ci --include=optional --foreground-scripts
+pnpm install --frozen-lockfile --include=optional --foreground-scripts
 npm rebuild lightningcss --build-from-source --verbose
-npm install @tailwindcss/oxide-linux-x64-gnu --no-save
-npm install @esbuild/linux-x64 --no-save
+pnpm install @tailwindcss/oxide-linux-x64-gnu --no-save
+pnpm install @esbuild/linux-x64 --no-save
 ```
 
 **Environment Variables for CI**:
@@ -555,9 +555,9 @@ export npm_config_optional=true
 **Command**: `node scripts/validate-build-dependencies.js`
 
 **Common Fixes**:
-- **Missing @tailwindcss/oxide**: `npm install @tailwindcss/oxide-linux-x64-gnu --no-save`
+- **Missing @tailwindcss/oxide**: `pnpm install @tailwindcss/oxide-linux-x64-gnu --no-save`
 - **Missing lightningcss binary**: `npm rebuild lightningcss --build-from-source --verbose`
-- **Missing esbuild binary**: `npm install @esbuild/linux-x64 --no-save`
+- **Missing esbuild binary**: `pnpm install @esbuild/linux-x64 --no-save`
 
 #### Codecov Upload Issues
 **Symptoms**: Rate limiting or upload timeouts
@@ -581,6 +581,6 @@ export npm_config_optional=true
 
 ### Prevention
 - Always test new dependencies in CI environment
-- Use `npm ci --include=optional` for consistent installs
+- Use `pnpm install --frozen-lockfile --include=optional` for consistent installs
 - Add platform-specific dependencies to validation script
 - Monitor CI success rates and build times

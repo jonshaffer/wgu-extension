@@ -10,10 +10,10 @@ git clone https://github.com/[your-fork]/wgu-extension.git
 cd wgu-extension/data
 
 # Install dependencies
-npm install
+pnpm install
 
 # Set up local development data
-npm run dev-setup
+pnpm rundev-setup
 
 # Run tests
 npm test
@@ -48,7 +48,7 @@ Help us extract course data from WGU's PDF catalogs!
 **Getting Started:**
 ```bash
 # Test the parser
-npm run test:parser -- sources/catalogs/catalog-2025-08.pdf
+pnpm runtest:parser -- sources/catalogs/catalog-2025-08.pdf
 
 # See parsing report
 cat analytics/reports/catalog-2025-08-*.json
@@ -83,7 +83,7 @@ Help students find Discord servers and subreddits!
 cat sources/discord/servers.json
 
 # Validate your changes
-npm run validate:discord
+pnpm runvalidate:discord
 ```
 
 **Example:** Add a new Discord server
@@ -118,10 +118,10 @@ Help students discover resources automatically!
 **Getting Started:**
 ```bash
 # Test collection logic
-npm run test:collection
+pnpm runtest:collection
 
 # Build for extension
-npm run build:collection
+pnpm runbuild:collection
 ```
 
 **Example:** Detect course code on page
@@ -151,10 +151,10 @@ Ensure our data stays accurate!
 **Getting Started:**
 ```bash
 # Run all validators
-npm run validate:all
+pnpm runvalidate:all
 
 # Run specific validator
-npm run validate:discord
+pnpm runvalidate:discord
 ```
 
 ### 5. 📊 Analytics & Monitoring (Advanced)
@@ -178,21 +178,21 @@ Track data quality over time!
 npm test
 
 # Specific area
-npm run test:catalog
-npm run test:communities
-npm run test:collection
+pnpm runtest:catalog
+pnpm runtest:communities
+pnpm runtest:collection
 ```
 
 ### 2. Validate Data
 ```bash
 # Check your changes don't break anything
-npm run validate:all
+pnpm runvalidate:all
 ```
 
 ### 3. Preview Output
 ```bash
 # See how your changes affect the final data
-npm run preview
+pnpm runpreview
 ```
 
 ## 📝 Submitting Changes
@@ -210,8 +210,8 @@ npm run preview
 
 4. **Test thoroughly**
    ```bash
-   npm test
-   npm run validate:all
+   pnpm test
+   pnpm runvalidate:all
    ```
 
 5. **Commit with clear message**

@@ -4,10 +4,10 @@ This template should help get you started developing with React in WXT.
 
 ## Getting Started
 
-1. Install dependencies: `npm install`
+1. Install dependencies: `pnpm install`
 2. (Optional) Set up environment: `cp .env.example .env.local`
-3. Start development: `npm run dev`
-4. Build for production: `npm run build`
+3. Start development: `pnpm rundev`
+4. Build for production: `pnpm runbuild`
 
 ## Development Configuration
 
@@ -18,13 +18,13 @@ This template should help get you started developing with React in WXT.
 WXT automatically loads the appropriate `.env` file based on the build mode:
 
 ```bash
-# Development (npm run dev)
+# Development (pnpm rundev)
 .env.development        # Auto-loaded, uses local JSON files
 
-# Production (npm run build)  
+# Production (pnpm runbuild)  
 .env.production         # Auto-loaded, uses extension URLs
 
-# Preview (npm run build:preview)
+# Preview (pnpm runbuild:preview)
 .env.preview            # Custom mode for testing production behavior
 
 # Personal overrides (any mode)
@@ -35,19 +35,19 @@ WXT automatically loads the appropriate `.env` file based on the build mode:
 
 ```bash
 # Development
-npm run dev             # Start dev server (development mode)
-npm run dev:firefox     # Dev server for Firefox
+pnpm rundev             # Start dev server (development mode)
+pnpm rundev:firefox     # Dev server for Firefox
 
 # Building
-npm run build           # Production build
-npm run build:dev       # Development build  
-npm run build:preview   # Preview build (test production behavior)
-npm run build:prod      # Explicit production build
+pnpm runbuild           # Production build
+pnpm runbuild:dev       # Development build  
+pnpm runbuild:preview   # Preview build (test production behavior)
+pnpm runbuild:prod      # Explicit production build
 
 # Packaging
-npm run zip             # Create Chrome store ZIP (production)
-npm run zip:firefox     # Create Firefox store ZIP (production)
-npm run zip:preview     # Create preview ZIP
+pnpm runzip             # Create Chrome store ZIP (production)
+pnpm runzip:firefox     # Create Firefox store ZIP (production)
+pnpm runzip:preview     # Create preview ZIP
 ```
 
 ### Configuration Variables
@@ -63,9 +63,9 @@ WXT_DEBUG_MODE=true                # Enable debug logging
 
 ### Quick Setup
 
-1. **Basic development**: No setup needed - just run `npm run dev`
+1. **Basic development**: No setup needed - just run `pnpm rundev`
 2. **Custom settings**: Copy `.env.example` to `.env.local` and modify
-3. **Test production**: Run `npm run build:preview`
+3. **Test production**: Run `pnpm runbuild:preview`
 
 ### CI/CD Pipeline
 

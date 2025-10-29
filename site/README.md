@@ -19,7 +19,7 @@ React Router website for the WGU Extension project.
 Install the dependencies:
 
 ```bash
-npm install
+pnpm install
 ```
 
 ### Development
@@ -27,7 +27,7 @@ npm install
 Start the development server with HMR:
 
 ```bash
-npm run dev
+pnpm rundev
 ```
 
 Your application will be available at `http://localhost:5173`.
@@ -71,7 +71,7 @@ Available variables:
 Create a production build:
 
 ```bash
-npm run build
+pnpm runbuild
 ```
 
 ## Deployment
@@ -100,7 +100,7 @@ The containerized application can be deployed to any platform that supports Dock
 
 If you're familiar with deploying Node applications, the built-in app server is production-ready.
 
-Make sure to deploy the output of `npm run build`
+Make sure to deploy the output of `pnpm runbuild`
 
 ```
 ├── package.json
