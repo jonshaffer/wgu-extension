@@ -1,0 +1,50 @@
+# Lefthook Configuration
+# Runs Git hooks using npx lefthook (no global installation required)
+#
+# Setup: npm run hooks:install
+# Uninstall: npm run hooks:uninstall
+
+# Pre-commit hook: Fast validation of staged files only
+pre-commit:
+  parallel: true
+  commands:
+    lint-staged:
+      glob: "*.{ts,tsx,js,jsx,json,md}"
+      run: npx lint-staged
+      skip:
+        - merge
+        - rebase
+
+# Pre-push hook: Comprehensive validation before pushing
+pre-push:
+  parallel: false
+  commands:
+    validate-dependencies:
+      run: npm run validate:dependencies
+      skip:
+        - merge
+        - rebase
+
+    typecheck:
+      run: npm run typecheck
+      skip:
+        - merge
+        - rebase
+
+    lint:
+      run: npm run lint
+      skip:
+        - merge
+        - rebase
+
+    test-functions:
+      run: npm run test --workspace=functions
+      skip:
+        - merge
+        - rebase
+
+# Commit-msg hook: Enforce conventional commit format
+commit-msg:
+  commands:
+    conventional-commit:
+      run: node scripts/validate-commit-msg.js {1}
