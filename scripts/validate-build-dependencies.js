@@ -31,19 +31,27 @@ const CRITICAL_DEPENDENCIES = [
 function checkWorkspaceDependencies(workspace) {
   const workspacePath = path.join(process.cwd(), workspace);
   const nodeModulesPath = path.join(workspacePath, 'node_modules');
+  const rootNodeModulesPath = path.join(process.cwd(), 'node_modules');
   
   console.log(`🔍 Checking dependencies in ${workspace}...`);
   
-  if (!fs.existsSync(nodeModulesPath)) {
-    throw new Error(`node_modules not found in ${workspace}. Run npm install first.`);
+  // Check both workspace and root node_modules (for hoisted dependencies)
+  if (!fs.existsSync(nodeModulesPath) && !fs.existsSync(rootNodeModulesPath)) {
+    throw new Error(`node_modules not found in ${workspace} or root. Run npm install first.`);
   }
   
   const issues = [];
   
   // Check critical dependencies
   for (const dep of CRITICAL_DEPENDENCIES) {
-    const depPath = path.join(nodeModulesPath, dep.name);
-    if (!fs.existsSync(depPath)) {
+    // Check in workspace first, then root
+    const depPaths = [
+      path.join(nodeModulesPath, dep.name),
+      path.join(rootNodeModulesPath, dep.name)
+    ];
+    
+    const depPath = depPaths.find(p => fs.existsSync(p));
+    if (!depPath) {
       issues.push({
         dependency: dep.name,
         issue: 'Package not found',
@@ -53,17 +61,23 @@ function checkWorkspaceDependencies(workspace) {
       continue;
     }
     
-    // Check for platform-specific binaries
+    // Check for platform-specific binaries in both locations
     let hasValidPlatform = false;
     
     if (dep.checkPath) {
       // Custom path check (e.g., for lightningcss native binary)
-      const binaryPath = path.join(nodeModulesPath, dep.checkPath);
-      hasValidPlatform = fs.existsSync(binaryPath);
+      const binaryPaths = [
+        path.join(nodeModulesPath, dep.checkPath),
+        path.join(rootNodeModulesPath, dep.checkPath)
+      ];
+      hasValidPlatform = binaryPaths.some(p => fs.existsSync(p));
     } else {
-      // Standard platform package check
-      hasValidPlatform = dep.platforms.some(platform => 
-        fs.existsSync(path.join(nodeModulesPath, platform))
+      // Standard platform package check in both locations
+      const checkLocations = [nodeModulesPath, rootNodeModulesPath];
+      hasValidPlatform = checkLocations.some(location =>
+        dep.platforms.some(platform => 
+          fs.existsSync(path.join(location, platform))
+        )
       );
     }
     

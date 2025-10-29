@@ -44,7 +44,19 @@ jobs:
           cache: 'npm'
       
       - name: Install dependencies
-        run: npm ci
+        run: |
+          # Ensure optional dependencies are installed for CI environment
+          npm ci --include=optional --foreground-scripts
+          # Rebuild lightningcss for correct platform (proven community solution)
+          npm rebuild lightningcss --build-from-source --verbose
+          # Force reinstall @tailwindcss/oxide platform-specific binaries if missing
+          npm ls @tailwindcss/oxide-linux-x64-gnu || npm install @tailwindcss/oxide-linux-x64-gnu --no-save
+          # Force reinstall esbuild platform-specific binaries if missing
+          npm ls @esbuild/linux-x64 || npm install @esbuild/linux-x64 --no-save
+        env:
+          npm_config_target_arch: x64
+          npm_config_target_platform: linux
+          npm_config_optional: true
       
       - name: Build required packages
         run: npm run build:libs
@@ -74,7 +86,16 @@ jobs:
           cache: 'npm'
       
       - name: Install dependencies
-        run: npm ci
+        run: |
+          # Enhanced dependency installation for CI
+          npm ci --include=optional --foreground-scripts
+          npm rebuild lightningcss --build-from-source --verbose
+          npm ls @tailwindcss/oxide-linux-x64-gnu || npm install @tailwindcss/oxide-linux-x64-gnu --no-save
+          npm ls @esbuild/linux-x64 || npm install @esbuild/linux-x64 --no-save
+        env:
+          npm_config_target_arch: x64
+          npm_config_target_platform: linux
+          npm_config_optional: true
       
       - name: Build required packages
         run: npm run build:libs
@@ -108,7 +129,16 @@ jobs:
           cache: 'npm'
       
       - name: Install dependencies
-        run: npm ci
+        run: |
+          # Enhanced dependency installation for CI
+          npm ci --include=optional --foreground-scripts
+          npm rebuild lightningcss --build-from-source --verbose
+          npm ls @tailwindcss/oxide-linux-x64-gnu || npm install @tailwindcss/oxide-linux-x64-gnu --no-save
+          npm ls @esbuild/linux-x64 || npm install @esbuild/linux-x64 --no-save
+        env:
+          npm_config_target_arch: x64
+          npm_config_target_platform: linux
+          npm_config_optional: true
       
       - name: Build required packages
         run: npm run build:libs

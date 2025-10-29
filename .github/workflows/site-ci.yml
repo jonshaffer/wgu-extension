@@ -37,10 +37,12 @@ jobs:
           npm ci --include=optional --foreground-scripts
           # Rebuild lightningcss for correct platform (proven community solution)
           npm rebuild lightningcss --build-from-source --verbose
-          # Force reinstall @tailwindcss/oxide platform-specific binaries if missing
-          npm ls @tailwindcss/oxide-linux-x64-gnu || npm install @tailwindcss/oxide-linux-x64-gnu --no-save
-          # Force reinstall esbuild platform-specific binaries if missing
-          npm ls @esbuild/linux-x64 || npm install @esbuild/linux-x64 --no-save
+          # Force install platform-specific binaries at root level (for npm workspaces)
+          npm install @tailwindcss/oxide-linux-x64-gnu --no-save --legacy-peer-deps
+          npm install lightningcss-linux-x64-gnu --no-save --legacy-peer-deps
+          npm install @esbuild/linux-x64 --no-save --legacy-peer-deps
+          # Rebuild workspace-specific dependencies with platform targeting
+          npm rebuild --workspace=site lightningcss --build-from-source --verbose || true
         env:
           npm_config_target_arch: x64
           npm_config_target_platform: linux
@@ -75,10 +77,12 @@ jobs:
           npm ci --include=optional --foreground-scripts
           # Rebuild lightningcss for correct platform (proven community solution)
           npm rebuild lightningcss --build-from-source --verbose
-          # Force reinstall @tailwindcss/oxide platform-specific binaries if missing
-          npm ls @tailwindcss/oxide-linux-x64-gnu || npm install @tailwindcss/oxide-linux-x64-gnu --no-save
-          # Force reinstall esbuild platform-specific binaries if missing
-          npm ls @esbuild/linux-x64 || npm install @esbuild/linux-x64 --no-save
+          # Force install platform-specific binaries at root level (for npm workspaces)
+          npm install @tailwindcss/oxide-linux-x64-gnu --no-save --legacy-peer-deps
+          npm install lightningcss-linux-x64-gnu --no-save --legacy-peer-deps
+          npm install @esbuild/linux-x64 --no-save --legacy-peer-deps
+          # Rebuild workspace-specific dependencies with platform targeting
+          npm rebuild --workspace=site lightningcss --build-from-source --verbose || true
         env:
           npm_config_target_arch: x64
           npm_config_target_platform: linux
@@ -116,10 +120,12 @@ jobs:
           npm ci --include=optional --foreground-scripts
           # Rebuild lightningcss for correct platform (proven community solution)
           npm rebuild lightningcss --build-from-source --verbose
-          # Force reinstall @tailwindcss/oxide platform-specific binaries if missing
-          npm ls @tailwindcss/oxide-linux-x64-gnu || npm install @tailwindcss/oxide-linux-x64-gnu --no-save
-          # Force reinstall esbuild platform-specific binaries if missing
-          npm ls @esbuild/linux-x64 || npm install @esbuild/linux-x64 --no-save
+          # Force install platform-specific binaries at root level (for npm workspaces)
+          npm install @tailwindcss/oxide-linux-x64-gnu --no-save --legacy-peer-deps
+          npm install lightningcss-linux-x64-gnu --no-save --legacy-peer-deps
+          npm install @esbuild/linux-x64 --no-save --legacy-peer-deps
+          # Rebuild workspace-specific dependencies with platform targeting
+          npm rebuild --workspace=site lightningcss --build-from-source --verbose || true
         env:
           npm_config_target_arch: x64
           npm_config_target_platform: linux
