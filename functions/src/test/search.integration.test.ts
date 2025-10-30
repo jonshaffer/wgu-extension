@@ -1,9 +1,20 @@
-import {describe, expect, test, beforeAll, afterAll} from "@jest/globals";
+import {describe, expect, test, beforeAll, beforeEach, afterAll} from "@jest/globals";
 import functionsTest from "firebase-functions-test";
 import * as admin from "firebase-admin";
 
 // Import setup to initialize Firebase properly
 import "./setup";
+
+// Import new test fixtures and utilities
+import {
+  FIXTURES,
+  getMinimalDataset,
+  clearAllCollections,
+  seedDataset,
+  assertSearchResultStructure,
+  assertSearchResultItem,
+  COLLECTIONS,
+} from "./fixtures";
 
 // Initialize the firebase-functions-test SDK
 const testEnv = functionsTest({
@@ -31,24 +42,34 @@ describe("Search Resolver Integration Tests", () => {
     db = admin.firestore();
 
     // Dynamically import after Firebase is initialized
-    // Direct import to avoid dynamic import issues
     const {searchResolver: resolver} = require("../graphql/search-resolver");
     searchResolver = resolver;
-
-    // Check if data already exists (seeded by CI script)
-    const coursesSnapshot = await db.collection("courses").limit(1).get();
-    if (coursesSnapshot.empty) {
-      console.log("📝 No existing data found, clearing and seeding test data...");
-      await clearFirestore(db);
-      await seedTestData(db);
-    } else {
-      console.log("✅ Test data already exists, skipping seeding");
-    }
   }, 180000); // Increase timeout for setup (3 minutes)
+
+  beforeEach(async () => {
+    // Clear all collections before each test for isolation
+    await clearAllCollections(db);
+
+    // Seed with minimal dataset for fast tests
+    const dataset = getMinimalDataset();
+    await seedDataset(db, {
+      [COLLECTIONS.COURSES]: dataset.courses,
+      [COLLECTIONS.DISCORD_SERVERS]: dataset.discordServers,
+      [COLLECTIONS.REDDIT_COMMUNITIES]: dataset.redditCommunities,
+      [COLLECTIONS.WGU_CONNECT_GROUPS]: dataset.wguConnectGroups,
+      [COLLECTIONS.COURSE_COMMUNITY_MAPPINGS]: dataset.courseCommunityMappings,
+    }, {
+      [COLLECTIONS.COURSES]: (c) => c.courseCode,
+      [COLLECTIONS.DISCORD_SERVERS]: (d) => d.id,
+      [COLLECTIONS.REDDIT_COMMUNITIES]: (r) => r.id,
+      [COLLECTIONS.WGU_CONNECT_GROUPS]: (w) => w.id,
+      [COLLECTIONS.COURSE_COMMUNITY_MAPPINGS]: (m) => m.courseCode,
+    });
+  });
 
   afterAll(async () => {
     // Clean up
-    await clearFirestore(db);
+    await clearAllCollections(db);
     await testEnv.cleanup();
   });
 
@@ -59,9 +80,9 @@ describe("Search Resolver Integration Tests", () => {
         {query: "C172", limit: 20}
       );
 
-      // Note: query field is not returned in the current schema
+      // Use new assertion utility
+      assertSearchResultStructure(result);
       expect(result.totalCount).toBeGreaterThan(0);
-      expect(result.results).toBeInstanceOf(Array);
 
       const courseResults = result.results.filter(
         (r: any) => r.type === "course"
@@ -77,14 +98,17 @@ describe("Search Resolver Integration Tests", () => {
         {query: "network", limit: 10}
       );
 
+      assertSearchResultStructure(result);
       expect(result.results.length).toBeLessThanOrEqual(10);
 
       // Should find results from different sources
       const types = new Set(result.results.map((r: any) => r.type));
       expect(types.size).toBeGreaterThanOrEqual(1); // At least courses
 
-      const platforms = new Set(result.results.map((r: any) => r.platform));
-      expect(platforms.size).toBeGreaterThanOrEqual(1);
+      // Validate each result item structure
+      result.results.forEach((item: any) => {
+        assertSearchResultItem(item);
+      });
     });
 
     test("should return empty results for no matches", async () => {
@@ -93,7 +117,7 @@ describe("Search Resolver Integration Tests", () => {
         {query: "xyzabc123notfound"}
       );
 
-      // Note: query field is not returned in the current schema
+      assertSearchResultStructure(result);
       expect(result.totalCount).toBe(0);
       expect(result.results).toEqual([]);
     });
@@ -159,179 +183,9 @@ describe("Search Resolver Integration Tests", () => {
         {query: "   "} // Whitespace only
       );
 
-      // Note: query field is not returned in the current schema
+      assertSearchResultStructure(result);
       expect(result.totalCount).toBe(0);
       expect(result.results).toEqual([]);
     });
   });
 });
-
-async function clearFirestore(db: admin.firestore.Firestore) {
-  const collections = [
-    "courses",
-    "discord-servers",
-    "reddit-communities",
-    "degree-programs",
-    "wgu-connect-groups",
-    "wgu-student-groups",
-    "course-community-mappings",
-  ];
-
-  for (const collection of collections) {
-    const snapshot = await db.collection(collection).get();
-    const batch = db.batch();
-    snapshot.docs.forEach((doc) => batch.delete(doc.ref));
-    await batch.commit();
-  }
-  console.log("🧹 Cleared test collections");
-}
-
-async function seedTestData(db: admin.firestore.Firestore) {
-  console.log("🌱 Seeding test data for search integration tests...");
-  
-  // Seed courses collection (matches current data model)
-  await db.collection("courses").doc("C172").set({
-    courseCode: "C172",
-    name: "Network and Security - Foundations",
-    description: "This course introduces students to the components of a computer network and the concepts and methods used in network security.",
-    units: 3,
-    competencyUnits: 3,
-    level: "undergraduate",
-    type: "general",
-    prerequisites: [],
-    firstSeenCatalog: "2024-01",
-    lastSeenCatalog: "2024-01",
-    catalogHistory: [],
-    communities: {
-      discord: [{ serverId: "wgu-cyber-club", channelIds: ["c172-channel"] }],
-      reddit: [{ subredditId: "WGU", relevance: "general" }],
-      wguConnect: { groupId: "c172-study" }
-    },
-    popularityScore: 85,
-    difficultyRating: 3.5,
-    lastUpdated: new Date()
-  });
-
-  await db.collection("courses").doc("C173").set({
-    courseCode: "C173",
-    name: "Scripting and Programming - Foundations",
-    description: "This course provides an introduction to programming covering data structures, algorithms, and programming paradigms.",
-    units: 3,
-    competencyUnits: 3,
-    level: "undergraduate",
-    type: "general",
-    prerequisites: [],
-    firstSeenCatalog: "2024-01",
-    lastSeenCatalog: "2024-01",
-    catalogHistory: [],
-    communities: {
-      discord: [{ serverId: "wgu-compsci", channelIds: ["c173-channel"] }],
-      reddit: [{ subredditId: "WGU", relevance: "general" }]
-    },
-    popularityScore: 80,
-    difficultyRating: 3.0,
-    lastUpdated: new Date()
-  });
-
-  await db.collection("courses").doc("C175").set({
-    courseCode: "C175",
-    name: "Data Management - Foundations",
-    description: "This course covers the fundamentals of data management systems.",
-    units: 3,
-    competencyUnits: 3,
-    level: "undergraduate",
-    type: "general",
-    prerequisites: [],
-    firstSeenCatalog: "2024-01",
-    lastSeenCatalog: "2024-01",
-    catalogHistory: [],
-    communities: {
-      discord: [{ serverId: "wgu-compsci", channelIds: ["c175-channel"] }],
-      reddit: [{ subredditId: "WGU", relevance: "general" }]
-    },
-    popularityScore: 75,
-    difficultyRating: 2.8,
-    lastUpdated: new Date()
-  });
-
-  // Discord Servers
-  await db.collection("discord-servers").doc("wgu-cyber-club").set({
-    id: "wgu-cyber-club",
-    name: "WGU Cyber Security Club",
-    description: "A community for WGU cybersecurity students and alumni",
-    inviteUrl: "https://discord.gg/wgucyber",
-    icon: "https://example.com/icon.png",
-    memberCount: 5000,
-    channels: [
-      { id: "c172-channel", name: "c172-network-security", type: "course", associatedCourses: ["C172"] }
-    ],
-    tags: ["cybersecurity", "official"],
-    verified: true,
-    lastUpdated: new Date()
-  });
-
-  await db.collection("discord-servers").doc("wgu-compsci").set({
-    id: "wgu-compsci",
-    name: "WGU Computer Science",
-    description: "Community for Computer Science students at WGU",
-    inviteUrl: "https://discord.gg/wgucs",
-    memberCount: 3500,
-    channels: [
-      { id: "c173-channel", name: "c173-programming", type: "course", associatedCourses: ["C173"] },
-      { id: "c175-channel", name: "c175-data-mgmt", type: "course", associatedCourses: ["C175"] }
-    ],
-    tags: ["computer-science", "official"],
-    verified: true,
-    lastUpdated: new Date()
-  });
-
-  // WGU Connect Groups
-  await db.collection("wgu-connect-groups").doc("c172-study").set({
-    id: "c172-study",
-    groupId: "c172-study",
-    name: "C172 Network and Security Study Group",
-    courseCode: "C172",
-    description: "Study group for Network and Security Foundations course",
-    memberCount: 150,
-    postCount: 300,
-    lastActivity: new Date(),
-    resources: []
-  });
-
-  // Student Groups
-  await db.collection("wgu-student-groups").doc("cs-club").set({
-    id: "cs-club",
-    studentGroupId: "cs-club",
-    name: "Computer Science Club",
-    description: "WGU Computer Science student organization",
-    category: "academic",
-    memberCount: 1200,
-    platform: "website",
-    joinUrl: "https://example.com/cs-club",
-    courseMappings: ["C172", "C173", "C175"],
-    isOfficial: false,
-    socialLinks: [
-      { platform: "website", url: "https://example.com/cs-club" }
-    ],
-    lastChecked: new Date()
-  });
-
-  await db.collection("wgu-student-groups").doc("cyber-club").set({
-    id: "cyber-club", 
-    studentGroupId: "cyber-club",
-    name: "Cybersecurity Club",
-    description: "WGU Cybersecurity student organization",
-    category: "academic",
-    memberCount: 800,
-    platform: "website",
-    joinUrl: "https://example.com/cyber-club",
-    courseMappings: ["C172"],
-    isOfficial: false,
-    socialLinks: [
-      { platform: "website", url: "https://example.com/cyber-club" }
-    ],
-    lastChecked: new Date()
-  });
-
-  console.log("✅ Search test data seeded successfully");
-}
