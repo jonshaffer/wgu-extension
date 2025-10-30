@@ -55,8 +55,11 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
+    "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
     "test:integration": "firebase emulators:exec --only firestore 'jest --testMatch=\"**/*.integration.test.ts\"'",
-    "test:emulator": "pnpm run build && firebase emulators:exec --only functions,firestore 'pnpm test'"
+    "test:integration:debug": "firebase emulators:exec --only firestore 'node --inspect-brk node_modules/.bin/jest --runInBand --testMatch=\"**/*.integration.test.ts\"'",
+    "test:emulator": "pnpm run build && firebase emulators:exec --only functions,firestore 'pnpm test'",
+    "test:unit": "jest --testMatch=\"**/*.test.ts\" --testPathIgnorePatterns=\"integration.test.ts\""
   },
   "engines": {
     "node": "22"
