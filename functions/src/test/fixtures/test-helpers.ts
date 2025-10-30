@@ -250,7 +250,7 @@ export function assertSearchResultItem(item: any): void {
   expect(item).toHaveProperty("type");
   expect(item).toHaveProperty("id");
   expect(item).toHaveProperty("title");
-  expect(["course", "discord", "reddit", "wguConnect", "studentGroup", "degree"]).toContain(
+  expect(["course", "discord", "reddit", "wguConnect", "studentGroup", "degree", "community"]).toContain(
     item.type
   );
 }
