@@ -60,7 +60,7 @@
     "node": "22"
   },
   "dependencies": {
-    "@apollo/server": "^5.0.0",
+    "@apollo/server": "^5.1.0",
     "@as-integrations/express4": "^1.1.2",
     "body-parser": "^1.20.3",
     "cors": "^2.8.5",
