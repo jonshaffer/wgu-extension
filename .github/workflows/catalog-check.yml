@@ -208,7 +208,7 @@ jobs:
           
       - name: Upload catalog check results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: catalog-check-results-$(date +%Y-%m)
           path: |

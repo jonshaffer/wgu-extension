@@ -80,7 +80,7 @@ jobs:
           npm run zip:edge --workspace=extension -- --mode preview
       
       - name: Upload preview artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: extension-preview
           path: extension/.output/*.zip
@@ -111,7 +111,7 @@ jobs:
           npm run zip:edge --workspace=extension
       
       - name: Upload production artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: extension-production
           path: extension/.output/*.zip

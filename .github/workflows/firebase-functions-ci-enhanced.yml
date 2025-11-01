@@ -152,7 +152,7 @@ jobs:
       
       - name: Upload test results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: test-results-${{ matrix.dataset }}
           path: functions/test-results/
@@ -288,7 +288,7 @@ jobs:
           du -sh lib/*
       
       - name: Upload production build
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: functions-production-build
           path: functions/lib/

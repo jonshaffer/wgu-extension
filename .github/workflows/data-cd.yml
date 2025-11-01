@@ -132,7 +132,7 @@ jobs:
 
       - name: Upload parsed data artifacts
         if: steps.parse-catalogs.outputs.NEW_DATA == 'true'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: parsed-data
           path: |
