@@ -230,7 +230,7 @@ jobs:
       
       - name: Post PR comment with results
         if: github.event_name == 'pull_request'
-        uses: actions/github-script@v6
+        uses: actions/github-script@v8
         with:
           script: |
             const unitResult = '${{ needs.unit-tests.result }}';
