@@ -71,7 +71,7 @@ jobs:
         run: npm run test:coverage --workspace=functions -- --testMatch="**/*.test.ts" --testPathIgnorePatterns="integration"
       
       - name: Upload coverage reports
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v5
         with:
           directory: ./functions/coverage
           flags: unit-tests
