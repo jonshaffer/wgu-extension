@@ -299,7 +299,7 @@ importers:
         specifier: ^0.11.3
         version: 0.11.3(@types/node@20.19.24)(graphql@16.11.0)
       '@hookform/resolvers':
-        specifier: ^5.2.1
+        specifier: ^5.2.2
         version: 5.2.2(react-hook-form@7.65.0(react@19.2.0))
       '@radix-ui/react-dropdown-menu':
         specifier: ^2.1.16
@@ -389,8 +389,8 @@ importers:
         specifier: ^3.3.1
         version: 3.3.1
       zod:
-        specifier: ^4.0.17
-        version: 4.1.12
+        specifier: ^3.23.8
+        version: 3.25.76
     devDependencies:
       '@react-router/dev':
         specifier: ^7.7.1
