@@ -51,8 +51,8 @@ export async function loadCommunityDataGraphQL() {
       return acc;
     }, {} as Record<string, Course>);
 
-    // Group communities by type
-    const communitiesByType = communities.reduce((acc: Record<string, Community[]>, community: Community) => {
+    // Group communities by type - cast SearchResult to Community for compatibility
+    const communitiesByType = (communities as Community[]).reduce((acc: Record<string, Community[]>, community: Community) => {
       const type = community.type.toLowerCase();
       if (!acc[type]) {
         acc[type] = [];
@@ -64,10 +64,10 @@ export async function loadCommunityDataGraphQL() {
     // Build unified data structure to match old format
     const unifiedData = {
       courses: coursesMap,
-      discordServers: communitiesByType['discord'] || [],
+      discordServers: (communitiesByType['discord'] || []) as Community[],
       communities: communitiesByType,
-      reddit: communitiesByType['reddit'] || [],
-      wguConnect: communitiesByType['wgu-connect'] || [],
+      reddit: (communitiesByType['reddit'] || []) as Community[],
+      wguConnect: (communitiesByType['wgu-connect'] || []) as Community[],
       // Add course mappings that the old system used
       courseMappings: [] // This will be populated by individual course queries
     };
@@ -96,7 +96,8 @@ export async function loadCommunityDataGraphQL() {
  */
 export async function getCommunitiesForCourseCode(courseCode: string): Promise<Community[]> {
   try {
-    return await cachedGetCommunitiesForCourse(client, courseCode);
+    const results = await cachedGetCommunitiesForCourse(client, courseCode);
+    return results as Community[];
   } catch (error) {
     console.warn(`Failed to load communities for course ${courseCode}:`, error);
     return [];

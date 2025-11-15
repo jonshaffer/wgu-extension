@@ -49,8 +49,10 @@ export default defineContentScript({
     // Check if current server is whitelisted
     async function isServerWhitelisted(serverId: string): Promise<boolean> {
       const unified = await loadUnifiedData();
-      const servers: string[] = unified?.discordServers || [];
-      return servers.includes(serverId);
+      const servers = unified?.discordServers || [];
+      // Extract server IDs from Community objects
+      const serverIds = servers.map((server: any) => server.id || server.serverId);
+      return serverIds.includes(serverId);
     }
 
     console.log('WGU Extension: Discord integration loaded, basic functionality active');
@@ -94,14 +96,14 @@ export default defineContentScript({
       }
 
       try {
-        const serverData = extractor.extractServerData();
+        const serverData = await extractor.extractServerData();
         if (!serverData) {
           console.log('WGU Extension: No Discord server data to collect');
           return;
         }
 
   // Only collect if this appears to be a WGU-related server
-  if (!isWGUDiscordServer()) {
+  if (!isWGUDiscordServer(serverData.serverId || '')) {
           console.log('WGU Extension: Server does not appear WGU-related');
           return;
         }
