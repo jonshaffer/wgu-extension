@@ -96,7 +96,7 @@ export interface WguConnectData {
 export interface CommunityLink {
   name: string;
   url: string;
-  type: 'discord' | 'reddit' | 'wgu-connect';
+  type: 'discord' | 'reddit' | 'wgu-connect' | 'wgu-student-groups';
   description?: string;
   memberCount?: number;
 }
@@ -106,6 +106,7 @@ export interface CourseCommunitiesMappings {
   discord?: CommunityLink[];
   reddit?: CommunityLink[];
   wguConnect?: CommunityLink[];
+  wguStudentGroups?: CommunityLink[];
 }
 
 export interface ProcessedCommunityData {
