@@ -23,6 +23,7 @@ import {
   GET_COMMUNITIES_FOR_COURSE,
   GET_DEGREE_PLANS,
   GET_COMMUNITIES_FOR_COURSE_V2,
+  GET_COURSE_BY_CODE,
 } from "./queries.js";
 export const queries = {
   GET_COURSES,
@@ -31,5 +32,13 @@ export const queries = {
   GET_DEGREE_PLANS,
 };
 
-// Export the new V2 query constant directly
-export {GET_COMMUNITIES_FOR_COURSE_V2};
+// Export all query constants explicitly for bundler compatibility
+// (Rollup/Vite may not properly resolve wildcard re-exports)
+export {
+  GET_COURSES,
+  GET_COMMUNITIES,
+  GET_COMMUNITIES_FOR_COURSE,
+  GET_COMMUNITIES_FOR_COURSE_V2,
+  GET_DEGREE_PLANS,
+  GET_COURSE_BY_CODE,
+};
