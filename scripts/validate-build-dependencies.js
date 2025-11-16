@@ -31,6 +31,37 @@ const CRITICAL_DEPENDENCIES = [
 ];
 
 /**
+ * Convert package name to pnpm store directory pattern
+ * Handles scoped packages correctly: @scope/name → @scope+name
+ */
+function toPnpmPattern(packageName) {
+  if (packageName.startsWith('@')) {
+    // Scoped package: @scope/name → @scope+name
+    return '@' + packageName.slice(1).replace('/', '+');
+  }
+  // Unscoped package: just replace / with +
+  return packageName.replace('/', '+');
+}
+
+/**
+ * Get current platform string for binary detection
+ */
+function getCurrentPlatform() {
+  const platform = os.platform();
+  const arch = os.arch();
+
+  // Map to common platform suffixes used by native modules
+  const platformMap = {
+    'darwin-arm64': 'darwin-arm64',
+    'darwin-x64': 'darwin-x64',
+    'linux-x64': 'linux-x64-gnu', // Most Linux binaries use gnu suffix
+    'win32-x64': 'win32-x64'
+  };
+
+  return platformMap[`${platform}-${arch}`] || `${platform}-${arch}`;
+}
+
+/**
  * Find a package in pnpm's .pnpm store
  */
 function findInPnpmStore(packageName, rootDir) {
@@ -45,7 +76,7 @@ function findInPnpmStore(packageName, rootDir) {
     const entries = fs.readdirSync(pnpmStoreDir, { withFileTypes: true });
 
     // Find directories matching the package name pattern
-    const packagePattern = packageName.replace('@', '').replace('/', '+');
+    const packagePattern = toPnpmPattern(packageName);
     const matchingDirs = entries
       .filter(entry => entry.isDirectory())
       .filter(entry => entry.name.startsWith(packagePattern + '@') || entry.name === packagePattern)
@@ -102,15 +133,46 @@ function checkWorkspaceDependencies(workspace) {
 
     // Check for platform-specific binaries in all possible locations
     let hasValidPlatform = false;
+    const currentPlatform = getCurrentPlatform();
 
-    if (dep.checkPath) {
+    // Filter platforms to only check the current platform (and its variants)
+    const relevantPlatforms = dep.platforms.filter(platform =>
+      platform.includes(currentPlatform) ||
+      platform.includes(`${os.platform()}-${os.arch()}`)
+    );
+
+    if (relevantPlatforms.length === 0) {
+      // No platforms match current system - skip validation
+      console.log(`✅ ${dep.name} - no platform-specific binary needed for ${os.platform()}-${os.arch()}`);
+      hasValidPlatform = true;
+    } else if (dep.checkPath) {
       // Custom path check (e.g., for lightningcss native binary)
+      // Update checkPath to use current platform
+      const platformCheckPath = dep.checkPath.replace('linux-x64-gnu', currentPlatform);
       const binaryPaths = [
-        path.join(nodeModulesPath, dep.checkPath),
-        path.join(rootNodeModulesPath, dep.checkPath),
-        depPath ? path.join(depPath, '..', dep.checkPath.split('/').slice(1).join('/')) : null
+        path.join(nodeModulesPath, platformCheckPath),
+        path.join(rootNodeModulesPath, platformCheckPath),
+        depPath ? path.join(depPath, '..', platformCheckPath.split('/').slice(1).join('/')) : null
       ].filter(Boolean);
       hasValidPlatform = binaryPaths.some(p => fs.existsSync(p));
+
+      // Also check pnpm store for the platform-specific package
+      if (!hasValidPlatform) {
+        const pnpmStoreDir = path.join(rootDir, 'node_modules', '.pnpm');
+        if (fs.existsSync(pnpmStoreDir)) {
+          try {
+            const entries = fs.readdirSync(pnpmStoreDir, { withFileTypes: true });
+            hasValidPlatform = relevantPlatforms.some(platform => {
+              const platformPattern = toPnpmPattern(platform);
+              return entries.some(entry =>
+                entry.isDirectory() && entry.name.startsWith(platformPattern + '@')
+              );
+            });
+          } catch {
+            // Ignore errors
+          }
+        }
+      }
     } else {
       // Standard platform package check in multiple locations including pnpm store
       const checkLocations = [
@@ -125,10 +187,10 @@ function checkWorkspaceDependencies(workspace) {
         if (location.endsWith('.pnpm')) {
           try {
             const entries = fs.readdirSync(location, { withFileTypes: true });
-            return dep.platforms.some(platform => {
-              const platformPattern = platform.replace('@', '').replace('/', '+');
+            return relevantPlatforms.some(platform => {
+              const platformPattern = toPnpmPattern(platform);
               return entries.some(entry =>
-                entry.isDirectory() && entry.name.startsWith(platformPattern)
+                entry.isDirectory() && entry.name.startsWith(platformPattern + '@')
               );
             });
           } catch {
@@ -136,7 +198,7 @@ function checkWorkspaceDependencies(workspace) {
           }
         }
         // For regular node_modules, check directly
-        return dep.platforms.some(platform =>
+        return relevantPlatforms.some(platform =>
           fs.existsSync(path.join(location, platform))
         );
       });
@@ -144,14 +206,15 @@ function checkWorkspaceDependencies(workspace) {
 
     if (!hasValidPlatform) {
       console.warn(`⚠️  No platform-specific binaries found for ${dep.name} in ${workspace}`);
-      console.warn(`   Expected one of: ${dep.platforms.join(', ')}`);
+      console.warn(`   Expected one of: ${relevantPlatforms.join(', ')}`);
+      console.warn(`   Current platform: ${os.platform()}-${os.arch()}`);
 
       issues.push({
         dependency: dep.name,
         issue: 'Platform-specific binary missing',
         suggestion: dep.installCommand,
         workspace,
-        platforms: dep.platforms
+        platforms: relevantPlatforms
       });
     } else {
       console.log(`✅ ${dep.name} platform dependencies OK in ${workspace}`);
