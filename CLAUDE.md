@@ -568,9 +568,34 @@ export npm_config_optional=true
 - Fails gracefully without blocking CI success
 
 ### CI Workflow Status
-- **Site CI**: ✅ Platform binaries handled automatically
-- **Functions CI Enhanced**: ✅ Enhanced with platform binary installation
-- **GraphQL Client Tests**: ✅ Includes dependency validation and recovery
+- **Functions CI** (`functions-ci.yml`): Consolidated workflow with lint, type check, unit tests, integration tests, GraphQL client tests, and production build
+- **Site CI** (`site-ci.yml`): Platform binaries handled automatically
+- **Extension CI** (`wxt-extension-ci.yml`): Build testing for Chrome, Firefox, Edge
+- **Data CD** (`data-cd.yml`, `community-data-cd.yml`): Catalog and community data processing
+
+### Workflow Architecture
+```
+functions-ci.yml:
+  lint-and-type-check → unit-tests → graphql-client-tests
+                      → integration-tests (matrix: minimal, standard)
+                      unit-tests + integration-tests → build-production
+                      All tests → test-summary (PR comments)
+
+wxt-extension-ci.yml:
+  test → build-preview
+       → build-production
+
+site-ci.yml:
+  test → build-preview
+       → build-production
+```
+
+### Key Features
+- **Dependency Validation**: `pnpm run validate:dependencies` runs in Functions CI
+- **Consolidated Functions CI**: Single workflow replaces firebase-functions-ci.yml + firebase-functions-ci-enhanced.yml
+- **Standardized pnpm**: All workflows use pnpm with frozen-lockfile
+- **Major Version Pins**: GitHub Actions pinned to major versions with Dependabot updates
+- **Coverage Integration**: Codecov uploads with non-blocking failures
 
 ### Troubleshooting Steps
 1. **Check CI logs** for specific error messages
@@ -584,3 +609,4 @@ export npm_config_optional=true
 - Use `pnpm install --frozen-lockfile --include=optional` for consistent installs
 - Add platform-specific dependencies to validation script
 - Monitor CI success rates and build times
+- Dependabot configured for monthly grouped updates (see `.github/dependabot.yml`)

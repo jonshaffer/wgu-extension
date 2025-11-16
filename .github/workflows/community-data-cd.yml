@@ -72,21 +72,21 @@ jobs:
         working-directory: data
         run: |
           echo "🔍 Validating Discord data..."
-          pnpm runvalidate:discord || echo "DISCORD_FAILED=true" >> $GITHUB_OUTPUT
+          pnpm run validate:discord || echo "DISCORD_FAILED=true" >> $GITHUB_OUTPUT
 
       - name: Validate Reddit Data
         id: validate-reddit
         working-directory: data
         run: |
           echo "🔍 Validating Reddit data..."
-          pnpm runvalidate:reddit || echo "REDDIT_FAILED=true" >> $GITHUB_OUTPUT
+          pnpm run validate:reddit || echo "REDDIT_FAILED=true" >> $GITHUB_OUTPUT
 
       - name: Check Discord Invites (PR only)
         if: github.event_name == 'pull_request'
         working-directory: data
         run: |
           echo "🔗 Checking Discord invite links..."
-          pnpm runvalidate:discord:check-invites || true
+          pnpm run validate:discord:check-invites || true
 
       - name: Generate Validation Report
         if: github.event_name == 'pull_request'
@@ -181,7 +181,7 @@ jobs:
         working-directory: data
         run: |
           echo "📤 Processing Discord communities..."
-          pnpm runingest:discord || echo "Discord ingestion not configured"
+          pnpm run ingest:discord || echo "Discord ingestion not configured"
 
       - name: Process and Upload Reddit Data
         env:
@@ -189,7 +189,7 @@ jobs:
         working-directory: data
         run: |
           echo "📤 Processing Reddit communities..."
-          pnpm runingest:reddit || echo "Reddit ingestion not configured"
+          pnpm run ingest:reddit || echo "Reddit ingestion not configured"
 
       - name: Process and Upload WGU Connect Data
         env:
@@ -197,7 +197,7 @@ jobs:
         working-directory: data
         run: |
           echo "📤 Processing WGU Connect groups..."
-          pnpm runingest:wgu-connect || echo "WGU Connect ingestion not configured"
+          pnpm run ingest:wgu-connect || echo "WGU Connect ingestion not configured"
 
       - name: Process and Upload Student Groups
         env:
@@ -205,7 +205,7 @@ jobs:
         working-directory: data
         run: |
           echo "📤 Processing WGU Student Groups..."
-          pnpm runingest:wgu-student-groups || echo "Student Groups ingestion not configured"
+          pnpm run ingest:wgu-student-groups || echo "Student Groups ingestion not configured"
 
       - name: Clean up credentials
         if: always()

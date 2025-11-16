@@ -76,12 +76,12 @@ jobs:
         working-directory: data
         run: |
           echo "🔄 Parsing catalog PDFs..."
-          pnpm runparse:catalog || echo "PARSE_FAILED=true" >> $GITHUB_OUTPUT
-          
+          pnpm run parse:catalog || echo "PARSE_FAILED=true" >> $GITHUB_OUTPUT
+
           # Generate parsing report
           echo "📊 Generating health report..."
-          pnpm runhealth:catalog || true
-          
+          pnpm run health:catalog || true
+
           # Check if any new files were parsed
           if git diff --name-only | grep -q "data/sources/catalogs/"; then
             echo "NEW_DATA=true" >> $GITHUB_OUTPUT
@@ -92,7 +92,7 @@ jobs:
         working-directory: data
         run: |
           echo "✅ Validating parsed data..."
-          pnpm runvalidate:catalog
+          pnpm run validate:catalog
 
       - name: Generate Parse Report
         if: github.event_name == 'pull_request'
@@ -195,8 +195,8 @@ jobs:
         working-directory: data
         run: |
           echo "📤 Uploading catalog data to Firestore..."
-          pnpm runupload:academic-registry
-          
+          pnpm run upload:academic-registry
+
           echo "✅ Data successfully uploaded to Firestore!"
 
       - name: Verify Upload
@@ -205,7 +205,7 @@ jobs:
         working-directory: data
         run: |
           echo "🔍 Verifying Firestore data..."
-          pnpm runverify:firestore || echo "Verification script not found, skipping..."
+          pnpm run verify:firestore || echo "Verification script not found, skipping..."
 
       - name: Clean up credentials
         if: always()

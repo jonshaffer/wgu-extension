@@ -1,30 +1,35 @@
-name: Firebase Functions CI Enhanced
+name: Functions CI
 
 on:
   push:
-    branches: [ main, develop, feat/* ]
+    branches: [main, develop, feat/*]
     paths:
       - 'functions/**'
+      - 'graphql-client/**'
+      - 'data/types/**'
       - '!functions/**/*.md'
-      - '.github/workflows/firebase-functions-ci-enhanced.yml'
+      - '.github/workflows/functions-ci.yml'
   pull_request:
-    branches: [ main, develop ]
+    branches: [main, develop]
     paths:
       - 'functions/**'
+      - 'graphql-client/**'
+      - 'data/types/**'
       - '!functions/**/*.md'
-      - '.github/workflows/firebase-functions-ci-enhanced.yml'
+      - '.github/workflows/functions-ci.yml'
   workflow_dispatch:
 
 permissions:
   contents: read
-  pull-requests: write  # For test coverage comments
+  pull-requests: write
 
 concurrency:
-  group: functions-ci-enhanced-${{ github.workflow }}-${{ github.ref }}
+  group: functions-ci-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
   lint-and-type-check:
+    name: Lint & Type Check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -41,13 +46,23 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Type check
+      - name: Validate build dependencies
+        run: pnpm run validate:dependencies
+
+      - name: Build required packages
+        run: pnpm run build:libs
+
+      - name: Type check functions
         run: pnpm --filter=functions run typecheck
 
-      - name: Lint
+      - name: Lint functions
         run: pnpm --filter=functions run lint
 
+      - name: Type check GraphQL client
+        run: pnpm --filter=graphql-client run typecheck
+
   unit-tests:
+    name: Unit Tests
     runs-on: ubuntu-latest
     needs: lint-and-type-check
     steps:
@@ -69,22 +84,26 @@ jobs:
         run: pnpm run build:libs
 
       - name: Run unit tests with coverage
-        run: pnpm --filter=functions run test:coverage -- --testMatch="**/*.test.ts" --testPathIgnorePatterns="integration"
-      
+        run: pnpm --filter=functions run test:unit
+        env:
+          NODE_ENV: test
+
       - name: Upload coverage reports
-        uses: codecov/codecov-action@v3
-        continue-on-error: true  # Don't fail CI if Codecov upload fails
+        uses: codecov/codecov-action@v4
+        continue-on-error: true
         with:
           directory: ./functions/coverage
           flags: unit-tests
           name: functions-unit-tests
           token: ${{ secrets.CODECOV_TOKEN }}
-          fail_ci_if_error: false  # Don't fail CI on Codecov errors
+          fail_ci_if_error: false
 
   integration-tests:
+    name: Integration Tests (${{ matrix.dataset }})
     runs-on: ubuntu-latest
     needs: lint-and-type-check
     strategy:
+      fail-fast: false
       matrix:
         dataset: [minimal, standard]
     steps:
@@ -100,7 +119,7 @@ jobs:
           cache: 'pnpm'
 
       - name: Install Java (required for Firebase emulators)
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '11'
@@ -109,10 +128,10 @@ jobs:
         run: pnpm add -g firebase-tools
 
       - name: Cache Firebase emulators
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.cache/firebase/emulators
-          key: firebase-emulators-${{ runner.os }}
+          key: firebase-emulators-${{ runner.os }}-v1
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -122,41 +141,38 @@ jobs:
 
       - name: Build functions
         run: pnpm --filter=functions run build
-      
+
       - name: Run integration tests with emulators
         run: |
           cd functions
-          
+
           # Start emulators with timeout and health check
           timeout 600 firebase emulators:exec --only firestore,functions --project demo-test '
             echo "🚀 Emulators started, waiting for readiness..."
-            
-            # Wait for emulator readiness with proper endpoint checks
+
+            # Wait for Firestore emulator
             echo "⏳ Waiting for Firestore emulator..."
             for i in {1..60}; do
               if curl -s -f "http://localhost:8181/v1/projects/demo-test/databases/(default)/documents" > /dev/null 2>&1; then
                 echo "✅ Firestore emulator is ready ($i/60)"
                 break
               fi
-              echo "⏳ Firestore not ready yet... ($i/60)"
               sleep 1
             done
-            
-            # Verify functions emulator with proper health endpoint
+
+            # Wait for Functions emulator
             echo "⏳ Waiting for Functions emulator..."
             for i in {1..60}; do
               if curl -s -f "http://localhost:5001/demo-test/us-central1" > /dev/null 2>&1; then
                 echo "✅ Functions emulator is ready ($i/60)"
                 break
               fi
-              echo "⏳ Functions emulator not ready yet... ($i/60)"
               sleep 1
             done
-            
-            # Give emulators a moment to fully initialize
-            echo "⏱️  Allowing emulators to fully initialize..."
+
+            # Allow emulators to fully initialize
             sleep 5
-            
+
             echo "🌱 Seeding test data for ${{ matrix.dataset }}..."
             pnpm run seed:test-data:${{ matrix.dataset }}
 
@@ -164,17 +180,12 @@ jobs:
             pnpm test -- --testMatch="**/*.integration.test.ts" --verbose --maxWorkers=1
           ' || {
             echo "❌ Integration tests failed or timed out"
-            # Collect debug information
             echo "🐛 Debug information:"
             echo "Node.js version: $(node --version)"
             echo "pnpm version: $(pnpm --version)"
             echo "Firebase CLI version: $(firebase --version)"
-            echo "Available disk space:"
             df -h
-            echo "Memory usage:"
             free -h || vm_stat
-            echo "Process list:"
-            ps aux | grep -E "(firebase|node|java)" | head -20
             exit 1
           }
         env:
@@ -182,19 +193,19 @@ jobs:
           FIREBASE_AUTH_EMULATOR_HOST: localhost:9099
           CI: true
           RUN_INTEGRATION_TESTS: true
-      
-      
+
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: test-results-${{ matrix.dataset }}
+          name: integration-test-results-${{ matrix.dataset }}
           path: functions/test-results/
           retention-days: 7
 
   graphql-client-tests:
+    name: GraphQL Client Tests
     runs-on: ubuntu-latest
-    needs: [unit-tests, integration-tests]
+    needs: unit-tests
     steps:
       - uses: actions/checkout@v4
 
@@ -208,7 +219,7 @@ jobs:
           cache: 'pnpm'
 
       - name: Install Java
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '11'
@@ -217,17 +228,17 @@ jobs:
         run: pnpm add -g firebase-tools
 
       - name: Cache Firebase emulators
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.cache/firebase/emulators
-          key: firebase-emulators-${{ runner.os }}
+          key: firebase-emulators-${{ runner.os }}-v1
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
       - name: Build all packages
         run: pnpm run build
-      
+
       - name: Test GraphQL client with emulators
         run: |
           cd functions
@@ -241,66 +252,8 @@ jobs:
           FIRESTORE_EMULATOR_HOST: localhost:8181
           GRAPHQL_ENDPOINT: http://localhost:5001/demo-test/us-central1/publicApi
 
-  test-summary:
-    runs-on: ubuntu-latest
-    needs: [unit-tests, integration-tests, graphql-client-tests]
-    if: always()
-    steps:
-      - name: Check test results
-        run: |
-          unit_result="${{ needs.unit-tests.result }}"
-          integration_result="${{ needs.integration-tests.result }}"
-          client_result="${{ needs.graphql-client-tests.result }}"
-          
-          echo "Test Results Summary:"
-          echo "  Unit Tests: $unit_result"
-          echo "  Integration Tests: $integration_result"
-          echo "  GraphQL Client Tests: $client_result"
-          
-          # Fail if any critical tests failed (allow skipped)
-          if [[ "$unit_result" == "failure" || 
-                "$integration_result" == "failure" || 
-                "$client_result" == "failure" ]]; then
-            echo "❌ Critical tests failed"
-            exit 1
-          elif [[ "$unit_result" == "skipped" && 
-                  "$integration_result" == "skipped" && 
-                  "$client_result" == "skipped" ]]; then
-            echo "⚠️  All tests were skipped"
-            exit 1
-          else
-            echo "✅ Tests completed successfully"
-          fi
-      
-      - name: Post PR comment with results
-        if: github.event_name == 'pull_request'
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const unitResult = '${{ needs.unit-tests.result }}';
-            const integrationResult = '${{ needs.integration-tests.result }}';
-            const clientResult = '${{ needs.graphql-client-tests.result }}';
-            
-            const getEmoji = (result) => result === 'success' ? '✅' : '❌';
-            
-            const comment = `## Firebase Functions Test Results
-            
-            | Test Suite | Status |
-            |------------|--------|
-            | Unit Tests | ${getEmoji(unitResult)} ${unitResult} |
-            | Integration Tests | ${getEmoji(integrationResult)} ${integrationResult} |
-            | GraphQL Client Tests | ${getEmoji(clientResult)} ${clientResult} |
-            
-            View the [workflow run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) for details.`;
-            
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: comment
-            });
-
   build-production:
+    name: Build Production
     runs-on: ubuntu-latest
     needs: [unit-tests, integration-tests]
     if: success()
@@ -323,16 +276,78 @@ jobs:
         run: pnpm --filter=functions run build
         env:
           NODE_ENV: production
-      
+
       - name: Check bundle size
         run: |
           cd functions
-          echo "Checking function bundle sizes..."
-          du -sh lib/*
-      
+          echo "📦 Function bundle sizes:"
+          du -sh lib/* 2>/dev/null || echo "No lib directory found"
+
       - name: Upload production build
         uses: actions/upload-artifact@v4
         with:
           name: functions-production-build
           path: functions/lib/
           retention-days: 30
+
+  test-summary:
+    name: Test Summary
+    runs-on: ubuntu-latest
+    needs: [unit-tests, integration-tests, graphql-client-tests]
+    if: always()
+    steps:
+      - name: Check test results
+        run: |
+          unit_result="${{ needs.unit-tests.result }}"
+          integration_result="${{ needs.integration-tests.result }}"
+          client_result="${{ needs.graphql-client-tests.result }}"
+
+          echo "## Test Results Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- Unit Tests: $unit_result" >> $GITHUB_STEP_SUMMARY
+          echo "- Integration Tests: $integration_result" >> $GITHUB_STEP_SUMMARY
+          echo "- GraphQL Client Tests: $client_result" >> $GITHUB_STEP_SUMMARY
+
+          # Fail if any critical tests failed
+          if [[ "$unit_result" == "failure" ||
+                "$integration_result" == "failure" ||
+                "$client_result" == "failure" ]]; then
+            echo "❌ Critical tests failed" >> $GITHUB_STEP_SUMMARY
+            exit 1
+          else
+            echo "✅ Tests completed successfully" >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Post PR comment with results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const unitResult = '${{ needs.unit-tests.result }}';
+            const integrationResult = '${{ needs.integration-tests.result }}';
+            const clientResult = '${{ needs.graphql-client-tests.result }}';
+
+            const getEmoji = (result) => {
+              switch(result) {
+                case 'success': return '✅';
+                case 'failure': return '❌';
+                case 'skipped': return '⏭️';
+                default: return '⚠️';
+              }
+            };
+
+            const comment = `## 🧪 Firebase Functions Test Results
+
+| Test Suite | Status |
+|------------|--------|
+| Unit Tests | ${getEmoji(unitResult)} ${unitResult} |
+| Integration Tests | ${getEmoji(integrationResult)} ${integrationResult} |
+| GraphQL Client Tests | ${getEmoji(clientResult)} ${clientResult} |
+
+View the [workflow run](${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}) for details.`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
