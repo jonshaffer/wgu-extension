@@ -1,6 +1,6 @@
 {
   "functions/**/*.{ts,js}": [
-    "eslint --fix"
+    "bash -c 'cd functions && npx eslint --fix ${@/#functions\\//}' --"
   ],
   "*.{ts,tsx,js,jsx,json,yml,yaml,md}": [
     "echo 'Staged files validated. Type checking happens separately.'"
