@@ -76,7 +76,7 @@ jobs:
         working-directory: site
         
       - name: Upload preview artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: site-preview
           path: site/build/
@@ -119,7 +119,7 @@ jobs:
         working-directory: site
         
       - name: Upload production artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: site-production
           path: site/build/

@@ -23,7 +23,7 @@ export const CoursesOutputMetadataSchema = z.object({
 
 export const CoursesOutputSchema = z.object({
   metadata: CoursesOutputMetadataSchema,
-  courses: z.record(NormalizedCourseSchema),
+  courses: z.record(z.string(), NormalizedCourseSchema),
 });
 
 export type CoursesOutput = z.infer<typeof CoursesOutputSchema>;

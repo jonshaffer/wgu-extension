@@ -68,17 +68,17 @@ export const FirestoreCatalogMonthSchema = z.object({
         missingCourses: z.array(z.string()),
         validationRate: z.number()
       }).optional(),
-      dataCompleteness: z.record(z.number()).optional(),
+      dataCompleteness: z.record(z.string(), z.number()).optional(),
       issues: z.array(z.object({
         type: z.string(),
         severity: z.enum(['error', 'warning', 'info']),
         location: z.string(),
         message: z.string(),
-        details: z.record(z.any()).optional()
+        details: z.record(z.string(), z.any()).optional()
       })).optional()
     }).optional(),
-    statistics: z.record(z.any()).optional(),
-    processingDetails: z.record(z.any()).optional()
+    statistics: z.record(z.string(), z.any()).optional(),
+    processingDetails: z.record(z.string(), z.any()).optional()
   }).optional(),
   createdAt: z.string().datetime()
 });

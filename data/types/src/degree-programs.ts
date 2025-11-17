@@ -23,7 +23,7 @@ export const DegreeProgramsOutputMetadataSchema = z.object({
 
 export const DegreeProgramsOutputSchema = z.object({
   metadata: DegreeProgramsOutputMetadataSchema,
-  degrees: z.record(NormalizedDegreeProgramSchema),
+  degrees: z.record(z.string(), NormalizedDegreeProgramSchema),
 });
 
 export type DegreeProgramsOutput = z.infer<typeof DegreeProgramsOutputSchema>;

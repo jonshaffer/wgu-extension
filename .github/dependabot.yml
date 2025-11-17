@@ -1,13 +1,12 @@
 # Dependabot configuration for WGU Extension monorepo
 # Strategy:
-# - Monthly grouped PR for all minor/patch npm updates
-# - Monthly grouped PR for all minor/patch GitHub Actions updates
-# - Separate PRs for major version updates (require careful review)
+# - Monthly grouped PR for ALL npm updates (major, minor, patch)
+# - Monthly grouped PR for ALL GitHub Actions updates (major, minor, patch)
 # - Immediate PRs for security vulnerabilities (daily check)
 
 version: 2
 updates:
-  # NPM Dependencies - Grouped minor/patch updates (monthly)
+  # NPM Dependencies - All updates grouped monthly (including major)
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
@@ -19,10 +18,11 @@ updates:
       - "dependencies"
       - "npm"
     groups:
-      npm-minor-patch:
+      all-npm-updates:
         patterns:
           - "*"
         update-types:
+          - "major"
           - "minor"
           - "patch"
     open-pull-requests-limit: 10
@@ -33,14 +33,14 @@ updates:
     schedule:
       interval: "daily"
     commit-message:
-      prefix: "chore(deps): "
+      prefix: "chore(deps-security): "
     labels:
       - "dependencies"
       - "security"
       - "npm"
     open-pull-requests-limit: 5
 
-  # GitHub Actions - Grouped minor/patch updates (monthly)
+  # GitHub Actions - All updates grouped monthly (including major)
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
@@ -52,10 +52,11 @@ updates:
       - "dependencies"
       - "github-actions"
     groups:
-      actions-minor-patch:
+      all-actions-updates:
         patterns:
           - "*"
         update-types:
+          - "major"
           - "minor"
           - "patch"
     open-pull-requests-limit: 5

@@ -144,8 +144,8 @@ export const MetadataSchema = z.object({
 export type Metadata = z.infer<typeof MetadataSchema>;
 
 export const CatalogDataSchema = z.object({
-  courses: z.record(CourseSchema),
-  degreePlans: z.record(DegreePlanSchema),
+  courses: z.record(z.string(), CourseSchema),
+  degreePlans: z.record(z.string(), DegreePlanSchema),
   metadata: MetadataSchema,
 });
 

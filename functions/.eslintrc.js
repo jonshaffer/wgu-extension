@@ -41,5 +41,11 @@ module.exports = {
         "FunctionExpression": false
       }
     }],
+    // Relaxed rules for gradual migration to stricter typescript-eslint v8
+    "@typescript-eslint/no-explicit-any": "warn", // TODO: Fix any types gradually
+    "@typescript-eslint/no-unused-vars": ["warn", {
+      "argsIgnorePattern": "^_",
+      "varsIgnorePattern": "^_"
+    }],
   },
 };
