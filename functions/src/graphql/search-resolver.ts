@@ -3,21 +3,12 @@ import {searchCourses, searchCommunities} from "../lib/data-queries";
 
 interface SearchResultItem {
   type: string;
-  courseCode?: string | null;
-  name: string;
-  url?: string | null;
+  id: string;
+  title: string;
   description?: string | null;
-  icon?: string | null;
-  platform: string;
-  memberCount?: number | null;
-  competencyUnits?: number | null;
-  college?: string | null;
-  degreeType?: string | null;
-  serverId?: string | null;
-  subredditName?: string | null;
-  groupId?: string | null;
-  degreeId?: string | null;
-  studentGroupId?: string | null;
+  url?: string | null;
+  courseCode?: string | null;
+  tags?: string[];
 }
 
 interface SearchArgs {
@@ -43,7 +34,6 @@ export async function searchResolver(
     return {
       results: [],
       totalCount: 0,
-      query,
     };
   }
 
@@ -56,73 +46,27 @@ export async function searchResolver(
     courses.forEach((course) => {
       results.push({
         type: "course",
-        courseCode: course.courseCode,
-        name: `${course.courseCode}: ${course.name}`,
-        url: null,
+        id: course.courseCode,
+        title: `${course.courseCode}: ${course.name}`,
         description: course.description,
-        icon: null,
-        platform: "academic-registry",
-        memberCount: null,
-        competencyUnits: course.units,
-        college: null,
-        degreeType: null,
-        serverId: null,
-        subredditName: null,
-        groupId: null,
-        degreeId: null,
-        studentGroupId: null,
+        url: null,
+        courseCode: course.courseCode,
+        tags: [],
       });
     });
 
     // Search communities using the index
     const communities = await searchCommunities(query, {}, Math.floor(limit / 2));
     communities.forEach((community) => {
-      const baseItem = {
-        type: "community" as const,
-        courseCode: null,
-        name: community.title,
-        url: community.url,
+      results.push({
+        type: "community",
+        id: community.resourceId,
+        title: community.title,
         description: community.description,
-        icon: null,
-        memberCount: community.popularity,
-        competencyUnits: null,
-        college: null,
-        degreeType: null,
-        studentGroupId: null,
-      };
-
-      switch (community.type) {
-      case "discord":
-        results.push({
-          ...baseItem,
-          platform: "discord",
-          serverId: community.resourceId,
-          subredditName: null,
-          groupId: null,
-          degreeId: null,
-        });
-        break;
-      case "reddit":
-        results.push({
-          ...baseItem,
-          platform: "reddit",
-          serverId: null,
-          subredditName: community.resourceId,
-          groupId: null,
-          degreeId: null,
-        });
-        break;
-      case "wgu-connect":
-        results.push({
-          ...baseItem,
-          platform: "wguConnect",
-          serverId: null,
-          subredditName: null,
-          groupId: community.resourceId,
-          degreeId: null,
-        });
-        break;
-      }
+        url: community.url,
+        courseCode: null,
+        tags: [`platform:${community.type}`],
+      });
     });
   } catch (error) {
     console.error("Error using optimized search:", error);
@@ -142,21 +86,12 @@ export async function searchResolver(
       ) {
         results.push({
           type: "course",
-          courseCode: doc.id, // Document ID is the course code
-          name: `${doc.id}: ${course.name}`,
-          url: null,
+          id: doc.id,
+          title: `${doc.id}: ${course.name}`,
           description: course.description,
-          icon: null,
-          platform: "academic-registry",
-          memberCount: null,
-          competencyUnits: course.competencyUnits,
-          college: null,
-          degreeType: null,
-          serverId: null,
-          subredditName: null,
-          groupId: null,
-          degreeId: null,
-          studentGroupId: null,
+          url: null,
+          courseCode: doc.id,
+          tags: ["platform:academic-registry"],
         });
       }
     });
@@ -180,21 +115,12 @@ export async function searchResolver(
         ) {
           results.push({
             type: "degree",
-            courseCode: null,
-            name: p.name || "",
-            url: null,
+            id: p.code || `degree-${Math.random().toString(36).substr(2, 9)}`,
+            title: p.name || "",
             description: `${p.college} - ${p.degreeType} - ${p.totalCUs || 0} CUs`,
-            icon: null,
-            platform: "academic-registry",
-            memberCount: null,
-            competencyUnits: p.totalCUs,
-            college: p.college,
-            degreeType: p.degreeType,
-            serverId: null,
-            subredditName: null,
-            groupId: null,
-            degreeId: p.code || null,
-            studentGroupId: null,
+            url: null,
+            courseCode: null,
+            tags: ["platform:academic-registry", "type:degree"],
           });
         }
       }
@@ -214,18 +140,12 @@ export async function searchResolver(
       ) {
         results.push({
           type: "community",
-          courseCode: null,
-          name: server.name,
-          url: server.inviteUrl || `https://discord.gg/${doc.id}`,
+          id: doc.id,
+          title: server.name,
           description: server.description,
-          icon: server.icon,
-          platform: "discord",
-          memberCount: server.memberCount,
-          serverId: doc.id,
-          subredditName: null,
-          groupId: null,
-          degreeId: null,
-          studentGroupId: null,
+          url: server.inviteUrl || `https://discord.gg/${doc.id}`,
+          courseCode: null,
+          tags: ["platform:discord"],
         });
       }
     });
@@ -244,18 +164,12 @@ export async function searchResolver(
       ) {
         results.push({
           type: "community",
-          courseCode: null,
-          name: group.name,
-          url: group.url,
+          id: doc.id,
+          title: group.name,
           description: group.description,
-          icon: null,
-          platform: "wguConnect",
-          memberCount: group.memberCount,
-          serverId: null,
-          subredditName: null,
-          groupId: doc.id,
-          degreeId: null,
-          studentGroupId: null,
+          url: group.url,
+          courseCode: null,
+          tags: ["platform:wgu-connect"],
         });
       }
     });
@@ -278,18 +192,12 @@ export async function searchResolver(
         ) {
           results.push({
             type: "community",
-            courseCode: null,
-            name: community.name,
-            url: `https://reddit.com/r/${community.name}`,
+            id: community.name,
+            title: community.name,
             description: community.description,
-            icon: null,
-            platform: "reddit",
-            memberCount: community.subscriberCount,
-            serverId: null,
-            subredditName: community.name,
-            groupId: null,
-            degreeId: null,
-            studentGroupId: null,
+            url: `https://reddit.com/r/${community.name}`,
+            courseCode: null,
+            tags: ["platform:reddit"],
           });
         }
       }
@@ -312,19 +220,13 @@ export async function searchResolver(
           group.courseCode?.toLowerCase().includes(searchQuery)
         ) {
           results.push({
-            type: group.courseCode ? "course" : "university",
-            courseCode: group.courseCode,
-            name: group.name,
-            url: group.url,
+            type: "community",
+            id: group.id || `group-${Math.random().toString(36).substr(2, 9)}`,
+            title: group.name,
             description: group.description,
-            icon: null,
-            platform: "wgu-student-groups",
-            memberCount: group.memberCount,
-            serverId: null,
-            subredditName: null,
-            groupId: null,
-            degreeId: null,
-            studentGroupId: group.id || null,
+            url: group.url,
+            courseCode: group.courseCode,
+            tags: ["platform:student-groups"],
           });
         }
       }
@@ -339,6 +241,5 @@ export async function searchResolver(
   return {
     results: limitedResults,
     totalCount: results.length,
-    query,
   };
 }

@@ -124,7 +124,9 @@ function validateDiscordSuggestion(input: DiscordSuggestionInput): ValidationErr
   const errors: ValidationError[] = [];
 
   // Discord invite URL validation
-  if (!input.inviteUrl.match(/^https?:\/\/(discord\.gg\/[a-zA-Z0-9]+|discord\.com\/invite\/[a-zA-Z0-9]+)$/)) {
+  const discordPattern =
+    /^https?:\/\/(discord\.gg\/[a-zA-Z0-9]+|discord\.com\/invite\/[a-zA-Z0-9]+)$/;
+  if (!input.inviteUrl.match(discordPattern)) {
     errors.push({
       field: "inviteUrl",
       message: "Invalid Discord invite URL format",
@@ -488,7 +490,9 @@ export async function submitCommunityMapping(
     const suggestion: CommunityMappingSuggestion = {
       id: suggestionRef.id,
       type: "community_mapping",
-      operation: input.action.toLowerCase() === "remove" ? "delete" : input.action.toLowerCase() as any,
+      operation: input.action.toLowerCase() === "remove" ?
+        "delete" :
+        input.action.toLowerCase() as any,
       status: "draft",
       submittedBy: {
         userId: context.user.uid,

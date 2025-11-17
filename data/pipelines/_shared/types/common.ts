@@ -41,22 +41,11 @@ export interface HealthMetrics {
   errors: string[];
 }
 
-export type HealthTrend = 'stable' | 'improving' | 'degrading';
-
 // ========== Parser Types ==========
 export interface ParserFormat {
   version: string;
   strategy: string;
   characteristics: Record<string, any>;
-}
-
-export interface ParsingReport {
-  filename: string;
-  parsedAt: string;
-  parserVersion: string;
-  success: boolean;
-  summary: Record<string, any>;
-  issues: ValidationIssue[];
 }
 
 // ========== Config Types ==========

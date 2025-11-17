@@ -15,6 +15,8 @@ export interface AdminUser {
  * - JWT tokens
  * - API keys with admin permissions
  * - mTLS certificates
+ * @param {string} token - The authentication token to verify
+ * @return {Promise<AdminUser>} The authenticated admin user
  */
 export async function verifyAdminAuth(token: string): Promise<AdminUser> {
   // For now, we'll use Firebase Auth for admin verification
@@ -42,7 +44,9 @@ export async function verifyAdminAuth(token: string): Promise<AdminUser> {
       permissions: ["read", "write", "delete", "ingest"],
     };
   } catch (error) {
-    throw new Error(`Authentication failed: ${error instanceof Error ? error.message : "Unknown error"}`);
+    throw new Error(
+      `Authentication failed: ${error instanceof Error ? error.message : "Unknown error"}`
+    );
   }
 }
 
@@ -53,6 +57,9 @@ export async function verifyAdminAuth(token: string): Promise<AdminUser> {
  * 2. Query a Firestore admin users collection
  * 3. Check against a hardcoded list of admin emails in environment variables
  * 4. Use a more sophisticated RBAC system
+ * @param {string} uid - The user ID to check
+ * @param {string} email - The user email (optional)
+ * @return {Promise<boolean>} Whether the user has admin permissions
  */
 async function checkAdminPermissions(uid: string, email?: string): Promise<boolean> {
   // Method 1: Check Firebase Auth custom claims
@@ -90,6 +97,8 @@ async function checkAdminPermissions(uid: string, email?: string): Promise<boole
 
 /**
  * Verify a Firebase ID token (for public API auth)
+ * @param {string} token - The ID token to verify
+ * @return {Promise<admin.auth.DecodedIdToken>} The decoded token
  */
 export async function verifyIdToken(token: string) {
   if (!admin.apps.length) {
@@ -102,6 +111,8 @@ export async function verifyIdToken(token: string) {
 /**
  * Alternative auth method using API keys
  * This would be useful for server-to-server communication
+ * @param {string} apiKey - The API key to verify
+ * @return {Promise<AdminUser>} The authenticated admin user
  */
 export async function verifyApiKeyAuth(apiKey: string): Promise<AdminUser> {
   const validApiKeys = process.env.ADMIN_API_KEYS?.split(",").map((k) => k.trim()) || [];
@@ -119,6 +130,9 @@ export async function verifyApiKeyAuth(apiKey: string): Promise<AdminUser> {
 
 /**
  * Check if a user has a specific permission
+ * @param {AdminUser} user - The user to check
+ * @param {string} permission - The permission to check for
+ * @return {boolean} Whether the user has the permission
  */
 export function hasPermission(user: AdminUser, permission: string): boolean {
   return user.permissions.includes(permission);
@@ -126,6 +140,9 @@ export function hasPermission(user: AdminUser, permission: string): boolean {
 
 /**
  * Require a specific permission (throws if not present)
+ * @param {AdminUser} user - The user to check
+ * @param {string} permission - The permission required
+ * @return {void}
  */
 export function requirePermission(user: AdminUser, permission: string): void {
   if (!hasPermission(user, permission)) {

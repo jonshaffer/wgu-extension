@@ -33,22 +33,26 @@ jobs:
     if: ${{ needs.release-please.outputs.release_created }}
     steps:
       - uses: actions/checkout@v4
-      
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.14.0
+
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'npm'
-      
+          cache: 'pnpm'
+
       - name: Install dependencies
-        run: npm ci
-      
+        run: pnpm install --frozen-lockfile
+
       - name: Build production extensions
         run: |
-          npm run build:prod --workspace=extension
-          npm run zip --workspace=extension
-          npm run zip:firefox --workspace=extension
-          npm run zip:edge --workspace=extension
-      
+          pnpm --filter=extension run build:prod
+          pnpm --filter=extension run zip
+          pnpm --filter=extension run zip:firefox
+          pnpm --filter=extension run zip:edge
+
       - name: Upload release artifacts
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -62,16 +66,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.14.0
+
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
           registry-url: 'https://registry.npmjs.org'
+          cache: 'pnpm'
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Build @wgu-extension/data types
-        run: npm run types:build --workspace=data
+        run: pnpm --filter=data run types:build
 
       - name: Publish @wgu-extension/data to npm (final)
         env:
@@ -82,7 +91,7 @@ jobs:
             echo "Version ${VERSION} already published; skipping."
             exit 0
           fi
-          npm publish --workspace=data --access public
+          cd data && pnpm publish --access public --no-git-checks
 
   # Automatically submit to extension stores when a release is created
   store-submission:
@@ -92,21 +101,25 @@ jobs:
     environment: production # Use environment protection for store secrets
     steps:
       - uses: actions/checkout@v4
-      
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.14.0
+
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'npm'
-      
+          cache: 'pnpm'
+
       - name: Install dependencies
-        run: npm ci
-      
+        run: pnpm install --frozen-lockfile
+
       - name: Build and zip for stores
         run: |
-          npm run build:prod --workspace=extension
-          npm run zip --workspace=extension
-          npm run zip:firefox --workspace=extension
-          npm run zip:edge --workspace=extension
+          pnpm --filter=extension run build:prod
+          pnpm --filter=extension run zip
+          pnpm --filter=extension run zip:firefox
+          pnpm --filter=extension run zip:edge
 
       - name: Submit to Chrome Web Store (optional)
         run: |

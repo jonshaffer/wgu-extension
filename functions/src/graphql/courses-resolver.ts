@@ -1,4 +1,9 @@
-import {getCourseWithCommunities, searchCourses, getCoursesByIds, getPopularCourses} from "../lib/data-queries.js";
+import {
+  getCourseWithCommunities,
+  searchCourses,
+  getCoursesByIds,
+  getPopularCourses,
+} from "../lib/data-queries.js";
 import {Course} from "../lib/data-model.js";
 
 interface CoursesArgs {

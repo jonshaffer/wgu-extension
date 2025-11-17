@@ -1,3 +1,4 @@
+import React from "react"
 import { Moon, Sun } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -27,7 +28,7 @@ export function ModeToggle() {
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>App Theme</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuRadioGroup value={theme} onValueChange={(value) => setTheme(value as Theme)}>
+        <DropdownMenuRadioGroup value={theme} onValueChange={(value: string) => setTheme(value as Theme)}>
           <DropdownMenuRadioItem value={themes.light}>Light</DropdownMenuRadioItem>
           <DropdownMenuRadioItem value={themes.dark}>Dark</DropdownMenuRadioItem>
           <DropdownMenuRadioItem value={themes.system}>System</DropdownMenuRadioItem>

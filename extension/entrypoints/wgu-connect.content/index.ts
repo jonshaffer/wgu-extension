@@ -423,7 +423,7 @@ export default defineContentScript({
       }
 
       try {
-        const resourceData = extractor.extractResourceData();
+        const resourceData = await extractor.extractResourceData();
         if (!resourceData || resourceData.resources.length === 0) {
           console.log('WGU Extension: No WGU Connect resource data to collect');
           return;
@@ -502,7 +502,7 @@ export default defineContentScript({
     };
 
     // Set up mutation observer for SPA tab changes
-    extractor.setupTabChangeObserver((data) => {
+    extractor.setupTabChangeObserver((data: unknown) => {
       if (data) {
         console.log('WGU Extension: Tab changed in WGU Connect, collecting data');
         collectData();

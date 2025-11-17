@@ -20,17 +20,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.14.0
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
+          cache: 'pnpm'
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Build @wgu-extension/data types
-        run: npm run types:build --workspace=data
+        run: pnpm run types:build --filter=data
 
       - name: Compute prerelease version (-next.<sha>)
         id: semver
@@ -44,15 +50,15 @@ jobs:
       - name: Bump to prerelease version (no git tag)
         run: |
           cd data
-          npm version "${{ steps.semver.outputs.pre }}" --no-git-tag-version
+          pnpm version "${{ steps.semver.outputs.pre }}" --no-git-tag-version
 
       - name: Publish prerelease to npm (tag=next)
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           # Skip if this prerelease already exists
-          if npm view @wgu-extension/data@"${{ steps.semver.outputs.pre }}" version >/dev/null 2>&1; then
+          if pnpm view @wgu-extension/data@"${{ steps.semver.outputs.pre }}" version >/dev/null 2>&1; then
             echo "Prerelease version ${{ steps.semver.outputs.pre }} already exists; skipping."
             exit 0
           fi
-          npm publish --workspace=data --access public --tag next
+          pnpm --filter=data publish --access public --tag next

@@ -37,23 +37,33 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.14.0
+
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'npm'
-      
+          cache: 'pnpm'
+
       - name: Install dependencies
-        run: npm ci
-      
+        run: pnpm install --frozen-lockfile
+
+      - name: Build required packages
+        run: pnpm run build:libs
+
       - name: Type check
-        run: npm run typecheck --workspace=extension
-      
+        run: pnpm --filter=extension run typecheck
+
+      - name: Lint
+        run: pnpm --filter=extension run lint
+
       - name: Test development build
-        run: npm run build:dev --workspace=extension
-      
-      - name: Test production build  
-        run: npm run build:prod --workspace=extension
+        run: pnpm --filter=extension run build:dev
+
+      - name: Test production build
+        run: pnpm --filter=extension run build:prod
 
   build-preview:
     runs-on: ubuntu-latest
@@ -61,23 +71,30 @@ jobs:
     needs: test
     steps:
       - uses: actions/checkout@v4
-      
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.14.0
+
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'npm'
-      
+          cache: 'pnpm'
+
       - name: Install dependencies
-        run: npm ci
-      
+        run: pnpm install --frozen-lockfile
+
+      - name: Build required packages
+        run: pnpm run build:libs
+
       - name: Build preview
-        run: npm run build:preview --workspace=extension
-        
+        run: pnpm --filter=extension run build:preview
+
       - name: Create preview ZIPs
         run: |
-          npm run zip:preview --workspace=extension
-          npm run zip:firefox --workspace=extension -- --mode preview
-          npm run zip:edge --workspace=extension -- --mode preview
+          pnpm --filter=extension run zip:preview
+          pnpm --filter=extension run zip:firefox:preview
+          pnpm --filter=extension run zip:edge:preview
       
       - name: Upload preview artifacts
         uses: actions/upload-artifact@v4
@@ -92,23 +109,30 @@ jobs:
     needs: test
     steps:
       - uses: actions/checkout@v4
-      
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.14.0
+
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'npm'
-      
+          cache: 'pnpm'
+
       - name: Install dependencies
-        run: npm ci
-      
+        run: pnpm install --frozen-lockfile
+
+      - name: Build required packages
+        run: pnpm run build:libs
+
       - name: Build production
-        run: npm run build:prod --workspace=extension
-        
+        run: pnpm --filter=extension run build:prod
+
       - name: Create production ZIPs
         run: |
-          npm run zip --workspace=extension
-          npm run zip:firefox --workspace=extension
-          npm run zip:edge --workspace=extension
+          pnpm --filter=extension run zip
+          pnpm --filter=extension run zip:firefox
+          pnpm --filter=extension run zip:edge
       
       - name: Upload production artifacts
         uses: actions/upload-artifact@v4

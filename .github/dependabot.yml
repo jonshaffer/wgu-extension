@@ -1,18 +1,61 @@
-# To get started with Dependabot version updates, you'll need to specify which
-# package ecosystems to update and where the package manifests are located.
+# Dependabot configuration for WGU Extension monorepo
+# Strategy:
+# - Monthly grouped PR for all minor/patch npm updates
+# - Monthly grouped PR for all minor/patch GitHub Actions updates
+# - Separate PRs for major version updates (require careful review)
+# - Immediate PRs for security vulnerabilities (daily check)
 
 version: 2
 updates:
-- package-ecosystem: "npm" # See documentation for possible values
-  directory: "/" # Location of package manifests
-  commit-message:
-    prefix: "chore: "
-  schedule:
-    interval: "monthly"
-- package-ecosystem: "github-actions"
-  # Workflow files stored in the default location of `.github/workflows`. (You don't need to specify `/.github/workflows` for `directory`. You can use `directory: "/"`.)
-  directory: "/"
-  commit-message:
-    prefix: "ci: "
-  schedule:
-    interval: "monthly"
+  # NPM Dependencies - Grouped minor/patch updates (monthly)
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+      day: "monday"
+    commit-message:
+      prefix: "chore(deps): "
+    labels:
+      - "dependencies"
+      - "npm"
+    groups:
+      npm-minor-patch:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
+    open-pull-requests-limit: 10
+
+  # NPM Dependencies - Security updates (daily, immediate)
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    commit-message:
+      prefix: "chore(deps): "
+    labels:
+      - "dependencies"
+      - "security"
+      - "npm"
+    open-pull-requests-limit: 5
+
+  # GitHub Actions - Grouped minor/patch updates (monthly)
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+      day: "monday"
+    commit-message:
+      prefix: "ci(deps): "
+    labels:
+      - "dependencies"
+      - "github-actions"
+    groups:
+      actions-minor-patch:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
+    open-pull-requests-limit: 5

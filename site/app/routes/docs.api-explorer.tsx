@@ -216,10 +216,10 @@ export default function GraphQLExplorer() {
       </header>
       
       <div className="flex-1 overflow-hidden graphiql-container">
-        <GraphiQL 
-          fetcher={fetcher} 
-          query={query}
-          onEditQuery={setQuery}
+        <GraphiQL
+          key={query}
+          fetcher={fetcher}
+          defaultQuery={query}
           defaultEditorToolsVisibility={true}
           shouldPersistHeaders={true}
         />

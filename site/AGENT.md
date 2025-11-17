@@ -10,16 +10,16 @@ This workspace contains the public website built with React Router v7 for docume
 
 ```bash
 # Development server
-npm run dev
+pnpm run dev
 
 # Production build
-npm run build
+pnpm run build
 
 # Type checking
-npm run typecheck
+pnpm run typecheck
 
 # Production server
-npm run start
+pnpm run start
 ```
 
 ## Architecture
@@ -45,7 +45,7 @@ app/
 ### Local Development
 ```bash
 # Start dev server with hot reload
-npm run dev
+pnpm run dev
 
 # Visit: http://localhost:5173
 ```
@@ -53,7 +53,7 @@ npm run dev
 ### Type Generation
 ```bash
 # Generate route types
-npm run typecheck
+pnpm run typecheck
 ```
 
 ### Styling
@@ -95,7 +95,7 @@ export async function loader() {
 ### Production Build
 ```bash
 # Build static site
-npm run build
+pnpm run build
 
 # Output in build/ directory
 ```
@@ -111,9 +111,9 @@ npm run build
 FROM node:22-alpine
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci --production
+RUN pnpm install --frozen-lockfile --production
 COPY . .
-RUN npm run build
+RUN pnpm run build
 EXPOSE 3000
 CMD ["npm", "start"]
 ```
@@ -145,7 +145,7 @@ CMD ["npm", "start"]
 ## Testing
 
 ### Development Testing
-1. Start dev server: `npm run dev`
+1. Start dev server: `pnpm run dev`
 2. Test responsive design at different screen sizes
 3. Verify SSR by disabling JavaScript
 4. Check accessibility with screen reader
@@ -153,8 +153,8 @@ CMD ["npm", "start"]
 ### Production Testing
 ```bash
 # Build and serve locally
-npm run build
-npm run start
+pnpm run build
+pnpm run start
 
 # Load testing
 # SEO audit with Lighthouse

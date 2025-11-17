@@ -25,6 +25,11 @@ export const DATABASES = {
 
 /**
  * Helper function to copy approved suggestions to the default database
+ * @param {string} sourceCollection - The source collection name
+ * @param {string} sourceDocId - The source document ID
+ * @param {string} targetCollection - The target collection name
+ * @param {string} targetDocId - Optional target document ID
+ * @return {Promise<void>}
  */
 export async function copyToDefaultDatabase(
   sourceCollection: string,
@@ -38,19 +43,27 @@ export async function copyToDefaultDatabase(
     throw new Error("Source document not found");
   }
 
-  const data = sourceDoc.data()!;
+  const data = sourceDoc.data();
+  if (!data) {
+    throw new Error("Source document has no data");
+  }
   const docId = targetDocId || sourceDocId;
 
   // Remove admin-specific fields before copying
-  const {
-    submittedBy,
-    reviewedBy,
-    reviewNotes,
-    validationErrors,
-    version,
-    previousVersionId,
-    ...publicData
-  } = data;
+  // Extract only the reviewedBy field that we need
+  const {reviewedBy} = data;
+
+  // Create public data by omitting admin-specific fields
+  const adminFields = [
+    "submittedBy",
+    "reviewNotes",
+    "validationErrors",
+    "version",
+    "previousVersionId",
+  ];
+  const publicData = Object.fromEntries(
+    Object.entries(data).filter(([key]) => !adminFields.includes(key))
+  );
 
   await defaultDb.collection(targetCollection).doc(docId).set({
     ...publicData,
@@ -66,6 +79,8 @@ export async function copyToDefaultDatabase(
 
 /**
  * Batch copy multiple approved suggestions
+ * @param {Array} operations - Array of copy operations
+ * @return {Promise<Object>} Batch operation results
  */
 export async function batchCopyToDefaultDatabase(
   operations: Array<{
@@ -89,10 +104,10 @@ export async function batchCopyToDefaultDatabase(
         op.targetDocId
       );
       results.successful.push(op.sourceDocId);
-    } catch (error: any) {
+    } catch (error: unknown) {
       results.failed.push({
         id: op.sourceDocId,
-        error: error.message || "Unknown error",
+        error: error instanceof Error ? error.message : "Unknown error",
       });
     }
   }

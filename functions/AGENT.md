@@ -45,22 +45,22 @@ The project uses **GraphQL Yoga** with persisted queries for security and perfor
 
 ```bash
 # Build TypeScript to JavaScript
-npm run build
+pnpm run build
 
 # Development with emulators
-npm run serve              # With data persistence
-npm run serve:fresh        # Clean start
-npm run serve:dvc         # With DVC data
+pnpm run serve              # With data persistence
+pnpm run serve:fresh        # Clean start
+pnpm run serve:dvc         # With DVC data
 
 # Deploy to Firebase
-npm run deploy
+pnpm run deploy
 
 # View logs
-npm run logs
+pnpm run logs
 
 # Run tests
-npm test                   # All tests
-npm run test:integration   # Integration tests only
+pnpm test                   # All tests
+pnpm run test:integration   # Integration tests only
 ```
 
 ## GraphQL API
@@ -203,7 +203,7 @@ tsx scripts/test-graphql-client.ts
 
 ```bash
 # Start emulators with seeded data
-npm run serve
+pnpm run serve
 
 # Run tests in another terminal
 ./test-graphql-comprehensive.sh
@@ -216,10 +216,10 @@ See `TESTING.md` for detailed testing documentation.
 ### Local Development
 ```bash
 # Install dependencies
-npm install
+pnpm install
 
 # Start emulators
-npm run serve
+pnpm run serve
 
 # GraphQL endpoints:
 # Public: http://localhost:5001/{project-id}/us-central1/publicApi
@@ -237,7 +237,7 @@ Configure in Firebase console or `.env` for local development:
 ### Deploy Functions
 ```bash
 # Deploy all functions
-npm run deploy
+pnpm run deploy
 
 # Deploy specific function
 firebase deploy --only functions:publicApi
@@ -254,7 +254,7 @@ GitHub Actions automatically:
 ### Logging
 ```bash
 # View all logs
-npm run logs
+pnpm run logs
 
 # Filter by function
 firebase functions:log --only publicApi

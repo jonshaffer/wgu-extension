@@ -43,10 +43,10 @@ services:
       - NODE_ENV=test
     command: >
       sh -c "
-        npm ci &&
-        npm run build &&
-        npm run seed:test-data minimal &&
-        npm test
+        pnpm install --frozen-lockfile &&
+        pnpm run build &&
+        pnpm run seed:test-data minimal &&
+        pnpm test
       "
 
 volumes:

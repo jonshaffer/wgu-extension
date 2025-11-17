@@ -175,4 +175,5 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   main();
 }
 
-export { validateCatalogData, ValidationResult };
+export { validateCatalogData };
+export type { ValidationResult };

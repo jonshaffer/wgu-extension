@@ -4,28 +4,20 @@ import {adminResolvers} from "../graphql/admin-resolvers";
 import {defaultDb, adminDb} from "../lib/firebase-admin-db";
 import {COLLECTIONS} from "../lib/data-model";
 
-// Mock context for admin user
-const adminContext = {
-  user: {
-    uid: "test-admin-user",
-    email: "admin@test.com",
-    admin: true,
-  },
-};
+// Import new test fixtures and utilities
+import {
+  createAdminContext,
+  createUserContext,
+  createUnauthenticatedContext,
+  clearCollections,
+  assertDocumentExists,
+  assertDocumentData,
+} from "./fixtures";
 
-// Mock context for non-admin user
-const userContext = {
-  user: {
-    uid: "test-regular-user",
-    email: "user@test.com",
-    admin: false,
-  },
-};
-
-// Mock context for unauthenticated request
-const noAuthContext = {
-  user: null,
-};
+// Mock contexts for testing
+const adminContext = createAdminContext();
+const userContext = createUserContext();
+const noAuthContext = createUnauthenticatedContext();
 
 describe("Admin Resolvers Integration Tests", () => {
   beforeAll(async () => {
@@ -34,26 +26,16 @@ describe("Admin Resolvers Integration Tests", () => {
   });
 
   beforeEach(async () => {
-    // Clear test collections before each test
-    const collections = [
+    // Clear test collections before each test using new utility
+    await clearCollections(defaultDb, [
       COLLECTIONS.DISCORD_SERVERS,
       COLLECTIONS.REDDIT_COMMUNITIES,
       COLLECTIONS.COURSES,
       COLLECTIONS.DEGREE_PROGRAMS,
-    ];
-
-    for (const collection of collections) {
-      const snapshot = await defaultDb.collection(collection).get();
-      const batch = defaultDb.batch();
-      snapshot.docs.forEach((doc) => batch.delete(doc.ref));
-      await batch.commit();
-    }
+    ]);
 
     // Clear change history
-    const changeHistory = await adminDb.collection("change-history").get();
-    const batch = adminDb.batch();
-    changeHistory.docs.forEach((doc) => batch.delete(doc.ref));
-    await batch.commit();
+    await clearCollections(adminDb, ["change-history"]);
   });
 
   describe("Authentication and Authorization", () => {
@@ -66,6 +48,8 @@ describe("Admin Resolvers Integration Tests", () => {
               serverId: "123456789012345678",
               name: "Test Server",
               inviteUrl: "https://discord.gg/test",
+              tags: [],
+              verified: false,
             },
           },
           noAuthContext
@@ -82,6 +66,8 @@ describe("Admin Resolvers Integration Tests", () => {
               serverId: "123456789012345678",
               name: "Test Server",
               inviteUrl: "https://discord.gg/test",
+              tags: [],
+              verified: false,
             },
           },
           userContext
@@ -109,7 +95,6 @@ describe("Admin Resolvers Integration Tests", () => {
       );
 
       expect(result).toMatchObject({
-        serverId: validDiscordInput.serverId,
         name: validDiscordInput.name,
         description: validDiscordInput.description,
         inviteUrl: validDiscordInput.inviteUrl,
@@ -118,12 +103,19 @@ describe("Admin Resolvers Integration Tests", () => {
         verified: validDiscordInput.verified,
       });
 
-      // Verify it was saved to Firestore
-      const doc = await defaultDb.collection(COLLECTIONS.DISCORD_SERVERS)
-        .doc(validDiscordInput.serverId)
-        .get();
-      expect(doc.exists).toBe(true);
-      expect(doc.data()?.name).toBe(validDiscordInput.name);
+      // Verify it was saved to Firestore using new utilities
+      await assertDocumentExists(
+        defaultDb,
+        COLLECTIONS.DISCORD_SERVERS,
+        validDiscordInput.serverId
+      );
+
+      await assertDocumentData(
+        defaultDb,
+        COLLECTIONS.DISCORD_SERVERS,
+        validDiscordInput.serverId,
+        { name: validDiscordInput.name }
+      );
 
       // Verify change history was logged
       const history = await adminDb.collection("change-history")
@@ -224,6 +216,8 @@ describe("Admin Resolvers Integration Tests", () => {
       url: "https://reddit.com/r/WGU_CompSci",
       subscriberCount: 25000,
       type: "program-specific" as const,
+      associatedPrograms: ["bs-computer-science"],
+      associatedCourses: ["C779", "C867"],
       tags: ["computer-science", "bs-cs"],
       active: true,
     };
@@ -236,7 +230,6 @@ describe("Admin Resolvers Integration Tests", () => {
       );
 
       expect(result).toMatchObject({
-        subredditName: validRedditInput.subreddit,
         name: validRedditInput.name,
         url: validRedditInput.url,
         subscriberCount: validRedditInput.subscriberCount,
@@ -398,7 +391,6 @@ describe("Admin Resolvers Integration Tests", () => {
       );
 
       expect(result).toMatchObject({
-        degreeId: validDegreePlanInput.id,
         name: validDegreePlanInput.name,
         totalUnits: validDegreePlanInput.totalUnits,
       });

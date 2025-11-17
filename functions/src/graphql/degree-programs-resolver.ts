@@ -1,6 +1,15 @@
 import {getDegreeProgramWithCourses} from "../lib/data-queries.js";
-import {db} from "../lib/firebase.js";
+import {defaultDb as db} from "../lib/firebase-admin-db.js";
 import {DegreeProgram, COLLECTIONS, Course} from "../lib/data-model.js";
+import type {Query, DocumentSnapshot} from "firebase-admin/firestore";
+
+interface LegacyProgramData {
+  code?: string;
+  name?: string;
+  college?: string;
+  degreeType?: string;
+  totalCUs?: number;
+}
 
 interface DegreeProgramsArgs {
   college?: string;
@@ -25,7 +34,7 @@ export async function degreeProgramsResolver(
   const {college, level, limit = 50} = args;
 
   try {
-    let query = db.collection(COLLECTIONS.DEGREE_PROGRAMS) as any;
+    let query: Query = db.collection(COLLECTIONS.DEGREE_PROGRAMS);
 
     if (college) {
       query = query.where("college", "==", college);
@@ -38,7 +47,7 @@ export async function degreeProgramsResolver(
 
     const items: DegreeProgramResult[] = [];
 
-    snapshot.forEach((doc: any) => {
+    snapshot.forEach((doc: DocumentSnapshot) => {
       const program = doc.data() as DegreeProgram;
       items.push({
         id: doc.id,
@@ -60,7 +69,7 @@ export async function degreeProgramsResolver(
         const programs = data.programs || {};
 
         for (const [id, program] of Object.entries(programs)) {
-          const p = program as any;
+          const p = program as LegacyProgramData;
 
           // Apply filters
           if (college && p.college !== college) continue;

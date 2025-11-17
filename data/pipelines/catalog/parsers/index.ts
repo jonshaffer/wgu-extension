@@ -5,7 +5,8 @@
  */
 
 // Export detector for automatic parser selection
-export { getParser, CatalogFormat, CATALOG_FORMATS } from './detector';
+export { getParser, CATALOG_FORMATS } from './detector';
+export type { CatalogFormat } from './detector';
 
 // Export base parser for extension
 export { BaseCatalogParser } from './base-parser';
@@ -33,7 +34,6 @@ export type {
   CourseBundleInfo,
   CatalogMetadata,
   CatalogStatistics,
-  CatalogFormat,
   NormalizedCourse
 } from '../../_shared/types/catalog';
 

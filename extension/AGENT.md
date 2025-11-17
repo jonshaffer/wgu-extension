@@ -10,16 +10,16 @@ This workspace contains the browser extension code that runs on WGU domains to p
 
 ```bash
 # Development with hot reload
-npm run dev
+pnpm run dev
 
 # Production build
-npm run build:prod
+pnpm run build:prod
 
 # Build with fresh community data
-npm run build:prod:with-data
+pnpm run build:prod:with-data
 
 # Package for browser stores
-npm run release
+pnpm run release
 ```
 
 ## Architecture
@@ -32,13 +32,13 @@ npm run release
 ### Data Processing Pipeline
 ```bash
 # Ingest all data sources
-npm run data:ingest
+pnpm run data:ingest
 
 # Individual data sources
-npm run data:ingest:discord
-npm run data:ingest:reddit  
-npm run data:ingest:wgu-connect
-npm run data:ingest:catalog
+pnpm run data:ingest:discord
+pnpm run data:ingest:reddit  
+pnpm run data:ingest:wgu-connect
+pnpm run data:ingest:catalog
 ```
 
 ### Component Structure
@@ -58,11 +58,11 @@ npm run data:ingest:catalog
 ### Validation & Processing
 ```bash
 # Validate data integrity
-npm run data:validate:discord
-npm run data:validate:reddit
+pnpm run data:validate:discord
+pnpm run data:validate:reddit
 
 # Check catalog parsing
-npm run catalog:check
+pnpm run catalog:check
 ```
 
 ## Development
@@ -79,16 +79,16 @@ npm run catalog:check
 ### Types Package
 ```bash
 # Build shared types
-npm run types:build
+pnpm run types:build
 
 # Publish for local development  
-npm run types:publish:local
+pnpm run types:publish:local
 ```
 
 ## Testing
 
 ### Manual Testing
-1. Run `npm run dev`
+1. Run `pnpm run dev`
 2. Load unpacked extension in browser
 3. Navigate to WGU domains
 4. Check developer console for errors
@@ -96,10 +96,10 @@ npm run types:publish:local
 ### Data Testing
 ```bash
 # Test data extraction
-npm run data:test:wgu-student-groups
+pnpm run data:test:wgu-student-groups
 
 # Validate schema compliance
-npm run data:validate:discord --check-invites
+pnpm run data:validate:discord --check-invites
 ```
 
 ## Extension Permissions

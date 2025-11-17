@@ -35,26 +35,30 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.14.0
+
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'npm'
+          cache: 'pnpm'
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Build and zip artifacts
         run: |
           if [ "${{ inputs.mode }}" = "production" ]; then
-            npm run build:prod
+            pnpm run build:prod
           elif [ "${{ inputs.mode }}" = "preview" ]; then
-            npm run build:preview
+            pnpm run build:preview
           else
-            npm run build:dev
+            pnpm run build:dev
           fi
-          npm run zip
-          npm run zip:firefox
-          npm run zip:edge
+          pnpm run zip
+          pnpm run zip:firefox
+          pnpm run zip:edge
 
       - name: Submit to Chrome Web Store
         if: ${{ inputs.chrome }}
@@ -90,7 +94,7 @@ jobs:
             echo "Edge Add-ons secrets not configured; skipping."
             exit 0
           fi
-          npm exec --yes edge-addons-cli@1.12.0 upload \
+          pnpm dlx edge-addons-cli@1.12.0 upload \
             --product-id "${EDGE_PRODUCT_ID}" \
             --zip ".output/*-edge.zip" \
             --client-id "${EDGE_CLIENT_ID}" \

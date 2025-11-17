@@ -26,6 +26,8 @@ import {
 
 /**
  * Apply an approved suggestion to the default database
+ * @param {string} suggestionId - The ID of the suggestion to apply
+ * @return {Promise<ApplicationResult>} The result of applying the suggestion
  */
 export async function applySuggestion(suggestionId: string): Promise<ApplicationResult> {
   try {
@@ -108,13 +110,15 @@ export async function applySuggestion(suggestionId: string): Promise<Application
 
 /**
  * Apply course suggestions
+ * @param {CourseSuggestion} suggestion - The course suggestion to apply
+ * @return {Promise<ApplicationResult>} The result of applying the suggestion
  */
 async function applyCourseSuggestion(suggestion: CourseSuggestion): Promise<ApplicationResult> {
   const courseRef = defaultDb.collection(COLLECTIONS.COURSES).doc(suggestion.data.courseCode);
 
   try {
     switch (suggestion.operation) {
-    case "add":
+    case "add": {
       // Check if course already exists
       const existingDoc = await courseRef.get();
       if (existingDoc.exists) {
@@ -155,8 +159,9 @@ async function applyCourseSuggestion(suggestion: CourseSuggestion): Promise<Appl
         rollbackable: true,
         rollbackId: suggestion.data.courseCode,
       };
+    }
 
-    case "update":
+    case "update": {
       if (!suggestion.targetId) {
         throw new Error("Target course code required for update");
       }
@@ -199,8 +204,9 @@ async function applyCourseSuggestion(suggestion: CourseSuggestion): Promise<Appl
         rollbackable: true,
         rollbackId: `${suggestion.targetId}_${Date.now()}`,
       };
+    }
 
-    case "delete":
+    case "delete": {
       if (!suggestion.targetId) {
         throw new Error("Target course code required for delete");
       }
@@ -223,6 +229,7 @@ async function applyCourseSuggestion(suggestion: CourseSuggestion): Promise<Appl
         rollbackable: true,
         rollbackId: suggestion.targetId,
       };
+    }
 
     default:
       throw new Error(`Unknown operation: ${suggestion.operation}`);
@@ -238,13 +245,19 @@ async function applyCourseSuggestion(suggestion: CourseSuggestion): Promise<Appl
 
 /**
  * Apply Discord server suggestions
+ * @param {DiscordServerSuggestion} suggestion - The Discord server suggestion to apply
+ * @return {Promise<ApplicationResult>} The result of applying the suggestion
  */
-async function applyDiscordSuggestion(suggestion: DiscordServerSuggestion): Promise<ApplicationResult> {
+async function applyDiscordSuggestion(
+  suggestion: DiscordServerSuggestion
+): Promise<ApplicationResult> {
   try {
     switch (suggestion.operation) {
-    case "add":
+    case "add": {
       // Extract server ID from invite URL
-      const inviteMatch = suggestion.data.inviteUrl.match(/(?:discord\.gg|discord\.com\/invite)\/([a-zA-Z0-9]+)/);
+      const inviteMatch = suggestion.data.inviteUrl.match(
+        /(?:discord\.gg|discord\.com\/invite)\/([a-zA-Z0-9]+)/
+      );
       if (!inviteMatch) {
         throw new Error("Invalid Discord invite URL");
       }
@@ -287,8 +300,9 @@ async function applyDiscordSuggestion(suggestion: DiscordServerSuggestion): Prom
         rollbackable: true,
         rollbackId: serverId,
       };
+    }
 
-    case "update":
+    case "update": {
       if (!suggestion.targetId) {
         throw new Error("Target server ID required for update");
       }
@@ -325,8 +339,9 @@ async function applyDiscordSuggestion(suggestion: DiscordServerSuggestion): Prom
         rollbackable: true,
         rollbackId: `${suggestion.targetId}_${Date.now()}`,
       };
+    }
 
-    case "delete":
+    case "delete": {
       if (!suggestion.targetId) {
         throw new Error("Target server ID required for delete");
       }
@@ -344,6 +359,7 @@ async function applyDiscordSuggestion(suggestion: DiscordServerSuggestion): Prom
         rollbackable: true,
         rollbackId: suggestion.targetId,
       };
+    }
 
     default:
       throw new Error(`Unknown operation: ${suggestion.operation}`);
@@ -359,13 +375,19 @@ async function applyDiscordSuggestion(suggestion: DiscordServerSuggestion): Prom
 
 /**
  * Apply Reddit community suggestions
+ * @param {RedditCommunitySuggestion} suggestion - The Reddit community suggestion to apply
+ * @return {Promise<ApplicationResult>} The result of applying the suggestion
  */
-async function applyRedditSuggestion(suggestion: RedditCommunitySuggestion): Promise<ApplicationResult> {
-  const redditRef = defaultDb.collection(COLLECTIONS.REDDIT_COMMUNITIES).doc(suggestion.data.subredditName);
+async function applyRedditSuggestion(
+  suggestion: RedditCommunitySuggestion
+): Promise<ApplicationResult> {
+  const redditRef = defaultDb
+    .collection(COLLECTIONS.REDDIT_COMMUNITIES)
+    .doc(suggestion.data.subredditName);
 
   try {
     switch (suggestion.operation) {
-    case "add":
+    case "add": {
       const existing = await redditRef.get();
       if (existing.exists) {
         throw new Error("Reddit community already exists");
@@ -391,10 +413,13 @@ async function applyRedditSuggestion(suggestion: RedditCommunitySuggestion): Pro
 
       return {
         success: true,
-        appliedChanges: [`Created Reddit community r/${suggestion.data.subredditName}`],
+        appliedChanges: [
+          `Created Reddit community r/${suggestion.data.subredditName}`,
+        ],
         rollbackable: true,
         rollbackId: suggestion.data.subredditName,
       };
+    }
 
     case "update":
     case "delete":
@@ -421,8 +446,12 @@ async function applyRedditSuggestion(suggestion: RedditCommunitySuggestion): Pro
 
 /**
  * Apply community mapping suggestions
+ * @param {CommunityMappingSuggestion} suggestion - The community mapping suggestion to apply
+ * @return {Promise<ApplicationResult>} The result of applying the suggestion
  */
-async function applyCommunityMapping(suggestion: CommunityMappingSuggestion): Promise<ApplicationResult> {
+async function applyCommunityMapping(
+  suggestion: CommunityMappingSuggestion
+): Promise<ApplicationResult> {
   const mappingRef = defaultDb
     .collection(COLLECTIONS.COURSE_MAPPINGS)
     .doc(suggestion.data.courseCode);
@@ -453,7 +482,7 @@ async function applyCommunityMapping(suggestion: CommunityMappingSuggestion): Pr
     };
 
     switch (suggestion.data.action) {
-    case "add":
+    case "add": {
       // Check if already mapped
       const existingIndex = mapping.communities.all.findIndex(
         (c) => c.type === communityEntry.type && c.id === communityEntry.id
@@ -477,6 +506,7 @@ async function applyCommunityMapping(suggestion: CommunityMappingSuggestion): Pr
         };
       }
       break;
+    }
 
     case "remove":
       mapping.communities.all = mapping.communities.all.filter(
@@ -496,7 +526,7 @@ async function applyCommunityMapping(suggestion: CommunityMappingSuggestion): Pr
       }
       break;
 
-    case "update":
+    case "update": {
       const updateIndex = mapping.communities.all.findIndex(
         (c) => c.type === communityEntry.type && c.id === communityEntry.id
       );
@@ -506,15 +536,20 @@ async function applyCommunityMapping(suggestion: CommunityMappingSuggestion): Pr
       }
       break;
     }
+    }
 
     mapping.lastUpdated = new Date();
     await mappingRef.set(mapping);
 
     return {
       success: true,
-      appliedChanges: [`${suggestion.data.action} ${suggestion.data.community.type} mapping for ${suggestion.data.courseCode}`],
+      appliedChanges: [
+        `${suggestion.data.action} ${suggestion.data.community.type} ` +
+        `mapping for ${suggestion.data.courseCode}`,
+      ],
       rollbackable: true,
-      rollbackId: `${suggestion.data.courseCode}_${suggestion.data.community.id}_${Date.now()}`,
+      rollbackId:
+        `${suggestion.data.courseCode}_${suggestion.data.community.id}_${Date.now()}`,
     };
   } catch (error: any) {
     return {
@@ -527,6 +562,9 @@ async function applyCommunityMapping(suggestion: CommunityMappingSuggestion): Pr
 
 /**
  * Rollback an applied suggestion
+ * @param {string} suggestionId - The ID of the suggestion to rollback
+ * @param {string} rollbackId - The rollback identifier for the operation
+ * @return {Promise<Object>} The rollback operation result
  */
 export async function rollbackSuggestion(
   suggestionId: string,

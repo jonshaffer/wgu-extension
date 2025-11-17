@@ -55,7 +55,7 @@ export function CommunitiesPanel({
         } else {
           // Legacy mode - try to load from static data
           const { unifiedData } = await loadCommunityData();
-          const mapping = (unifiedData?.courseMappings || []).find((m: any) => (m.courseCode || '').toLowerCase() === courseCode.toLowerCase());
+          const mapping = (unifiedData?.courseMappings || []).find((m: any) => (m.courseCode || '').toLowerCase() === courseCode.toLowerCase()) as any;
           if (mapping) {
             setCourseData({
               discord: mapping.discord || [],

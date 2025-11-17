@@ -25,30 +25,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.14.0
+
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'npm'
-          cache-dependency-path: 'site/package-lock.json'
-      
+          cache: 'pnpm'
+
       - name: Install dependencies
-        run: |
-          npm ci --workspace=data
-          npm ci --workspace=functions
-          npm ci --workspace=graphql-client
-          npm ci --workspace=extension
-          npm ci --workspace=site
-      
-      - name: Build functions (required for site imports)
-        run: npm run build --workspace=functions
-      
+        run: pnpm install --frozen-lockfile
+
+      - name: Build required packages
+        run: pnpm run build:libs
+
       - name: Type check
-        run: npm run typecheck
+        run: pnpm run typecheck
         working-directory: site
-      
+
       - name: Test build
-        run: npm run build
+        run: pnpm run build
         working-directory: site
 
   build-preview:
@@ -57,26 +55,24 @@ jobs:
     needs: test
     steps:
       - uses: actions/checkout@v4
-      
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.14.0
+
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'npm'
-          cache-dependency-path: 'site/package-lock.json'
-      
+          cache: 'pnpm'
+
       - name: Install dependencies
-        run: |
-          npm ci --workspace=data
-          npm ci --workspace=functions
-          npm ci --workspace=graphql-client
-          npm ci --workspace=extension
-          npm ci --workspace=site
-      
-      - name: Build functions (required for site imports)
-        run: npm run build --workspace=functions
-      
+        run: pnpm install --frozen-lockfile
+
+      - name: Build required packages
+        run: pnpm run build:libs
+
       - name: Build preview
-        run: npm run build
+        run: pnpm run build
         working-directory: site
         
       - name: Upload preview artifacts
@@ -92,26 +88,34 @@ jobs:
     needs: test
     steps:
       - uses: actions/checkout@v4
-      
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.14.0
+
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'npm'
-          cache-dependency-path: 'site/package-lock.json'
-      
+          cache: 'pnpm'
+
       - name: Install dependencies
         run: |
-          npm ci --workspace=data
-          npm ci --workspace=functions
-          npm ci --workspace=graphql-client
-          npm ci --workspace=extension
-          npm ci --workspace=site
-      
-      - name: Build functions (required for site imports)
-        run: npm run build --workspace=functions
-      
+          # Ensure optional dependencies are installed for CI environment
+          pnpm install --frozen-lockfile
+          # Rebuild lightningcss for correct platform (proven community solution)
+          pnpm rebuild lightningcss --build-from-source --verbose
+          # Force install platform-specific binaries at root level (for pnpm workspaces)
+          pnpm add @tailwindcss/oxide-linux-x64-gnu --save-dev --workspace-root
+          pnpm add lightningcss-linux-x64-gnu --save-dev --workspace-root
+          pnpm add @esbuild/linux-x64 --save-dev --workspace-root
+          # Rebuild workspace-specific dependencies with platform targeting
+          pnpm --filter=site rebuild lightningcss --build-from-source --verbose || true
+
+      - name: Build required packages
+        run: pnpm run build:libs
+
       - name: Build production
-        run: npm run build
+        run: pnpm run build
         working-directory: site
         
       - name: Upload production artifacts

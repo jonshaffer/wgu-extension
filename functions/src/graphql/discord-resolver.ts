@@ -1,5 +1,5 @@
 import {searchCommunities, getTrendingCommunities} from "../lib/data-queries.js";
-import {db} from "../lib/firebase.js";
+import {defaultDb as db} from "../lib/firebase-admin-db.js";
 import {DiscordServer} from "../lib/data-model.js";
 
 interface DiscordServersArgs {
@@ -37,7 +37,10 @@ export async function discordServersResolver(
       return serverDocs
         .filter((doc) => doc.exists)
         .map((doc) => {
-          const data = doc.data()!;
+          const data = doc.data();
+          if (!data) {
+            throw new Error(`No data found for Discord server: ${doc.id}`);
+          }
           return {
             id: doc.id,
             name: data.name,

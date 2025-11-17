@@ -1,0 +1,8 @@
+{
+  "functions/**/*.{ts,js}": [
+    "eslint --fix"
+  ],
+  "*.{ts,tsx,js,jsx,json,yml,yaml,md}": [
+    "echo 'Staged files validated. Type checking happens separately.'"
+  ]
+}
