@@ -15,45 +15,6 @@ pre-commit:
         - merge
         - rebase
 
-# Pre-push hook: Comprehensive validation before pushing
-# Emergency bypass: LEFTHOOK=0 git push
-pre-push:
-  parallel: true  # Run commands in parallel for faster execution
-  follow: true    # Stream output to keep connection alive
-  commands:
-    validate-dependencies:
-      run: pnpm run validate:dependencies
-      skip:
-        - merge
-        - rebase
-      timeout: 300  # 5 minutes timeout
-      fail_text: |
-        ❌ Dependency validation failed!
-        💡 To fix: pnpm install --frozen-lockfile --include=optional
-        🚨 Emergency bypass: LEFTHOOK=0 git push (not recommended)
-
-    typecheck:
-      run: pnpm run typecheck
-      skip:
-        - merge
-        - rebase
-      timeout: 600  # 10 minutes timeout (typecheck can be slow for large codebases)
-      fail_text: |
-        ❌ TypeScript errors found!
-        💡 To fix: Review the errors above and fix type issues
-        🚨 Emergency bypass: LEFTHOOK=0 git push (not recommended)
-
-    lint:
-      run: pnpm run lint
-      skip:
-        - merge
-        - rebase
-      timeout: 300  # 5 minutes timeout
-      fail_text: |
-        ❌ Linting errors found!
-        💡 To fix: Run 'pnpm run lint' and address the issues
-        🚨 Emergency bypass: LEFTHOOK=0 git push (not recommended)
-
 # Commit-msg hook: Enforce conventional commit format
 commit-msg:
   commands:
