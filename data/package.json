@@ -74,6 +74,7 @@
     "upload:all": "pnpm run upload:academic-registry && pnpm run upload:wgu-student-groups",
     "verify:firestore": "tsx scripts/verify-firestore-data.ts",
     "typecheck": "tsc --noEmit",
+    "lint": "eslint . --ext .ts,.js --fix",
     "types:clean": "rm -rf types/dist",
     "types:build:esm": "tsc -p types/tsconfig.json",
     "types:build": "pnpm run types:clean && pnpm run types:build:esm && cp types/src/canonical-raw.d.ts types/dist/canonical-raw.d.ts",
@@ -91,6 +92,11 @@
   "devDependencies": {
     "@types/jsdom": "^21.1.7",
     "@types/node": "^22.14.1",
+    "@typescript-eslint/eslint-plugin": "^8.46.2",
+    "@typescript-eslint/parser": "^8.46.2",
+    "eslint": "^8.57.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
     "jsdom": "^26.1.0",
     "tsx": "^4.20.3",
     "typescript": "^5.8.3"
