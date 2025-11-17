@@ -18,7 +18,8 @@ pre-commit:
 # Pre-push hook: Comprehensive validation before pushing
 # Emergency bypass: LEFTHOOK=0 git push
 pre-push:
-  parallel: false
+  parallel: true  # Run commands in parallel for faster execution
+  follow: true    # Stream output to keep connection alive
   commands:
     validate-dependencies:
       run: pnpm run validate:dependencies
