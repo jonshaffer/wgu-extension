@@ -10,6 +10,6 @@ module.exports = {
     "/lib/**/*", // Ignore built files.
     "/generated/**/*", // Ignore generated files.
     "/scripts/**/*", // Scripts have their own eslint config
-    ".eslintrc.js", // Ignore eslint config files
+    ".eslintrc.cjs", // Ignore eslint config files
   ],
 };
