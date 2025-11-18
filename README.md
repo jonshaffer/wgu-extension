@@ -16,9 +16,26 @@ This project follows [GitHub Spec Kit](https://github.com/github/spec-kit) princ
 - **📋 [Feature Specifications](.specify/features/)** - Detailed specifications for major features:
   - [Community Data Integration](.specify/features/community-data-integration.md)
   - [Course Enhancement](.specify/features/course-enhancement.md)
-  - [Search Functionality](.specify/features/search-functionality.md) 
+  - [Search Functionality](.specify/features/search-functionality.md)
   - [Data Processing Pipeline](.specify/features/data-processing-pipeline.md)
 - **📝 [Templates](.specify/templates/)** - Templates for new specifications and decisions
+
+## 📚 Documentation
+
+### Release & Deployment
+- **[Release Strategy Guide](docs/RELEASE-STRATEGY.md)** - Comprehensive release workflows, platform requirements, store submission process, and emergency procedures
+- **[Deployment Runbook](docs/DEPLOYMENT-RUNBOOK.md)** - Step-by-step deployment procedures for all components
+- **[Release Management](docs/RELEASES.md)** - Quick reference for conventional commits and release process
+
+### Architecture & Development
+- **[Architecture Overview](docs/ARCHITECTURE.md)** - System design, data flow, and component interactions
+- **[CI/CD Troubleshooting](docs/CI-TROUBLESHOOTING.md)** - Common CI/CD issues and solutions
+- **[DVC Setup Guide](docs/DVC_SETUP.md)** - Data Version Control configuration
+
+### Workspace Documentation
+- [Extension README](extension/README.md) - Browser extension development
+- [Functions README](functions/README.md) - Firebase Functions & GraphQL API
+- [Site README](site/README.md) - Documentation website
 
 ## 🚀 Quick Start
 
