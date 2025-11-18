@@ -93,12 +93,46 @@ jobs:
           fi
           cd data && pnpm publish --access public --no-git-checks
 
-  # Automatically submit to extension stores when a release is created
+  publish-graphql-client:
+    runs-on: ubuntu-latest
+    needs: release-please
+    if: ${{ needs.release-please.outputs.release_created }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.14.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build graphql-client
+        run: pnpm --filter=graphql-client run build
+
+      - name: Publish @wgu-extension/graphql-client to npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          VERSION=$(node -p "require('./graphql-client/package.json').version")
+          if npm view @wgu-extension/graphql-client@"${VERSION}" version >/dev/null 2>&1; then
+            echo "Version ${VERSION} already published; skipping."
+            exit 0
+          fi
+          cd graphql-client && pnpm publish --access public --no-git-checks
+
+  # Automatically submit to extension stores when a release is created (with approval gate)
   store-submission:
     runs-on: ubuntu-latest
     needs: [release-please, build-release]
     if: ${{ needs.release-please.outputs.release_created }}
-    environment: production # Use environment protection for store secrets
+    environment: store-submission # Use environment protection for store secrets
     steps:
       - uses: actions/checkout@v4
 
@@ -164,3 +198,98 @@ jobs:
           EDGE_CLIENT_ID: ${{ secrets.EDGE_CLIENT_ID }}
           EDGE_CLIENT_SECRET: ${{ secrets.EDGE_CLIENT_SECRET }}
           EDGE_TENANT_ID: ${{ secrets.EDGE_TENANT_ID }}
+
+  # Deploy Firebase Functions to production (with approval gate)
+  deploy-functions:
+    runs-on: ubuntu-latest
+    needs: release-please
+    if: ${{ needs.release-please.outputs.release_created }}
+    environment: production-firebase # Use environment protection for production deployments
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.14.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Firebase Functions
+        run: pnpm --filter=functions run build
+
+      - name: Deploy to Firebase Functions
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        run: |
+          npm install -g firebase-tools
+          firebase deploy --only functions --project ${{ secrets.FIREBASE_PROJECT_ID }} --token ${{ secrets.FIREBASE_TOKEN }}
+
+      - name: Verify deployment
+        env:
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+        run: |
+          echo "Testing public API health check..."
+          RESPONSE=$(curl -s -X POST \
+            "https://us-central1-${FIREBASE_PROJECT_ID}.cloudfunctions.net/publicApi" \
+            -H "Content-Type: application/json" \
+            -d '{"query": "query { ping }"}')
+          echo "Response: ${RESPONSE}"
+
+          if echo "${RESPONSE}" | grep -q "pong"; then
+            echo "✓ Functions deployment verified successfully"
+          else
+            echo "✗ Functions deployment verification failed"
+            exit 1
+          fi
+
+  # Deploy Firebase Hosting to production (with approval gate)
+  deploy-hosting:
+    runs-on: ubuntu-latest
+    needs: release-please
+    if: ${{ needs.release-please.outputs.release_created }}
+    environment: production-firebase # Use environment protection for production deployments
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.14.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build site
+        run: pnpm --filter=site run build
+
+      - name: Deploy to Firebase Hosting
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        run: |
+          npm install -g firebase-tools
+          firebase deploy --only hosting --project ${{ secrets.FIREBASE_PROJECT_ID }} --token ${{ secrets.FIREBASE_TOKEN }}
+
+      - name: Verify deployment
+        env:
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+        run: |
+          echo "Testing site availability..."
+          STATUS_CODE=$(curl -s -o /dev/null -w "%{http_code}" "https://${FIREBASE_PROJECT_ID}.web.app/")
+          echo "Status code: ${STATUS_CODE}"
+
+          if [ "${STATUS_CODE}" = "200" ]; then
+            echo "✓ Hosting deployment verified successfully"
+          else
+            echo "✗ Hosting deployment verification failed (HTTP ${STATUS_CODE})"
+            exit 1
+          fi
