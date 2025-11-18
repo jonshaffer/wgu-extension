@@ -1,5 +1,5 @@
 module.exports = {
-  extends: "../../.eslintrc.js",
+  extends: "../../.eslintrc.cjs",
   rules: {
     // Relax rules for tests
     "max-len": ["error", { "code": 120 }], // Allow longer lines in tests

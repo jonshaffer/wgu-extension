@@ -1,3 +1,5 @@
+// Shared ESLint base configuration for all workspaces
+// Extend this in workspace-specific .eslintrc.js files
 module.exports = {
   root: true,
   env: {
@@ -14,15 +16,8 @@ module.exports = {
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
-    project: ["tsconfig.json", "tsconfig.dev.json"],
     sourceType: "module",
   },
-  ignorePatterns: [
-    "/lib/**/*", // Ignore built files.
-    "/generated/**/*", // Ignore generated files.
-    "/scripts/**/*", // Scripts have their own eslint config
-    ".eslintrc.js", // Ignore eslint config files
-  ],
   plugins: [
     "@typescript-eslint",
     "import",
@@ -31,21 +26,21 @@ module.exports = {
     "quotes": ["error", "double"],
     "import/no-unresolved": 0,
     "indent": ["error", 2],
-    "max-len": ["error", { "code": 100 }], // Increase from default 80
+    "max-len": ["error", {"code": 100}],
     "require-jsdoc": ["error", {
       "require": {
         "FunctionDeclaration": false,
         "MethodDefinition": false,
         "ClassDeclaration": false,
         "ArrowFunctionExpression": false,
-        "FunctionExpression": false
-      }
+        "FunctionExpression": false,
+      },
     }],
-    // Relaxed rules for gradual migration to stricter typescript-eslint v8
-    "@typescript-eslint/no-explicit-any": "warn", // TODO: Fix any types gradually
+    // Relaxed rules for gradual migration
+    "@typescript-eslint/no-explicit-any": "warn",
     "@typescript-eslint/no-unused-vars": ["warn", {
       "argsIgnorePattern": "^_",
-      "varsIgnorePattern": "^_"
+      "varsIgnorePattern": "^_",
     }],
   },
 };

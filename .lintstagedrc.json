@@ -1,8 +1,20 @@
 {
-  "functions/**/*.{ts,js}": [
-    "bash -c 'cd functions && npx eslint --fix ${@/#functions\\//}' --"
+  "extension/**/*.{ts,tsx}": [
+    "bash -c 'cd extension && npx eslint --fix $(printf \"%s\\n\" \"$@\" | sed \"s:^extension/::\")' --"
   ],
-  "*.{ts,tsx,js,jsx,json,yml,yaml,md}": [
-    "echo 'Staged files validated. Type checking happens separately.'"
+  "site/**/*.{ts,tsx}": [
+    "bash -c 'cd site && npx eslint --fix $(printf \"%s\\n\" \"$@\" | sed \"s:^site/::\")' --"
+  ],
+  "data/**/*.{ts,js}": [
+    "bash -c 'cd data && npx eslint --fix $(printf \"%s\\n\" \"$@\" | sed \"s:^data/::\")' --"
+  ],
+  "graphql-client/**/*.{ts,js}": [
+    "bash -c 'cd graphql-client && npx eslint --fix $(printf \"%s\\n\" \"$@\" | sed \"s:^graphql-client/::\")' --"
+  ],
+  "functions/**/*.{ts,js}": [
+    "bash -c 'cd functions && npx eslint --fix $(printf \"%s\\n\" \"$@\" | sed \"s:^functions/::\")' --"
+  ],
+  "*.{json,yml,yaml,md}": [
+    "echo 'Non-code files validated. Type checking happens separately.'"
   ]
 }
