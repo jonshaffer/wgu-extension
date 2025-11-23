@@ -93,12 +93,46 @@ jobs:
           fi
           cd data && pnpm publish --access public --no-git-checks
 
-  # Automatically submit to extension stores when a release is created
+  publish-graphql-client:
+    runs-on: ubuntu-latest
+    needs: release-please
+    if: ${{ needs.release-please.outputs.release_created }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.14.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build graphql-client
+        run: pnpm --filter=graphql-client run build
+
+      - name: Publish @wgu-extension/graphql-client to npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          VERSION=$(node -p "require('./graphql-client/package.json').version")
+          if npm view @wgu-extension/graphql-client@"${VERSION}" version >/dev/null 2>&1; then
+            echo "Version ${VERSION} already published; skipping."
+            exit 0
+          fi
+          cd graphql-client && pnpm publish --access public --no-git-checks
+
+  # Automatically submit to extension stores when a release is created (with approval gate)
   store-submission:
     runs-on: ubuntu-latest
     needs: [release-please, build-release]
     if: ${{ needs.release-please.outputs.release_created }}
-    environment: production # Use environment protection for store secrets
+    environment: store-submission # Use environment protection for store secrets
     steps:
       - uses: actions/checkout@v4
 
@@ -164,3 +198,126 @@ jobs:
           EDGE_CLIENT_ID: ${{ secrets.EDGE_CLIENT_ID }}
           EDGE_CLIENT_SECRET: ${{ secrets.EDGE_CLIENT_SECRET }}
           EDGE_TENANT_ID: ${{ secrets.EDGE_TENANT_ID }}
+
+  # Deploy Firebase Functions to production (with approval gate)
+  deploy-functions:
+    runs-on: ubuntu-latest
+    needs: release-please
+    if: ${{ needs.release-please.outputs.release_created }}
+    environment: production-firebase # Use environment protection for production deployments
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.14.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Firebase Functions
+        run: pnpm --filter=functions run build
+
+      - name: Deploy to Firebase Functions
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        run: |
+          npx firebase-tools@latest deploy --only functions --project ${{ secrets.FIREBASE_PROJECT_ID }} --token ${{ secrets.FIREBASE_TOKEN }}
+
+      - name: Verify deployment
+        env:
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+        run: |
+          echo "Testing public API health check with retry..."
+          MAX_RETRIES=5
+          DELAY=10
+          ATTEMPT=1
+          SUCCESS=0
+
+          while [ $ATTEMPT -le $MAX_RETRIES ]; do
+            RESPONSE=$(curl -s -X POST \
+              "https://us-central1-${FIREBASE_PROJECT_ID}.cloudfunctions.net/publicApi" \
+              -H "Content-Type: application/json" \
+              -d '{"query": "query { ping }"}')
+            echo "Attempt $ATTEMPT: Response: ${RESPONSE}"
+
+            if echo "${RESPONSE}" | grep -q "pong"; then
+              SUCCESS=1
+              break
+            fi
+
+            echo "No 'pong' response, waiting ${DELAY}s before retry..."
+            sleep $DELAY
+            DELAY=$((DELAY * 2))
+            ATTEMPT=$((ATTEMPT + 1))
+          done
+
+          if [ $SUCCESS -eq 1 ]; then
+            echo "✓ Functions deployment verified successfully"
+          else
+            echo "✗ Functions deployment verification failed after $MAX_RETRIES attempts"
+            exit 1
+          fi
+
+  # Deploy Firebase Hosting to production (with approval gate)
+  deploy-hosting:
+    runs-on: ubuntu-latest
+    needs: release-please
+    if: ${{ needs.release-please.outputs.release_created }}
+    environment: production-firebase # Use environment protection for production deployments
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.14.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build site
+        run: pnpm --filter=site run build
+
+      - name: Deploy to Firebase Hosting
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        run: |
+          npx firebase-tools@latest deploy --only hosting --project ${{ secrets.FIREBASE_PROJECT_ID }} --token ${{ secrets.FIREBASE_TOKEN }}
+
+      - name: Verify deployment
+        env:
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+        run: |
+          echo "Testing site availability with retry for CDN propagation..."
+          MAX_RETRIES=5
+          INITIAL_DELAY=10
+          STATUS_CODE=""
+
+          for i in $(seq 1 $MAX_RETRIES); do
+            STATUS_CODE=$(curl -s -o /dev/null -w "%{http_code}" "https://${FIREBASE_PROJECT_ID}.web.app/")
+            echo "Attempt $i: Status code: ${STATUS_CODE}"
+
+            if [ "${STATUS_CODE}" = "200" ]; then
+              echo "✓ Hosting deployment verified successfully"
+              exit 0
+            fi
+
+            if [ "$i" -lt "$MAX_RETRIES" ]; then
+              SLEEP_TIME=$((INITIAL_DELAY * i))
+              echo "Waiting ${SLEEP_TIME}s before retrying..."
+              sleep ${SLEEP_TIME}
+            fi
+          done
+
+          echo "✗ Hosting deployment verification failed after ${MAX_RETRIES} attempts (last HTTP ${STATUS_CODE})"
+          exit 1
