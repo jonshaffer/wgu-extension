@@ -227,24 +227,40 @@ jobs:
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
         run: |
-          npm install -g firebase-tools
-          firebase deploy --only functions --project ${{ secrets.FIREBASE_PROJECT_ID }} --token ${{ secrets.FIREBASE_TOKEN }}
+          npx firebase-tools@latest deploy --only functions --project ${{ secrets.FIREBASE_PROJECT_ID }} --token ${{ secrets.FIREBASE_TOKEN }}
 
       - name: Verify deployment
         env:
           FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
         run: |
-          echo "Testing public API health check..."
-          RESPONSE=$(curl -s -X POST \
-            "https://us-central1-${FIREBASE_PROJECT_ID}.cloudfunctions.net/publicApi" \
-            -H "Content-Type: application/json" \
-            -d '{"query": "query { ping }"}')
-          echo "Response: ${RESPONSE}"
+          echo "Testing public API health check with retry..."
+          MAX_RETRIES=5
+          DELAY=10
+          ATTEMPT=1
+          SUCCESS=0
 
-          if echo "${RESPONSE}" | grep -q "pong"; then
+          while [ $ATTEMPT -le $MAX_RETRIES ]; do
+            RESPONSE=$(curl -s -X POST \
+              "https://us-central1-${FIREBASE_PROJECT_ID}.cloudfunctions.net/publicApi" \
+              -H "Content-Type: application/json" \
+              -d '{"query": "query { ping }"}')
+            echo "Attempt $ATTEMPT: Response: ${RESPONSE}"
+
+            if echo "${RESPONSE}" | grep -q "pong"; then
+              SUCCESS=1
+              break
+            fi
+
+            echo "No 'pong' response, waiting ${DELAY}s before retry..."
+            sleep $DELAY
+            DELAY=$((DELAY * 2))
+            ATTEMPT=$((ATTEMPT + 1))
+          done
+
+          if [ $SUCCESS -eq 1 ]; then
             echo "✓ Functions deployment verified successfully"
           else
-            echo "✗ Functions deployment verification failed"
+            echo "✗ Functions deployment verification failed after $MAX_RETRIES attempts"
             exit 1
           fi
 
@@ -276,20 +292,32 @@ jobs:
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
         run: |
-          npm install -g firebase-tools
-          firebase deploy --only hosting --project ${{ secrets.FIREBASE_PROJECT_ID }} --token ${{ secrets.FIREBASE_TOKEN }}
+          npx firebase-tools@latest deploy --only hosting --project ${{ secrets.FIREBASE_PROJECT_ID }} --token ${{ secrets.FIREBASE_TOKEN }}
 
       - name: Verify deployment
         env:
           FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
         run: |
-          echo "Testing site availability..."
-          STATUS_CODE=$(curl -s -o /dev/null -w "%{http_code}" "https://${FIREBASE_PROJECT_ID}.web.app/")
-          echo "Status code: ${STATUS_CODE}"
+          echo "Testing site availability with retry for CDN propagation..."
+          MAX_RETRIES=5
+          INITIAL_DELAY=10
+          STATUS_CODE=""
 
-          if [ "${STATUS_CODE}" = "200" ]; then
-            echo "✓ Hosting deployment verified successfully"
-          else
-            echo "✗ Hosting deployment verification failed (HTTP ${STATUS_CODE})"
-            exit 1
-          fi
+          for i in $(seq 1 $MAX_RETRIES); do
+            STATUS_CODE=$(curl -s -o /dev/null -w "%{http_code}" "https://${FIREBASE_PROJECT_ID}.web.app/")
+            echo "Attempt $i: Status code: ${STATUS_CODE}"
+
+            if [ "${STATUS_CODE}" = "200" ]; then
+              echo "✓ Hosting deployment verified successfully"
+              exit 0
+            fi
+
+            if [ "$i" -lt "$MAX_RETRIES" ]; then
+              SLEEP_TIME=$((INITIAL_DELAY * i))
+              echo "Waiting ${SLEEP_TIME}s before retrying..."
+              sleep ${SLEEP_TIME}
+            fi
+          done
+
+          echo "✗ Hosting deployment verification failed after ${MAX_RETRIES} attempts (last HTTP ${STATUS_CODE})"
+          exit 1

@@ -10,7 +10,7 @@ pre-commit:
   commands:
     lint-staged:
       glob: "*.{ts,tsx,js,jsx,json,md}"
-      run: npx lint-staged
+      run: pnpm exec lint-staged
       skip:
         - merge
         - rebase
