@@ -301,8 +301,8 @@ importers:
         version: 5.9.3
     optionalDependencies:
       dotenv:
-        specifier: ^16.4.5
-        version: 16.6.1
+        specifier: ^17.2.3
+        version: 17.2.3
 
   graphql-client:
     dependencies:

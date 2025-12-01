@@ -104,6 +104,6 @@
     "typescript": "^5.8.3"
   },
   "optionalDependencies": {
-    "dotenv": "^16.4.5"
+    "dotenv": "^17.2.3"
   }
 }
