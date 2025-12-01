@@ -49,7 +49,7 @@
     "@tailwindcss/vite": "^4.1.16",
     "@types/lodash": "^4.17.20",
     "@types/node": "^20",
-    "@types/react": "^19.1.2",
+    "@types/react": "^19.2.7",
     "@types/react-dom": "^19.1.2",
     "@typescript-eslint/eslint-plugin": "^8.46.2",
     "@typescript-eslint/parser": "^8.46.2",
