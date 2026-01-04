@@ -124,6 +124,12 @@ find_feature_dir_by_prefix() {
     fi
 }
 
+# Escape single quotes for safe shell assignment
+# Converts ' to '\'' which safely breaks out of single quotes
+escape_for_shell() {
+    printf '%s' "$1" | sed "s/'/'\\\\''/g"
+}
+
 get_feature_paths() {
     local repo_root=$(get_repo_root)
     local current_branch=$(get_current_branch)
@@ -136,19 +142,37 @@ get_feature_paths() {
     # Use prefix-based lookup to support multiple branches per spec
     local feature_dir=$(find_feature_dir_by_prefix "$repo_root" "$current_branch")
 
-    cat <<EOF
-REPO_ROOT='$repo_root'
-CURRENT_BRANCH='$current_branch'
-HAS_GIT='$has_git_repo'
-FEATURE_DIR='$feature_dir'
-FEATURE_SPEC='$feature_dir/spec.md'
-IMPL_PLAN='$feature_dir/plan.md'
-TASKS='$feature_dir/tasks.md'
-RESEARCH='$feature_dir/research.md'
-DATA_MODEL='$feature_dir/data-model.md'
-QUICKSTART='$feature_dir/quickstart.md'
-CONTRACTS_DIR='$feature_dir/contracts'
-EOF
+    # Output with properly escaped values to prevent command injection
+    printf "REPO_ROOT='%s'\n" "$(escape_for_shell "$repo_root")"
+    printf "CURRENT_BRANCH='%s'\n" "$(escape_for_shell "$current_branch")"
+    printf "HAS_GIT='%s'\n" "$(escape_for_shell "$has_git_repo")"
+    printf "FEATURE_DIR='%s'\n" "$(escape_for_shell "$feature_dir")"
+    printf "FEATURE_SPEC='%s'\n" "$(escape_for_shell "$feature_dir/spec.md")"
+    printf "IMPL_PLAN='%s'\n" "$(escape_for_shell "$feature_dir/plan.md")"
+    printf "TASKS='%s'\n" "$(escape_for_shell "$feature_dir/tasks.md")"
+    printf "RESEARCH='%s'\n" "$(escape_for_shell "$feature_dir/research.md")"
+    printf "DATA_MODEL='%s'\n" "$(escape_for_shell "$feature_dir/data-model.md")"
+    printf "QUICKSTART='%s'\n" "$(escape_for_shell "$feature_dir/quickstart.md")"
+    printf "CONTRACTS_DIR='%s'\n" "$(escape_for_shell "$feature_dir/contracts")"
+}
+
+# Safe parser for get_feature_paths output that doesn't use eval
+# Sets variables: REPO_ROOT, CURRENT_BRANCH, HAS_GIT, FEATURE_DIR, FEATURE_SPEC,
+#                 IMPL_PLAN, TASKS, RESEARCH, DATA_MODEL, QUICKSTART, CONTRACTS_DIR
+parse_feature_paths() {
+    local line key value
+    while IFS= read -r line; do
+        [[ -z "$line" ]] && continue
+        key="${line%%=*}"
+        value="${line#*=}"
+        # Strip surrounding single quotes
+        value="${value#\'}"
+        value="${value%\'}"
+        # Unescape single quotes (convert '\'' back to ')
+        value="${value//\'\\\'\'/\'}"
+        # Safely assign to variable without eval
+        printf -v "$key" '%s' "$value"
+    done < <(get_feature_paths)
 }
 
 check_file() { [[ -f "$1" ]] && echo "  ✓ $2" || echo "  ✗ $2"; }

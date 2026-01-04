@@ -171,6 +171,6 @@ This constitution supersedes all other development practices. When in conflict, 
 For development guidance beyond this constitution, refer to:
 - `CLAUDE.md` for detailed development instructions
 - `.specify/templates/` for specification templates
-- `.specify/features/` for feature specifications
+- `specs/` for feature specifications
 
 **Version**: 1.0.0 | **Ratified**: 2025-01-03 | **Last Amended**: 2025-01-03

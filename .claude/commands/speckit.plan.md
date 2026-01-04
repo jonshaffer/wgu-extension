@@ -75,8 +75,8 @@ You **MUST** consider the user input before proceeding (if not empty).
    - Output OpenAPI/GraphQL schema to `/contracts/`
 
 3. **Agent context update**:
-   - Run `.specify/scripts/bash/update-agent-context.sh claude`
-   - These scripts detect which AI agent is in use
+   - Run `.specify/scripts/bash/update-agent-context.sh` (updates all existing agent files, or creates Claude file if none exist)
+   - The script detects which AI agent files exist
    - Update the appropriate agent-specific context file
    - Add only new technology from current plan
    - Preserve manual additions between markers
