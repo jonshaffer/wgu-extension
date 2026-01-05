@@ -1,161 +1,176 @@
-# WGU Extension Project Constitution
+<!--
+SYNC IMPACT REPORT
+==================
+Version change: N/A (template) → 1.0.0 (initial)
 
-## Mission Statement
+Modified principles: N/A (initial creation)
+- [PRINCIPLE_1_NAME] → I. User Privacy First
+- [PRINCIPLE_2_NAME] → II. Type Safety
+- [PRINCIPLE_3_NAME] → III. Minimal Permissions
+- [PRINCIPLE_4_NAME] → IV. Test-First Validation
+- [PRINCIPLE_5_NAME] → V. Simplicity & YAGNI
 
-The WGU Extension exists to enhance the educational experience of Western Governors University students by providing easy access to community resources, study groups, and collaborative learning opportunities through a privacy-respecting browser extension.
+Added sections:
+- Development Workflow (from template SECTION_2)
+- Security Requirements (from template SECTION_3)
+
+Removed sections: None
+
+Templates requiring updates:
+- .specify/templates/plan-template.md ✅ (Constitution Check section compatible)
+- .specify/templates/spec-template.md ✅ (Requirements sections compatible)
+- .specify/templates/tasks-template.md ✅ (Task organization compatible)
+
+Follow-up TODOs: None
+-->
+
+# WGU Extension Constitution
 
 ## Core Principles
 
-### 1. Student Privacy First
-- **No Personal Data Collection**: We collect only public community information
-- **Minimal Permissions**: Extension requests only necessary browser permissions for WGU domains
-- **Transparent Data Usage**: All data sources and processing are documented and open-source
-- **Security by Design**: Implement Content Security Policy, secure storage, and input sanitization
+### I. User Privacy First
 
-### 2. Code Quality Standards
+The extension MUST protect user privacy at all times:
 
-#### TypeScript Excellence
-- **Strict Mode Required**: All TypeScript must use strict compiler settings
-- **Explicit Types**: No `any` types; prefer specific interfaces and union types
-- **Type Safety**: Types must flow from backend → GraphQL client → consumers
-- **Runtime Validation**: Use Zod schemas for data validation at boundaries
+- Only collect public community information (server metadata, subreddit data)
+- NEVER collect personal data from Discord users or Reddit members
+- NEVER store or transmit user credentials or session tokens
+- Discord extraction is limited to server metadata, not user content
+- Reddit extraction is limited to public subreddit data only
 
-#### React Development
-- **Functional Components**: Use functional components with hooks exclusively
-- **Custom Hooks**: Extract business logic into reusable custom hooks
-- **Performance**: Minimize re-renders through proper memoization and dependency arrays
-- **Accessibility**: All UI components must meet WCAG 2.1 AA standards
+**Rationale**: Users trust the extension to enhance their WGU experience without compromising their privacy. Collecting only public community data ensures we provide value without overreach.
 
-#### Testing Requirements
-- **Data Validation**: All data schemas must have validation tests
-- **Manual Testing**: Extension features require browser testing with dev builds
-- **Integration Tests**: Firebase Functions require emulator testing
-- **Type Checking**: All code must pass TypeScript strict mode compilation
+### II. Type Safety
 
-### 3. User Experience Consistency
+All code MUST maintain strict type safety:
 
-#### Design System
-- **Radix UI Primitives**: Use Radix UI for accessible, unstyled components
-- **Tailwind CSS**: Utilize Tailwind for consistent styling across all interfaces
-- **Design Tokens**: Maintain consistent colors, spacing, and typography
-- **Responsive Design**: All interfaces must work on mobile and desktop
+- TypeScript strict mode enabled across all workspaces
+- Explicit types required; `any` type is prohibited
+- JSON Schema validation with runtime type guards for external data
+- Type definitions flow from functions → graphql-client → consumers
+- Zod schemas for runtime validation of external inputs
 
-#### Information Architecture
-- **Progressive Disclosure**: Surface most relevant information first
-- **Clear Navigation**: Users should always know where they are and how to get back
-- **Loading States**: Provide feedback during data fetching and processing
-- **Error Handling**: Display helpful error messages with recovery actions
+**Rationale**: Type safety prevents runtime errors and ensures data integrity across the monorepo boundaries. The GraphQL type flow ensures API contracts are enforced at compile time.
 
-### 4. Performance Standards
+### III. Minimal Permissions
 
-#### Bundle Optimization
-- **Extension Size**: Keep extension bundle under 5MB for fast loading
-- **Code Splitting**: Use dynamic imports for non-critical functionality
-- **Asset Optimization**: Compress images and minimize static assets
-- **GraphQL Efficiency**: Use persisted queries and client-side caching
+The extension MUST request only necessary permissions:
 
-#### Data Processing
-- **Streaming**: Process large data files in streams to avoid memory issues
-- **Batch Operations**: Group database operations to minimize round trips
-- **Caching Strategy**: Cache frequently accessed data with appropriate TTL
-- **Rate Limiting**: Respect external API limits and implement graceful degradation
+- Request access only to WGU domains (`*.wgu.edu`)
+- Content Security Policy strictly enforced in manifest
+- Use extension storage APIs exclusively (not localStorage or web storage)
+- API endpoints implement rate limiting and CORS restrictions
+- Host permissions limited to required external resources only
 
-### 5. Security Requirements
+**Rationale**: Minimal permissions reduce attack surface and build user trust. Users should be confident the extension cannot access data outside its stated purpose.
 
-#### Extension Security
-- **Content Security Policy**: Enforce strict CSP in manifest.json
-- **Input Sanitization**: Sanitize all user inputs and external data
-- **Storage Isolation**: Use extension storage APIs, never web storage
-- **Origin Validation**: Verify data sources and reject untrusted content
+### IV. Test-First Validation
 
-#### API Security  
-- **Authentication**: Secure admin functions with proper authentication
-- **Rate Limiting**: Implement request throttling on all endpoints
-- **Data Validation**: Validate all inputs against schemas
-- **Error Disclosure**: Never expose internal system details in error messages
+All data and code changes MUST be validated before integration:
 
-### 6. Development Workflow
+- Data validation MUST occur before ingestion to Firestore
+- JSON Schema validation for all community data sources
+- CI/CD pipelines validate data integrity on every PR
+- Type checking runs before commits via lefthook pre-commit hooks
+- GraphQL persisted queries ensure only whitelisted operations execute
 
-#### Monorepo Standards
-- **Workspace Isolation**: Each workspace must be independently buildable
-- **Shared Types**: Use npm packages for type sharing between workspaces
-- **Cross-Workspace Scripts**: Coordinate builds and deployments through root package.json
-- **Dependency Management**: Keep dependencies up-to-date and minimize duplication
+**Rationale**: Validation at every stage prevents bad data from propagating through the system and ensures the extension delivers accurate information to users.
 
-#### Git Practices
-- **Conventional Commits**: Use conventional commit format for automated releases
-- **Feature Branches**: Develop features in isolated branches
-- **Pull Request Reviews**: All changes require review before merging
-- **Automated Testing**: CI must pass before merge approval
+### V. Simplicity & YAGNI
 
-#### Documentation Standards
-- **Specification-First**: Create feature specifications before implementation
-- **Living Documentation**: Keep documentation current with code changes
-- **AI Agent Instructions**: Maintain clear CLAUDE.md files for AI assistance
-- **API Documentation**: Document all endpoints and GraphQL schemas
+Development MUST follow simplicity principles:
 
-## Technical Decision Making
+- Avoid over-engineering; only implement what is directly requested
+- Keep solutions simple and focused on the current requirement
+- Do not add features, refactoring, or "improvements" beyond scope
+- Do not add error handling for scenarios that cannot occur
+- Prefer editing existing files over creating new ones
+- Three similar lines of code is better than a premature abstraction
 
-### Architecture Decisions
-1. **Research Phase**: Analyze existing patterns and external best practices
-2. **Specification**: Document the "what" and "why" before the "how"
-3. **Prototyping**: Build minimal viable implementation to validate approach
-4. **Review**: Team review of both specification and implementation
-5. **Documentation**: Update relevant docs and share learnings
+**Rationale**: Simple code is easier to understand, maintain, and debug. YAGNI (You Aren't Gonna Need It) prevents accumulation of unused code and unnecessary complexity.
 
-### Technology Adoption
-- **Proven Technologies**: Prefer established, well-documented technologies
-- **Bundle Impact**: Consider size and performance impact of new dependencies
-- **Maintenance Burden**: Evaluate long-term maintenance requirements
-- **Community Support**: Choose technologies with active communities
+## Development Workflow
 
-### Breaking Changes
-- **Migration Path**: Always provide clear upgrade path for breaking changes
-- **Deprecation Period**: Give users time to adapt to changes
-- **Backwards Compatibility**: Maintain compatibility when possible
-- **Communication**: Clearly communicate changes and timelines
+### Code Quality Gates
 
-## Quality Gates
+All contributions MUST pass these gates before merge:
 
-### Pre-Commit Requirements
-- [ ] TypeScript compilation passes with no errors
-- [ ] ESLint passes with no violations
-- [ ] Data validation tests pass
-- [ ] No secrets or personal data in commit
+1. **Type Check**: `pnpm run typecheck` passes across all workspaces
+2. **Lint**: `pnpm run lint` passes with no errors
+3. **Build**: Production builds complete without errors
+4. **Data Validation**: Community data passes schema validation
 
-### Pre-Merge Requirements
-- [ ] All automated tests pass
-- [ ] Code review completed
-- [ ] Documentation updated
-- [ ] Feature specification exists (for new features)
+### Monorepo Structure
 
-### Pre-Release Requirements
-- [ ] Manual testing completed
-- [ ] Performance benchmarks met
-- [ ] Security review completed
-- [ ] Release notes prepared
+The project uses pnpm workspaces with clear boundaries:
 
-## Continuous Improvement
+- **extension/**: Browser extension (WXT framework, React, Tailwind)
+- **functions/**: Firebase Cloud Functions (GraphQL API)
+- **site/**: Public documentation website (React Router)
+- **data/**: Community data collection and processing
+- **graphql-client/**: Shared GraphQL client library
 
-### Learning Culture
-- **Knowledge Sharing**: Document and share technical discoveries
-- **Post-Mortems**: Learn from issues without blame
-- **Experimentation**: Encourage trying new approaches in non-critical areas
-- **Feedback Integration**: Actively seek and incorporate user feedback
+Cross-workspace dependencies MUST be explicit in package.json and types MUST flow correctly through the dependency graph.
 
-### Technical Debt Management
-- **Regular Audits**: Quarterly review of technical debt
-- **Incremental Improvement**: Address tech debt in regular development cycles
-- **Refactoring Budget**: Allocate time for code quality improvements
-- **Dependency Updates**: Keep dependencies current and secure
+### Commit Standards
 
-## Enforcement
+Follow conventional commits for all changes:
 
-This constitution guides all technical decisions. When in doubt:
+- `feat:` New features
+- `fix:` Bug fixes
+- `docs:` Documentation only
+- `chore:` Maintenance tasks
+- `refactor:` Code restructuring
 
-1. **Consult this document** for established principles
-2. **Discuss with team** for interpretation questions
-3. **Update constitution** if new patterns emerge
-4. **Document decisions** to help future contributors
+## Security Requirements
 
-The constitution evolves with the project but changes require team consensus and clear justification.
+### Sensitive Data Protection
+
+- NEVER commit `.env` files or API keys
+- NEVER expose Firebase service account keys
+- NEVER include user personal data in commits
+- Store secrets in GitHub Secrets for CI/CD
+- Use Firebase Config for runtime secrets
+
+### Extension Security
+
+- Content Security Policy enforced in manifest
+- No dynamic code execution or inline scripts
+- Sanitize all user inputs before processing
+- Extension permissions documented in manifest.json
+
+### API Security
+
+- GraphQL endpoints use persisted queries only (allowlist.json)
+- CORS restrictions limit origins for function endpoints
+- Rate limiting implemented on all public endpoints
+- Firebase security rules protect Firestore access
+
+## Governance
+
+This constitution supersedes all other development practices. When in conflict, constitution principles take precedence.
+
+### Amendment Process
+
+1. Proposed amendments MUST be documented in a PR
+2. Changes require review and approval
+3. Version MUST be incremented following semver:
+   - MAJOR: Backward-incompatible principle changes
+   - MINOR: New principles or expanded guidance
+   - PATCH: Clarifications and wording fixes
+4. Last Amended date MUST be updated
+
+### Compliance Review
+
+- All PRs MUST verify compliance with these principles
+- Code reviewers SHOULD reference constitution principles when requesting changes
+- Complexity beyond these principles MUST be justified in PR description
+
+### Runtime Guidance
+
+For development guidance beyond this constitution, refer to:
+- `CLAUDE.md` for detailed development instructions
+- `.specify/templates/` for specification templates
+- `specs/` for feature specifications
+
+**Version**: 1.0.0 | **Ratified**: 2025-01-03 | **Last Amended**: 2025-01-03
