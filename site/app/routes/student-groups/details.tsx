@@ -1,16 +1,16 @@
-import React from 'react';
-import { useQuery } from '@apollo/client/index.js';
-import { Link, useParams } from 'react-router';
-import type { Route } from './+types/details';
-import { Navigation } from '~/components/Navigation';
-import { Footer } from '~/components/Footer';
-import { Container } from '~/components/ui/container';
-import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
-import { Badge } from '~/components/ui/badge';
-import { Button } from '~/components/ui/button';
-import { Skeleton } from '~/components/ui/skeleton';
-import { ArrowLeft, ExternalLink, Users, Calendar, Hash, Link as LinkIcon } from 'lucide-react';
-import { GET_STUDENT_GROUP } from '~/graphql/queries';
+import React from "react";
+import {useQuery} from "@apollo/client/index.js";
+import {Link, useParams} from "react-router";
+import type {Route} from "./+types/details";
+import {Navigation} from "~/components/Navigation";
+import {Footer} from "~/components/Footer";
+import {Container} from "~/components/ui/container";
+import {Card, CardContent, CardHeader, CardTitle} from "~/components/ui/card";
+import {Badge} from "~/components/ui/badge";
+import {Button} from "~/components/ui/button";
+import {Skeleton} from "~/components/ui/skeleton";
+import {ArrowLeft, ExternalLink, Users, Calendar, Hash, Link as LinkIcon} from "lucide-react";
+import {GET_STUDENT_GROUP} from "~/graphql/queries";
 
 interface StudentGroupResource {
   title: string;
@@ -38,24 +38,24 @@ interface StudentGroupData {
   studentGroup: StudentGroup;
 }
 
-export function meta({ params }: Route.MetaArgs) {
+export function meta({params}: Route.MetaArgs) {
   return [
-    { title: `Student Group - WGU Extension` },
-    { name: 'description', content: 'View details about this WGU student group' },
+    {title: "Student Group - WGU Extension"},
+    {name: "description", content: "View details about this WGU student group"},
   ];
 }
 
 export default function StudentGroupDetailPage() {
-  const { studentGroupId } = useParams();
-  const { loading, error, data } = useQuery<StudentGroupData>(GET_STUDENT_GROUP, {
-    variables: { studentGroupId },
+  const {studentGroupId} = useParams();
+  const {loading, error, data} = useQuery<StudentGroupData>(GET_STUDENT_GROUP, {
+    variables: {studentGroupId},
     skip: !studentGroupId,
   });
 
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      
+
       <main className="py-8">
         <Container>
           <div className="mb-6">
@@ -176,9 +176,9 @@ export default function StudentGroupDetailPage() {
                                   </Badge>
                                 </div>
                                 <Button variant="ghost" size="sm" asChild>
-                                  <a 
-                                    href={resource.url} 
-                                    target="_blank" 
+                                  <a
+                                    href={resource.url}
+                                    target="_blank"
                                     rel="noopener noreferrer"
                                     className="flex items-center gap-1"
                                   >
@@ -199,9 +199,9 @@ export default function StudentGroupDetailPage() {
                     <Card>
                       <CardContent className="pt-6">
                         <Button className="w-full" asChild>
-                          <a 
-                            href={data.studentGroup.url} 
-                            target="_blank" 
+                          <a
+                            href={data.studentGroup.url}
+                            target="_blank"
                             rel="noopener noreferrer"
                             className="flex items-center gap-2"
                           >
@@ -253,7 +253,7 @@ export default function StudentGroupDetailPage() {
           )}
         </Container>
       </main>
-      
+
       <Footer />
     </div>
   );

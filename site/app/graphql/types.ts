@@ -14,8 +14,8 @@ import type {
   GetCoursesResponse,
   GetCommunitiesResponse,
   GetDegreePlansResponse,
-  CommunityType
-} from '../../../functions/lib/graphql/index';
+  CommunityType,
+} from "../../../functions/lib/graphql/index";
 
 // Re-export shared types
 export type {
@@ -28,7 +28,7 @@ export type {
   GetCoursesResponse,
   GetCommunitiesResponse,
   GetDegreePlansResponse,
-  CommunityType
+  CommunityType,
 };
 
 // Site-specific types for extended queries

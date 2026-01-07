@@ -1,21 +1,21 @@
-import React from 'react';
-import { siGithub } from 'simple-icons';
-import { cn } from '~/lib/utils';
+import React from "react";
+import {siGithub} from "simple-icons";
+import {cn} from "~/lib/utils";
 
 interface GitHubIconProps {
   className?: string;
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  size?: "xs" | "sm" | "md" | "lg" | "xl";
 }
 
 const sizeClasses = {
-  xs: 'w-3 h-3',     // 12px
-  sm: 'w-4 h-4',     // 16px
-  md: 'w-5 h-5',     // 20px
-  lg: 'w-6 h-6',     // 24px
-  xl: 'w-8 h-8',     // 32px
+  xs: "w-3 h-3", // 12px
+  sm: "w-4 h-4", // 16px
+  md: "w-5 h-5", // 20px
+  lg: "w-6 h-6", // 24px
+  xl: "w-8 h-8", // 32px
 };
 
-export function GitHubIcon({ className = "", size = 'sm' }: GitHubIconProps) {
+export function GitHubIcon({className = "", size = "sm"}: GitHubIconProps) {
   return (
     <svg
       role="img"

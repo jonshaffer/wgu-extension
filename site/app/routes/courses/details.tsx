@@ -1,29 +1,28 @@
-import React from 'react';
-import { Link, useParams } from 'react-router';
-import { useQuery } from '@apollo/client/index.js';
-import { motion } from 'motion/react';
-import { GET_COURSE } from '~/graphql/queries';
-import { ResourceLayout } from '~/components/ResourceLayout';
-import { Container } from '~/components/ui/container';
-import { Card } from '~/components/ui/card';
-import { Badge } from '~/components/ui/badge';
-import { Button } from '~/components/ui/button';
-import { Separator } from '~/components/ui/separator';
-import { 
-  ArrowLeft, 
-  BookOpen, 
-  GraduationCap, 
+import React from "react";
+import {Link, useParams} from "react-router";
+import {useQuery} from "@apollo/client/index.js";
+import {motion} from "motion/react";
+import {GET_COURSE} from "~/graphql/queries";
+import {ResourceLayout} from "~/components/ResourceLayout";
+import {Container} from "~/components/ui/container";
+import {Card} from "~/components/ui/card";
+import {Badge} from "~/components/ui/badge";
+import {Button} from "~/components/ui/button";
+import {
+  ArrowLeft,
+  BookOpen,
+  GraduationCap,
   FileText,
   ExternalLink,
   MessageCircle,
-  Users
-} from 'lucide-react';
-import type { Route } from "./+types/details";
+  Users,
+} from "lucide-react";
+import type {Route} from "./+types/details";
 
-export function meta({ params }: Route.MetaArgs) {
+export function meta({params}: Route.MetaArgs) {
   return [
-    { title: `${params.courseCode} - WGU Extension` },
-    { name: "description", content: `View details and community resources for ${params.courseCode}` },
+    {title: `${params.courseCode} - WGU Extension`},
+    {name: "description", content: `View details and community resources for ${params.courseCode}`},
   ];
 }
 
@@ -40,11 +39,11 @@ interface Course {
 
 export default function CourseDetails() {
   const params = useParams();
-  const courseCode = params.courseCode || '';
+  const courseCode = params.courseCode || "";
 
-  const { data, loading, error } = useQuery(GET_COURSE, {
-    variables: { courseCode },
-    skip: !courseCode
+  const {data, loading, error} = useQuery(GET_COURSE, {
+    variables: {courseCode},
+    skip: !courseCode,
   });
 
   const course: Course | undefined = data?.course;
@@ -66,7 +65,7 @@ export default function CourseDetails() {
           <Card className="p-8 text-center">
             <h1 className="text-2xl font-bold mb-4">Course Not Found</h1>
             <p className="text-muted-foreground mb-6">
-              The course "{courseCode}" could not be found.
+              The course &ldquo;{courseCode}&rdquo; could not be found.
             </p>
             <Button asChild>
               <Link to="/courses">Browse All Courses</Link>
@@ -81,9 +80,9 @@ export default function CourseDetails() {
     <ResourceLayout>
       {/* Header */}
       <motion.header
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.4 }}
+        initial={{y: -20, opacity: 0}}
+        animate={{y: 0, opacity: 1}}
+        transition={{duration: 0.4}}
         className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
       >
         <Container className="py-4">
@@ -101,7 +100,7 @@ export default function CourseDetails() {
             <div className="flex-1">
               <div className="flex items-center gap-3">
                 <h1 className="text-2xl font-bold">{course.courseCode}</h1>
-                <Badge variant={course.level === 'Upper' ? 'default' : 'secondary'}>
+                <Badge variant={course.level === "Upper" ? "default" : "secondary"}>
                   {course.level}
                 </Badge>
               </div>
@@ -118,9 +117,9 @@ export default function CourseDetails() {
             <div className="lg:col-span-2 space-y-8">
               {/* Course Info */}
               <motion.div
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.1, duration: 0.4 }}
+                initial={{y: 20, opacity: 0}}
+                animate={{y: 0, opacity: 1}}
+                transition={{delay: 0.1, duration: 0.4}}
               >
                 <Card className="p-6">
                   <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
@@ -149,11 +148,14 @@ export default function CourseDetails() {
               </motion.div>
 
               {/* Prerequisites & Corequisites */}
-              {((course.prerequisites && course.prerequisites.length > 0) || (course.corequisites && course.corequisites.length > 0)) && (
+              {(
+                (course.prerequisites && course.prerequisites.length > 0) ||
+                (course.corequisites && course.corequisites.length > 0)
+              ) && (
                 <motion.div
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.2, duration: 0.4 }}
+                  initial={{y: 20, opacity: 0}}
+                  animate={{y: 0, opacity: 1}}
+                  transition={{delay: 0.2, duration: 0.4}}
                 >
                   <Card className="p-6">
                     <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
@@ -196,9 +198,9 @@ export default function CourseDetails() {
 
               {/* Community Resources */}
               <motion.div
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.3, duration: 0.4 }}
+                initial={{y: 20, opacity: 0}}
+                animate={{y: 0, opacity: 1}}
+                transition={{delay: 0.3, duration: 0.4}}
               >
                 <Card className="p-6">
                   <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
@@ -236,9 +238,9 @@ export default function CourseDetails() {
             <div className="space-y-6">
               {/* Quick Actions */}
               <motion.div
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.4, duration: 0.4 }}
+                initial={{y: 20, opacity: 0}}
+                animate={{y: 0, opacity: 1}}
+                transition={{delay: 0.4, duration: 0.4}}
               >
                 <Card className="p-6">
                   <h3 className="font-semibold mb-4">Quick Actions</h3>
@@ -259,9 +261,9 @@ export default function CourseDetails() {
 
               {/* Related Links */}
               <motion.div
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.5, duration: 0.4 }}
+                initial={{y: 20, opacity: 0}}
+                animate={{y: 0, opacity: 1}}
+                transition={{delay: 0.5, duration: 0.4}}
               >
                 <Card className="p-6">
                   <h3 className="font-semibold mb-4">External Resources</h3>

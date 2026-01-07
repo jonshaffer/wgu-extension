@@ -1,29 +1,28 @@
-import React from 'react';
-import { Link, useParams } from 'react-router';
-import { useQuery } from '@apollo/client/index.js';
-import { motion } from 'motion/react';
-import { GET_DISCORD_SERVER } from '~/graphql/queries';
-import { Container } from '~/components/ui/container';
-import { Card } from '~/components/ui/card';
-import { Badge } from '~/components/ui/badge';
-import { Button } from '~/components/ui/button';
-import { Separator } from '~/components/ui/separator';
-import { 
-  ArrowLeft, 
-  MessageCircle, 
+import React from "react";
+import {Link, useParams} from "react-router";
+import {useQuery} from "@apollo/client/index.js";
+import {motion} from "motion/react";
+import {GET_DISCORD_SERVER} from "~/graphql/queries";
+import {Container} from "~/components/ui/container";
+import {Card} from "~/components/ui/card";
+import {Badge} from "~/components/ui/badge";
+import {Button} from "~/components/ui/button";
+import {
+  ArrowLeft,
+  MessageCircle,
   Users,
   Hash,
   Volume2,
   FolderOpen,
   ExternalLink,
-  MessageSquare
-} from 'lucide-react';
-import type { Route } from "./+types/details";
+  MessageSquare,
+} from "lucide-react";
+import type {Route} from "./+types/details";
 
-export function meta({ params }: Route.MetaArgs) {
+export function meta(_args: Route.MetaArgs) {
   return [
-    { title: `Discord Server - WGU Extension` },
-    { name: "description", content: `View details for Discord server` },
+    {title: "Discord Server - WGU Extension"},
+    {name: "description", content: "View details for Discord server"},
   ];
 }
 
@@ -47,14 +46,51 @@ interface DiscordServer {
 
 export default function DiscordDetails() {
   const params = useParams();
-  const serverId = params.serverId || '';
+  const serverId = params.serverId || "";
 
-  const { data, loading, error } = useQuery(GET_DISCORD_SERVER, {
-    variables: { serverId },
-    skip: !serverId
+  const {data, loading, error} = useQuery(GET_DISCORD_SERVER, {
+    variables: {serverId},
+    skip: !serverId,
   });
 
   const server: DiscordServer | undefined = data?.discordServer;
+
+  // Group channels by category - must be called before conditional returns
+  const channelsByCategory = React.useMemo(() => {
+    if (!server?.channels) return {};
+
+    const grouped: Record<string, Channel[]> = {"Uncategorized": []};
+
+    server.channels.forEach((channel) => {
+      const category = channel.category || "Uncategorized";
+      if (!grouped[category]) {
+        grouped[category] = [];
+      }
+      if (channel.type !== "category") {
+        grouped[category].push(channel);
+      }
+    });
+
+    return grouped;
+  }, [server?.channels]);
+
+  const getServerIcon = () => {
+    if (server?.icon) {
+      return `https://cdn.discordapp.com/icons/${server.id}/${server.icon}.png`;
+    }
+    return null;
+  };
+
+  const getChannelIcon = (type: string) => {
+    switch (type) {
+    case "voice":
+      return <Volume2 className="h-4 w-4" />;
+    case "category":
+      return <FolderOpen className="h-4 w-4" />;
+    default:
+      return <Hash className="h-4 w-4" />;
+    }
+  };
 
   if (loading) {
     return (
@@ -82,50 +118,13 @@ export default function DiscordDetails() {
     );
   }
 
-  const getServerIcon = () => {
-    if (server.icon) {
-      return `https://cdn.discordapp.com/icons/${server.id}/${server.icon}.png`;
-    }
-    return null;
-  };
-
-  const getChannelIcon = (type: string) => {
-    switch (type) {
-      case 'voice':
-        return <Volume2 className="h-4 w-4" />;
-      case 'category':
-        return <FolderOpen className="h-4 w-4" />;
-      default:
-        return <Hash className="h-4 w-4" />;
-    }
-  };
-
-  // Group channels by category
-  const channelsByCategory = React.useMemo(() => {
-    if (!server.channels) return {};
-    
-    const grouped: Record<string, Channel[]> = { 'Uncategorized': [] };
-    
-    server.channels.forEach(channel => {
-      const category = channel.category || 'Uncategorized';
-      if (!grouped[category]) {
-        grouped[category] = [];
-      }
-      if (channel.type !== 'category') {
-        grouped[category].push(channel);
-      }
-    });
-    
-    return grouped;
-  }, [server.channels]);
-
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
       <motion.header
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.4 }}
+        initial={{y: -20, opacity: 0}}
+        animate={{y: 0, opacity: 1}}
+        transition={{duration: 0.4}}
         className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
       >
         <Container className="py-4">
@@ -142,8 +141,8 @@ export default function DiscordDetails() {
             </Button>
             <div className="flex items-center gap-4 flex-1">
               {getServerIcon() ? (
-                <img 
-                  src={getServerIcon()!} 
+                <img
+                  src={getServerIcon()!}
                   alt={server.name}
                   className="w-12 h-12 rounded-full"
                 />
@@ -173,9 +172,9 @@ export default function DiscordDetails() {
             <div className="lg:col-span-2 space-y-8">
               {/* Server Info */}
               <motion.div
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.1, duration: 0.4 }}
+                initial={{y: 20, opacity: 0}}
+                animate={{y: 0, opacity: 1}}
+                transition={{delay: 0.1, duration: 0.4}}
               >
                 <Card className="p-6">
                   <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
@@ -208,9 +207,9 @@ export default function DiscordDetails() {
               {/* Channels */}
               {server.channels && server.channels.length > 0 && (
                 <motion.div
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.2, duration: 0.4 }}
+                  initial={{y: 20, opacity: 0}}
+                  animate={{y: 0, opacity: 1}}
+                  transition={{delay: 0.2, duration: 0.4}}
                 >
                   <Card className="p-6">
                     <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
@@ -232,7 +231,7 @@ export default function DiscordDetails() {
                                 >
                                   {getChannelIcon(channel.type)}
                                   <span className="text-sm">{channel.name}</span>
-                                  {channel.type === 'voice' && (
+                                  {channel.type === "voice" && (
                                     <Badge variant="outline" className="text-xs ml-auto">
                                       Voice
                                     </Badge>
@@ -253,18 +252,18 @@ export default function DiscordDetails() {
             <div className="space-y-6">
               {/* Quick Actions */}
               <motion.div
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.3, duration: 0.4 }}
+                initial={{y: 20, opacity: 0}}
+                animate={{y: 0, opacity: 1}}
+                transition={{delay: 0.3, duration: 0.4}}
               >
                 <Card className="p-6">
                   <h3 className="font-semibold mb-4">Quick Actions</h3>
                   <div className="space-y-3">
                     {server.inviteUrl && (
                       <Button asChild className="w-full">
-                        <a 
-                          href={server.inviteUrl} 
-                          target="_blank" 
+                        <a
+                          href={server.inviteUrl}
+                          target="_blank"
                           rel="noopener noreferrer"
                         >
                           <ExternalLink className="h-4 w-4 mr-2" />
@@ -283,9 +282,9 @@ export default function DiscordDetails() {
 
               {/* Related */}
               <motion.div
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.4, duration: 0.4 }}
+                initial={{y: 20, opacity: 0}}
+                animate={{y: 0, opacity: 1}}
+                transition={{delay: 0.4, duration: 0.4}}
               >
                 <Card className="p-6">
                   <h3 className="font-semibold mb-4">Find More</h3>

@@ -1,17 +1,21 @@
-import React from 'react';
-import { Link } from 'react-router';
-import { motion } from 'motion/react';
-import { Navigation } from "../../components/Navigation";
-import { Footer } from "../../components/Footer";
-import { Container } from "~/components/ui/container";
-import { Button } from "~/components/ui/button";
-import { Card } from "~/components/ui/card";
-import { ArrowRight, Search, Shield, Code, Users, BookOpen } from 'lucide-react';
+import React from "react";
+import {Link} from "react-router";
+import {motion} from "motion/react";
+import {Navigation} from "../../components/Navigation";
+import {Footer} from "../../components/Footer";
+import {Container} from "~/components/ui/container";
+import {Button} from "~/components/ui/button";
+import {Card} from "~/components/ui/card";
+import {ArrowRight, Search, Shield, Code, Users, BookOpen} from "lucide-react";
 
 export function meta() {
   return [
-    { title: "Documentation - Unofficial WGU Extension" },
-    { name: "description", content: "Documentation for the Unofficial WGU Extension - search syntax, privacy policy, and developer guides" },
+    {title: "Documentation - Unofficial WGU Extension"},
+    {
+      name: "description",
+      content: "Documentation for the Unofficial WGU Extension - " +
+        "search syntax, privacy policy, and developer guides",
+    },
   ];
 }
 
@@ -22,29 +26,29 @@ export default function DocsIndex() {
       description: "Learn how to use advanced search operators and filters",
       icon: Search,
       href: "/docs/search-syntax",
-      color: "text-blue-500"
+      color: "text-blue-500",
     },
     {
       title: "Privacy Policy",
       description: "Our commitment to protecting your data and privacy",
       icon: Shield,
       href: "/docs/privacy",
-      color: "text-green-500"
+      color: "text-green-500",
     },
     {
       title: "API Reference",
       description: "GraphQL API documentation for developers",
       icon: Code,
       href: "/docs/api",
-      color: "text-purple-500"
+      color: "text-purple-500",
     },
     {
       title: "Style Guide",
       description: "Design system and brand guidelines for Unofficial WGU Extension",
       icon: Users,
       href: "/docs/style-guide",
-      color: "text-orange-500"
-    }
+      color: "text-orange-500",
+    },
   ];
 
   return (
@@ -52,9 +56,9 @@ export default function DocsIndex() {
       <Navigation />
       <Container className="py-16">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          initial={{opacity: 0, y: 20}}
+          animate={{opacity: 1, y: 0}}
+          transition={{duration: 0.5}}
           className="text-center mb-12"
         >
           <BookOpen className="h-16 w-16 mx-auto mb-6 text-primary" />
@@ -65,17 +69,17 @@ export default function DocsIndex() {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
+          initial={{opacity: 0, y: 20}}
+          animate={{opacity: 1, y: 0}}
+          transition={{duration: 0.5, delay: 0.1}}
           className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto"
         >
           {sections.map((section, index) => (
             <motion.div
               key={section.href}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 + index * 0.1 }}
+              initial={{opacity: 0, y: 20}}
+              animate={{opacity: 1, y: 0}}
+              transition={{duration: 0.5, delay: 0.1 + index * 0.1}}
             >
               <Card className="p-6 h-full hover:shadow-lg transition-shadow">
                 <Link to={section.href} className="block h-full">
@@ -100,14 +104,15 @@ export default function DocsIndex() {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
+          initial={{opacity: 0, y: 20}}
+          animate={{opacity: 1, y: 0}}
+          transition={{duration: 0.5, delay: 0.4}}
           className="mt-16 text-center"
         >
           <h2 className="text-2xl font-bold mb-4">Need Help?</h2>
           <p className="text-muted-foreground mb-6">
-            Can't find what you're looking for? Check out our community resources or get in touch.
+            Can&apos;t find what you&apos;re looking for? Check out our community
+            resources or get in touch.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild variant="outline">

@@ -1,14 +1,7 @@
-import * as React from "react"
-import { Twitter, Linkedin } from "lucide-react"
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbSeparator,
-} from "~/components/ui/breadcrumb"
-import { Button } from "~/components/ui/button"
-import { cn } from "~/lib/utils"
+import * as React from "react";
+import {Twitter, Linkedin} from "lucide-react";
+import {Button} from "~/components/ui/button";
+import {cn} from "~/lib/utils";
 
 export type Crumb = { href?: string; label: string }
 
@@ -35,22 +28,23 @@ export interface BlogHeroProps {
  * BlogHero
  * A responsive hero/header section for blog posts using shadcn/ui.
  * Tailwind-only styling; drop into any shadcn project.
+ * @return {JSX.Element} The blog hero component
  */
 export default function BlogHero({
-  crumbs = [
-    { label: "Resources", href: "#" },
-    { label: "Blogs", href: "#" },
+  crumbs: _crumbs = [
+    {label: "Resources", href: "#"},
+    {label: "Blogs", href: "#"},
   ],
   readTime = "10 min read",
   date = "May 18, 2025",
   title = "Building Better Components",
-  subtitle =
-    "The best blog is one that captivates readers with engaging, well-researched content presented in a clear and relatable way.",
+  subtitle = "The best blog is one that captivates readers with engaging, " +
+    "well-researched content presented in a clear and relatable way.",
   share,
   patternImage = "/images/patterns/dot-pattern-2.svg",
   className,
 }: BlogHeroProps) {
-  const dateLabel = React.useMemo(() => formatDateLabel(date), [date])
+  const dateLabel = React.useMemo(() => formatDateLabel(date), [date]);
 
   return (
     <section
@@ -59,7 +53,7 @@ export default function BlogHero({
         "[background-size:3.125rem_3.125rem]",
         className
       )}
-      style={{ backgroundImage: `url(${patternImage})` }}
+      style={{backgroundImage: `url(${patternImage})`}}
     >
       <div className="flex flex-col items-start justify-start gap-16 py-20 lg:flex-row lg:items-end lg:justify-between">
         <div className="flex w-full flex-col items-center justify-center gap-12">
@@ -116,20 +110,20 @@ export default function BlogHero({
         </div>
       </div>
     </section>
-  )
+  );
 }
 
 function formatDateLabel(date: string | Date): string {
-  if (!date) return ""
+  if (!date) return "";
   try {
-    const d = typeof date === "string" ? new Date(date) : date
-    if (Number.isNaN(d.getTime())) return String(date)
+    const d = typeof date === "string" ? new Date(date) : date;
+    if (Number.isNaN(d.getTime())) return String(date);
     return d.toLocaleDateString(undefined, {
       year: "numeric",
       month: "long",
       day: "numeric",
-    })
+    });
   } catch {
-    return String(date)
+    return String(date);
   }
 }

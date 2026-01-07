@@ -1,18 +1,18 @@
-import React from 'react';
-import { Link } from 'react-router';
-import { motion } from 'motion/react';
-import { Navigation } from "../../components/Navigation";
-import { Footer } from "../../components/Footer";
-import { Container } from "~/components/ui/container";
-import { Button } from "~/components/ui/button";
-import { Card } from "~/components/ui/card";
-import { Badge } from "~/components/ui/badge";
-import { ArrowLeft, Palette, Eye, Type, Square } from 'lucide-react';
+import React from "react";
+import {Link} from "react-router";
+import {motion} from "motion/react";
+import {Navigation} from "../../components/Navigation";
+import {Footer} from "../../components/Footer";
+import {Container} from "~/components/ui/container";
+import {Button} from "~/components/ui/button";
+import {Card} from "~/components/ui/card";
+import {Badge} from "~/components/ui/badge";
+import {ArrowLeft, Palette, Eye, Type, Square} from "lucide-react";
 
 export function meta() {
   return [
-    { title: "Style Guide - WGU Extension Docs" },
-    { name: "description", content: "Design system and style guide for the WGU Extension" },
+    {title: "Style Guide - WGU Extension Docs"},
+    {name: "description", content: "Design system and style guide for the WGU Extension"},
   ];
 }
 
@@ -22,51 +22,51 @@ export default function StyleGuide() {
       name: "Background",
       value: "#FFFFFF",
       description: "Primary background color - pure white",
-      usage: "Main page backgrounds, card backgrounds"
+      usage: "Main page backgrounds, card backgrounds",
     },
     {
       name: "Cream Accent",
       value: "#FDF9F5",
       description: "Secondary background - warm cream",
-      usage: "Accent sections, muted backgrounds, hover states"
+      usage: "Accent sections, muted backgrounds, hover states",
     },
     {
       name: "Dark Blue",
-      value: "#2D3142", 
+      value: "#2D3142",
       description: "Primary text and navigation",
-      usage: "Headers, body text, navigation elements"
+      usage: "Headers, body text, navigation elements",
     },
     {
       name: "Forest Green",
       value: "#335142",
       description: "Secondary accent color",
-      usage: "Secondary buttons, highlights, borders"
+      usage: "Secondary buttons, highlights, borders",
     },
     {
       name: "Crimson Red",
       value: "#931621",
       description: "Primary brand color",
-      usage: "Primary buttons, links, brand elements"
+      usage: "Primary buttons, links, brand elements",
     },
     {
       name: "Golden Brown",
       value: "#7D5024",
       description: "Tertiary accent color",
-      usage: "Warning states, badges, subtle accents"
-    }
+      usage: "Warning states, badges, subtle accents",
+    },
   ];
 
   const components = [
     {
       name: "Buttons",
       examples: [
-        { variant: "default", label: "Primary Button" },
-        { variant: "secondary", label: "Secondary Button" },
-        { variant: "outline", label: "Outline Button" },
-        { variant: "ghost", label: "Ghost Button" },
-        { variant: "link", label: "Link Button" }
-      ]
-    }
+        {variant: "default", label: "Primary Button"},
+        {variant: "secondary", label: "Secondary Button"},
+        {variant: "outline", label: "Outline Button"},
+        {variant: "ghost", label: "Ghost Button"},
+        {variant: "link", label: "Link Button"},
+      ],
+    },
   ];
 
   return (
@@ -74,9 +74,9 @@ export default function StyleGuide() {
       <Navigation />
       <Container className="py-8">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          initial={{opacity: 0, y: 20}}
+          animate={{opacity: 1, y: 0}}
+          transition={{duration: 0.5}}
         >
           <div className="flex items-center gap-4 mb-8">
             <Button variant="ghost" size="icon" asChild>
@@ -97,14 +97,14 @@ export default function StyleGuide() {
                 <Palette className="h-6 w-6 text-primary" />
                 <h2 className="text-2xl font-bold">Brand Colors</h2>
               </div>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {colors.map((color) => (
                   <Card key={color.name} className="p-6">
                     <div className="space-y-4">
-                      <div 
+                      <div
                         className="w-full h-20 rounded-lg border border-border shadow-sm"
-                        style={{ backgroundColor: color.value }}
+                        style={{backgroundColor: color.value}}
                       />
                       <div>
                         <h3 className="font-semibold text-lg">{color.name}</h3>
@@ -128,7 +128,7 @@ export default function StyleGuide() {
                 <Type className="h-6 w-6 text-primary" />
                 <h2 className="text-2xl font-bold">Typography</h2>
               </div>
-              
+
               <Card className="p-6">
                 <div className="space-y-6">
                   <div>
@@ -148,11 +148,16 @@ export default function StyleGuide() {
                     <code className="text-sm text-muted-foreground">text-xl font-semibold</code>
                   </div>
                   <div>
-                    <p className="text-base mb-2">Body text - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <p className="text-base mb-2">
+                      Body text - Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                      Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    </p>
                     <code className="text-sm text-muted-foreground">text-base</code>
                   </div>
                   <div>
-                    <p className="text-sm text-muted-foreground mb-2">Small text - Used for captions, metadata, and secondary information.</p>
+                    <p className="text-sm text-muted-foreground mb-2">
+                      Small text - Used for captions, metadata, and secondary information.
+                    </p>
                     <code className="text-sm text-muted-foreground">text-sm text-muted-foreground</code>
                   </div>
                 </div>
@@ -220,14 +225,17 @@ export default function StyleGuide() {
                 <Eye className="h-6 w-6 text-primary" />
                 <h2 className="text-2xl font-bold">Brand Guidelines</h2>
               </div>
-              
+
               <Card className="p-6">
                 <div className="space-y-6">
                   <div>
                     <h3 className="text-lg font-semibold mb-3">Color Usage</h3>
                     <ul className="space-y-2 text-sm text-muted-foreground">
                       <li>• <strong>White (#FFFFFF):</strong> Primary background for all pages and cards</li>
-                      <li>• <strong>Cream (#FDF9F5):</strong> Secondary background for accent sections and muted elements</li>
+                      <li>
+                        • <strong>Cream (#FDF9F5):</strong>{" "}
+                        Secondary background for accent sections and muted elements
+                      </li>
                       <li>• <strong>Dark Blue (#2D3142):</strong> Primary text color and navigation elements</li>
                       <li>• <strong>Forest Green (#335142):</strong> Secondary actions and hover states</li>
                       <li>• <strong>Crimson Red (#931621):</strong> Primary brand color for CTAs and key elements</li>

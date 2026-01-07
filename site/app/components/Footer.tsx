@@ -1,8 +1,8 @@
-import React from 'react';
-import { Container } from '~/components/ui/container';
-import { Logo } from './Logo';
-import FooterNav from './FooterNav';
-import { GitHubStarsButton } from './GitHubStarsButton';
+import React from "react";
+import {Container} from "~/components/ui/container";
+import {Logo} from "./Logo";
+import FooterNav from "./FooterNav";
+import {GitHubStarsButton} from "./GitHubStarsButton";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -16,7 +16,8 @@ export function Footer() {
             <Logo size="lg" />
             <div className="max-w-md space-y-2">
               <p className="text-sm text-muted-foreground">
-                Unofficial WGU Extension - Find community resources, Discord servers, and study groups for your WGU journey.
+                Unofficial WGU Extension - Find community resources, Discord
+                servers, and study groups for your WGU journey.
               </p>
               <p className="text-xs text-muted-foreground">
                 Student-made tool. Not endorsed by WGU.

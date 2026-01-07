@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react';
-import { 
-  type User, 
-  signInWithEmailAndPassword, 
-  signOut, 
+import {useState, useEffect} from "react";
+import {
+  type User,
+  signInWithEmailAndPassword,
+  signOut,
   onAuthStateChanged,
   getIdToken,
-  getIdTokenResult
-} from 'firebase/auth';
-import { auth } from './firebase';
+  getIdTokenResult,
+} from "firebase/auth";
+import {auth} from "./firebase";
 
 export interface AuthUser extends User {
   isAdmin?: boolean;
@@ -24,13 +24,13 @@ export function useAuth() {
           // Check if user has admin claims
           const tokenResult = await getIdTokenResult(firebaseUser);
           const isAdmin = tokenResult.claims.admin === true;
-          
+
           setUser({
             ...firebaseUser,
-            isAdmin
+            isAdmin,
           });
         } catch (error) {
-          console.error('Error getting user token:', error);
+          console.error("Error getting user token:", error);
           setUser(firebaseUser);
         }
       } else {
@@ -63,7 +63,7 @@ export function useAuth() {
     try {
       return await getIdToken(user);
     } catch (error) {
-      console.error('Error getting auth token:', error);
+      console.error("Error getting auth token:", error);
       return null;
     }
   };
@@ -74,6 +74,6 @@ export function useAuth() {
     login,
     logout,
     getAuthToken,
-    isAdmin: user?.isAdmin || false
+    isAdmin: user?.isAdmin || false,
   };
 }

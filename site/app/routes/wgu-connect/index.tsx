@@ -1,21 +1,21 @@
-import React from 'react';
-import { Link } from 'react-router';
-import { useQuery } from '@apollo/client/index.js';
-import { motion } from 'motion/react';
-import { GET_WGU_CONNECT_GROUPS } from '~/graphql/queries';
-import { ResourceLayout } from '~/components/ResourceLayout';
-import { Container } from '~/components/ui/container';
-import { Card } from '~/components/ui/card';
-import { Badge } from '~/components/ui/badge';
-import { Button } from '~/components/ui/button';
-import { Input } from '~/components/ui/input';
-import { ArrowLeft, BookOpen, Search, ChevronLeft, ChevronRight, Users } from 'lucide-react';
-import type { Route } from "./+types/index";
+import React from "react";
+import {Link} from "react-router";
+import {useQuery} from "@apollo/client/index.js";
+import {motion} from "motion/react";
+import {GET_WGU_CONNECT_GROUPS} from "~/graphql/queries";
+import {ResourceLayout} from "~/components/ResourceLayout";
+import {Container} from "~/components/ui/container";
+import {Card} from "~/components/ui/card";
+import {Badge} from "~/components/ui/badge";
+import {Button} from "~/components/ui/button";
+import {Input} from "~/components/ui/input";
+import {ArrowLeft, BookOpen, Search, ChevronLeft, ChevronRight, Users} from "lucide-react";
+import type {Route} from "./+types/index";
 
-export function meta({}: Route.MetaArgs) {
+export function meta(_args: Route.MetaArgs) {
   return [
-    { title: "WGU Connect Groups - WGU Extension" },
-    { name: "description", content: "Find official WGU Connect study groups and resources" },
+    {title: "WGU Connect Groups - WGU Extension"},
+    {name: "description", content: "Find official WGU Connect study groups and resources"},
   ];
 }
 
@@ -30,23 +30,23 @@ interface WguConnectGroup {
 }
 
 export default function WguConnectIndex() {
-  const [searchTerm, setSearchTerm] = React.useState('');
+  const [searchTerm, setSearchTerm] = React.useState("");
   const [page, setPage] = React.useState(0);
   const pageSize = 12;
 
-  const { data, loading, error } = useQuery(GET_WGU_CONNECT_GROUPS, {
+  const {data, loading, error} = useQuery(GET_WGU_CONNECT_GROUPS, {
     variables: {
       limit: pageSize,
-      offset: page * pageSize
-    }
+      offset: page * pageSize,
+    },
   });
 
   const filteredGroups = React.useMemo(() => {
     if (!data?.wguConnectGroups?.items) return [];
     if (!searchTerm) return data.wguConnectGroups.items;
-    
+
     const term = searchTerm.toLowerCase();
-    return data.wguConnectGroups.items.filter((group: WguConnectGroup) => 
+    return data.wguConnectGroups.items.filter((group: WguConnectGroup) =>
       group.name.toLowerCase().includes(term) ||
       group.description?.toLowerCase().includes(term) ||
       group.courseCode?.toLowerCase().includes(term)
@@ -57,25 +57,25 @@ export default function WguConnectIndex() {
 
   const getGroupTypeLabel = (type?: string) => {
     switch (type) {
-      case 'course':
-        return 'Course Group';
-      case 'degree':
-        return 'Degree Program';
-      case 'general':
-        return 'General Discussion';
-      default:
-        return 'Study Group';
+    case "course":
+      return "Course Group";
+    case "degree":
+      return "Degree Program";
+    case "general":
+      return "General Discussion";
+    default:
+      return "Study Group";
     }
   };
 
   const getGroupTypeVariant = (type?: string): "default" | "secondary" | "outline" => {
     switch (type) {
-      case 'course':
-        return 'default';
-      case 'degree':
-        return 'secondary';
-      default:
-        return 'outline';
+    case "course":
+      return "default";
+    case "degree":
+      return "secondary";
+    default:
+      return "outline";
     }
   };
 
@@ -83,9 +83,9 @@ export default function WguConnectIndex() {
     <ResourceLayout>
       {/* Header */}
       <motion.header
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.4 }}
+        initial={{y: -20, opacity: 0}}
+        animate={{y: 0, opacity: 1}}
+        transition={{duration: 0.4}}
         className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
       >
         <Container className="py-4">
@@ -117,9 +117,9 @@ export default function WguConnectIndex() {
         <Container>
           {/* Search Bar */}
           <motion.div
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.1, duration: 0.4 }}
+            initial={{y: 20, opacity: 0}}
+            animate={{y: 0, opacity: 1}}
+            transition={{delay: 0.1, duration: 0.4}}
             className="mb-6"
           >
             <div className="relative max-w-md">
@@ -143,8 +143,8 @@ export default function WguConnectIndex() {
           {/* Error State */}
           {error && (
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+              initial={{opacity: 0}}
+              animate={{opacity: 1}}
               className="text-center py-16"
             >
               <p className="text-destructive">Failed to load WGU Connect groups. Please try again.</p>
@@ -155,17 +155,17 @@ export default function WguConnectIndex() {
           {!loading && !error && (
             <>
               <motion.div
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.2, duration: 0.4 }}
+                initial={{y: 20, opacity: 0}}
+                animate={{y: 0, opacity: 1}}
+                transition={{delay: 0.2, duration: 0.4}}
                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8"
               >
                 {filteredGroups.map((group: WguConnectGroup, index: number) => (
                   <motion.div
                     key={group.id}
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.1 + index * 0.02, duration: 0.3 }}
+                    initial={{y: 20, opacity: 0}}
+                    animate={{y: 0, opacity: 1}}
+                    transition={{delay: 0.1 + index * 0.02, duration: 0.3}}
                   >
                     <Link to={`/wgu-connect/${group.id}`}>
                       <Card className="p-6 hover:shadow-lg transition-shadow cursor-pointer h-full">
@@ -204,15 +204,15 @@ export default function WguConnectIndex() {
               {/* Pagination */}
               {totalPages > 1 && (
                 <motion.div
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.3, duration: 0.4 }}
+                  initial={{y: 20, opacity: 0}}
+                  animate={{y: 0, opacity: 1}}
+                  transition={{delay: 0.3, duration: 0.4}}
                   className="flex items-center justify-center gap-2"
                 >
                   <Button
                     variant="outline"
                     size="icon"
-                    onClick={() => setPage(p => Math.max(0, p - 1))}
+                    onClick={() => setPage((p) => Math.max(0, p - 1))}
                     disabled={page === 0}
                   >
                     <ChevronLeft className="h-4 w-4" />
@@ -223,7 +223,7 @@ export default function WguConnectIndex() {
                   <Button
                     variant="outline"
                     size="icon"
-                    onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))}
+                    onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
                     disabled={page === totalPages - 1}
                   >
                     <ChevronRight className="h-4 w-4" />
