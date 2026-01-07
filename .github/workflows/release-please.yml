@@ -8,6 +8,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  id-token: write  # Required for Workload Identity Federation
 
 jobs:
   release-please:
@@ -217,6 +218,20 @@ jobs:
           node-version: '22'
           cache: 'pnpm'
 
+      # Authenticate with Google Cloud using Workload Identity Federation
+      - name: Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ vars.GCP_WL_PROVIDER_ID }}
+          service_account: ${{ vars.GCP_WL_SA_EMAIL_PRODUCTION }}
+          project_id: ${{ vars.GCP_PROJECT_ID }}
+
+      - name: Setup gcloud CLI
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ vars.GCP_PROJECT_ID }}
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
@@ -224,14 +239,19 @@ jobs:
         run: pnpm --filter=functions run build
 
       - name: Deploy to Firebase Functions
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
         run: |
-          npx firebase-tools@latest deploy --only functions --project ${{ secrets.FIREBASE_PROJECT_ID }} --token ${{ secrets.FIREBASE_TOKEN }}
+          npx firebase-tools@latest deploy --only functions --project "${{ vars.GCP_PROJECT_ID }}"
+
+      - name: Configure public access for Cloud Functions
+        run: |
+          echo "Setting public access for publicApi function..."
+          gcloud functions add-invoker-policy-binding publicApi \
+            --project="${{ vars.GCP_PROJECT_ID }}" \
+            --region=us-central1 \
+            --member="allUsers" \
+            --gen2 || echo "IAM binding may already exist"
 
       - name: Verify deployment
-        env:
-          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
         run: |
           echo "Testing public API health check with retry..."
           MAX_RETRIES=5
@@ -240,10 +260,9 @@ jobs:
           SUCCESS=0
 
           while [ $ATTEMPT -le $MAX_RETRIES ]; do
-            RESPONSE=$(curl -s -X POST \
-              "https://us-central1-${FIREBASE_PROJECT_ID}.cloudfunctions.net/publicApi" \
-              -H "Content-Type: application/json" \
-              -d '{"query": "query { ping }"}')
+            # Use GET request with persisted query hash (publicApi only accepts GET)
+            RESPONSE=$(curl -s -X GET \
+              "https://us-central1-${{ vars.GCP_PROJECT_ID }}.cloudfunctions.net/publicApi?hash=ping_query")
             echo "Attempt $ATTEMPT: Response: ${RESPONSE}"
 
             if echo "${RESPONSE}" | grep -q "pong"; then
@@ -282,6 +301,15 @@ jobs:
           node-version: '22'
           cache: 'pnpm'
 
+      # Authenticate with Google Cloud using Workload Identity Federation
+      - name: Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ vars.GCP_WL_PROVIDER_ID }}
+          service_account: ${{ vars.GCP_WL_SA_EMAIL_PRODUCTION }}
+          project_id: ${{ vars.GCP_PROJECT_ID }}
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
@@ -289,14 +317,10 @@ jobs:
         run: pnpm --filter=site run build
 
       - name: Deploy to Firebase Hosting
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
         run: |
-          npx firebase-tools@latest deploy --only hosting --project ${{ secrets.FIREBASE_PROJECT_ID }} --token ${{ secrets.FIREBASE_TOKEN }}
+          npx firebase-tools@latest deploy --only hosting --project "${{ vars.GCP_PROJECT_ID }}"
 
       - name: Verify deployment
-        env:
-          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
         run: |
           echo "Testing site availability with retry for CDN propagation..."
           MAX_RETRIES=5
@@ -304,7 +328,7 @@ jobs:
           STATUS_CODE=""
 
           for i in $(seq 1 $MAX_RETRIES); do
-            STATUS_CODE=$(curl -s -o /dev/null -w "%{http_code}" "https://${FIREBASE_PROJECT_ID}.web.app/")
+            STATUS_CODE=$(curl -s -o /dev/null -w "%{http_code}" "https://${{ vars.GCP_PROJECT_ID }}.web.app/")
             echo "Attempt $i: Status code: ${STATUS_CODE}"
 
             if [ "${STATUS_CODE}" = "200" ]; then
