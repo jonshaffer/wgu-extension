@@ -1,39 +1,40 @@
-import React from 'react';
-import { useSearchParams } from 'react-router';
-import { motion, AnimatePresence } from 'motion/react';
-import { toast } from 'sonner';
-import { useAuth } from '~/lib/auth';
-import { Card } from '~/components/ui/card';
-import { Button } from '~/components/ui/button';
-import { Badge } from '~/components/ui/badge';
-import { Input } from '~/components/ui/input';
-import { Label } from '~/components/ui/label';
-import { 
-  CheckCircle2, 
-  XCircle, 
-  Clock, 
-  ExternalLink, 
+import React from "react";
+import {useSearchParams} from "react-router";
+import {motion, AnimatePresence} from "motion/react";
+import {toast} from "sonner";
+import {useAuth} from "~/lib/auth";
+import {Card} from "~/components/ui/card";
+import {Button} from "~/components/ui/button";
+import {Badge} from "~/components/ui/badge";
+import {Input} from "~/components/ui/input";
+import {Label} from "~/components/ui/label";
+import {
+  CheckCircle2,
+  XCircle,
+  Clock,
+  ExternalLink,
   Filter,
   Search,
   RefreshCw,
   Eye,
-  MessageSquare
-} from 'lucide-react';
-import type { Route } from "./+types/suggestions";
+  // MessageSquare - available for future use
+} from "lucide-react";
+import type {Route} from "./+types/suggestions";
+import {config} from "~/lib/config";
 
 interface Suggestion {
   id: string;
-  type: 'community_suggestion' | 'extension_update';
-  status: 'pending' | 'approved' | 'rejected';
+  type: "community_suggestion" | "extension_update";
+  status: "pending" | "approved" | "rejected";
   submittedAt: string;
   submittedBy: string;
   reviewedAt?: string;
   reviewedBy?: string;
   approved?: boolean;
   reviewNotes?: string;
-  
+
   // Community suggestion fields
-  communityType?: 'discord' | 'reddit' | 'student_group' | 'wgu_connect';
+  communityType?: "discord" | "reddit" | "student_group" | "wgu_connect";
   name?: string;
   url?: string;
   description?: string;
@@ -42,105 +43,104 @@ interface Suggestion {
   memberCount?: number;
   submitterName?: string;
   submitterEmail?: string;
-  
+
   // Extension update fields
-  source?: 'wgu_connect' | 'discord_channel' | 'student_group';
+  source?: "wgu_connect" | "discord_channel" | "student_group";
   groupId?: string;
   channelId?: string;
   serverId?: string;
 }
 
-export function meta({}: Route.MetaArgs) {
+export function meta(_args: Route.MetaArgs) {
   return [
-    { title: "Suggestions Review - WGU Extension Admin" },
-    { name: "robots", content: "noindex, nofollow" }
+    {title: "Suggestions Review - WGU Extension Admin"},
+    {name: "robots", content: "noindex, nofollow"},
   ];
 }
 
 export default function SuggestionsReview() {
-  const { getAuthToken } = useAuth();
+  const {getAuthToken} = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
-  
+
   const [suggestions, setSuggestions] = React.useState<Suggestion[]>([]);
   const [loading, setLoading] = React.useState(true);
-  const [error, setError] = React.useState('');
+  const [error, setError] = React.useState("");
   const [actionLoading, setActionLoading] = React.useState<string | null>(null);
-  
+
   // Filters
-  const currentStatus = searchParams.get('status') || 'pending';
-  const currentType = searchParams.get('type') || '';
-  const currentSearch = searchParams.get('search') || '';
-  
+  const currentStatus = searchParams.get("status") || "pending";
+  const currentType = searchParams.get("type") || "";
+  const currentSearch = searchParams.get("search") || "";
+
   // Pagination
   const [pagination, setPagination] = React.useState({
     offset: 0,
     limit: 20,
     total: 0,
-    hasMore: false
+    hasMore: false,
   });
-  
+
   // Review modal
   const [reviewingSuggestion, setReviewingSuggestion] = React.useState<Suggestion | null>(null);
-  const [reviewNotes, setReviewNotes] = React.useState('');
+  const [reviewNotes, setReviewNotes] = React.useState("");
 
   const fetchSuggestions = React.useCallback(async () => {
     try {
       setLoading(true);
-      setError('');
-      
+      setError("");
+
       const token = await getAuthToken();
       if (!token) {
-        setError('Authentication token not available');
+        setError("Authentication token not available");
         return;
       }
-      
+
       const params = new URLSearchParams({
         status: currentStatus,
         offset: String(pagination.offset),
-        limit: String(pagination.limit)
+        limit: String(pagination.limit),
       });
-      
-      if (currentType) params.set('type', currentType);
-      if (currentSearch) params.set('search', currentSearch);
-      
-      const functionsUrl = import.meta.env.DEV 
-        ? 'http://localhost:5001/wgu-extension-site-prod/us-central1'
-        : 'https://us-central1-wgu-extension-site-prod.cloudfunctions.net';
-        
+
+      if (currentType) params.set("type", currentType);
+      if (currentSearch) params.set("search", currentSearch);
+
+      const functionsUrl = config.isDev ?
+        `http://localhost:5001/${config.firebase.projectId}/us-central1` :
+        config.api.baseUrl;
+
       const response = await fetch(`${functionsUrl}/suggestionsAdmin?${params}`, {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
       });
-      
+
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
         throw new Error(errorData.error || `HTTP ${response.status}: ${response.statusText}`);
       }
-      
+
       const data = await response.json();
       setSuggestions(data.suggestions || []);
-      setPagination(prev => ({
+      setPagination((prev) => ({
         ...prev,
         total: data.pagination?.total || 0,
-        hasMore: data.pagination?.hasMore || false
+        hasMore: data.pagination?.hasMore || false,
       }));
-      
     } catch (error: any) {
-      const errorMessage = error.message || 'Failed to fetch suggestions';
+      const errorMessage = error.message || "Failed to fetch suggestions";
       setError(errorMessage);
-      console.error('Error fetching suggestions:', error);
-      
+      console.error("Error fetching suggestions:", error);
+
       // Show toast notification in development
       if (import.meta.env.DEV) {
-        toast.error('Failed to Load Suggestions', {
+        toast.error("Failed to Load Suggestions", {
           description: errorMessage,
           action: {
-            label: 'Retry',
-            onClick: () => fetchSuggestions()
-          }
+            label: "Retry",
+            onClick: () => fetchSuggestions(),
+          },
         });
       }
     } finally {
@@ -152,65 +152,64 @@ export default function SuggestionsReview() {
     fetchSuggestions();
   }, [fetchSuggestions]);
 
-  const handleReviewAction = async (suggestionId: string, action: 'approve' | 'reject' | 'pending') => {
+  const handleReviewAction = async (suggestionId: string, action: "approve" | "reject" | "pending") => {
     try {
       setActionLoading(suggestionId);
-      
+
       const token = await getAuthToken();
       if (!token) {
-        setError('Authentication token not available');
+        setError("Authentication token not available");
         return;
       }
-      
-      const functionsUrl = import.meta.env.DEV 
-        ? 'http://localhost:5001/wgu-extension-site-prod/us-central1'
-        : 'https://us-central1-wgu-extension-site-prod.cloudfunctions.net';
-      
+
+      const functionsUrl = config.isDev ?
+        `http://localhost:5001/${config.firebase.projectId}/us-central1` :
+        config.api.baseUrl;
+
       const response = await fetch(`${functionsUrl}/suggestionsAdmin`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           suggestionId,
           action,
-          reviewNotes: reviewNotes || undefined
-        })
+          reviewNotes: reviewNotes || undefined,
+        }),
       });
-      
+
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
         throw new Error(errorData.error || `HTTP ${response.status}: ${response.statusText}`);
       }
-      
+
       // Refresh the list
       await fetchSuggestions();
-      
+
       // Close review modal
       setReviewingSuggestion(null);
-      setReviewNotes('');
-      
+      setReviewNotes("");
+
       // Show success toast in development
       if (import.meta.env.DEV) {
-        toast.success(`Suggestion ${action === 'approve' ? 'Approved' : action === 'reject' ? 'Rejected' : 'Reset'}`, {
-          description: `Suggestion has been ${action === 'pending' ? 'reset to pending' : action + 'd'}.`
+        toast.success(`Suggestion ${action === "approve" ? "Approved" : action === "reject" ? "Rejected" : "Reset"}`, {
+          description: `Suggestion has been ${action === "pending" ? "reset to pending" : action + "d"}.`,
         });
       }
-      
     } catch (error: any) {
-      const errorMessage = error.message || 'Failed to update suggestion';
+      const errorMessage = error.message || "Failed to update suggestion";
       setError(errorMessage);
-      console.error('Error updating suggestion:', error);
-      
+      console.error("Error updating suggestion:", error);
+
       // Show error toast in development
       if (import.meta.env.DEV) {
-        toast.error('Failed to Update Suggestion', {
+        toast.error("Failed to Update Suggestion", {
           description: errorMessage,
           action: {
-            label: 'Retry',
-            onClick: () => handleReviewAction(suggestionId, action)
-          }
+            label: "Retry",
+            onClick: () => handleReviewAction(suggestionId, action),
+          },
         });
       }
     } finally {
@@ -226,37 +225,37 @@ export default function SuggestionsReview() {
       newParams.delete(key);
     }
     // Reset pagination when changing filters
-    newParams.delete('offset');
+    newParams.delete("offset");
     setSearchParams(newParams);
-    setPagination(prev => ({ ...prev, offset: 0 }));
+    setPagination((prev) => ({...prev, offset: 0}));
   };
 
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case 'pending':
-        return <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">
-          <Clock className="h-3 w-3 mr-1" />
+    case "pending":
+      return <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">
+        <Clock className="h-3 w-3 mr-1" />
           Pending
-        </Badge>;
-      case 'approved':
-        return <Badge variant="secondary" className="bg-green-100 text-green-800">
-          <CheckCircle2 className="h-3 w-3 mr-1" />
+      </Badge>;
+    case "approved":
+      return <Badge variant="secondary" className="bg-green-100 text-green-800">
+        <CheckCircle2 className="h-3 w-3 mr-1" />
           Approved
-        </Badge>;
-      case 'rejected':
-        return <Badge variant="secondary" className="bg-red-100 text-red-800">
-          <XCircle className="h-3 w-3 mr-1" />
+      </Badge>;
+    case "rejected":
+      return <Badge variant="secondary" className="bg-red-100 text-red-800">
+        <XCircle className="h-3 w-3 mr-1" />
           Rejected
-        </Badge>;
-      default:
-        return <Badge variant="secondary">{status}</Badge>;
+      </Badge>;
+    default:
+      return <Badge variant="secondary">{status}</Badge>;
     }
   };
 
   const getTypeDisplay = (suggestion: Suggestion) => {
-    if (suggestion.type === 'community_suggestion') {
+    if (suggestion.type === "community_suggestion") {
       return `Community: ${suggestion.communityType}`;
-    } else if (suggestion.type === 'extension_update') {
+    } else if (suggestion.type === "extension_update") {
       return `Extension: ${suggestion.source}`;
     }
     return suggestion.type;
@@ -266,9 +265,9 @@ export default function SuggestionsReview() {
     <div className="space-y-6">
       {/* Header */}
       <motion.div
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.4 }}
+        initial={{y: -20, opacity: 0}}
+        animate={{y: 0, opacity: 1}}
+        transition={{duration: 0.4}}
         className="flex items-center justify-between"
       >
         <div>
@@ -282,16 +281,16 @@ export default function SuggestionsReview() {
           onClick={fetchSuggestions}
           disabled={loading}
         >
-          <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
+          <RefreshCw className={`h-4 w-4 mr-2 ${loading ? "animate-spin" : ""}`} />
           Refresh
         </Button>
       </motion.div>
 
       {/* Filters */}
       <motion.div
-        initial={{ y: -10, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.1, duration: 0.4 }}
+        initial={{y: -10, opacity: 0}}
+        animate={{y: 0, opacity: 1}}
+        transition={{delay: 0.1, duration: 0.4}}
       >
         <Card className="p-4">
           <div className="flex items-center gap-4 flex-wrap">
@@ -301,7 +300,7 @@ export default function SuggestionsReview() {
               <select
                 id="status-filter"
                 value={currentStatus}
-                onChange={(e) => updateFilter('status', e.target.value)}
+                onChange={(e) => updateFilter("status", e.target.value)}
                 className="px-3 py-1 border border-input rounded-md text-sm"
               >
                 <option value="pending">Pending</option>
@@ -316,7 +315,7 @@ export default function SuggestionsReview() {
               <select
                 id="type-filter"
                 value={currentType}
-                onChange={(e) => updateFilter('type', e.target.value)}
+                onChange={(e) => updateFilter("type", e.target.value)}
                 className="px-3 py-1 border border-input rounded-md text-sm"
               >
                 <option value="">All Types</option>
@@ -330,7 +329,7 @@ export default function SuggestionsReview() {
               <Input
                 placeholder="Search suggestions..."
                 value={currentSearch}
-                onChange={(e) => updateFilter('search', e.target.value)}
+                onChange={(e) => updateFilter("search", e.target.value)}
                 className="text-sm"
               />
             </div>
@@ -341,8 +340,8 @@ export default function SuggestionsReview() {
       {/* Error Display */}
       {error && (
         <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{opacity: 0, y: -10}}
+          animate={{opacity: 1, y: 0}}
           className="p-4 rounded-lg bg-destructive/10 border border-destructive/20"
         >
           <p className="text-destructive">{error}</p>
@@ -351,14 +350,14 @@ export default function SuggestionsReview() {
 
       {/* Suggestions List */}
       <motion.div
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.2, duration: 0.4 }}
+        initial={{y: 20, opacity: 0}}
+        animate={{y: 0, opacity: 1}}
+        transition={{delay: 0.2, duration: 0.4}}
         className="space-y-4"
       >
         {loading ? (
           <div className="space-y-4">
-            {Array.from({ length: 5 }).map((_, i) => (
+            {Array.from({length: 5}).map((_, i) => (
               <div key={i} className="animate-pulse">
                 <div className="h-32 bg-gray-200 rounded-lg"></div>
               </div>
@@ -375,10 +374,10 @@ export default function SuggestionsReview() {
             {suggestions.map((suggestion, index) => (
               <motion.div
                 key={suggestion.id}
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -20, opacity: 0 }}
-                transition={{ delay: index * 0.05, duration: 0.3 }}
+                initial={{y: 20, opacity: 0}}
+                animate={{y: 0, opacity: 1}}
+                exit={{y: -20, opacity: 0}}
+                transition={{delay: index * 0.05, duration: 0.3}}
               >
                 <Card className="p-6 hover:shadow-md transition-shadow">
                   <div className="flex items-start justify-between">
@@ -429,11 +428,13 @@ export default function SuggestionsReview() {
                       {suggestion.reviewedAt && (
                         <div className="text-sm text-muted-foreground">
                           <span>
-                            Reviewed by {suggestion.reviewedBy} on{' '}
+                            Reviewed by {suggestion.reviewedBy} on{" "}
                             {new Date(suggestion.reviewedAt).toLocaleDateString()}
                           </span>
                           {suggestion.reviewNotes && (
-                            <p className="mt-1 italic">"{suggestion.reviewNotes}"</p>
+                            <p className="mt-1 italic">
+                              &ldquo;{suggestion.reviewNotes}&rdquo;
+                            </p>
                           )}
                         </div>
                       )}
@@ -449,17 +450,22 @@ export default function SuggestionsReview() {
                         Review
                       </Button>
 
-                      {suggestion.status === 'pending' && (
+                      {suggestion.status === "pending" && (
                         <>
                           <Button
                             variant="default"
                             size="sm"
-                            onClick={() => handleReviewAction(suggestion.id, 'approve')}
+                            onClick={() => handleReviewAction(suggestion.id, "approve")}
                             disabled={actionLoading === suggestion.id}
                             className="bg-green-600 hover:bg-green-700"
                           >
                             {actionLoading === suggestion.id ? (
-                              <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                              <div
+                                className={
+                                  "h-4 w-4 animate-spin rounded-full " +
+                                  "border-2 border-current border-t-transparent"
+                                }
+                              />
                             ) : (
                               <CheckCircle2 className="h-4 w-4" />
                             )}
@@ -467,11 +473,18 @@ export default function SuggestionsReview() {
                           <Button
                             variant="destructive"
                             size="sm"
-                            onClick={() => handleReviewAction(suggestion.id, 'reject')}
+                            onClick={() => {
+                              handleReviewAction(suggestion.id, "reject");
+                            }}
                             disabled={actionLoading === suggestion.id}
                           >
                             {actionLoading === suggestion.id ? (
-                              <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                              <div
+                                className={
+                                  "h-4 w-4 animate-spin rounded-full " +
+                                  "border-2 border-current border-t-transparent"
+                                }
+                              />
                             ) : (
                               <XCircle className="h-4 w-4" />
                             )}
@@ -491,16 +504,16 @@ export default function SuggestionsReview() {
       <AnimatePresence>
         {reviewingSuggestion && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            initial={{opacity: 0}}
+            animate={{opacity: 1}}
+            exit={{opacity: 0}}
             className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
             onClick={() => setReviewingSuggestion(null)}
           >
             <motion.div
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
+              initial={{scale: 0.95, opacity: 0}}
+              animate={{scale: 1, opacity: 1}}
+              exit={{scale: 0.95, opacity: 0}}
               className="bg-background rounded-lg shadow-lg max-w-2xl w-full max-h-[80vh] overflow-y-auto"
               onClick={(e: React.MouseEvent) => e.stopPropagation()}
             >
@@ -532,7 +545,7 @@ export default function SuggestionsReview() {
 
                   <div>
                     <Label className="text-sm font-medium">Name</Label>
-                    <p className="text-sm">{reviewingSuggestion.name || 'N/A'}</p>
+                    <p className="text-sm">{reviewingSuggestion.name || "N/A"}</p>
                   </div>
 
                   {reviewingSuggestion.description && (
@@ -596,27 +609,41 @@ export default function SuggestionsReview() {
                   >
                     Cancel
                   </Button>
-                  {reviewingSuggestion.status === 'pending' && (
+                  {reviewingSuggestion.status === "pending" && (
                     <>
                       <Button
                         variant="destructive"
-                        onClick={() => handleReviewAction(reviewingSuggestion.id, 'reject')}
+                        onClick={() => {
+                          handleReviewAction(reviewingSuggestion.id, "reject");
+                        }}
                         disabled={!!actionLoading}
                       >
                         {actionLoading === reviewingSuggestion.id ? (
-                          <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent mr-2" />
+                          <div
+                            className={
+                              "h-4 w-4 animate-spin rounded-full mr-2 " +
+                              "border-2 border-current border-t-transparent"
+                            }
+                          />
                         ) : (
                           <XCircle className="h-4 w-4 mr-2" />
                         )}
                         Reject
                       </Button>
                       <Button
-                        onClick={() => handleReviewAction(reviewingSuggestion.id, 'approve')}
+                        onClick={() => {
+                          handleReviewAction(reviewingSuggestion.id, "approve");
+                        }}
                         disabled={!!actionLoading}
                         className="bg-green-600 hover:bg-green-700"
                       >
                         {actionLoading === reviewingSuggestion.id ? (
-                          <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent mr-2" />
+                          <div
+                            className={
+                              "h-4 w-4 animate-spin rounded-full mr-2 " +
+                              "border-2 border-current border-t-transparent"
+                            }
+                          />
                         ) : (
                           <CheckCircle2 className="h-4 w-4 mr-2" />
                         )}
@@ -624,14 +651,21 @@ export default function SuggestionsReview() {
                       </Button>
                     </>
                   )}
-                  {reviewingSuggestion.status !== 'pending' && (
+                  {reviewingSuggestion.status !== "pending" && (
                     <Button
                       variant="outline"
-                      onClick={() => handleReviewAction(reviewingSuggestion.id, 'pending')}
+                      onClick={() => {
+                        handleReviewAction(reviewingSuggestion.id, "pending");
+                      }}
                       disabled={!!actionLoading}
                     >
                       {actionLoading === reviewingSuggestion.id ? (
-                        <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent mr-2" />
+                        <div
+                          className={
+                            "h-4 w-4 animate-spin rounded-full mr-2 " +
+                            "border-2 border-current border-t-transparent"
+                          }
+                        />
                       ) : (
                         <Clock className="h-4 w-4 mr-2" />
                       )}

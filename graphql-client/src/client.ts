@@ -1,4 +1,4 @@
-import { GraphQLClient } from 'graphql-request';
+import {GraphQLClient} from "graphql-request";
 
 export interface ClientConfig {
   endpoint?: string;
@@ -6,17 +6,19 @@ export interface ClientConfig {
   cache?: boolean;
 }
 
-const DEFAULT_ENDPOINT = 'https://us-central1-wgu-extension-site-prod.cloudfunctions.net/graphql';
+const DEFAULT_ENDPOINT = "https://us-central1-wgu-extension.cloudfunctions.net/publicApi";
 
 /**
- * Create a configured GraphQL client instance
+ * Create a configured GraphQL client instance.
+ * @param {ClientConfig} config - Client configuration options
+ * @return {GraphQLClient} Configured GraphQL client
  */
 export function createClient(config: ClientConfig = {}): GraphQLClient {
   const endpoint = config.endpoint || DEFAULT_ENDPOINT;
-  
+
   const client = new GraphQLClient(endpoint, {
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       ...config.headers,
     },
   });
