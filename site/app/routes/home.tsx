@@ -6,7 +6,6 @@ import Spotlight from "../components/Spotlight";
 import SearchResults from "../components/SearchResults";
 import {Navigation} from "../components/Navigation";
 import {Footer} from "../components/Footer";
-import {Logo} from "../components/Logo";
 import {Card} from "~/components/ui/card";
 import {Badge} from "~/components/ui/badge";
 import {Button} from "~/components/ui/button";

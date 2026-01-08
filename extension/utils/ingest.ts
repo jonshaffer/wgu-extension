@@ -1,6 +1,6 @@
 import {storage} from "#imports";
 import {extensionVersion, wguConnectIngestHistory} from "./storage";
-import {getApiBaseUrl} from "./config";
+import {config} from "./config";
 
 // Persistent anonymous fingerprint for this extension install
 const fingerprintKey = "local:fingerprint";
@@ -29,7 +29,7 @@ export async function getOrCreateFingerprint(): Promise<string> {
 }
 
 export function getFunctionsBaseUrl(): string {
-  return getApiBaseUrl();
+  return config.api.baseUrl;
 }
 
 // Once/week throttle per scope key (groupId:tab)

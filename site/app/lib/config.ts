@@ -44,11 +44,6 @@ export const config = {
  * @return {string} The GraphQL endpoint URL
  */
 export function getGraphQLEndpoint(): string {
-  // Allow direct endpoint override
-  if (import.meta.env.VITE_GRAPHQL_ENDPOINT) {
-    return import.meta.env.VITE_GRAPHQL_ENDPOINT;
-  }
-
   // In production build, always use production endpoint
   if (import.meta.env.PROD) {
     return config.api.publicEndpoint;

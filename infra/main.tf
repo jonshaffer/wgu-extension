@@ -9,7 +9,7 @@
 #   3. Run: tofu init && tofu apply
 
 module "github_wif" {
-  source = "github.com/hyperfluid-solutions/github-gcp-wif?ref=main"
+  source = "github.com/hyperfluid-solutions/github-gcp-wif?ref=9f6b1a359c1178a91a6efcefbfb9b208d2b7a453"
 
   project_id               = var.project_id
   github_organization_name = var.github_organization_name

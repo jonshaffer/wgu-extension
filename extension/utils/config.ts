@@ -41,20 +41,3 @@ export const config = {
   /** Check if running in production mode */
   isProd: import.meta.env.PROD,
 } as const;
-
-/**
- * Get the API base URL for the extension.
- * @return {string} The base URL for API calls
- */
-export function getApiBaseUrl(): string {
-  return config.api.baseUrl;
-}
-
-/**
- * Get the full URL for a specific API function.
- * @param {string} functionName - Name of the Cloud Function
- * @return {string} Full URL for the function
- */
-export function getApiUrl(functionName: string): string {
-  return `${config.api.baseUrl}/${functionName}`;
-}

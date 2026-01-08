@@ -6,9 +6,8 @@ import {ResourceLayout} from "~/components/ResourceLayout";
 import {Container} from "~/components/ui/container";
 import {Card, CardContent, CardHeader, CardTitle} from "~/components/ui/card";
 import {Badge} from "~/components/ui/badge";
-import {Button} from "~/components/ui/button";
 import {Skeleton} from "~/components/ui/skeleton";
-import {Users, Hash, Calendar, ExternalLink} from "lucide-react";
+import {Users, Hash} from "lucide-react";
 import {GET_STUDENT_GROUPS} from "~/graphql/queries";
 
 export function meta(_args: Route.MetaArgs) {
