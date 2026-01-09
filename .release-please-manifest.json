@@ -1,7 +1,7 @@
 {
-  "extension": "0.1.0",
-  "data": "0.1.0",
-  "functions": "0.1.0",
-  "site": "0.1.0",
-  "graphql-client": "0.1.0"
+  "extension": "1.0.0",
+  "data": "1.0.0",
+  "functions": "1.0.0",
+  "site": "1.0.0",
+  "graphql-client": "0.2.0"
 }
