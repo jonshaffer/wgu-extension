@@ -6,7 +6,6 @@ import {Footer} from "../../components/Footer";
 import {Button} from "~/components/ui/button";
 import {cn} from "~/lib/utils";
 import {Mail, Twitter, Linkedin} from "lucide-react";
-// @ts-expect-error - Raw imports may not have types
 import privacyContent from "../../content/PRIVACY.md?raw";
 
 export function meta() {
