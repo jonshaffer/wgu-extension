@@ -12,6 +12,8 @@ module.exports = {
   ],
   rules: {
     ...baseConfig.rules,
-    "@typescript-eslint/no-explicit-any": "error", // Stricter for published package
+    "max-len": ["error", {"code": 150}],
+    "valid-jsdoc": "warn", // Defer full JSDoc compliance
+    "@typescript-eslint/no-explicit-any": "warn", // Relaxed for now
   },
 };

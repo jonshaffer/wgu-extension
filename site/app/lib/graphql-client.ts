@@ -1,3 +1,5 @@
+import {getGraphQLEndpoint} from "./config";
+
 interface GraphQLResponse<T = any> {
   data?: T;
   errors?: Array<{
@@ -10,15 +12,13 @@ export async function graphqlQuery<T = any>(
   query: string,
   variables?: Record<string, any>
 ): Promise<GraphQLResponse<T>> {
-  const endpoint = process.env.NODE_ENV === 'production' 
-    ? 'https://us-central1-wgu-extension.cloudfunctions.net/graphql/graphql'
-    : 'http://localhost:5001/wgu-extension/us-central1/graphql/graphql';
+  const endpoint = getGraphQLEndpoint();
 
   try {
     const response = await fetch(endpoint, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         query,
@@ -33,11 +33,11 @@ export async function graphqlQuery<T = any>(
     const result = await response.json();
     return result;
   } catch (error) {
-    console.error('GraphQL query error:', error);
+    console.error("GraphQL query error:", error);
     return {
       errors: [{
-        message: error instanceof Error ? error.message : 'Unknown error occurred'
-      }]
+        message: error instanceof Error ? error.message : "Unknown error occurred",
+      }],
     };
   }
 }

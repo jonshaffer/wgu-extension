@@ -1,21 +1,22 @@
-import { storage } from '#imports';
-import { extensionVersion, wguConnectIngestHistory } from './storage';
+import {storage} from "#imports";
+import {extensionVersion, wguConnectIngestHistory} from "./storage";
+import {config} from "./config";
 
 // Persistent anonymous fingerprint for this extension install
-const fingerprintKey = 'local:fingerprint';
+const fingerprintKey = "local:fingerprint";
 
 export const fingerprint = storage.defineItem<string>(fingerprintKey, {
-  fallback: '',
+  fallback: "",
 });
 
 function randomHex(len = 40): string {
   const bytes = new Uint8Array(len / 2);
-  if (typeof crypto !== 'undefined' && crypto.getRandomValues) {
+  if (typeof crypto !== "undefined" && crypto.getRandomValues) {
     crypto.getRandomValues(bytes);
   } else {
     for (let i = 0; i < bytes.length; i++) bytes[i] = Math.floor(Math.random() * 256);
   }
-  return Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join('');
+  return Array.from(bytes).map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
 export async function getOrCreateFingerprint(): Promise<string> {
@@ -28,24 +29,22 @@ export async function getOrCreateFingerprint(): Promise<string> {
 }
 
 export function getFunctionsBaseUrl(): string {
-  // Prefer environment-like config via manifest web_accessible_resources later if needed
-  // For now, use the default region URL where functions are deployed.
-  return 'https://us-central1-wgu-extension.cloudfunctions.net';
+  return config.api.baseUrl;
 }
 
 // Once/week throttle per scope key (groupId:tab)
 export async function shouldThrottleWeekly(scopeKey: string): Promise<{ throttled: boolean; until?: string }> {
   const history = await wguConnectIngestHistory.getValue();
   const last = history[scopeKey];
-  if (!last) return { throttled: false };
+  if (!last) return {throttled: false};
   const lastTs = Date.parse(last);
   const weekMs = 7 * 24 * 60 * 60 * 1000;
   const now = Date.now();
   if (now - lastTs < weekMs) {
     const until = new Date(lastTs + weekMs).toISOString();
-    return { throttled: true, until };
+    return {throttled: true, until};
   }
-  return { throttled: false };
+  return {throttled: false};
 }
 
 export async function markIngest(scopeKey: string): Promise<void> {
@@ -66,7 +65,7 @@ export type WguConnectResource = {
 };
 
 export type WguConnectCollectionEvent = {
-  type: 'wgu_connect';
+  type: "wgu_connect";
   groupId: string;
   groupName: string;
   activeTab: string;
@@ -83,31 +82,33 @@ export type WguConnectCollectionEvent = {
   };
 };
 
-export async function postWguConnectCollection(event: Omit<WguConnectCollectionEvent, 'fingerprint' | 'meta'>): Promise<Response | null> {
+export async function postWguConnectCollection(
+  event: Omit<WguConnectCollectionEvent, "fingerprint" | "meta">,
+): Promise<Response | null> {
   const fp = await getOrCreateFingerprint();
   const ver = await extensionVersion.getValue();
   const payload: WguConnectCollectionEvent = {
     ...event,
-    type: 'wgu_connect',
+    type: "wgu_connect",
     fingerprint: fp,
     meta: {
       extensionVersion: ver,
-      client: 'extension',
+      client: "extension",
       userAgent: navigator.userAgent,
     },
   };
 
   const scopeKey = `${event.groupId}:${event.activeTab}`;
-  const { throttled } = await shouldThrottleWeekly(scopeKey);
+  const {throttled} = await shouldThrottleWeekly(scopeKey);
   if (throttled) return null;
 
   try {
     const res = await fetch(`${getFunctionsBaseUrl()}/ingestWguConnectCollection`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'X-Extension-Version': ver,
-        'X-Client': 'extension',
+        "Content-Type": "application/json",
+        "X-Extension-Version": ver,
+        "X-Client": "extension",
       },
       body: JSON.stringify(payload),
       // credentials: 'omit' to avoid sending cookies
@@ -115,7 +116,7 @@ export async function postWguConnectCollection(event: Omit<WguConnectCollectionE
     if (res.ok) await markIngest(scopeKey);
     return res;
   } catch (e) {
-    console.warn('[WGU Extension] Failed to post WGU Connect collection:', e);
+    console.warn("[WGU Extension] Failed to post WGU Connect collection:", e);
     return null;
   }
 }

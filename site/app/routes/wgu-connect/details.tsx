@@ -1,29 +1,28 @@
-import React from 'react';
-import { Link, useParams } from 'react-router';
-import { useQuery } from '@apollo/client/index.js';
-import { motion } from 'motion/react';
-import { GET_WGU_CONNECT_GROUP } from '~/graphql/queries';
-import { Container } from '~/components/ui/container';
-import { Card } from '~/components/ui/card';
-import { Badge } from '~/components/ui/badge';
-import { Button } from '~/components/ui/button';
-import { Separator } from '~/components/ui/separator';
-import { 
-  ArrowLeft, 
+import React from "react";
+import {Link, useParams} from "react-router";
+import {useQuery} from "@apollo/client/index.js";
+import {motion} from "motion/react";
+import {GET_WGU_CONNECT_GROUP} from "~/graphql/queries";
+import {Container} from "~/components/ui/container";
+import {Card} from "~/components/ui/card";
+import {Badge} from "~/components/ui/badge";
+import {Button} from "~/components/ui/button";
+import {
+  ArrowLeft,
   BookOpen,
   Users,
   Calendar,
   ExternalLink,
   MessageSquare,
   FileText,
-  CheckCircle
-} from 'lucide-react';
-import type { Route } from "./+types/details";
+  CheckCircle,
+} from "lucide-react";
+import type {Route} from "./+types/details";
 
-export function meta({ params }: Route.MetaArgs) {
+export function meta({params}: Route.MetaArgs) {
   return [
-    { title: `WGU Connect Group - WGU Extension` },
-    { name: "description", content: `View details for WGU Connect study group` },
+    {title: "WGU Connect Group - WGU Extension"},
+    {name: "description", content: "View details for WGU Connect study group"},
   ];
 }
 
@@ -49,11 +48,11 @@ interface WguConnectGroup {
 
 export default function WguConnectDetails() {
   const params = useParams();
-  const groupId = params.groupId || '';
+  const groupId = params.groupId || "";
 
-  const { data, loading, error } = useQuery(GET_WGU_CONNECT_GROUP, {
-    variables: { groupId },
-    skip: !groupId
+  const {data, loading, error} = useQuery(GET_WGU_CONNECT_GROUP, {
+    variables: {groupId},
+    skip: !groupId,
   });
 
   const group: WguConnectGroup | undefined = data?.wguConnectGroup;
@@ -86,35 +85,35 @@ export default function WguConnectDetails() {
 
   const getGroupTypeLabel = (type?: string) => {
     switch (type) {
-      case 'course':
-        return 'Course Group';
-      case 'degree':
-        return 'Degree Program';
-      case 'general':
-        return 'General Discussion';
-      default:
-        return 'Study Group';
+    case "course":
+      return "Course Group";
+    case "degree":
+      return "Degree Program";
+    case "general":
+      return "General Discussion";
+    default:
+      return "Study Group";
     }
   };
 
   const formatDate = (dateString?: string) => {
-    if (!dateString) return '';
+    if (!dateString) return "";
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    return date.toLocaleDateString("en-US", {year: "numeric", month: "long", day: "numeric"});
   };
 
   const getResourceIcon = (type?: string) => {
     switch (type) {
-      case 'video':
-        return '🎥';
-      case 'document':
-        return '📄';
-      case 'link':
-        return '🔗';
-      case 'tool':
-        return '🛠️';
-      default:
-        return '📚';
+    case "video":
+      return "🎥";
+    case "document":
+      return "📄";
+    case "link":
+      return "🔗";
+    case "tool":
+      return "🛠️";
+    default:
+      return "📚";
     }
   };
 
@@ -122,9 +121,9 @@ export default function WguConnectDetails() {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <motion.header
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.4 }}
+        initial={{y: -20, opacity: 0}}
+        animate={{y: 0, opacity: 1}}
+        transition={{duration: 0.4}}
         className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
       >
         <Container className="py-4">
@@ -169,9 +168,9 @@ export default function WguConnectDetails() {
             <div className="lg:col-span-2 space-y-8">
               {/* Group Info */}
               <motion.div
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.1, duration: 0.4 }}
+                initial={{y: 20, opacity: 0}}
+                animate={{y: 0, opacity: 1}}
+                transition={{delay: 0.1, duration: 0.4}}
               >
                 <Card className="p-6">
                   <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
@@ -207,9 +206,9 @@ export default function WguConnectDetails() {
               {/* Resources */}
               {group.resources && group.resources.length > 0 && (
                 <motion.div
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.2, duration: 0.4 }}
+                  initial={{y: 20, opacity: 0}}
+                  animate={{y: 0, opacity: 1}}
+                  transition={{delay: 0.2, duration: 0.4}}
                 >
                   <Card className="p-6">
                     <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
@@ -251,9 +250,9 @@ export default function WguConnectDetails() {
               {/* Guidelines */}
               {group.guidelines && group.guidelines.length > 0 && (
                 <motion.div
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.3, duration: 0.4 }}
+                  initial={{y: 20, opacity: 0}}
+                  animate={{y: 0, opacity: 1}}
+                  transition={{delay: 0.3, duration: 0.4}}
                 >
                   <Card className="p-6">
                     <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
@@ -277,18 +276,18 @@ export default function WguConnectDetails() {
             <div className="space-y-6">
               {/* Quick Actions */}
               <motion.div
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.4, duration: 0.4 }}
+                initial={{y: 20, opacity: 0}}
+                animate={{y: 0, opacity: 1}}
+                transition={{delay: 0.4, duration: 0.4}}
               >
                 <Card className="p-6">
                   <h3 className="font-semibold mb-4">Quick Actions</h3>
                   <div className="space-y-3">
                     {group.url && (
                       <Button asChild className="w-full">
-                        <a 
-                          href={group.url} 
-                          target="_blank" 
+                        <a
+                          href={group.url}
+                          target="_blank"
                           rel="noopener noreferrer"
                         >
                           <ExternalLink className="h-4 w-4 mr-2" />
@@ -314,9 +313,9 @@ export default function WguConnectDetails() {
 
               {/* Related */}
               <motion.div
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.5, duration: 0.4 }}
+                initial={{y: 20, opacity: 0}}
+                animate={{y: 0, opacity: 1}}
+                transition={{delay: 0.5, duration: 0.4}}
               >
                 <Card className="p-6">
                   <h3 className="font-semibold mb-4">Find More</h3>

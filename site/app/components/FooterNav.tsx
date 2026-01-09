@@ -1,7 +1,7 @@
 import * as React from "react";
-import { Link } from "react-router";
-import { ArrowUpRight } from "lucide-react";
-import { cn } from "~/lib/utils";
+import {Link} from "react-router";
+import {ArrowUpRight} from "lucide-react";
+import {cn} from "~/lib/utils";
 
 type NavItem = {
   label: string;
@@ -18,19 +18,19 @@ export type FooterNavProps = {
 };
 
 const DEFAULT_PRIMARY: NavItem[] = [
-  { label: "Home", href: "/", internal: true },
-  { label: "Search", href: "/search", internal: true },
-  { label: "Docs", href: "/docs", internal: true },
-  { label: "Courses", href: "/courses", internal: true },
-  { label: "Discord", href: "/discord", internal: true },
-  { label: "Reddit", href: "/reddit", internal: true },
-  { label: "GitHub", href: "https://github.com/jonshaffer/wgu-extension", external: true },
+  {label: "Home", href: "/", internal: true},
+  {label: "Search", href: "/search", internal: true},
+  {label: "Docs", href: "/docs", internal: true},
+  {label: "Courses", href: "/courses", internal: true},
+  {label: "Discord", href: "/discord", internal: true},
+  {label: "Reddit", href: "/reddit", internal: true},
+  {label: "GitHub", href: "https://github.com/jonshaffer/wgu-extension", external: true},
 ];
 
 const DEFAULT_SECONDARY: NavItem[] = [
-  { label: "Privacy Policy", href: "/docs/privacy", internal: true },
-  { label: "Search Syntax", href: "/docs/search-syntax", internal: true },
-  { label: "Style Guide", href: "/docs/style-guide", internal: true },
+  {label: "Privacy Policy", href: "/docs/privacy", internal: true},
+  {label: "Search Syntax", href: "/docs/search-syntax", internal: true},
+  {label: "Style Guide", href: "/docs/style-guide", internal: true},
 ];
 
 export default function FooterNav({
@@ -45,9 +45,9 @@ export default function FooterNav({
         {primary.map((item) => {
           const isExternal = !!item.external;
           const isInternal = !!item.internal;
-          const externalAttrs = isExternal && openExternalInNewTab
-            ? { target: "_blank", rel: "noopener noreferrer" }
-            : {};
+          const externalAttrs = isExternal && openExternalInNewTab ?
+            {target: "_blank", rel: "noopener noreferrer"} :
+            {};
 
           if (isInternal) {
             return (

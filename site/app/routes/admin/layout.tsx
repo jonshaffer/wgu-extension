@@ -1,15 +1,15 @@
-import React from 'react';
-import { Outlet, useNavigate, useLocation } from 'react-router';
-import { motion } from 'motion/react';
-import { toast } from 'sonner';
-import { useAuth } from '~/lib/auth';
-import { Container } from '~/components/ui/container';
-import { Button } from '~/components/ui/button';
-import { Card } from '~/components/ui/card';
-import { LogOut, Settings, FileText } from 'lucide-react';
+import React from "react";
+import {Outlet, useNavigate, useLocation} from "react-router";
+import {motion} from "motion/react";
+import {toast} from "sonner";
+import {useAuth} from "~/lib/auth";
+import {Container} from "~/components/ui/container";
+import {Button} from "~/components/ui/button";
+import {Card} from "~/components/ui/card";
+import {LogOut, Settings, FileText} from "lucide-react";
 
 export default function AdminLayout() {
-  const { user, loading, logout, isAdmin } = useAuth();
+  const {user, loading, logout, isAdmin} = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -23,22 +23,22 @@ export default function AdminLayout() {
   }
 
   // Redirect to login if not authenticated
-  if (!user && location.pathname !== '/admin/login') {
-    navigate('/admin/login');
+  if (!user && location.pathname !== "/admin/login") {
+    navigate("/admin/login");
     return null;
   }
 
   // Show access denied if not admin
-  if (user && !isAdmin && location.pathname !== '/admin/login') {
+  if (user && !isAdmin && location.pathname !== "/admin/login") {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <Container size="sm">
           <Card className="p-8 text-center">
             <h1 className="text-2xl font-bold mb-4">Access Denied</h1>
             <p className="text-muted-foreground mb-6">
-              You don't have permission to access the admin panel.
+              You don&apos;t have permission to access the admin panel.
             </p>
-            <Button onClick={() => navigate('/')}>
+            <Button onClick={() => navigate("/")}>
               Go to Home
             </Button>
           </Card>
@@ -55,25 +55,25 @@ export default function AdminLayout() {
   const handleLogout = async () => {
     try {
       await logout();
-      navigate('/admin/login');
-      
+      navigate("/admin/login");
+
       // Show success toast in development
       if (import.meta.env.DEV) {
-        toast.success('Logged Out', {
-          description: 'You have been successfully logged out.'
+        toast.success("Logged Out", {
+          description: "You have been successfully logged out.",
         });
       }
     } catch (error: any) {
-      console.error('Error logging out:', error);
-      
+      console.error("Error logging out:", error);
+
       // Show error toast in development
       if (import.meta.env.DEV) {
-        toast.error('Logout Failed', {
-          description: error.message || 'An error occurred while logging out.',
+        toast.error("Logout Failed", {
+          description: error.message || "An error occurred while logging out.",
           action: {
-            label: 'Retry',
-            onClick: handleLogout
-          }
+            label: "Retry",
+            onClick: handleLogout,
+          },
         });
       }
     }
@@ -83,9 +83,9 @@ export default function AdminLayout() {
     <div className="min-h-screen bg-background">
       {/* Admin Header */}
       <motion.header
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.4 }}
+        initial={{y: -20, opacity: 0}}
+        animate={{y: 0, opacity: 1}}
+        transition={{duration: 0.4}}
         className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
       >
         <Container className="py-4">
@@ -99,17 +99,17 @@ export default function AdminLayout() {
               </div>
               <nav className="flex items-center gap-2">
                 <Button
-                  variant={location.pathname === '/admin' ? 'default' : 'ghost'}
+                  variant={location.pathname === "/admin" ? "default" : "ghost"}
                   size="sm"
-                  onClick={() => navigate('/admin')}
+                  onClick={() => navigate("/admin")}
                 >
                   <Settings className="h-4 w-4 mr-2" />
                   Dashboard
                 </Button>
                 <Button
-                  variant={location.pathname === '/admin/suggestions' ? 'default' : 'ghost'}
+                  variant={location.pathname === "/admin/suggestions" ? "default" : "ghost"}
                   size="sm"
-                  onClick={() => navigate('/admin/suggestions')}
+                  onClick={() => navigate("/admin/suggestions")}
                 >
                   <FileText className="h-4 w-4 mr-2" />
                   Suggestions
@@ -120,7 +120,7 @@ export default function AdminLayout() {
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => navigate('/')}
+                onClick={() => navigate("/")}
               >
                 View Site
               </Button>

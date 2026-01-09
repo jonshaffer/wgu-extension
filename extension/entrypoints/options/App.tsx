@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Separator } from '@/components/ui/separator';
-import { toast } from 'sonner';
-import { storage } from '@wxt-dev/storage';
-import { SHOW_REPORT_PERCENTAGE, ENABLE_DISCORD_INTEGRATION, ENABLE_REDDIT_INTEGRATION, ENABLE_WGU_CONNECT_INTEGRATION, ENABLE_COURSE_COMMUNITIES } from '@/utils/storage.constants';
-import { 
-  dataCollectionEnabled, 
-  discordCollectionEnabled, 
+import React, {useState, useEffect} from "react";
+import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
+import {Button} from "@/components/ui/button";
+import {Switch} from "@/components/ui/switch";
+import {Label} from "@/components/ui/label";
+import {Alert, AlertDescription} from "@/components/ui/alert";
+import {Separator} from "@/components/ui/separator";
+import {toast} from "sonner";
+import {storage} from "@wxt-dev/storage";
+import {SHOW_REPORT_PERCENTAGE, ENABLE_DISCORD_INTEGRATION, ENABLE_REDDIT_INTEGRATION, ENABLE_WGU_CONNECT_INTEGRATION, ENABLE_COURSE_COMMUNITIES} from "@/utils/storage.constants";
+import {
+  dataCollectionEnabled,
+  discordCollectionEnabled,
   wguConnectCollectionEnabled,
-  firstInstall
-} from '../../utils/storage';
-import { ModeToggle } from '@/components/mode-toggle';
+  firstInstall,
+} from "../../utils/storage";
+import {ModeToggle} from "@/components/mode-toggle";
 
 export default function OptionsPage() {
   const [settings, setSettings] = useState({
@@ -22,7 +22,7 @@ export default function OptionsPage() {
     dataCollectionEnabled: false,
     discordCollectionEnabled: false,
     wguConnectCollectionEnabled: false,
-    // Feature settings  
+    // Feature settings
     showReportPercent: true,
     enableDiscord: true,
     enableReddit: false,
@@ -46,7 +46,7 @@ export default function OptionsPage() {
         discordValue,
         redditValue,
         wguConnectValue,
-        courseCommunitiesValue
+        courseCommunitiesValue,
       ] = await Promise.all([
         dataCollectionEnabled.getValue(),
         discordCollectionEnabled.getValue(),
@@ -55,7 +55,7 @@ export default function OptionsPage() {
         storage.getItem<boolean>(ENABLE_DISCORD_INTEGRATION),
         storage.getItem<boolean>(ENABLE_REDDIT_INTEGRATION),
         storage.getItem<boolean>(ENABLE_WGU_CONNECT_INTEGRATION),
-        storage.getItem<boolean>(ENABLE_COURSE_COMMUNITIES)
+        storage.getItem<boolean>(ENABLE_COURSE_COMMUNITIES),
       ]);
 
       setSettings({
@@ -71,8 +71,8 @@ export default function OptionsPage() {
         enableCourseCommunities: courseCommunitiesValue ?? true,
       });
     } catch (error) {
-      console.error('Error loading settings:', error);
-      toast.error('Failed to load settings');
+      console.error("Error loading settings:", error);
+      toast.error("Failed to load settings");
     } finally {
       setLoading(false);
     }
@@ -95,17 +95,17 @@ export default function OptionsPage() {
       ]);
 
       await firstInstall.setValue(false);
-      toast.success('Settings saved successfully!');
+      toast.success("Settings saved successfully!");
     } catch (error) {
-      console.error('Error saving settings:', error);
-      toast.error('Failed to save settings');
+      console.error("Error saving settings:", error);
+      toast.error("Failed to save settings");
     } finally {
       setSaving(false);
     }
   };
 
   const handleMainToggle = (enabled: boolean) => {
-    setSettings(prev => ({
+    setSettings((prev) => ({
       ...prev,
       dataCollectionEnabled: enabled,
       discordCollectionEnabled: enabled ? prev.discordCollectionEnabled : false,
@@ -114,14 +114,14 @@ export default function OptionsPage() {
   };
 
   const handleSubToggle = (key: string, enabled: boolean) => {
-    setSettings(prev => ({
+    setSettings((prev) => ({
       ...prev,
       [key]: enabled,
     }));
   };
 
   const handleFeatureToggle = (key: string, enabled: boolean) => {
-    setSettings(prev => ({
+    setSettings((prev) => ({
       ...prev,
       [key]: enabled,
     }));
@@ -170,7 +170,7 @@ export default function OptionsPage() {
               <Switch
                 id="show-report-percent"
                 checked={settings.showReportPercent}
-                onCheckedChange={(enabled) => handleFeatureToggle('showReportPercent', enabled)}
+                onCheckedChange={(enabled) => handleFeatureToggle("showReportPercent", enabled)}
               />
             </div>
 
@@ -186,7 +186,7 @@ export default function OptionsPage() {
               <Switch
                 id="course-communities"
                 checked={settings.enableCourseCommunities}
-                onCheckedChange={(enabled) => handleFeatureToggle('enableCourseCommunities', enabled)}
+                onCheckedChange={(enabled) => handleFeatureToggle("enableCourseCommunities", enabled)}
               />
             </div>
           </CardContent>
@@ -213,7 +213,7 @@ export default function OptionsPage() {
               <Switch
                 id="discord-integration"
                 checked={settings.enableDiscord}
-                onCheckedChange={(enabled) => handleFeatureToggle('enableDiscord', enabled)}
+                onCheckedChange={(enabled) => handleFeatureToggle("enableDiscord", enabled)}
               />
             </div>
 
@@ -229,7 +229,7 @@ export default function OptionsPage() {
               <Switch
                 id="reddit-integration"
                 checked={settings.enableReddit}
-                onCheckedChange={(enabled) => handleFeatureToggle('enableReddit', enabled)}
+                onCheckedChange={(enabled) => handleFeatureToggle("enableReddit", enabled)}
               />
             </div>
 
@@ -245,7 +245,7 @@ export default function OptionsPage() {
               <Switch
                 id="wgu-connect-integration"
                 checked={settings.enableWguConnect}
-                onCheckedChange={(enabled) => handleFeatureToggle('enableWguConnect', enabled)}
+                onCheckedChange={(enabled) => handleFeatureToggle("enableWguConnect", enabled)}
               />
             </div>
           </CardContent>
@@ -267,7 +267,7 @@ export default function OptionsPage() {
                   Help Keep This Extension Current
                 </Label>
                 <p className="text-sm text-muted-foreground mt-1">
-                  Enable data collection to help improve the extension with community resources and course information. 
+                  Enable data collection to help improve the extension with community resources and course information.
                   Only public, non-personal data is collected to benefit the WGU community.
                 </p>
               </div>
@@ -294,7 +294,7 @@ export default function OptionsPage() {
                   <Switch
                     id="discord-collection"
                     checked={settings.discordCollectionEnabled}
-                    onCheckedChange={(enabled) => handleSubToggle('discordCollectionEnabled', enabled)}
+                    onCheckedChange={(enabled) => handleSubToggle("discordCollectionEnabled", enabled)}
                   />
                 </div>
 
@@ -311,7 +311,7 @@ export default function OptionsPage() {
                   <Switch
                     id="wgu-connect-collection"
                     checked={settings.wguConnectCollectionEnabled}
-                    onCheckedChange={(enabled) => handleSubToggle('wguConnectCollectionEnabled', enabled)}
+                    onCheckedChange={(enabled) => handleSubToggle("wguConnectCollectionEnabled", enabled)}
                   />
                 </div>
               </div>
@@ -336,7 +336,7 @@ export default function OptionsPage() {
         {/* Save Button */}
         <div className="flex justify-end">
           <Button onClick={saveSettings} disabled={saving} size="lg">
-            {saving ? 'Saving...' : 'Save All Settings'}
+            {saving ? "Saving..." : "Save All Settings"}
           </Button>
         </div>
       </div>

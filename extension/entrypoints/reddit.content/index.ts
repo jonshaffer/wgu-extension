@@ -1,43 +1,43 @@
-import { storage } from '@wxt-dev/storage';
-import { ENABLE_REDDIT_INTEGRATION } from '@/utils/storage.constants';
-import { loadCommunityData } from '@/utils/community-data';
+import {storage} from "@wxt-dev/storage";
+import {ENABLE_REDDIT_INTEGRATION} from "@/utils/storage.constants";
+import {loadCommunityData} from "@/utils/community-data";
 
 export default defineContentScript({
-  matches: ['https://www.reddit.com/r/WGU*', 'https://old.reddit.com/r/WGU*', 'https://new.reddit.com/r/WGU*'],
-  runAt: 'document_end',
+  matches: ["https://www.reddit.com/r/WGU*", "https://old.reddit.com/r/WGU*", "https://new.reddit.com/r/WGU*"],
+  runAt: "document_end",
 
   async main(ctx) {
-    console.log('WGU Extension: Reddit content script loaded');
+    console.log("WGU Extension: Reddit content script loaded");
 
     // Check if Reddit integration is enabled
     const isRedditEnabled = await storage.getItem<boolean>(ENABLE_REDDIT_INTEGRATION);
     if (isRedditEnabled === false) {
-      console.log('WGU Extension: Reddit integration disabled by user');
+      console.log("WGU Extension: Reddit integration disabled by user");
       return;
     }
 
     // Extract subreddit from URL
     function parseRedditUrl(): { subreddit: string; isPost: boolean; postId?: string } | null {
-      const urlMatch = window.location.pathname.match(/^\/r\/([^\/]+)(?:\/comments\/([^\/]+))?/);
+      const urlMatch = window.location.pathname.match(/^\/r\/([^/]+)(?:\/comments\/([^/]+))?/);
       if (!urlMatch) {
-        console.log('WGU Extension: Not on a Reddit subreddit page');
+        console.log("WGU Extension: Not on a Reddit subreddit page");
         return null;
       }
-      
+
       return {
         subreddit: urlMatch[1],
         isPost: !!urlMatch[2],
-        postId: urlMatch[2]
+        postId: urlMatch[2],
       };
     }
 
     // Load Reddit communities from remote unified dataset
     async function loadRedditCommunities() {
       try {
-        const { unifiedData } = await loadCommunityData();
+        const {unifiedData} = await loadCommunityData();
         return unifiedData;
       } catch (error) {
-        console.error('WGU Extension: Error loading unified communities:', error);
+        console.error("WGU Extension: Error loading unified communities:", error);
         return null;
       }
     }
@@ -49,18 +49,20 @@ export default defineContentScript({
       try {
         // University-level reddit links
         (unified.universityLevel?.reddit || []).forEach((link: any) => {
-          if (typeof link?.name === 'string') allowSet.add(link.name.toLowerCase());
+          if (typeof link?.name === "string") allowSet.add(link.name.toLowerCase());
         });
         // Course-level reddit links
         (unified.courseMappings || []).forEach((m: any) => {
           (m.reddit || []).forEach((link: any) => {
-            if (typeof link?.name === 'string') allowSet.add(link.name.toLowerCase());
+            if (typeof link?.name === "string") allowSet.add(link.name.toLowerCase());
           });
         });
-      } catch {}
+      } catch {
+        // Ignore errors loading community data - fallback to not whitelisted
+      }
       const key = `r/${subreddit}`.toLowerCase();
       const isAllowed = allowSet.has(key);
-      console.log(`WGU Extension: Subreddit r/${subreddit} ${isAllowed ? 'is' : 'is not'} whitelisted`);
+      console.log(`WGU Extension: Subreddit r/${subreddit} ${isAllowed ? "is" : "is not"} whitelisted`);
       return isAllowed;
     }
 
@@ -70,29 +72,29 @@ export default defineContentScript({
       const coursePattern = /\b([A-Z]\d{3,4})\b/gi;
 
       // Check post title
-      const titleElement = document.querySelector('[data-test-id="post-content"] h1, .title, [slot="title"]');
+      const titleElement = document.querySelector("[data-test-id=\"post-content\"] h1, .title, [slot=\"title\"]");
       if (titleElement) {
         const matches = titleElement.textContent?.match(coursePattern);
         if (matches) {
-          matches.forEach(code => courseCodes.add(code.toUpperCase()));
+          matches.forEach((code) => courseCodes.add(code.toUpperCase()));
         }
       }
 
       // Check post content
-      const contentElements = document.querySelectorAll('[data-test-id="post-content"] p, .usertext-body p, .md p');
-      contentElements.forEach(element => {
+      const contentElements = document.querySelectorAll("[data-test-id=\"post-content\"] p, .usertext-body p, .md p");
+      contentElements.forEach((element) => {
         const matches = element.textContent?.match(coursePattern);
         if (matches) {
-          matches.forEach(code => courseCodes.add(code.toUpperCase()));
+          matches.forEach((code) => courseCodes.add(code.toUpperCase()));
         }
       });
 
       // Check comments (first few visible ones)
-      const commentElements = document.querySelectorAll('.comment .usertext-body, [data-testid="comment"] p');
-      Array.from(commentElements).slice(0, 10).forEach(element => {
+      const commentElements = document.querySelectorAll(".comment .usertext-body, [data-testid=\"comment\"] p");
+      Array.from(commentElements).slice(0, 10).forEach((element) => {
         const matches = element.textContent?.match(coursePattern);
         if (matches) {
-          matches.forEach(code => courseCodes.add(code.toUpperCase()));
+          matches.forEach((code) => courseCodes.add(code.toUpperCase()));
         }
       });
 
@@ -101,8 +103,8 @@ export default defineContentScript({
 
     // Create WGU helper panel for Reddit
     function createWguHelperPanel(subreddit: string, courseCodes: string[], isPost: boolean) {
-      const panelId = 'wgu-extension-reddit-panel';
-      
+      const panelId = "wgu-extension-reddit-panel";
+
       // Remove existing panel
       const existingPanel = document.getElementById(panelId);
       if (existingPanel) {
@@ -110,7 +112,7 @@ export default defineContentScript({
       }
 
       // Create panel
-      const panel = document.createElement('div');
+      const panel = document.createElement("div");
       panel.id = panelId;
       panel.style.cssText = `
         position: fixed;
@@ -131,7 +133,7 @@ export default defineContentScript({
 
       let content = `
         <div style="display: flex; align-items: center; margin-bottom: 8px;">
-          <img src="${browser.runtime.getURL('icons/16.png' as any)}" style="height: 20px; margin-right: 8px;">
+          <img src="${browser.runtime.getURL("icons/16.png" as any)}" style="height: 20px; margin-right: 8px;">
           <strong>WGU Extension</strong>
         </div>
       `;
@@ -149,7 +151,7 @@ export default defineContentScript({
           </div>
         `;
 
-        courseCodes.forEach(courseCode => {
+        courseCodes.forEach((courseCode) => {
           content += `
             <div style="margin-bottom: 4px;">
               <a href="https://my.wgu.edu/courses/course/${courseCode}" 
@@ -163,7 +165,7 @@ export default defineContentScript({
       } else {
         content += `
           <div style="margin-bottom: 8px; color: #818384; font-size: 12px;">
-            No WGU course codes detected in this ${isPost ? 'post' : 'page'}
+            No WGU course codes detected in this ${isPost ? "post" : "page"}
           </div>
         `;
       }
@@ -188,8 +190,8 @@ export default defineContentScript({
       panel.innerHTML = content;
 
       // Add close button
-      const closeBtn = document.createElement('button');
-      closeBtn.innerHTML = '×';
+      const closeBtn = document.createElement("button");
+      closeBtn.innerHTML = "×";
       closeBtn.style.cssText = `
         position: absolute;
         top: 8px;
@@ -214,7 +216,7 @@ export default defineContentScript({
       // Auto-hide after 15 seconds
       setTimeout(() => {
         if (panel && panel.parentNode) {
-          panel.style.opacity = '0.4';
+          panel.style.opacity = "0.4";
         }
       }, 15000);
     }
@@ -226,19 +228,19 @@ export default defineContentScript({
         return;
       }
 
-  const unified = await loadRedditCommunities();
-  if (!unified) {
-        console.error('WGU Extension: Could not load Reddit communities');
+      const unified = await loadRedditCommunities();
+      if (!unified) {
+        console.error("WGU Extension: Could not load Reddit communities");
         return;
       }
 
-  if (!isWhitelisted(urlInfo.subreddit, unified)) {
-        console.log('WGU Extension: Subreddit not whitelisted, extension inactive');
+      if (!isWhitelisted(urlInfo.subreddit, unified)) {
+        console.log("WGU Extension: Subreddit not whitelisted, extension inactive");
         return;
       }
 
-      console.log('WGU Extension: Activating on whitelisted Reddit community');
-      
+      console.log("WGU Extension: Activating on whitelisted Reddit community");
+
       // Wait for Reddit to load content (Reddit is SPA)
       setTimeout(() => {
         const courseCodes = detectCourseCodes();
@@ -251,14 +253,14 @@ export default defineContentScript({
     const observer = new MutationObserver(() => {
       if (window.location.href !== currentUrl) {
         currentUrl = window.location.href;
-        console.log('WGU Extension: Reddit navigation detected');
+        console.log("WGU Extension: Reddit navigation detected");
         setTimeout(initialize, 1500); // Delay for Reddit to load new content
       }
     });
 
     observer.observe(document.body, {
       childList: true,
-      subtree: true
+      subtree: true,
     });
 
     // Initial load

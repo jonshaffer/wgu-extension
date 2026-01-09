@@ -1,15 +1,15 @@
 /**
  * Catalog Format Detector
- * 
+ *
  * Detects which parser version to use based on PDF characteristics.
  * This separation allows us to add new parsers without modifying existing ones.
  */
 
-import { createRequire } from 'module';
-import fs from 'fs/promises';
+import {createRequire} from "module";
+import fs from "fs/promises";
 
 const require = createRequire(import.meta.url);
-const pdfParse = require('pdf-parse');
+const pdfParse = require("pdf-parse");
 
 export interface CatalogFormat {
   version: string;
@@ -25,53 +25,53 @@ export interface CatalogFormat {
 // Define all known catalog formats
 export const CATALOG_FORMATS: CatalogFormat[] = [
   {
-    version: 'v1.0',
-    strategy: 'embedded-ccn',
-    parserModule: './v1-embedded-ccn.ts',
+    version: "v1.0",
+    strategy: "embedded-ccn",
+    parserModule: "./v1-embedded-ccn.ts",
     characteristics: {
       yearRange: [2017, 2020],
       contentPatterns: [
-        'embedded CCN in course descriptions',
-        'inline course codes without tables'
+        "embedded CCN in course descriptions",
+        "inline course codes without tables",
       ],
-      tableFormat: 'minimal'
-    }
+      tableFormat: "minimal",
+    },
   },
   {
-    version: 'v2.0',
-    strategy: 'structured-tables',
-    parserModule: './v2-structured-tables.ts',
+    version: "v2.0",
+    strategy: "structured-tables",
+    parserModule: "./v2-structured-tables.ts",
     characteristics: {
       yearRange: [2021, 2023],
       contentPatterns: [
-        'CCN in dedicated tables',
-        'structured degree plan tables',
-        'clear course/CCN separation'
+        "CCN in dedicated tables",
+        "structured degree plan tables",
+        "clear course/CCN separation",
       ],
-      tableFormat: 'structured'
-    }
+      tableFormat: "structured",
+    },
   },
   {
-    version: 'v2.1',
-    strategy: 'enhanced-structured',
-    parserModule: './v2.1-enhanced-structured.ts',
+    version: "v2.1",
+    strategy: "enhanced-structured",
+    parserModule: "./v2.1-enhanced-structured.ts",
     characteristics: {
       yearRange: [2024, 2030], // Future-proof
       contentPatterns: [
-        'enhanced table formatting',
-        'program outcomes section',
-        'standalone courses section',
-        'certificate programs with pricing'
+        "enhanced table formatting",
+        "program outcomes section",
+        "standalone courses section",
+        "certificate programs with pricing",
       ],
-      tableFormat: 'enhanced'
-    }
-  }
+      tableFormat: "enhanced",
+    },
+  },
 ];
 
 export class CatalogFormatDetector {
   private filename: string;
   private year: number;
-  private textSample: string = '';
+  private textSample: string = "";
 
   constructor(filename: string) {
     this.filename = filename;
@@ -89,7 +89,7 @@ export class CatalogFormatDetector {
   async loadSample(filePath: string): Promise<void> {
     const dataBuffer = await fs.readFile(filePath);
     const pdfData = await pdfParse(dataBuffer, {
-      max: 10 // Only parse first 10 pages for detection
+      max: 10, // Only parse first 10 pages for detection
     });
     this.textSample = pdfData.text;
   }
@@ -131,21 +131,21 @@ export class CatalogFormatDetector {
   private verifyFormat(format: CatalogFormat): boolean {
     // Check for format-specific patterns
     switch (format.version) {
-      case 'v1.0':
-        // Legacy format has CCN embedded in descriptions
-        return /[A-Z]\d{3,4}[A-Z]?\s*\([A-Z]{2,4}\s+\d{3,5}\)/.test(this.textSample);
-      
-      case 'v2.0':
-        // Modern format has clear CCN tables
-        return /CCN\s+Course\s+Number\s+Course\s+Description/.test(this.textSample);
-      
-      case 'v2.1':
-        // Enhanced format has program outcomes and standalone courses
-        return /Program\s+Outcomes/.test(this.textSample) || 
+    case "v1.0":
+      // Legacy format has CCN embedded in descriptions
+      return /[A-Z]\d{3,4}[A-Z]?\s*\([A-Z]{2,4}\s+\d{3,5}\)/.test(this.textSample);
+
+    case "v2.0":
+      // Modern format has clear CCN tables
+      return /CCN\s+Course\s+Number\s+Course\s+Description/.test(this.textSample);
+
+    case "v2.1":
+      // Enhanced format has program outcomes and standalone courses
+      return /Program\s+Outcomes/.test(this.textSample) ||
                /Standalone\s+Courses/.test(this.textSample);
-      
-      default:
-        return false;
+
+    default:
+      return false;
     }
   }
 
@@ -161,9 +161,9 @@ Catalog Format Detection:
   Detected Version: ${format.version}
   Strategy: ${format.strategy}
   Characteristics:
-    - Year Range: ${format.characteristics.yearRange.join('-')}
+    - Year Range: ${format.characteristics.yearRange.join("-")}
     - Table Format: ${format.characteristics.tableFormat}
-    - Patterns: ${format.characteristics.contentPatterns.join(', ')}
+    - Patterns: ${format.characteristics.contentPatterns.join(", ")}
 `;
   }
 }
@@ -173,17 +173,17 @@ Catalog Format Detection:
  */
 export async function getParser(filename: string, filePath?: string) {
   const detector = new CatalogFormatDetector(filename);
-  
+
   // Load sample if file path provided
   if (filePath) {
     await detector.loadSample(filePath);
   }
-  
+
   const format = detector.detect();
   console.log(detector.getFormatInfo());
-  
+
   // For now, return the unified parser
   // In future, we can split into separate parser modules
-  const { CatalogParserUnified } = await import('./unified.js');
+  const {CatalogParserUnified} = await import("./unified.js");
   return new CatalogParserUnified(filename);
 }

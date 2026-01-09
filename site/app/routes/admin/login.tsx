@@ -1,66 +1,66 @@
-import React from 'react';
-import { useNavigate } from 'react-router';
-import { motion } from 'motion/react';
-import { toast } from 'sonner';
-import { useAuth } from '~/lib/auth';
-import { Container } from '~/components/ui/container';
-import { Button } from '~/components/ui/button';
-import { Card } from '~/components/ui/card';
-import { Input } from '~/components/ui/input';
-import { Label } from '~/components/ui/label';
-import { Eye, EyeOff } from 'lucide-react';
-import type { Route } from "./+types/login";
+import React from "react";
+import {useNavigate} from "react-router";
+import {motion} from "motion/react";
+import {toast} from "sonner";
+import {useAuth} from "~/lib/auth";
+import {Container} from "~/components/ui/container";
+import {Button} from "~/components/ui/button";
+import {Card} from "~/components/ui/card";
+import {Input} from "~/components/ui/input";
+import {Label} from "~/components/ui/label";
+import {Eye, EyeOff} from "lucide-react";
+import type {Route} from "./+types/login";
 
-export function meta({}: Route.MetaArgs) {
+export function meta(_args: Route.MetaArgs) {
   return [
-    { title: "Admin Login - WGU Extension" },
-    { name: "robots", content: "noindex, nofollow" }
+    {title: "Admin Login - WGU Extension"},
+    {name: "robots", content: "noindex, nofollow"},
   ];
 }
 
 export default function AdminLogin() {
-  const { login, user, loading, isAdmin } = useAuth();
+  const {login, user, loading, isAdmin} = useAuth();
   const navigate = useNavigate();
-  
+
   const [formData, setFormData] = React.useState({
-    email: '',
-    password: ''
+    email: "",
+    password: "",
   });
   const [showPassword, setShowPassword] = React.useState(false);
   const [loginLoading, setLoginLoading] = React.useState(false);
-  const [error, setError] = React.useState('');
+  const [error, setError] = React.useState("");
 
   // Redirect if already logged in as admin
   React.useEffect(() => {
     if (user && isAdmin && !loading) {
-      navigate('/admin');
+      navigate("/admin");
     }
   }, [user, isAdmin, loading, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setLoginLoading(true);
 
     try {
       await login(formData.email, formData.password);
       // The useEffect above will handle navigation after successful login
     } catch (error: any) {
-      const errorMessage = error.message || 'Login failed';
+      const errorMessage = error.message || "Login failed";
       setError(errorMessage);
-      
+
       // Show toast notification in development
       if (import.meta.env.DEV) {
-        toast.error('Login Failed', {
+        toast.error("Login Failed", {
           description: errorMessage,
           action: {
-            label: 'Retry',
+            label: "Retry",
             onClick: () => {
-              setError('');
-              const emailInput = document.getElementById('email') as HTMLInputElement;
+              setError("");
+              const emailInput = document.getElementById("email") as HTMLInputElement;
               emailInput?.focus();
-            }
-          }
+            },
+          },
         });
       }
     } finally {
@@ -69,12 +69,12 @@ export default function AdminLogin() {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     }));
     // Clear error when user starts typing
-    if (error) setError('');
+    if (error) setError("");
   };
 
   if (loading) {
@@ -89,9 +89,9 @@ export default function AdminLogin() {
     <div className="min-h-screen flex items-center justify-center bg-background">
       <Container size="sm">
         <motion.div
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.4 }}
+          initial={{y: 20, opacity: 0}}
+          animate={{y: 0, opacity: 1}}
+          transition={{duration: 0.4}}
         >
           <Card className="p-8">
             <div className="text-center mb-8">
@@ -122,7 +122,7 @@ export default function AdminLogin() {
                   <Input
                     id="password"
                     name="password"
-                    type={showPassword ? 'text' : 'password'}
+                    type={showPassword ? "text" : "password"}
                     required
                     placeholder="Enter your password"
                     value={formData.password}
@@ -148,8 +148,8 @@ export default function AdminLogin() {
 
               {error && (
                 <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  initial={{opacity: 0, y: -10}}
+                  animate={{opacity: 1, y: 0}}
                   className="p-3 rounded-md bg-destructive/10 border border-destructive/20"
                 >
                   <p className="text-sm text-destructive">{error}</p>
@@ -163,11 +163,16 @@ export default function AdminLogin() {
               >
                 {loginLoading ? (
                   <>
-                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent mr-2" />
+                    <div
+                      className={[
+                        "h-4 w-4 animate-spin rounded-full border-2",
+                        "border-current border-t-transparent mr-2",
+                      ].join(" ")}
+                    />
                     Signing in...
                   </>
                 ) : (
-                  'Sign in'
+                  "Sign in"
                 )}
               </Button>
             </form>
@@ -175,7 +180,7 @@ export default function AdminLogin() {
             <div className="mt-6 text-center">
               <Button
                 variant="ghost"
-                onClick={() => navigate('/')}
+                onClick={() => navigate("/")}
                 disabled={loginLoading}
               >
                 Back to Home

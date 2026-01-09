@@ -1,8 +1,8 @@
-import React from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Settings, ExternalLink, Github } from 'lucide-react';
-import { Separator } from '@/components/ui/separator';
+import React from "react";
+import {Button} from "@/components/ui/button";
+import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
+import {Settings, ExternalLink, Github} from "lucide-react";
+import {Separator} from "@/components/ui/separator";
 
 function App() {
   const openOptionsPage = () => {
@@ -10,8 +10,8 @@ function App() {
   };
 
   const openGitHub = () => {
-    chrome.tabs.create({ 
-      url: 'https://github.com/jonshaffer/wgu-extension' 
+    chrome.tabs.create({
+      url: "https://github.com/jonshaffer/wgu-extension",
     });
   };
 
@@ -24,11 +24,11 @@ function App() {
             Enhance your WGU experience with community features and integrations
           </CardDescription>
         </CardHeader>
-        
+
         <CardContent className="space-y-4">
           {/* Quick Actions */}
           <div className="space-y-2">
-            <Button 
+            <Button
               onClick={openOptionsPage}
               variant="default"
               size="sm"
@@ -37,8 +37,8 @@ function App() {
               <Settings className="mr-2 h-4 w-4" />
               Extension Settings
             </Button>
-            
-            <Button 
+
+            <Button
               onClick={openGitHub}
               variant="outline"
               size="sm"
@@ -62,9 +62,9 @@ function App() {
                 <p>• Privacy-focused data collection</p>
               </div>
             </div>
-            
+
             <Separator />
-            
+
             <div className="text-center text-muted-foreground text-xs">
               <p>Configure all settings in the Options page</p>
               <p className="mt-1">Unofficial tool by WGU students, for WGU students</p>

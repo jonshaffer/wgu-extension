@@ -1,11 +1,11 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router';
-import { Button } from '~/components/ui/button';
-import { Container } from '~/components/ui/container';
-import { BookOpen, Search, Home, ChevronDown, MessageCircle, Users, GraduationCap } from 'lucide-react';
-import { GitHubIcon } from './icons/GitHubIcon';
-import { Logo } from './Logo';
-import { cn } from '~/lib/utils';
+import React from "react";
+import {Link, useLocation} from "react-router";
+import {Button} from "~/components/ui/button";
+import {Container} from "~/components/ui/container";
+import {BookOpen, Search, Home, ChevronDown, MessageCircle, Users, GraduationCap} from "lucide-react";
+import {GitHubIcon} from "./icons/GitHubIcon";
+import {Logo} from "./Logo";
+import {cn} from "~/lib/utils";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,24 +17,24 @@ import {
 
 export function Navigation() {
   const location = useLocation();
-  const isHomePage = location.pathname === '/';
+  const isHomePage = location.pathname === "/";
 
   const navItems = [
     {
-      href: '/',
-      label: 'Home',
-      icon: Home
+      href: "/",
+      label: "Home",
+      icon: Home,
     },
     {
-      href: '/search',
-      label: 'Search',
-      icon: Search
+      href: "/search",
+      label: "Search",
+      icon: Search,
     },
     {
-      href: '/docs',
-      label: 'Docs',
-      icon: BookOpen
-    }
+      href: "/docs",
+      label: "Docs",
+      icon: BookOpen,
+    },
   ];
 
   return (
@@ -49,12 +49,12 @@ export function Navigation() {
               <Logo size="md" />
               <span className="hidden sm:block">Unofficial WGU Extension</span>
             </Link>
-            
+
             <div className="hidden md:flex items-center gap-1">
               {navItems.map((item) => {
-                const isActive = location.pathname === item.href || 
-                  (item.href !== '/' && location.pathname.startsWith(item.href));
-                
+                const isActive = location.pathname === item.href ||
+                  (item.href !== "/" && location.pathname.startsWith(item.href));
+
                 return (
                   <Button
                     key={item.href}
@@ -69,7 +69,7 @@ export function Navigation() {
                   </Button>
                 );
               })}
-              
+
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="sm" className="flex items-center gap-2">
@@ -126,9 +126,9 @@ export function Navigation() {
 
           <div className="flex items-center gap-2">
             <Button variant="outline" size="sm" asChild>
-              <a 
-                href="https://github.com/jonshaffer/wgu-extension" 
-                target="_blank" 
+              <a
+                href="https://github.com/jonshaffer/wgu-extension"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2"
               >

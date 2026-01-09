@@ -1,23 +1,21 @@
-import React, { useMemo, useEffect, useState } from 'react';
-import { Link } from 'react-router';
-import { motion } from 'motion/react';
-import { marked, Marked } from 'marked';
-import { Navigation } from "../../components/Navigation";
-import { Footer } from "../../components/Footer";
-import { Container } from "~/components/ui/container";
-import { Card } from "~/components/ui/card";
-import { Button } from "~/components/ui/button";
-import { cn } from "~/lib/utils";
-import { Shield, Lock, Database, Users, Scale, Mail, Twitter, Linkedin } from 'lucide-react';
-// @ts-ignore - Raw imports may not have types
-import privacyContent from '../../content/PRIVACY.md?raw';
-// @ts-ignore - License file may not have types
-import licenseText from '../../../../LICENSE?raw';
+import React, {useMemo, useEffect, useState} from "react";
+import {Link} from "react-router";
+import {Marked} from "marked";
+import {Navigation} from "../../components/Navigation";
+import {Footer} from "../../components/Footer";
+import {Button} from "~/components/ui/button";
+import {cn} from "~/lib/utils";
+import {Mail, Twitter, Linkedin} from "lucide-react";
+import privacyContent from "../../content/PRIVACY.md?raw";
 
 export function meta() {
   return [
-    { title: "Privacy Policy - Unofficial WGU Extension" },
-    { name: "description", content: "Privacy policy for the Unofficial WGU Extension - we don't collect, store, or process any personal data" },
+    {title: "Privacy Policy - Unofficial WGU Extension"},
+    {
+      name: "description",
+      content: "Privacy policy for the Unofficial WGU Extension - " +
+        "we don't collect, store, or process any personal data",
+    },
   ];
 }
 
@@ -28,41 +26,41 @@ interface Section {
 }
 
 export default function PrivacyPolicy() {
-  const [activeSection, setActiveSection] = useState<string>('');
+  const [activeSection, setActiveSection] = useState<string>("");
   const [sections, setSections] = useState<Section[]>([]);
-  
+
   // Calculate read time based on word count (200 words per minute)
   const wordCount = privacyContent.split(/\s+/).length;
   const readTime = Math.ceil(wordCount / 200);
 
   // Parse markdown content, removing the main title since BlogHero provides it
   const parsedContent = useMemo(() => {
-    const contentWithoutTitle = privacyContent.replace(/^# Privacy Policy\n+/, '');
-    
+    const contentWithoutTitle = privacyContent.replace(/^# Privacy Policy\n+/, "");
+
     // Extract sections for table of contents
     const sectionMatches = contentWithoutTitle.matchAll(/^(#{2,3})\s+(.+)$/gm);
     const extractedSections: Section[] = [];
-    
+
     for (const match of sectionMatches) {
       const level = match[1].length;
       const title = match[2];
-      const id = title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
-      extractedSections.push({ id, title, level });
+      const id = title.toLowerCase().replace(/[^\w\s-]/g, "").replace(/\s+/g, "-");
+      extractedSections.push({id, title, level});
     }
-    
+
     setSections(extractedSections);
-    
+
     // Create a new marked instance with custom renderer
     const markedWithHeadingIds = new Marked({
       renderer: {
         heading(token) {
           const text = this.parser.parseInline(token.tokens);
-          const id = text.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
+          const id = text.toLowerCase().replace(/[^\w\s-]/g, "").replace(/\s+/g, "-");
           return `<h${token.depth} id="${id}" class="scroll-mt-24">${text}</h${token.depth}>`;
-        }
-      }
+        },
+      },
     });
-    
+
     return markedWithHeadingIds.parse(contentWithoutTitle);
   }, [privacyContent]);
 
@@ -70,11 +68,11 @@ export default function PrivacyPolicy() {
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY + 100;
-      
+
       for (const section of sections) {
         const element = document.getElementById(section.id);
         if (element) {
-          const { offsetTop, offsetHeight } = element;
+          const {offsetTop, offsetHeight} = element;
           if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
             setActiveSection(section.id);
             break;
@@ -83,32 +81,47 @@ export default function PrivacyPolicy() {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
     handleScroll();
-    
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [sections]);
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      element.scrollIntoView({behavior: "smooth", block: "start"});
     }
   };
 
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      
+
       <section className="pb-32">
         {/* Hero Section */}
-        <div className="bg-muted bg-[url('/images/patterns/dot-pattern-2.svg')] bg-[length:3.125rem_3.125rem] bg-repeat py-20">
-          <div className="flex flex-col items-start justify-start gap-16 py-20 lg:flex-row lg:items-end lg:justify-between">
+        <div
+          className={[
+            "bg-muted bg-[url('/images/patterns/dot-pattern-2.svg')]",
+            "bg-[length:3.125rem_3.125rem] bg-repeat py-20",
+          ].join(" ")}
+        >
+          <div
+            className={[
+              "flex flex-col items-start justify-start gap-16 py-20",
+              "lg:flex-row lg:items-end lg:justify-between",
+            ].join(" ")}
+          >
             <div className="flex w-full flex-col items-center justify-center gap-12">
               <div className="flex w-full max-w-[36rem] flex-col items-center justify-center gap-8">
                 {/* Breadcrumb */}
                 <nav aria-label="breadcrumb">
-                  <ol className="text-muted-foreground flex flex-wrap items-center gap-1.5 text-sm break-words sm:gap-2.5">
+                  <ol
+                    className={[
+                      "text-muted-foreground flex flex-wrap items-center gap-1.5",
+                      "text-sm break-words sm:gap-2.5",
+                    ].join(" ")}
+                  >
                     <li className="inline-flex items-center gap-1.5">
                       <Link to="/docs" className="hover:text-foreground transition-colors">
                         Docs
@@ -138,14 +151,19 @@ export default function PrivacyPolicy() {
 
                   {/* Subtitle */}
                   <p className="text-foreground text-center text-xl font-semibold leading-[1.4]">
-                    Unofficial WGU Extension is committed to protecting your privacy. Learn how we handle your information.
+                    Unofficial WGU Extension is committed to protecting your privacy.
+                    Learn how we handle your information.
                   </p>
 
                   {/* Share buttons */}
                   <div className="flex items-center justify-center gap-2.5">
                     <Button size="icon" className="size-9" asChild>
-                      <a 
-                        href={`https://twitter.com/intent/tweet?text=${encodeURIComponent('Unofficial WGU Extension Privacy Policy')}&url=${encodeURIComponent('https://wgu-extension.com/docs/privacy')}`}
+                      <a
+                        href={
+                          "https://twitter.com/intent/tweet?" +
+                          `text=${encodeURIComponent("Unofficial WGU Extension Privacy Policy")}` +
+                          `&url=${encodeURIComponent("https://wgu-extension.com/docs/privacy")}`
+                        }
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -153,8 +171,11 @@ export default function PrivacyPolicy() {
                       </a>
                     </Button>
                     <Button size="icon" className="size-9" asChild>
-                      <a 
-                        href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent('https://wgu-extension.com/docs/privacy')}`}
+                      <a
+                        href={
+                          "https://www.linkedin.com/sharing/share-offsite/?" +
+                          `url=${encodeURIComponent("https://wgu-extension.com/docs/privacy")}`
+                        }
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -181,9 +202,9 @@ export default function PrivacyPolicy() {
                     onClick={() => scrollToSection(section.id)}
                     className={cn(
                       "block text-sm font-medium leading-normal transition duration-300",
-                      activeSection === section.id 
-                        ? "lg:bg-muted lg:!text-primary lg:rounded-md lg:p-2 lg:font-bold" 
-                        : "text-muted-foreground",
+                      activeSection === section.id ?
+                        "lg:bg-muted lg:!text-primary lg:rounded-md lg:p-2 lg:font-bold" :
+                        "text-muted-foreground",
                       section.level === 3 && "pl-4"
                     )}
                   >
@@ -197,14 +218,28 @@ export default function PrivacyPolicy() {
             <div className="flex w-full max-w-[40rem] flex-col gap-10">
               {/* Author Info */}
               <div className="flex items-center gap-2.5">
-                <span className="relative flex shrink-0 overflow-hidden rounded-full size-12 border bg-muted">
-                  <span className="flex h-full w-full items-center justify-center rounded-full bg-muted text-sm font-medium">
+                <span
+                  className={[
+                    "relative flex shrink-0 overflow-hidden rounded-full",
+                    "size-12 border bg-muted",
+                  ].join(" ")}
+                >
+                  <span
+                    className={[
+                      "flex h-full w-full items-center justify-center",
+                      "rounded-full bg-muted text-sm font-medium",
+                    ].join(" ")}
+                  >
                     WGU
                   </span>
                 </span>
                 <div>
-                  <div className="text-sm font-normal leading-normal">Unofficial WGU Extension Team</div>
-                  <div className="text-muted-foreground text-sm font-normal leading-normal">Privacy & Compliance</div>
+                  <div className="text-sm font-normal leading-normal">
+                    Unofficial WGU Extension Team
+                  </div>
+                  <div className="text-muted-foreground text-sm font-normal leading-normal">
+                    Privacy &amp; Compliance
+                  </div>
                 </div>
               </div>
 
@@ -216,28 +251,42 @@ export default function PrivacyPolicy() {
                 <p>• All extension data remains locally on your device</p>
                 <p>• No third-party analytics or tracking services are used</p>
                 <p>• Your privacy is our top priority - we believe in complete transparency</p>
-                
+
                 {/* Rendered Markdown Content */}
-                <div dangerouslySetInnerHTML={{ __html: parsedContent }} />
+                <div dangerouslySetInnerHTML={{__html: parsedContent}} />
               </div>
 
               {/* Contact Card */}
               <div className="bg-muted flex flex-col gap-4 rounded-lg p-5">
                 <div className="flex items-center gap-2.5">
-                  <span className="relative flex shrink-0 overflow-hidden rounded-full size-12 border bg-background">
-                    <span className="flex h-full w-full items-center justify-center rounded-full text-sm font-medium">
+                  <span
+                    className={[
+                      "relative flex shrink-0 overflow-hidden rounded-full",
+                      "size-12 border bg-background",
+                    ].join(" ")}
+                  >
+                    <span
+                      className={[
+                        "flex h-full w-full items-center justify-center",
+                        "rounded-full text-sm font-medium",
+                      ].join(" ")}
+                    >
                       <Mail className="h-5 w-5" />
                     </span>
                   </span>
                   <div>
-                    <div className="text-sm font-normal leading-normal">Privacy Team</div>
-                    <div className="text-muted-foreground text-sm font-normal leading-normal">Unofficial WGU Extension</div>
+                    <div className="text-sm font-normal leading-normal">
+                      Privacy Team
+                    </div>
+                    <div className="text-muted-foreground text-sm font-normal leading-normal">
+                      Unofficial WGU Extension
+                    </div>
                   </div>
                 </div>
                 <p>
-                  If you have any questions about this Privacy Policy or our privacy practices, 
-                  please don't hesitate to contact us. We're committed to transparency and are 
-                  happy to address any concerns you may have.
+                  If you have any questions about this Privacy Policy or our privacy practices,
+                  please don&apos;t hesitate to contact us. We&apos;re committed to
+                  transparency and are happy to address any concerns you may have.
                 </p>
                 <div className="flex items-center gap-2.5">
                   <Button size="sm" asChild>
@@ -252,7 +301,7 @@ export default function PrivacyPolicy() {
           </div>
         </div>
       </section>
-      
+
       <Footer />
     </div>
   );

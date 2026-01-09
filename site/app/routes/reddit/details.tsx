@@ -1,28 +1,27 @@
-import React from 'react';
-import { Link, useParams } from 'react-router';
-import { useQuery } from '@apollo/client/index.js';
-import { motion } from 'motion/react';
-import { GET_REDDIT_COMMUNITY } from '~/graphql/queries';
-import { Container } from '~/components/ui/container';
-import { Card } from '~/components/ui/card';
-import { Badge } from '~/components/ui/badge';
-import { Button } from '~/components/ui/button';
-import { Separator } from '~/components/ui/separator';
-import { 
-  ArrowLeft, 
+import React from "react";
+import {Link, useParams} from "react-router";
+import {useQuery} from "@apollo/client/index.js";
+import {motion} from "motion/react";
+import {GET_REDDIT_COMMUNITY} from "~/graphql/queries";
+import {Container} from "~/components/ui/container";
+import {Card} from "~/components/ui/card";
+import {Badge} from "~/components/ui/badge";
+import {Button} from "~/components/ui/button";
+import {
+  ArrowLeft,
   Users,
   Calendar,
   ExternalLink,
   TrendingUp,
   MessageSquare,
-  FileText
-} from 'lucide-react';
-import type { Route } from "./+types/details";
+  FileText,
+} from "lucide-react";
+import type {Route} from "./+types/details";
 
-export function meta({ params }: Route.MetaArgs) {
+export function meta({params}: Route.MetaArgs) {
   return [
-    { title: `r/${params.subredditName} - WGU Extension` },
-    { name: "description", content: `View details for Reddit community r/${params.subredditName}` },
+    {title: `r/${params.subredditName} - WGU Extension`},
+    {name: "description", content: `View details for Reddit community r/${params.subredditName}`},
   ];
 }
 
@@ -42,11 +41,11 @@ interface RedditCommunity {
 
 export default function RedditDetails() {
   const params = useParams();
-  const subredditName = params.subredditName || '';
+  const subredditName = params.subredditName || "";
 
-  const { data, loading, error } = useQuery(GET_REDDIT_COMMUNITY, {
-    variables: { subredditName },
-    skip: !subredditName
+  const {data, loading, error} = useQuery(GET_REDDIT_COMMUNITY, {
+    variables: {subredditName},
+    skip: !subredditName,
   });
 
   const community: RedditCommunity | undefined = data?.redditCommunity;
@@ -78,7 +77,7 @@ export default function RedditDetails() {
   }
 
   const formatMemberCount = (count?: number) => {
-    if (!count) return 'Unknown';
+    if (!count) return "Unknown";
     if (count >= 1000000) {
       return `${(count / 1000000).toFixed(1)}M members`;
     }
@@ -89,18 +88,18 @@ export default function RedditDetails() {
   };
 
   const formatDate = (dateString?: string) => {
-    if (!dateString) return '';
+    if (!dateString) return "";
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
+    return date.toLocaleDateString("en-US", {year: "numeric", month: "long"});
   };
 
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
       <motion.header
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.4 }}
+        initial={{y: -20, opacity: 0}}
+        animate={{y: 0, opacity: 1}}
+        transition={{duration: 0.4}}
         className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
       >
         <Container className="py-4">
@@ -140,9 +139,9 @@ export default function RedditDetails() {
             <div className="lg:col-span-2 space-y-8">
               {/* Community Info */}
               <motion.div
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.1, duration: 0.4 }}
+                initial={{y: 20, opacity: 0}}
+                animate={{y: 0, opacity: 1}}
+                transition={{delay: 0.1, duration: 0.4}}
               >
                 <Card className="p-6">
                   <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
@@ -180,9 +179,9 @@ export default function RedditDetails() {
               {/* Rules */}
               {community.rules && community.rules.length > 0 && (
                 <motion.div
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.2, duration: 0.4 }}
+                  initial={{y: 20, opacity: 0}}
+                  animate={{y: 0, opacity: 1}}
+                  transition={{delay: 0.2, duration: 0.4}}
                 >
                   <Card className="p-6">
                     <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
@@ -210,9 +209,9 @@ export default function RedditDetails() {
               {/* Moderators */}
               {community.moderators && community.moderators.length > 0 && (
                 <motion.div
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.3, duration: 0.4 }}
+                  initial={{y: 20, opacity: 0}}
+                  animate={{y: 0, opacity: 1}}
+                  transition={{delay: 0.3, duration: 0.4}}
                 >
                   <Card className="p-6">
                     <h2 className="text-lg font-semibold mb-4">Moderators</h2>
@@ -232,18 +231,18 @@ export default function RedditDetails() {
             <div className="space-y-6">
               {/* Quick Actions */}
               <motion.div
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.4, duration: 0.4 }}
+                initial={{y: 20, opacity: 0}}
+                animate={{y: 0, opacity: 1}}
+                transition={{delay: 0.4, duration: 0.4}}
               >
                 <Card className="p-6">
                   <h3 className="font-semibold mb-4">Quick Actions</h3>
                   <div className="space-y-3">
                     {community.url && (
                       <Button asChild className="w-full">
-                        <a 
-                          href={community.url} 
-                          target="_blank" 
+                        <a
+                          href={community.url}
+                          target="_blank"
                           rel="noopener noreferrer"
                         >
                           <ExternalLink className="h-4 w-4 mr-2" />
@@ -262,9 +261,9 @@ export default function RedditDetails() {
 
               {/* Related */}
               <motion.div
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.5, duration: 0.4 }}
+                initial={{y: 20, opacity: 0}}
+                animate={{y: 0, opacity: 1}}
+                transition={{delay: 0.5, duration: 0.4}}
               >
                 <Card className="p-6">
                   <h3 className="font-semibold mb-4">Find More</h3>

@@ -1,0 +1,34 @@
+# WGU Extension - Workload Identity Federation Configuration
+#
+# Copy this file to terraform.tfvars and fill in your values.
+# DO NOT commit terraform.tfvars to version control.
+
+project_id               = "wgu-extension"
+github_organization_name = "jonshaffer"
+
+# Optional: customize pool and provider IDs
+# pool_id     = "github-wif-pool"
+# provider_id = "github-provider"
+
+# Service account naming
+service_account_name_prefix = "github"
+
+# Enable automatic GitHub variable management
+manage_github_variables = true
+use_github_environments = false
+
+# Repository configuration
+repositories = {
+  "wgu-extension" = {
+    repo_name = "wgu-extension"
+    repo_id   = "965181083"
+    service_account_name_suffix = "deploy"
+    environments = {
+      "production" = {
+        branches = ["main"]
+        # firebase_admin includes: Firebase deploy, Firestore, Storage, Hosting
+        roles = ["firebase_admin"]
+      }
+    }
+  }
+}

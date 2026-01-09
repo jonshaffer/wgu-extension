@@ -1,10 +1,10 @@
 /**
  * Analytics Types
- * 
+ *
  * Type definitions for health monitoring and analytics
  */
 
-import { ValidationIssue } from './common';
+import {ValidationIssue} from "./common";
 
 // ========== Parser Health Types ==========
 export interface ParserHealthMetrics {
@@ -18,14 +18,14 @@ export interface ParserHealthMetrics {
     coursesWithCCN: number;
     coursesWithDescription: number;
     coursesWithCUs: number;
-    ccnCoverage: number;          // percentage
-    descriptionCoverage: number;  // percentage
-    
+    ccnCoverage: number; // percentage
+    descriptionCoverage: number; // percentage
+
     // Quality metrics
     avgDescriptionLength: number;
-    shortDescriptions: number;    // < 50 chars
+    shortDescriptions: number; // < 50 chars
     missingFromDegreePlans: number;
-    
+
     // Performance metrics
     parseTimeMs: number;
     pdfPages: number;
@@ -38,14 +38,14 @@ export interface ParserHealthMetrics {
 
 export interface HealthTrend {
   metric: string;
-  trend: 'stable' | 'improving' | 'degrading';
+  trend: "stable" | "improving" | "degrading";
   currentValue: number;
   previousValue: number;
   changePercent: number;
 }
 
 export interface HealthAlert {
-  level: 'info' | 'warning' | 'critical';
+  level: "info" | "warning" | "critical";
   message: string;
   metric?: string;
   threshold?: number;
@@ -85,7 +85,7 @@ export interface ParsingReport {
   };
   validationIssues: ValidationIssue[];
   performanceMetrics: {
-    steps: Record<string, number>;  // Step name -> duration in ms
+    steps: Record<string, number>; // Step name -> duration in ms
     totalTimeMs: number;
     peakMemoryMB?: number;
   };
@@ -100,17 +100,17 @@ export interface MonitoringConfig {
   alerting: {
     enabled: boolean;
     thresholds: {
-      ccnCoverage: number;        // Alert if drops below %
+      ccnCoverage: number; // Alert if drops below %
       descriptionCoverage: number;
-      parseTimeMs: number;        // Alert if exceeds ms
-      errorCount: number;         // Alert if exceeds count
+      parseTimeMs: number; // Alert if exceeds ms
+      errorCount: number; // Alert if exceeds count
     };
     notificationChannels?: string[];
   };
   reporting: {
     generateAfterParse: boolean;
     includeDetailedStats: boolean;
-    outputFormat: 'json' | 'html' | 'both';
+    outputFormat: "json" | "html" | "both";
   };
 }
 

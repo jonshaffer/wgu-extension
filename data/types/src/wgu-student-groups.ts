@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import {z} from "zod";
 
 export const WguStudentGroupRawSchema = z.object({
   id: z.string().min(1),
@@ -6,10 +6,10 @@ export const WguStudentGroupRawSchema = z.object({
   description: z.string().optional(),
   category: z.string().optional(),
   url: z.string().url(),
-  type: z.enum(['open', 'closed', 'private']),
+  type: z.enum(["open", "closed", "private"]),
   access_requirements: z.string().optional(),
   target_audience: z.string().optional(),
-  member_count: z.number().int().positive().optional()
+  member_count: z.number().int().positive().optional(),
 });
 
 export type WguStudentGroupRaw = z.infer<typeof WguStudentGroupRawSchema>;

@@ -1,13 +1,13 @@
-import { GraphQLClient } from 'graphql-request';
-import { GET_COURSES, GET_COMMUNITIES_FOR_COURSE_QUERY, GET_COMMUNITIES_QUERY, GET_COMMUNITIES_FOR_COURSE_QUERY_V2 } from './queries.js';
-import type { 
-  GetCoursesResponse, 
+import {GraphQLClient} from "graphql-request";
+import {GET_COURSES, GET_COMMUNITIES_FOR_COURSE_QUERY, GET_COMMUNITIES_QUERY, GET_COMMUNITIES_FOR_COURSE_QUERY_V2} from "./queries.js";
+import type {
+  GetCoursesResponse,
   GetCommunitiesResponse,
   GetCommunitiesForCourseV2Response,
   Course,
   SearchResult,
-  CourseCommunitiesResponse
-} from './types.js';
+  CourseCommunitiesResponse,
+} from "./types.js";
 
 /**
  * Convenience function to get courses
@@ -17,7 +17,7 @@ export async function getCourses(
   limit = 50,
   offset = 0
 ): Promise<Course[]> {
-  const data = await client.request<GetCoursesResponse>(GET_COURSES, { limit, offset });
+  const data = await client.request<GetCoursesResponse>(GET_COURSES, {limit, offset});
   return data.courses.items;
 }
 
@@ -30,7 +30,7 @@ export async function getCommunitiesForCourse(
 ): Promise<SearchResult[]> {
   const data = await client.request<GetCommunitiesResponse>(
     GET_COMMUNITIES_FOR_COURSE_QUERY,
-    { courseCode }
+    {courseCode}
   );
   return data.search.results;
 }
@@ -45,7 +45,7 @@ export async function searchCommunities(
 ): Promise<SearchResult[]> {
   const data = await client.request<GetCommunitiesResponse>(
     GET_COMMUNITIES_QUERY,
-    { query, limit }
+    {query, limit}
   );
   return data.search.results;
 }
@@ -59,7 +59,7 @@ export async function getCommunitiesForCourseV2(
 ): Promise<CourseCommunitiesResponse> {
   const data = await client.request<GetCommunitiesForCourseV2Response>(
     GET_COMMUNITIES_FOR_COURSE_QUERY_V2,
-    { courseCode }
+    {courseCode}
   );
   return data.getCommunitiesForCourse;
 }

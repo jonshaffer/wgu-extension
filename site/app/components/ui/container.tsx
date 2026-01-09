@@ -1,12 +1,12 @@
-import * as React from "react"
-import { cn } from "~/lib/utils"
+import * as React from "react";
+import {cn} from "~/lib/utils";
 
 interface ContainerProps extends React.HTMLAttributes<HTMLDivElement> {
   size?: "default" | "sm" | "lg"
 }
 
 const Container = React.forwardRef<HTMLDivElement, ContainerProps>(
-  ({ className, size = "default", ...props }, ref) => {
+  ({className, size = "default", ...props}, ref) => {
     return (
       <div
         ref={ref}
@@ -21,9 +21,9 @@ const Container = React.forwardRef<HTMLDivElement, ContainerProps>(
         )}
         {...props}
       />
-    )
+    );
   }
-)
-Container.displayName = "Container"
+);
+Container.displayName = "Container";
 
-export { Container }
+export {Container};

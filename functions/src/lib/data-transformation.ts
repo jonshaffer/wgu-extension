@@ -11,7 +11,7 @@ import {initializeApp, getApps} from "firebase-admin/app";
 function getDb() {
   if (!getApps().length) {
     initializeApp({
-      projectId: process.env.GCLOUD_PROJECT || "wgu-extension-site-prod",
+      projectId: process.env.GCLOUD_PROJECT || "wgu-extension",
     });
   }
   return getFirestore();

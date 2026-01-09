@@ -1,4 +1,4 @@
-import { type StorageArea, type StorageItemKey } from "@wxt-dev/storage"
+import {type StorageArea, type StorageItemKey} from "@wxt-dev/storage";
 
 const defaultStorageArea: StorageArea = "sync";
 

@@ -1,18 +1,23 @@
-import React from 'react';
-import { Link } from 'react-router';
-import { motion } from 'motion/react';
-import type { Route } from './+types/docs.api';
-import { Navigation } from "../components/Navigation";
-import { Footer } from "../components/Footer";
-import { Container } from "~/components/ui/container";
-import { Button } from "~/components/ui/button";
-import { Card } from "~/components/ui/card";
-import { Code, ArrowRight, Zap, Lock, BookOpen } from 'lucide-react';
+import React from "react";
+import {Link} from "react-router";
+import {motion} from "motion/react";
+// Route type available via ./+types/docs.api if needed
+import {Navigation} from "../components/Navigation";
+import {Footer} from "../components/Footer";
+import {Container} from "~/components/ui/container";
+import {Button} from "~/components/ui/button";
+import {Card} from "~/components/ui/card";
+import {Code, ArrowRight, Zap, Lock, BookOpen} from "lucide-react";
+import {config} from "~/lib/config";
 
 export function meta() {
   return [
-    { title: "API Reference - Unofficial WGU Extension" },
-    { name: "description", content: "GraphQL API documentation and interactive explorer for the Unofficial WGU Extension" },
+    {title: "API Reference - Unofficial WGU Extension"},
+    {
+      name: "description",
+      content: "GraphQL API documentation and interactive explorer " +
+        "for the Unofficial WGU Extension",
+    },
   ];
 }
 
@@ -22,9 +27,9 @@ export default function ApiDocs() {
       <Navigation />
       <Container className="py-16">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          initial={{opacity: 0, y: 20}}
+          animate={{opacity: 1, y: 0}}
+          transition={{duration: 0.5}}
         >
           <div className="max-w-4xl mx-auto">
             <div className="flex items-center gap-4 mb-8">
@@ -34,17 +39,24 @@ export default function ApiDocs() {
 
             <div className="prose prose-gray dark:prose-invert max-w-none mb-12">
               <p className="text-xl text-muted-foreground">
-                The Unofficial WGU Extension provides a GraphQL API for accessing community data, courses, and degree plans.
+                The Unofficial WGU Extension provides a GraphQL API for
+                accessing community data, courses, and degree plans.
               </p>
             </div>
 
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
+              initial={{opacity: 0, y: 20}}
+              animate={{opacity: 1, y: 0}}
+              transition={{duration: 0.5, delay: 0.1}}
               className="mb-12"
             >
-              <Card className="p-8 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-950/20 dark:to-blue-950/20 border-purple-200 dark:border-purple-800">
+              <Card
+                className={
+                  "p-8 bg-gradient-to-br from-purple-50 to-blue-50 " +
+                  "dark:from-purple-950/20 dark:to-blue-950/20 " +
+                  "border-purple-200 dark:border-purple-800"
+                }
+              >
                 <div className="flex items-start justify-between">
                   <div>
                     <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
@@ -52,7 +64,7 @@ export default function ApiDocs() {
                       Interactive API Explorer
                     </h2>
                     <p className="text-muted-foreground mb-6 max-w-2xl">
-                      Try out our GraphQL API directly in your browser. Explore available queries, 
+                      Try out our GraphQL API directly in your browser. Explore available queries,
                       test requests, and see real-time responses with our interactive GraphiQL interface.
                     </p>
                     <Button asChild size="lg" className="bg-purple-600 hover:bg-purple-700">
@@ -68,9 +80,9 @@ export default function ApiDocs() {
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
+              initial={{opacity: 0, y: 20}}
+              animate={{opacity: 1, y: 0}}
+              transition={{duration: 0.5, delay: 0.2}}
               className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12"
             >
               <Card className="p-6">
@@ -90,16 +102,16 @@ export default function ApiDocs() {
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
+              initial={{opacity: 0, y: 20}}
+              animate={{opacity: 1, y: 0}}
+              transition={{duration: 0.5, delay: 0.3}}
               className="space-y-8"
             >
               <div>
                 <h2 className="text-2xl font-bold mb-4">Endpoint</h2>
                 <Card className="p-4 bg-gray-50 dark:bg-gray-900">
                   <code className="text-sm">
-                    https://us-central1-wgu-extension.cloudfunctions.net/graphql/graphql
+                    {config.api.publicEndpoint}
                   </code>
                 </Card>
               </div>
@@ -110,7 +122,8 @@ export default function ApiDocs() {
                   <Card className="p-6">
                     <h3 className="font-mono text-lg mb-2">courses</h3>
                     <p className="text-muted-foreground mb-3">
-                      Retrieve a paginated list of WGU courses with details like course code, name, description, and units.
+                      Retrieve a paginated list of WGU courses with details
+                      like course code, name, description, and units.
                     </p>
                     <div className="bg-gray-100 dark:bg-gray-800 p-3 rounded text-sm font-mono overflow-x-auto">
                       <pre>{`query {
@@ -130,7 +143,8 @@ export default function ApiDocs() {
                   <Card className="p-6">
                     <h3 className="font-mono text-lg mb-2">search</h3>
                     <p className="text-muted-foreground mb-3">
-                      Search across all community resources including Discord servers, Reddit communities, and WGU Connect groups.
+                      Search across all community resources including Discord
+                      servers, Reddit communities, and WGU Connect groups.
                     </p>
                     <div className="bg-gray-100 dark:bg-gray-800 p-3 rounded text-sm font-mono overflow-x-auto">
                       <pre>{`query {

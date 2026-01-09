@@ -1,17 +1,17 @@
-import React from 'react';
-import { motion } from 'motion/react';
-import { useNavigate } from 'react-router';
-import { toast } from 'sonner';
-import { Card } from '~/components/ui/card';
-import { Button } from '~/components/ui/button';
-import { Badge } from '~/components/ui/badge';
-import { FileText, AlertCircle, CheckCircle2, Clock } from 'lucide-react';
-import type { Route } from "./+types/dashboard";
+import React from "react";
+import {motion} from "motion/react";
+import {useNavigate} from "react-router";
+import {toast} from "sonner";
+import {Card} from "~/components/ui/card";
+import {Button} from "~/components/ui/button";
+import {Badge} from "~/components/ui/badge";
+import {FileText, AlertCircle, CheckCircle2, Clock} from "lucide-react";
+import type {Route} from "./+types/dashboard";
 
-export function meta({}: Route.MetaArgs) {
+export function meta(_args: Route.MetaArgs) {
   return [
-    { title: "Admin Dashboard - WGU Extension" },
-    { name: "robots", content: "noindex, nofollow" }
+    {title: "Admin Dashboard - WGU Extension"},
+    {name: "robots", content: "noindex, nofollow"},
   ];
 }
 
@@ -21,37 +21,37 @@ export default function AdminDashboard() {
     pending: 0,
     approved: 0,
     rejected: 0,
-    total: 0
+    total: 0,
   });
   const [loading, setLoading] = React.useState(true);
-  const [error, setError] = React.useState('');
+  const [error, setError] = React.useState("");
 
   React.useEffect(() => {
     const fetchStats = async () => {
       try {
         setLoading(true);
-        
+
         // This would normally call the Firebase Functions endpoint
         // For now, using placeholder data since we need proper authentication setup
         setStats({
           pending: 3,
           approved: 12,
           rejected: 2,
-          total: 17
+          total: 17,
         });
       } catch (error: any) {
-        const errorMessage = 'Failed to load statistics';
+        const errorMessage = "Failed to load statistics";
         setError(errorMessage);
-        console.error('Error fetching stats:', error);
-        
+        console.error("Error fetching stats:", error);
+
         // Show error toast in development
         if (import.meta.env.DEV) {
-          toast.error('Dashboard Error', {
+          toast.error("Dashboard Error", {
             description: errorMessage,
             action: {
-              label: 'Retry',
-              onClick: () => window.location.reload()
-            }
+              label: "Retry",
+              onClick: () => window.location.reload(),
+            },
           });
         }
       } finally {
@@ -64,37 +64,37 @@ export default function AdminDashboard() {
 
   const statCards = [
     {
-      title: 'Total Suggestions',
+      title: "Total Suggestions",
       value: stats.total,
       icon: FileText,
-      color: 'text-blue-600',
-      bgColor: 'bg-blue-50',
-      onClick: () => navigate('/admin/suggestions')
+      color: "text-blue-600",
+      bgColor: "bg-blue-50",
+      onClick: () => navigate("/admin/suggestions"),
     },
     {
-      title: 'Pending Review',
+      title: "Pending Review",
       value: stats.pending,
       icon: Clock,
-      color: 'text-yellow-600',
-      bgColor: 'bg-yellow-50',
-      onClick: () => navigate('/admin/suggestions?status=pending')
+      color: "text-yellow-600",
+      bgColor: "bg-yellow-50",
+      onClick: () => navigate("/admin/suggestions?status=pending"),
     },
     {
-      title: 'Approved',
+      title: "Approved",
       value: stats.approved,
       icon: CheckCircle2,
-      color: 'text-green-600',
-      bgColor: 'bg-green-50',
-      onClick: () => navigate('/admin/suggestions?status=approved')
+      color: "text-green-600",
+      bgColor: "bg-green-50",
+      onClick: () => navigate("/admin/suggestions?status=approved"),
     },
     {
-      title: 'Rejected',
+      title: "Rejected",
       value: stats.rejected,
       icon: AlertCircle,
-      color: 'text-red-600',
-      bgColor: 'bg-red-50',
-      onClick: () => navigate('/admin/suggestions?status=rejected')
-    }
+      color: "text-red-600",
+      bgColor: "bg-red-50",
+      onClick: () => navigate("/admin/suggestions?status=rejected"),
+    },
   ];
 
   if (loading) {
@@ -103,7 +103,7 @@ export default function AdminDashboard() {
         <div className="animate-pulse">
           <div className="h-8 bg-gray-200 rounded w-1/4 mb-4"></div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {Array.from({ length: 4 }).map((_, i) => (
+            {Array.from({length: 4}).map((_, i) => (
               <div key={i} className="h-32 bg-gray-200 rounded-lg"></div>
             ))}
           </div>
@@ -115,9 +115,9 @@ export default function AdminDashboard() {
   return (
     <div className="space-y-8">
       <motion.div
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.1, duration: 0.4 }}
+        initial={{y: -20, opacity: 0}}
+        animate={{y: 0, opacity: 1}}
+        transition={{delay: 0.1, duration: 0.4}}
       >
         <h1 className="text-3xl font-bold">Dashboard</h1>
         <p className="text-muted-foreground mt-2">
@@ -127,8 +127,8 @@ export default function AdminDashboard() {
 
       {error && (
         <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{opacity: 0, y: -10}}
+          animate={{opacity: 1, y: 0}}
           className="p-4 rounded-lg bg-destructive/10 border border-destructive/20"
         >
           <p className="text-destructive">{error}</p>
@@ -137,19 +137,19 @@ export default function AdminDashboard() {
 
       {/* Statistics Cards */}
       <motion.div
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.2, duration: 0.4 }}
+        initial={{y: 20, opacity: 0}}
+        animate={{y: 0, opacity: 1}}
+        transition={{delay: 0.2, duration: 0.4}}
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
       >
         {statCards.map((stat, index) => (
           <motion.div
             key={stat.title}
-            initial={{ scale: 0.95, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 0.3 + (index * 0.05), duration: 0.3 }}
+            initial={{scale: 0.95, opacity: 0}}
+            animate={{scale: 1, opacity: 1}}
+            transition={{delay: 0.3 + (index * 0.05), duration: 0.3}}
           >
-            <Card 
+            <Card
               className="p-6 cursor-pointer hover:shadow-md transition-shadow"
               onClick={stat.onClick}
             >
@@ -173,9 +173,9 @@ export default function AdminDashboard() {
 
       {/* Quick Actions */}
       <motion.div
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.4, duration: 0.4 }}
+        initial={{y: 20, opacity: 0}}
+        animate={{y: 0, opacity: 1}}
+        transition={{delay: 0.4, duration: 0.4}}
         className="grid grid-cols-1 lg:grid-cols-2 gap-6"
       >
         <Card className="p-6">
@@ -184,7 +184,7 @@ export default function AdminDashboard() {
             <Button
               variant="outline"
               className="w-full justify-start"
-              onClick={() => navigate('/admin/suggestions?status=pending')}
+              onClick={() => navigate("/admin/suggestions?status=pending")}
             >
               <Clock className="h-4 w-4 mr-2" />
               Review Pending Suggestions
@@ -197,7 +197,7 @@ export default function AdminDashboard() {
             <Button
               variant="outline"
               className="w-full justify-start"
-              onClick={() => navigate('/admin/suggestions')}
+              onClick={() => navigate("/admin/suggestions")}
             >
               <FileText className="h-4 w-4 mr-2" />
               View All Suggestions

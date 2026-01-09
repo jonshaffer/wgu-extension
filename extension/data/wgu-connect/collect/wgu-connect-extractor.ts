@@ -31,11 +31,11 @@ export class WGUConnectExtractor {
   async extractResourceData(): Promise<any> {
     // Placeholder: Extract resource data from WGU Connect page
     return {
-      groupId: 'placeholder',
+      groupId: "placeholder",
       groupName: undefined,
       activeTab: undefined,
       extractedAt: new Date().toISOString(),
-      url: typeof window !== 'undefined' ? window.location.href : '',
+      url: typeof window !== "undefined" ? window.location.href : "",
       activeTabId: undefined,
       activeTabPanelId: undefined,
       resources: [],
@@ -45,7 +45,7 @@ export class WGUConnectExtractor {
   setupTabChangeObserver(callback: (data: unknown) => void): void {
     // Placeholder: Set up observer for tab changes in WGU Connect
     // This would watch for navigation changes and call the callback
-    console.log('WGU Connect tab observer setup (placeholder)');
+    console.log("WGU Connect tab observer setup (placeholder)");
   }
 
   stopObserver(): void {

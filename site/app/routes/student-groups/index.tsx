@@ -1,20 +1,19 @@
-import React from 'react';
-import { useQuery } from '@apollo/client/index.js';
-import { Link } from 'react-router';
-import type { Route } from './+types/index';
-import { ResourceLayout } from '~/components/ResourceLayout';
-import { Container } from '~/components/ui/container';
-import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
-import { Badge } from '~/components/ui/badge';
-import { Button } from '~/components/ui/button';
-import { Skeleton } from '~/components/ui/skeleton';
-import { Users, Hash, Calendar, ExternalLink } from 'lucide-react';
-import { GET_STUDENT_GROUPS } from '~/graphql/queries';
+import React from "react";
+import {useQuery} from "@apollo/client/index.js";
+import {Link} from "react-router";
+import type {Route} from "./+types/index";
+import {ResourceLayout} from "~/components/ResourceLayout";
+import {Container} from "~/components/ui/container";
+import {Card, CardContent, CardHeader, CardTitle} from "~/components/ui/card";
+import {Badge} from "~/components/ui/badge";
+import {Skeleton} from "~/components/ui/skeleton";
+import {Users, Hash} from "lucide-react";
+import {GET_STUDENT_GROUPS} from "~/graphql/queries";
 
-export function meta({}: Route.MetaArgs) {
+export function meta(_args: Route.MetaArgs) {
   return [
-    { title: 'Student Groups - WGU Extension' },
-    { name: 'description', content: 'Browse WGU student groups and organizations' },
+    {title: "Student Groups - WGU Extension"},
+    {name: "description", content: "Browse WGU student groups and organizations"},
   ];
 }
 
@@ -36,13 +35,13 @@ interface StudentGroupsData {
 }
 
 export default function StudentGroupsPage() {
-  const { loading, error, data } = useQuery<StudentGroupsData>(GET_STUDENT_GROUPS, {
-    variables: { limit: 100 },
+  const {loading, error, data} = useQuery<StudentGroupsData>(GET_STUDENT_GROUPS, {
+    variables: {limit: 100},
   });
 
   return (
     <ResourceLayout>
-      
+
       <main className="py-8">
         <Container>
           <div className="mb-8">
@@ -86,8 +85,8 @@ export default function StudentGroupsPage() {
 
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {data.studentGroups.items.map((group) => (
-                  <Link 
-                    key={group.id} 
+                  <Link
+                    key={group.id}
                     to={`/student-groups/${group.id}`}
                     className="block"
                   >
@@ -108,20 +107,20 @@ export default function StudentGroupsPage() {
                               <Badge variant="outline">{group.platform}</Badge>
                             )}
                           </div>
-                          
+
                           {group.description && (
                             <p className="text-sm text-muted-foreground line-clamp-3">
                               {group.description}
                             </p>
                           )}
-                          
+
                           {group.memberCount && (
                             <div className="flex items-center gap-1 text-xs text-muted-foreground">
                               <Users className="h-3 w-3" />
                               <span>{group.memberCount.toLocaleString()} members</span>
                             </div>
                           )}
-                          
+
                           {group.tags && group.tags.length > 0 && (
                             <div className="flex flex-wrap gap-1">
                               {group.tags.slice(0, 3).map((tag, i) => (

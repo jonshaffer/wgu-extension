@@ -1,13 +1,14 @@
-import { createGraphiQLFetcher } from '@graphiql/toolkit';
-import { GraphiQL } from 'graphiql';
-import { useState, useEffect } from 'react';
-import type { Route } from './+types/docs.api-explorer';
-import 'graphiql/graphiql.css';
+import {createGraphiQLFetcher} from "@graphiql/toolkit";
+import {GraphiQL} from "graphiql";
+import {useState, useEffect} from "react";
+import type {Route} from "./+types/docs.api-explorer";
+import "graphiql/graphiql.css";
+import {getGraphQLEndpoint} from "~/lib/config";
 
-export function meta({}: Route.MetaArgs) {
+export function meta(_args: Route.MetaArgs) {
   return [
-    { title: 'API Explorer | Unofficial WGU Extension Docs' },
-    { name: 'description', content: 'Explore the Unofficial WGU Extension GraphQL API' },
+    {title: "API Explorer | Unofficial WGU Extension Docs"},
+    {name: "description", content: "Explore the Unofficial WGU Extension GraphQL API"},
   ];
 }
 
@@ -132,21 +133,20 @@ query GetAllDataTypes {
       totalCUs
     }
   }
-}`
+}`,
 };
 
 export default function GraphQLExplorer() {
   const [query, setQuery] = useState<string>(() => {
     // Try to load saved query from localStorage
-    if (typeof window !== 'undefined') {
-      const savedQuery = localStorage.getItem('wgu-graphql-query');
+    if (typeof window !== "undefined") {
+      const savedQuery = localStorage.getItem("wgu-graphql-query");
       return savedQuery || defaultQuery;
     }
     return defaultQuery;
   });
-  
-  const graphQLEndpoint = import.meta.env.VITE_GRAPHQL_ENDPOINT || 
-    'https://us-central1-wgu-extension.cloudfunctions.net/graphql/graphql';
+
+  const graphQLEndpoint = getGraphQLEndpoint();
 
   const fetcher = createGraphiQLFetcher({
     url: graphQLEndpoint,
@@ -154,8 +154,8 @@ export default function GraphQLExplorer() {
 
   // Save query to localStorage when it changes
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('wgu-graphql-query', query);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("wgu-graphql-query", query);
     }
   }, [query]);
 
@@ -183,38 +183,56 @@ export default function GraphQLExplorer() {
               ← Back to API Docs
             </a>
           </div>
-          
+
           {/* Example queries buttons */}
           <div className="pb-4 flex gap-2 flex-wrap">
-            <span className="text-sm text-gray-600 dark:text-gray-400">Quick examples:</span>
+            <span className="text-sm text-gray-600 dark:text-gray-400">
+              Quick examples:
+            </span>
             <button
-              onClick={() => handleExampleClick('courses')}
-              className="text-sm px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors"
+              onClick={() => handleExampleClick("courses")}
+              className={
+                "text-sm px-2 py-1 rounded transition-colors " +
+                "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 " +
+                "hover:bg-blue-200 dark:hover:bg-blue-900/50"
+              }
             >
               Courses
             </button>
             <button
-              onClick={() => handleExampleClick('search')}
-              className="text-sm px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded hover:bg-green-200 dark:hover:bg-green-900/50 transition-colors"
+              onClick={() => handleExampleClick("search")}
+              className={
+                "text-sm px-2 py-1 rounded transition-colors " +
+                "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 " +
+                "hover:bg-green-200 dark:hover:bg-green-900/50"
+              }
             >
               Search Communities
             </button>
             <button
-              onClick={() => handleExampleClick('degreePlans')}
-              className="text-sm px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded hover:bg-purple-200 dark:hover:bg-purple-900/50 transition-colors"
+              onClick={() => handleExampleClick("degreePlans")}
+              className={
+                "text-sm px-2 py-1 rounded transition-colors " +
+                "bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 " +
+                "hover:bg-purple-200 dark:hover:bg-purple-900/50"
+              }
             >
               Degree Plans
             </button>
             <button
-              onClick={() => handleExampleClick('allData')}
-              className="text-sm px-2 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 rounded hover:bg-orange-200 dark:hover:bg-orange-900/50 transition-colors"
+              onClick={() => handleExampleClick("allData")}
+              className={
+                "text-sm px-2 py-1 rounded transition-colors " +
+                "bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 " +
+                "hover:bg-orange-200 dark:hover:bg-orange-900/50"
+              }
             >
               All Data Types
             </button>
           </div>
         </div>
       </header>
-      
+
       <div className="flex-1 overflow-hidden graphiql-container">
         <GraphiQL
           key={query}
@@ -224,7 +242,7 @@ export default function GraphQLExplorer() {
           shouldPersistHeaders={true}
         />
       </div>
-      
+
       <style>{`
         .graphiql-container {
           height: 100%;

@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import {z} from "zod";
 
 // Normalized course as produced by the courses aggregator
 export const NormalizedCourseSchema = z.object({

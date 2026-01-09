@@ -1,6 +1,6 @@
 /**
  * Community Data Type Definitions
- * 
+ *
  * This file defines the TypeScript interfaces for all community data sources
  * including Discord, Reddit, and WGU Connect.
  */
@@ -9,9 +9,9 @@
 // Hierarchy and Organization Types
 // ===============================
 
-export type OrganizationLevel = 'university' | 'college' | 'program' | 'course';
+export type OrganizationLevel = "university" | "college" | "program" | "course";
 
-export type College = 'technology' | 'healthcare' | 'business' | 'education';
+export type College = "technology" | "healthcare" | "business" | "education";
 
 export interface WguHierarchy {
   level: OrganizationLevel;
@@ -40,7 +40,7 @@ export interface DiscordChannel {
   name: string;
   description?: string;
   communityId: string;
-  type: 'text' | 'voice' | 'forum';
+  type: "text" | "voice" | "forum";
   courseRelevance?: string[]; // Course codes this channel is relevant to
   tags?: string[];
 }
@@ -51,7 +51,7 @@ export interface DiscordData {
 }
 
 // ===============================
-// Reddit Data Types  
+// Reddit Data Types
 // ===============================
 
 export interface RedditCommunity {
@@ -96,7 +96,7 @@ export interface WguConnectData {
 export interface CommunityLink {
   name: string;
   url: string;
-  type: 'discord' | 'reddit' | 'wgu-connect' | 'wgu-student-groups';
+  type: "discord" | "reddit" | "wgu-connect" | "wgu-student-groups";
   description?: string;
   memberCount?: number;
 }

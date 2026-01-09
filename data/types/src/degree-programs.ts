@@ -1,11 +1,11 @@
-import { z } from 'zod';
+import {z} from "zod";
 
 // Normalized degree program shape as produced by the degree-programs aggregator
 export const NormalizedDegreeProgramSchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1),
   title: z.string().min(1),
-  description: z.string().default(''),
+  description: z.string().default(""),
   totalCUs: z.number().nonnegative(),
   courses: z.array(z.string()),
   catalogVersions: z.array(z.string()),

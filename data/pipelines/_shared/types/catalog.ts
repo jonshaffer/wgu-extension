@@ -1,35 +1,35 @@
 /**
  * Catalog Data Types
- * 
+ *
  * Type definitions for WGU catalog data structures
  */
 
 // ========== Course Types ==========
-export type CourseType = 'degree-plan' | 'independent-study' | 'flexible-learning';
+export type CourseType = "degree-plan" | "independent-study" | "flexible-learning";
 
 export interface Course {
   courseCode: string;
   courseName: string;
   description?: string;
-  ccn?: string;                    // Course Catalog Number (e.g., "ITEC 1010")
+  ccn?: string; // Course Catalog Number (e.g., "ITEC 1010")
   competencyUnits?: number;
   courseType?: CourseType;
-  prerequisites?: string[];         // Array of course codes
-  corequisites?: string[];         // Array of course codes
-  alternateVersions?: string[];    // e.g., C182 might have OA/PA versions
+  prerequisites?: string[]; // Array of course codes
+  corequisites?: string[]; // Array of course codes
+  alternateVersions?: string[]; // e.g., C182 might have OA/PA versions
 }
 
 // ========== Degree Plan Types ==========
 export interface DegreePlan {
-  code?: string;                   // Program code (e.g., "BSCS")
-  name: string;                    // Full program name
-  title?: string;                  // For JSON output compatibility
-  school?: string;                 // School of Technology, etc.
-  courses?: string[];              // Ordered list of course codes
-  totalCUs?: number;               // Total competency units required
-  yearExtracted?: number;          // Year this plan was extracted
+  code?: string; // Program code (e.g., "BSCS")
+  name: string; // Full program name
+  title?: string; // For JSON output compatibility
+  school?: string; // School of Technology, etc.
+  courses?: string[]; // Ordered list of course codes
+  totalCUs?: number; // Total competency units required
+  yearExtracted?: number; // Year this plan was extracted
   requirementsUrl?: string;
-  
+
   // Enhanced plan fields
   programCode?: string;
   effectiveDate?: string;
@@ -39,7 +39,7 @@ export interface DegreePlan {
     courses: string[];
     requiredCUs?: number;
   }>;
-  
+
   // Metadata from parsing
   pageNumber?: number;
   rawDegreeText?: string;
@@ -54,8 +54,8 @@ export interface StandaloneCourse {
   competencyUnits?: number;
   prerequisites?: string[];
   ccn?: string;
-  duration?: string;               // e.g., "3 months"
-  accessType?: string;             // e.g., "Self-paced"
+  duration?: string; // e.g., "3 months"
+  accessType?: string; // e.g., "Self-paced"
 }
 
 export interface CertificateProgram {
@@ -81,11 +81,11 @@ export interface CourseBundleInfo {
 }
 
 export interface ProgramOutcome {
-  school?: 'Business' | 'Health' | 'Technology' | 'Education';
+  school?: "Business" | "Health" | "Technology" | "Education";
   program: string;
   outcomes: string[] | Array<{
     outcome: string;
-    category?: 'technical' | 'professional' | 'analytical';
+    category?: "technical" | "professional" | "analytical";
   }>;
 }
 
@@ -102,9 +102,9 @@ export interface ParsedCatalog {
 
 // ========== Metadata Types ==========
 export interface CatalogMetadata {
-  catalogDate: string;             // e.g., "2025-08"
-  parserVersion: string;           // e.g., "v2.1-enhanced"
-  parsedAt: string;                // ISO date string
+  catalogDate: string; // e.g., "2025-08"
+  parserVersion: string; // e.g., "v2.1-enhanced"
+  parsedAt: string; // ISO date string
   totalPages: number;
   parsingTimeMs: number;
   pdf?: {
@@ -128,10 +128,10 @@ export interface CatalogStatistics {
   standaloneCourses?: number;
   certificatePrograms?: number;
   programOutcomes?: number;
-  ccnCoverage: number;             // Percentage
-  cuCoverage: number;              // Percentage
-  coursesByPrefix?: Record<string, number>;  // e.g., { "C": 168, "D": 648 }
-  
+  ccnCoverage: number; // Percentage
+  cuCoverage: number; // Percentage
+  coursesByPrefix?: Record<string, number>; // e.g., { "C": 168, "D": 648 }
+
   degreePlanStatistics?: {
     totalCourses: number;
     uniqueCourses: number;
@@ -139,7 +139,7 @@ export interface CatalogStatistics {
     plansWithTotalCUs: number;
     schoolDistribution?: Record<string, number>;
   };
-  
+
   dataQuality?: {
     coursesWithDescription: number;
     coursesWithCCN: number;
@@ -151,9 +151,9 @@ export interface CatalogStatistics {
 
 // ========== Parser-Specific Types ==========
 export interface CatalogFormat {
-  version: string;                 // e.g., "v1.0", "v2.0", "v2.1"
-  strategy: string;                // e.g., "embedded-ccn", "structured-tables"
-  parserModule: string;            // Path to parser module
+  version: string; // e.g., "v1.0", "v2.0", "v2.1"
+  strategy: string; // e.g., "embedded-ccn", "structured-tables"
+  parserModule: string; // Path to parser module
   characteristics: {
     yearRange: [number, number];
     contentPatterns: string[];
@@ -163,12 +163,12 @@ export interface CatalogFormat {
 
 // ========== Aggregator Types (for combining multiple catalogs) ==========
 export interface NormalizedCourse {
-  id: string;                      // Normalized key (lowercase code, e.g., "c182")
-  code: string;                    // Original course code (e.g., "C182")
-  name: string;                    // Course name/title
+  id: string; // Normalized key (lowercase code, e.g., "c182")
+  code: string; // Original course code (e.g., "C182")
+  name: string; // Course name/title
   description?: string;
   ccn?: string;
   competencyUnits?: number;
-  versions: string[];              // Catalog versions where this course appears
-  lastUpdated: string;             // ISO date string
+  versions: string[]; // Catalog versions where this course appears
+  lastUpdated: string; // ISO date string
 }

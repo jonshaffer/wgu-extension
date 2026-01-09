@@ -1,30 +1,30 @@
-import React from 'react';
-import { useSearchParams, useNavigate } from 'react-router';
-import type { Route } from "./+types/search";
-import { motion, AnimatePresence } from 'motion/react';
+import React from "react";
+import {useSearchParams, useNavigate} from "react-router";
+import type {Route} from "./+types/search";
+import {motion, AnimatePresence} from "motion/react";
 import Spotlight from "../components/Spotlight";
 import SearchResults from "../components/SearchResults";
-import { Navigation } from "../components/Navigation";
-import { Footer } from "../components/Footer";
-import { Container } from "~/components/ui/container";
-import { Button } from "~/components/ui/button";
-import { ArrowLeft, AlertCircle } from 'lucide-react';
+import {Navigation} from "../components/Navigation";
+import {Footer} from "../components/Footer";
+import {Container} from "~/components/ui/container";
+import {Button} from "~/components/ui/button";
+import {ArrowLeft, AlertCircle} from "lucide-react";
 
-export function meta({ location }: Route.MetaArgs) {
+export function meta({location}: Route.MetaArgs) {
   const params = new URLSearchParams(location.search);
-  const query = params.get('q') || '';
-  
+  const query = params.get("q") || "";
+
   return [
-    { title: query ? `Search: ${query} - WGU Extension` : "Search - WGU Extension" },
-    { name: "description", content: "Search WGU community resources, Discord servers, and study groups" },
+    {title: query ? `Search: ${query} - WGU Extension` : "Search - WGU Extension"},
+    {name: "description", content: "Search WGU community resources, Discord servers, and study groups"},
   ];
 }
 
 export default function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
-  const query = searchParams.get('q') || '';
-  
+  const query = searchParams.get("q") || "";
+
   const [searchResults, setSearchResults] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState(false);
   const [hasSearched, setHasSearched] = React.useState(false);
@@ -45,13 +45,13 @@ export default function SearchPage() {
   };
 
   const handleBack = () => {
-    navigate('/');
+    navigate("/");
   };
 
   // Update URL when search query changes
   const updateSearchQuery = (newQuery: string) => {
     if (newQuery) {
-      setSearchParams({ q: newQuery });
+      setSearchParams({q: newQuery});
     } else {
       setSearchParams({});
     }
@@ -62,10 +62,13 @@ export default function SearchPage() {
       <Navigation />
       {/* Search Header */}
       <motion.header
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.1, duration: 0.4 }}
-        className="sticky top-14 z-40 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+        initial={{y: -20, opacity: 0}}
+        animate={{y: 0, opacity: 1}}
+        transition={{delay: 0.1, duration: 0.4}}
+        className={[
+          "sticky top-14 z-40 border-b bg-background/95 backdrop-blur",
+          "supports-[backdrop-filter]:bg-background/60",
+        ].join(" ")}
       >
         <Container className="py-4">
           <div className="flex items-center gap-4">
@@ -79,7 +82,7 @@ export default function SearchPage() {
               <span className="sr-only">Back to home</span>
             </Button>
             <div className="flex-1">
-              <Spotlight 
+              <Spotlight
                 onSearch={handleSearchResults}
                 initialQuery={query}
                 onQueryChange={updateSearchQuery}
@@ -96,10 +99,10 @@ export default function SearchPage() {
             {loading && (
               <motion.div
                 key="loading"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.2 }}
+                initial={{opacity: 0, scale: 0.95}}
+                animate={{opacity: 1, scale: 1}}
+                exit={{opacity: 0, scale: 0.95}}
+                transition={{duration: 0.2}}
                 className="flex flex-col items-center justify-center py-16"
               >
                 <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
@@ -110,10 +113,10 @@ export default function SearchPage() {
             {!loading && hasSearched && searchResults.length === 0 && (
               <motion.div
                 key="no-results"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
+                initial={{opacity: 0, y: 20}}
+                animate={{opacity: 1, y: 0}}
+                exit={{opacity: 0, y: -20}}
+                transition={{duration: 0.3}}
                 className="text-center py-16"
               >
                 {searchError ? (
@@ -124,7 +127,7 @@ export default function SearchPage() {
                       We encountered an error while searching. Please try again.
                     </p>
                     <p className="text-sm text-muted-foreground">
-                      {searchError.message || 'An unexpected error occurred'}
+                      {searchError.message || "An unexpected error occurred"}
                     </p>
                   </>
                 ) : (
@@ -141,14 +144,15 @@ export default function SearchPage() {
             {!loading && searchResults.length > 0 && (
               <motion.div
                 key="results"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
+                initial={{opacity: 0, y: 20}}
+                animate={{opacity: 1, y: 0}}
+                exit={{opacity: 0, y: -20}}
+                transition={{duration: 0.3}}
               >
                 <div className="mb-6">
                   <h1 className="text-2xl font-bold">
-                    {searchResults.length} result{searchResults.length !== 1 ? 's' : ''} for "{searchedQuery}"
+                    {searchResults.length} result{searchResults.length !== 1 ? "s" : ""}{" "}
+                    for &quot;{searchedQuery}&quot;
                   </h1>
                 </div>
                 <SearchResults results={searchResults} loading={false} />
@@ -158,12 +162,14 @@ export default function SearchPage() {
             {!loading && !hasSearched && query && (
               <motion.div
                 key="initial-search"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                exit={{opacity: 0}}
                 className="text-center py-16"
               >
-                <p className="text-muted-foreground">Press enter to search for "{query}"</p>
+                <p className="text-muted-foreground">
+                  Press enter to search for &quot;{query}&quot;
+                </p>
               </motion.div>
             )}
           </AnimatePresence>

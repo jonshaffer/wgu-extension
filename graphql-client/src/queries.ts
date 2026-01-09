@@ -1,7 +1,7 @@
-import { gql } from 'graphql-request';
+import {gql} from "graphql-request";
 // Import directly from the allowlist JSON to avoid ESM/CJS interop issues
 // This file is the source of truth for all allowed queries
-import allowlist from '../../functions/src/graphql/allowlist.json';
+import allowlist from "../../functions/src/graphql/allowlist.json";
 
 /**
  * GraphQL queries wrapped with gql tag for use with graphql-request

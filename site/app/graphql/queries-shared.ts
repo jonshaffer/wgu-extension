@@ -3,8 +3,8 @@
  * Combines shared queries from packages with site-specific queries
  */
 
-import { gql } from '@apollo/client/index.js';
-import { queries as sharedQueries } from '../../../functions/lib/graphql/index';
+import {gql} from "@apollo/client/index.js";
+import {queries as sharedQueries} from "../../../functions/lib/graphql/index";
 
 // Re-export shared queries wrapped with gql tag
 export const GET_COURSES = gql`${sharedQueries.GET_COURSES}`;

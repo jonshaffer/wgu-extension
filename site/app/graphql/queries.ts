@@ -1,5 +1,5 @@
-import { gql } from '@apollo/client/index.js';
-import { 
+import {gql} from "@apollo/client/index.js";
+import {
   SEARCH_FULL as SEARCH_QUERY,
   ADVANCED_SEARCH as ADVANCED_SEARCH_QUERY,
   GET_COURSES_FULL as GET_COURSES_QUERY,
@@ -13,8 +13,8 @@ import {
   GET_DEGREE_PLANS_FULL as GET_DEGREE_PLANS_QUERY,
   GET_DEGREE_PLAN as GET_DEGREE_PLAN_QUERY,
   GET_STUDENT_GROUPS as GET_STUDENT_GROUPS_QUERY,
-  GET_STUDENT_GROUP as GET_STUDENT_GROUP_QUERY
-} from '../../../functions/src/graphql/queries';
+  GET_STUDENT_GROUP as GET_STUDENT_GROUP_QUERY,
+} from "../../../functions/src/graphql/queries";
 
 // Wrap imported queries with gql tag for Apollo Client
 export const SEARCH = gql`${SEARCH_QUERY}`;

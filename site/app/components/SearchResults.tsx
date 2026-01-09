@@ -1,9 +1,9 @@
-import React from 'react';
-import { Link } from 'react-router';
-import { motion } from 'motion/react';
-import { ExternalLink, MessageCircle, Users, BookOpen } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
-import { Badge } from '~/components/ui/badge';
+import React from "react";
+import {Link} from "react-router";
+import {motion} from "motion/react";
+import {ExternalLink, MessageCircle, Users, BookOpen} from "lucide-react";
+import {Card, CardContent, CardHeader, CardTitle} from "~/components/ui/card";
+import {Badge} from "~/components/ui/badge";
 
 interface SearchResult {
   type: string;
@@ -31,53 +31,53 @@ interface SearchResultsProps {
 }
 
 const platformIcons: Record<string, React.ReactNode> = {
-  discord: <MessageCircle className="h-4 w-4" />,
-  reddit: <Users className="h-4 w-4" />,
-  wguConnect: <BookOpen className="h-4 w-4" />,
-  'wgu-student-groups': <Users className="h-4 w-4" />,
-  'academic-registry': <BookOpen className="h-4 w-4" />,
+  "discord": <MessageCircle className="h-4 w-4" />,
+  "reddit": <Users className="h-4 w-4" />,
+  "wguConnect": <BookOpen className="h-4 w-4" />,
+  "wgu-student-groups": <Users className="h-4 w-4" />,
+  "academic-registry": <BookOpen className="h-4 w-4" />,
 };
 
 const platformLabels: Record<string, string> = {
-  discord: 'Discord',
-  reddit: 'Reddit',
-  wguConnect: 'WGU Connect',
-  'wgu-student-groups': 'WGU Student Groups',
-  'academic-registry': 'WGU Catalog',
+  "discord": "Discord",
+  "reddit": "Reddit",
+  "wguConnect": "WGU Connect",
+  "wgu-student-groups": "WGU Student Groups",
+  "academic-registry": "WGU Catalog",
 };
 
-const SearchResults: React.FC<SearchResultsProps> = ({ results, loading }) => {
+const SearchResults: React.FC<SearchResultsProps> = ({results, loading}) => {
   const getDetailLink = (result: SearchResult): string | null => {
     // For courses
-    if (result.type === 'course' && result.courseCode) {
+    if (result.type === "course" && result.courseCode) {
       return `/courses/${result.courseCode}`;
     }
-    
+
     // For degree plans
-    if (result.type === 'degree' && result.degreeId) {
+    if (result.type === "degree" && result.degreeId) {
       return `/degree-plans/${result.degreeId}`;
     }
-    
+
     // For Discord servers
-    if (result.platform === 'discord' && result.serverId) {
+    if (result.platform === "discord" && result.serverId) {
       return `/discord/${result.serverId}`;
     }
-    
+
     // For Reddit communities
-    if (result.platform === 'reddit' && result.subredditName) {
+    if (result.platform === "reddit" && result.subredditName) {
       return `/reddit/${result.subredditName}`;
     }
-    
+
     // For WGU Connect groups
-    if (result.platform === 'wguConnect' && result.groupId) {
+    if (result.platform === "wguConnect" && result.groupId) {
       return `/wgu-connect/${result.groupId}`;
     }
-    
+
     // For student groups
-    if (result.platform === 'student-groups' && result.studentGroupId) {
+    if (result.platform === "student-groups" && result.studentGroupId) {
       return `/student-groups/${result.studentGroupId}`;
     }
-    
+
     return null;
   };
 
@@ -134,30 +134,30 @@ const SearchResults: React.FC<SearchResultsProps> = ({ results, loading }) => {
                   {platformIcons[result.platform]}
                   {platformLabels[result.platform] || result.platform}
                 </Badge>
-                
+
                 {result.courseCode && (
                   <Badge variant="outline">{result.courseCode}</Badge>
                 )}
-                
-                {result.type === 'university' && (
+
+                {result.type === "university" && (
                   <Badge variant="default">University-wide</Badge>
                 )}
-                
-                {result.type === 'degree' && (
+
+                {result.type === "degree" && (
                   <Badge variant="default">{result.degreeType}</Badge>
                 )}
-                
-                {result.competencyUnits && result.type === 'course' && (
+
+                {result.competencyUnits && result.type === "course" && (
                   <Badge variant="secondary">{result.competencyUnits} CUs</Badge>
                 )}
               </div>
-              
+
               {result.description && (
                 <p className="text-sm text-muted-foreground line-clamp-3">
                   {result.description}
                 </p>
               )}
-              
+
               {result.memberCount && (
                 <p className="text-xs text-muted-foreground">
                   {result.memberCount.toLocaleString()} members
@@ -170,9 +170,9 @@ const SearchResults: React.FC<SearchResultsProps> = ({ results, loading }) => {
         return (
           <motion.div
             key={`${result.type}-${result.platform}-${index}`}
-            initial={{ scale: 0.95, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: index * 0.05, duration: 0.3 }}
+            initial={{scale: 0.95, opacity: 0}}
+            animate={{scale: 1, opacity: 1}}
+            transition={{delay: index * 0.05, duration: 0.3}}
           >
             {detailLink ? (
               <Link to={detailLink} className="block">
