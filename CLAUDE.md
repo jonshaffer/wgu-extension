@@ -12,8 +12,9 @@ This is a monorepo containing:
 This project follows [GitHub Spec Kit](https://github.com/github/spec-kit) principles:
 
 - **🏛️ [Project Constitution](.specify/memory/constitution.md)** - Core principles, coding standards, and technical decision-making processes
-- **📋 [Feature Specifications](.specify/features/)** - Detailed specifications for all major features
+- **📋 [Feature Specifications](specs/)** - Detailed specifications for all major features
 - **📝 [Templates](.specify/templates/)** - Templates for specifications and technical decisions
+- **📦 [Archived Features](.specify-archive/features/)** - Legacy feature documentation
 
 **IMPORTANT**: Before making significant changes, consult the constitution for established standards and create specifications for new features.
 
@@ -477,7 +478,7 @@ firebase deploy --only hosting
 
 ### Before Making Changes
 1. **Review the [Project Constitution](.specify/memory/constitution.md)** for coding standards and principles
-2. **Check existing [Feature Specifications](.specify/features/)** to understand current architecture
+2. **Check existing [Feature Specifications](specs/)** to understand current architecture
 3. **Create specifications for new features** using [templates](.specify/templates/) before implementation
 4. Read relevant existing code to understand patterns
 5. Check @package.json for available scripts
