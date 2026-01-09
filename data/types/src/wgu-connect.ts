@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import {z} from "zod";
 
 export const WguConnectGroupRawSchema = z.object({
   id: z.string().min(1),
@@ -9,7 +9,7 @@ export const WguConnectGroupRawSchema = z.object({
   url: z.string().url(),
   discussions_url: z.string().url().optional(),
   resources_url: z.string().url().optional(),
-  verified: z.boolean().optional()
+  verified: z.boolean().optional(),
 });
 
 export type WguConnectGroupRaw = z.infer<typeof WguConnectGroupRawSchema>;

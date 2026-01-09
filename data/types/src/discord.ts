@@ -1,21 +1,21 @@
-import { z } from 'zod';
+import {z} from "zod";
 
 export const DiscordHierarchyLevelSchema = z.enum([
-  'university',
-  'college',
-  'program',
-  'course',
-  'community',
+  "university",
+  "college",
+  "program",
+  "course",
+  "community",
 ]);
 
 export const DiscordHierarchySchema = z.object({
   level: DiscordHierarchyLevelSchema,
-  college: z.enum(['technology', 'healthcare', 'business', 'education']).optional(),
+  college: z.enum(["technology", "healthcare", "business", "education"]).optional(),
   program: z.string().optional(),
   courseCode: z.string().optional(),
 });
 
-export const DiscordChannelTypeSchema = z.enum(['text', 'voice', 'forum']);
+export const DiscordChannelTypeSchema = z.enum(["text", "voice", "forum"]);
 
 export const DiscordChannelSchema = z.object({
   id: z.string().regex(/^\d{10,}$/),

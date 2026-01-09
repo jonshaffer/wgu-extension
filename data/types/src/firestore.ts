@@ -1,6 +1,6 @@
-import { z } from 'zod';
-import { DiscordCommunityFileSchema } from './discord.js';
-import { WguStudentGroupRawSchema } from './wgu-student-groups.js';
+import {z} from "zod";
+import {DiscordCommunityFileSchema} from "./discord.js";
+import {WguStudentGroupRawSchema} from "./wgu-student-groups.js";
 
 // Firestore document schemas - these include additional fields added during sync
 
@@ -15,7 +15,7 @@ export const FirestoreWguConnectGroupSchema = z.object({
   description: z.string().optional(),
   url: z.string().url(),
   course_codes: z.array(z.string()),
-  lastUpdated: z.string().datetime().optional()
+  lastUpdated: z.string().datetime().optional(),
 });
 
 export const FirestoreRedditCommunitySchema = z.object({
@@ -24,11 +24,11 @@ export const FirestoreRedditCommunitySchema = z.object({
   description: z.string().optional(),
   subscribers: z.number().int().nonnegative().optional(),
   hierarchy: z.object({
-    level: z.enum(['university', 'college', 'program', 'course', 'community']),
-    college: z.enum(['technology', 'health', 'business', 'education']).optional()
+    level: z.enum(["university", "college", "program", "course", "community"]),
+    college: z.enum(["technology", "health", "business", "education"]).optional(),
   }),
   relevantCourses: z.array(z.string()).optional(),
-  lastUpdated: z.string().datetime().optional()
+  lastUpdated: z.string().datetime().optional(),
 });
 
 export const FirestoreCatalogMonthSchema = z.object({
@@ -38,14 +38,14 @@ export const FirestoreCatalogMonthSchema = z.object({
       code: z.string(),
       title: z.string(),
       credits: z.number().optional(),
-      description: z.string().optional()
+      description: z.string().optional(),
     })).optional(),
     degreePrograms: z.array(z.object({
       code: z.string(),
       title: z.string(),
       college: z.string().optional(),
-      level: z.string().optional()
-    })).optional()
+      level: z.string().optional(),
+    })).optional(),
   }),
   report: z.object({
     filename: z.string(),
@@ -58,7 +58,7 @@ export const FirestoreCatalogMonthSchema = z.object({
       ccnCoverage: z.number().optional(),
       cuCoverage: z.number().optional(),
       validationIssues: z.number().optional(),
-      parsingDuration: z.number().optional()
+      parsingDuration: z.number().optional(),
     }),
     validation: z.object({
       degreePlanCourseValidation: z.object({
@@ -66,21 +66,21 @@ export const FirestoreCatalogMonthSchema = z.object({
         uniqueCoursesInPlans: z.number(),
         coursesFoundInCatalog: z.number(),
         missingCourses: z.array(z.string()),
-        validationRate: z.number()
+        validationRate: z.number(),
       }).optional(),
       dataCompleteness: z.record(z.string(), z.number()).optional(),
       issues: z.array(z.object({
         type: z.string(),
-        severity: z.enum(['error', 'warning', 'info']),
+        severity: z.enum(["error", "warning", "info"]),
         location: z.string(),
         message: z.string(),
-        details: z.record(z.string(), z.any()).optional()
-      })).optional()
+        details: z.record(z.string(), z.any()).optional(),
+      })).optional(),
     }).optional(),
     statistics: z.record(z.string(), z.any()).optional(),
-    processingDetails: z.record(z.string(), z.any()).optional()
+    processingDetails: z.record(z.string(), z.any()).optional(),
   }).optional(),
-  createdAt: z.string().datetime()
+  createdAt: z.string().datetime(),
 });
 
 

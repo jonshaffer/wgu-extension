@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import {z} from "zod";
 
 export const CourseMetadataSchema = z.object({
   pageNumber: z.number().int().positive().optional(),
@@ -6,7 +6,7 @@ export const CourseMetadataSchema = z.object({
   lastParsed: z.string().optional(),
 });
 
-export const CourseLevelSchema = z.enum(['undergraduate', 'graduate']);
+export const CourseLevelSchema = z.enum(["undergraduate", "graduate"]);
 
 export const CourseSchema = z.object({
   courseCode: z.string().min(1),
@@ -22,7 +22,7 @@ export const CourseSchema = z.object({
 
 export type Course = z.infer<typeof CourseSchema>;
 
-export const DegreeCourseTypeSchema = z.enum(['required', 'elective', 'capstone']);
+export const DegreeCourseTypeSchema = z.enum(["required", "elective", "capstone"]);
 
 export const DegreePlanCourseSchema = z.object({
   courseCode: z.string().min(1),
@@ -34,7 +34,7 @@ export const DegreePlanCourseSchema = z.object({
 
 export type DegreePlanCourse = z.infer<typeof DegreePlanCourseSchema>;
 
-export const DegreeTypeSchema = z.enum(['bachelor', 'master', 'doctorate', 'certificate']);
+export const DegreeTypeSchema = z.enum(["bachelor", "master", "doctorate", "certificate"]);
 
 export const DegreePlanMetadataSchema = z.object({
   catalogYear: z.string().optional(),

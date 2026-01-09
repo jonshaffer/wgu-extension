@@ -7,34 +7,34 @@ interface SearchResource {
 
 const SEARCH_RESOURCES: SearchResource[] = [
   {
-    name: 'Course Search',
-    url: 'https://srm--c.na13.visual.force.com/apex/FDP/CommonsExpandedSearch?courseCode={COURSE_CODE}',
-    icon: '🔍',
-    description: 'Official WGU Course Search'
+    name: "Course Search",
+    url: "https://srm--c.na13.visual.force.com/apex/FDP/CommonsExpandedSearch?courseCode={COURSE_CODE}",
+    icon: "🔍",
+    description: "Official WGU Course Search",
   },
   {
-    name: 'Reddit Search',
-    url: 'https://www.reddit.com/search/?q=WGU%20{COURSE_CODE}&type=sr%2Cuser',
-    icon: '📱',
-    description: 'Search Reddit for course discussions'
+    name: "Reddit Search",
+    url: "https://www.reddit.com/search/?q=WGU%20{COURSE_CODE}&type=sr%2Cuser",
+    icon: "📱",
+    description: "Search Reddit for course discussions",
   },
   {
-    name: 'YouTube Study Videos',
-    url: 'https://www.youtube.com/results?search_query=WGU+{COURSE_CODE}',
-    icon: '📺',
-    description: 'Find study videos on YouTube'
+    name: "YouTube Study Videos",
+    url: "https://www.youtube.com/results?search_query=WGU+{COURSE_CODE}",
+    icon: "📺",
+    description: "Find study videos on YouTube",
   },
   {
-    name: 'Discord Communities',
-    url: 'https://discord.gg/unwgu',
-    icon: '💬',
-    description: 'Join WGU Discord communities'
-  }
+    name: "Discord Communities",
+    url: "https://discord.gg/unwgu",
+    icon: "💬",
+    description: "Join WGU Discord communities",
+  },
 ];
 
 export function createSearchPanel(courseCode: string, showDefaultSearch = true): HTMLElement {
-  const wrapper = document.createElement('div');
-  wrapper.id = 'wgu-ext-search-panel-wrapper';
+  const wrapper = document.createElement("div");
+  wrapper.id = "wgu-ext-search-panel-wrapper";
   wrapper.style.cssText = `
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     color: rgba(0, 0, 0, 0.87);
@@ -45,7 +45,7 @@ export function createSearchPanel(courseCode: string, showDefaultSearch = true):
     margin-top: 12px;
   `;
 
-  const searchButtons = SEARCH_RESOURCES.map(resource => {
+  const searchButtons = SEARCH_RESOURCES.map((resource) => {
     const url = resource.url.replace(/{COURSE_CODE}/g, courseCode);
     return `
       <a href="${url}" target="_blank" rel="noopener noreferrer" class="course-btns" style="
@@ -65,7 +65,7 @@ export function createSearchPanel(courseCode: string, showDefaultSearch = true):
         ${resource.name}
       </a>
     `;
-  }).join('');
+  }).join("");
 
   wrapper.innerHTML = `
     <div style="margin-bottom: 12px;">

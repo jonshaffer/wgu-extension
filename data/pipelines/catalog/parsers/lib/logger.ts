@@ -23,4 +23,4 @@ export function createComponentLogger(component: string): Logger {
 }
 
 // Generic logger with a default component label
-export const logger: Logger = createComponentLogger('Catalogs');
+export const logger: Logger = createComponentLogger("Catalogs");

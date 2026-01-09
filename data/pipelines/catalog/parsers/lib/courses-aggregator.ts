@@ -1,12 +1,12 @@
 /**
  * Courses Aggregator Library
- * 
+ *
  * Aggregates course definitions across all parsed catalog JSON files
  * and produces a consolidated courses.json for downstream use.
  */
 
-import { readFileSync, writeFileSync, readdirSync } from 'fs';
-import { resolve } from 'path';
+import {readFileSync, writeFileSync, readdirSync} from "fs";
+import {resolve} from "path";
 
 export interface CatalogCourse {
   courseCode: string;
@@ -25,14 +25,14 @@ export interface CatalogData {
 }
 
 export interface NormalizedCourse {
-  id: string;                // normalized key (lowercase code, e.g., "c182")
-  code: string;              // original course code (e.g., "C182")
-  name: string;              // course name/title
-  description?: string;      // optional description
-  ccn?: string;              // common course number
-  competencyUnits?: number;  // CU value when available
+  id: string; // normalized key (lowercase code, e.g., "c182")
+  code: string; // original course code (e.g., "C182")
+  name: string; // course name/title
+  description?: string; // optional description
+  ccn?: string; // common course number
+  competencyUnits?: number; // CU value when available
   catalogVersions: string[]; // list of catalog dates in which the course appears
-  lastUpdated: string;       // most recent catalog date encountered
+  lastUpdated: string; // most recent catalog date encountered
 }
 
 export interface CoursesOutput {
@@ -57,7 +57,7 @@ export function normalizeCourseCode(code: string): string {
  */
 export function getCatalogDate(filename: string): string {
   const match = filename.match(/catalog-(\d{4}-\d{2})\.json/);
-  return match ? match[1] : filename.replace('.json', '');
+  return match ? match[1] : filename.replace(".json", "");
 }
 
 /**
@@ -89,7 +89,7 @@ export function aggregateCourses(
           existing.description = course.description;
         }
         if (course.ccn) existing.ccn = course.ccn;
-        if (typeof course.competencyUnits === 'number') existing.competencyUnits = course.competencyUnits;
+        if (typeof course.competencyUnits === "number") existing.competencyUnits = course.competencyUnits;
       } else {
         courses.set(normalizedId, {
           id: normalizedId,
@@ -123,13 +123,13 @@ export function generateCoursesAggregate(
 
   // Load all parsed catalog files; only include catalog-YYYY-MM.json
   const files = readdirSync(parsedDir)
-    .filter((f: string) => f.endsWith('.json') && /^catalog-\d{4}-\d{2}\.json$/.test(f))
+    .filter((f: string) => f.endsWith(".json") && /^catalog-\d{4}-\d{2}\.json$/.test(f))
     .sort();
 
   for (const file of files) {
     try {
       const filePath = resolve(parsedDir, file);
-      const data = JSON.parse(readFileSync(filePath, 'utf-8')) as CatalogData;
+      const data = JSON.parse(readFileSync(filePath, "utf-8")) as CatalogData;
       const catalogDate = getCatalogDate(file);
       if (!data.metadata) data.metadata = {};
       data.metadata.catalogDate = catalogDate;
@@ -140,7 +140,7 @@ export function generateCoursesAggregate(
   }
 
   if (catalogs.size === 0) {
-    throw new Error('No catalog files found in parsed directory');
+    throw new Error("No catalog files found in parsed directory");
   }
 
   const courses = aggregateCourses(catalogs);
@@ -150,11 +150,11 @@ export function generateCoursesAggregate(
       generatedAt: new Date().toISOString(),
       totalCourses: Object.keys(courses).length,
       catalogVersionsIncluded: Array.from(catalogs.keys()).sort(),
-      description: 'Aggregate WGU courses from all available catalog versions. Courses are keyed by normalized course codes (lowercase).',
+      description: "Aggregate WGU courses from all available catalog versions. Courses are keyed by normalized course codes (lowercase).",
     },
     courses,
   };
 
-  writeFileSync(outputFile, JSON.stringify(output, null, 2) + '\n');
+  writeFileSync(outputFile, JSON.stringify(output, null, 2) + "\n");
   return output;
 }

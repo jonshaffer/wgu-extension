@@ -1,13 +1,13 @@
 /**
  * Common Types
- * 
+ *
  * Shared type definitions used across multiple data types
  */
 
 // ========== Hierarchy Types (used by Discord, Reddit, etc) ==========
-export type HierarchyLevel = 'university' | 'college' | 'program' | 'course' | 'community';
+export type HierarchyLevel = "university" | "college" | "program" | "course" | "community";
 
-export type College = 'technology' | 'healthcare' | 'business' | 'education';
+export type College = "technology" | "healthcare" | "business" | "education";
 
 export interface Hierarchy {
   level: HierarchyLevel;
@@ -25,8 +25,8 @@ export interface ValidationResult {
 }
 
 export interface ValidationIssue {
-  type: 'missing_data' | 'invalid_format' | 'duplicate' | 'outdated' | 'other';
-  severity: 'error' | 'warning' | 'info';
+  type: "missing_data" | "invalid_format" | "duplicate" | "outdated" | "other";
+  severity: "error" | "warning" | "info";
   location?: string;
   message: string;
   details?: any;
@@ -50,7 +50,7 @@ export interface ParserFormat {
 
 // ========== Config Types ==========
 export interface LogLevel {
-  level: 'DEBUG' | 'INFO' | 'WARN' | 'ERROR' | 'FATAL';
+  level: "DEBUG" | "INFO" | "WARN" | "ERROR" | "FATAL";
 }
 
 export interface Logger {

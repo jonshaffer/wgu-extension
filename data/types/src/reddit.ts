@@ -1,10 +1,10 @@
-import { z } from 'zod';
+import {z} from "zod";
 
 export const RedditHierarchyLevelSchema = z.enum([
-  'university',
-  'college',
-  'program',
-  'community',
+  "university",
+  "college",
+  "program",
+  "community",
 ]);
 
 export const RedditCommunitySchema = z.object({
