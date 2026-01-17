@@ -67,7 +67,7 @@
   "dependencies": {
     "@apollo/server": "^5.1.0",
     "@as-integrations/express4": "^1.1.2",
-    "body-parser": "^1.20.4",
+    "body-parser": "^2.2.2",
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "firebase-admin": "^13.4.0",
@@ -97,7 +97,7 @@
     "jest": "^30.0.5",
     "jest-junit": "^16.0.0",
     "supertest": "^7.1.4",
-    "tar": "^7.5.2",
+    "tar": "^7.5.3",
     "ts-jest": "^29.4.1",
     "ts-node": "^10.9.2",
     "tsx": "^4.20.3",
