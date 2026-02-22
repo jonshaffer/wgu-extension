@@ -434,8 +434,8 @@ importers:
         specifier: ^7.12.0
         version: 7.12.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       simple-icons:
-        specifier: ^15.10.0
-        version: 15.18.0
+        specifier: ^16.7.0
+        version: 16.7.0
       sonner:
         specifier: ^2.0.7
         version: 2.0.7(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -6219,8 +6219,8 @@ packages:
     resolution: {integrity: sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw==}
     engines: {node: '>=14'}
 
-  simple-icons@15.18.0:
-    resolution: {integrity: sha512-lYpvaIuZZr6N50YSdYZQzrKccSSF3dqcgcoz2vMKVQCc/fJWD8nFszJVZz2tCDTSu082rqRYfuYRUPhjdixDAA==}
+  simple-icons@16.7.0:
+    resolution: {integrity: sha512-2BteuQXu1+/jK5dF8YXe8nwoRG3afwl03bCmgPJLiotllUBU46B+WntXT731Z17oOntfV5eeTI7Q1k7MeOA6eg==}
     engines: {node: '>=0.12.18'}
 
   sisteransi@1.0.5:
@@ -13703,7 +13703,7 @@ snapshots:
 
   signal-exit@4.1.0: {}
 
-  simple-icons@15.18.0: {}
+  simple-icons@16.7.0: {}
 
   sisteransi@1.0.5: {}
 
