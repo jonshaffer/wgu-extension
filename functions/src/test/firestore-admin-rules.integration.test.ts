@@ -1,4 +1,4 @@
-import {describe, expect, test, beforeAll, afterAll, beforeEach} from "@jest/globals";
+import {describe, test, beforeAll, afterAll, beforeEach} from "@jest/globals";
 import * as fs from "fs";
 import * as path from "path";
 import {
@@ -92,10 +92,9 @@ describe("firestore-admin.rules: /suggestions create", () => {
     );
   });
 
-  test("denies create when submittedBy.source is 'automated' and userId matches auth.uid is still permitted (source field is not authoritative)", async () => {
-    // Even when source is 'automated', the rule only depends on
-    // submittedBy.userId == auth.uid. Setting source should not change
-    // the outcome relative to a normal create by the same user.
+  test("allows create when submittedBy.source is 'automated' if userId matches auth.uid", async () => {
+    // The rule depends only on submittedBy.userId == auth.uid; the
+    // self-declared `source` field is not authoritative.
     const ctx = testEnv.authenticatedContext("user-alice");
     const ref = doc(ctx.firestore(), SUGGESTIONS, "suggestion-4");
 

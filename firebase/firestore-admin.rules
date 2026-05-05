@@ -28,7 +28,7 @@ service cloud.firestore {
       // Anyone authenticated can read suggestions
       allow read: if isAuthenticated();
       
-      // Anyone authenticated can create suggestions
+      // Authenticated users can create suggestions only on their own behalf.
       // Ensure submittedBy.userId matches the authenticated user.
       // Automated/bot suggestions are written by Cloud Functions via the
       // Admin SDK (which bypasses these rules), not by client callers.
