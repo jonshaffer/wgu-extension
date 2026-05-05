@@ -28,11 +28,12 @@ service cloud.firestore {
       // Anyone authenticated can read suggestions
       allow read: if isAuthenticated();
       
-      // Anyone authenticated can create suggestions
-      allow create: if isAuthenticated() && 
-        // Ensure submittedBy.userId matches the authenticated user
-        (request.resource.data.submittedBy.userId == request.auth.uid ||
-         resource.data.submittedBy.source == 'automated');
+      // Authenticated users can create suggestions only on their own behalf.
+      // Ensure submittedBy.userId matches the authenticated user.
+      // Automated/bot suggestions are written by Cloud Functions via the
+      // Admin SDK (which bypasses these rules), not by client callers.
+      allow create: if isAuthenticated() &&
+        request.resource.data.submittedBy.userId == request.auth.uid;
       
       // Only admins can update suggestions (for review process)
       allow update: if isAdmin();
