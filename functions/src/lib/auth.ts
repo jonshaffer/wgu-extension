@@ -1,5 +1,6 @@
 import * as admin from "firebase-admin";
 import {getAuth} from "firebase-admin/auth";
+import {adminDb} from "./firebase-admin-db.js";
 
 export interface AdminUser {
   uid: string;
@@ -29,9 +30,12 @@ export async function verifyAdminAuth(token: string): Promise<AdminUser> {
     // Verify the Firebase Auth token
     const decodedToken = await admin.auth().verifyIdToken(token);
 
-    // Check if the user has admin permissions
-    // This could be stored in custom claims, Firestore, or environment config
-    const isAdmin = await checkAdminPermissions(decodedToken.uid, decodedToken.email);
+    // Check if the user has admin permissions.
+    // Fast path: the decoded token already carries the canonical `admin`
+    // custom claim, so we can avoid the extra `getUser` round-trip when set.
+    // Otherwise fall back to the secondary `admin_users` collection check.
+    const isAdmin =
+      decodedToken.admin === true || (await checkAdminPermissions(decodedToken.uid));
 
     if (!isAdmin) {
       throw new Error("User does not have admin permissions");
@@ -51,36 +55,22 @@ export async function verifyAdminAuth(token: string): Promise<AdminUser> {
 }
 
 /**
- * Check if a user has admin permissions
- * This is a placeholder implementation - in production, you might:
- * 1. Check Firebase Auth custom claims
- * 2. Query a Firestore admin users collection
- * 3. Check against a hardcoded list of admin emails in environment variables
- * 4. Use a more sophisticated RBAC system
+ * Secondary admin permission check.
+ *
+ * The canonical signal is the Firebase Auth custom claim `admin === true`
+ * read directly from the decoded ID token in `verifyAdminAuth`. This
+ * function is the fallback path for collection-managed admins: an entry
+ * in the `admin_users` collection (in the `admin` database) with an
+ * `active === true` flag.
+ *
+ * To grant admin access via custom claim, use:
+ *   admin.auth().setCustomUserClaims(uid, { admin: true })
  * @param {string} uid - The user ID to check
- * @param {string} email - The user email (optional)
  * @return {Promise<boolean>} Whether the user has admin permissions
  */
-async function checkAdminPermissions(uid: string, email?: string): Promise<boolean> {
-  // Method 1: Check Firebase Auth custom claims
+async function checkAdminPermissions(uid: string): Promise<boolean> {
   try {
-    const userRecord = await admin.auth().getUser(uid);
-    if (userRecord.customClaims?.admin === true) {
-      return true;
-    }
-  } catch (error) {
-    console.warn("Failed to check custom claims:", error);
-  }
-
-  // Method 2: Check environment variable for admin emails
-  const adminEmails = process.env.ADMIN_EMAILS?.split(",").map((e) => e.trim()) || [];
-  if (email && adminEmails.includes(email)) {
-    return true;
-  }
-
-  // Method 3: Check Firestore admin collection (optional)
-  try {
-    const adminDoc = await admin.firestore()
+    const adminDoc = await adminDb
       .collection("admin_users")
       .doc(uid)
       .get();
