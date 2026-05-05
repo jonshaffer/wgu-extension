@@ -37,7 +37,7 @@ const yoga = createYoga({
     return {
       origin: [origin],
       methods: ["GET", "OPTIONS"],
-      allowedHeaders: ["Content-Type", "Authorization"],
+      allowedHeaders: ["Content-Type", "Authorization", "X-Extension-Version", "X-Client"],
     };
   },
   context: async ({request}) => {
