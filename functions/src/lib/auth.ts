@@ -55,30 +55,20 @@ export async function verifyAdminAuth(token: string): Promise<AdminUser> {
 }
 
 /**
- * Check if a user has admin permissions.
+ * Secondary admin permission check.
  *
- * Canonical signal is the Firebase Auth custom claim `admin === true`,
- * which matches `firebase/firestore-admin.rules`. The `admin_users`
- * Firestore collection is checked as a secondary mechanism for
- * collection-managed admins with an `active` flag.
+ * The canonical signal is the Firebase Auth custom claim `admin === true`
+ * read directly from the decoded ID token in `verifyAdminAuth`. This
+ * function is the fallback path for collection-managed admins: an entry
+ * in the `admin_users` collection (in the `admin` database) with an
+ * `active === true` flag.
  *
- * To grant admin access, set the custom claim with:
+ * To grant admin access via custom claim, use:
  *   admin.auth().setCustomUserClaims(uid, { admin: true })
  * @param {string} uid - The user ID to check
  * @return {Promise<boolean>} Whether the user has admin permissions
  */
 async function checkAdminPermissions(uid: string): Promise<boolean> {
-  // Method 1: Check Firebase Auth custom claims (canonical)
-  try {
-    const userRecord = await admin.auth().getUser(uid);
-    if (userRecord.customClaims?.admin === true) {
-      return true;
-    }
-  } catch (error) {
-    console.warn("Failed to check custom claims:", error);
-  }
-
-  // Method 2: Check Firestore admin_users collection (in the admin database)
   try {
     const adminDoc = await adminDb
       .collection("admin_users")
