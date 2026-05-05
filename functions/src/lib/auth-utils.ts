@@ -111,20 +111,11 @@ export async function authenticateRequest(request: CallableRequest | any): Promi
   const userId = decodedToken.uid;
   const userEmail = decodedToken.email || "";
 
-  // Check admin privileges
-  let isAdmin = false;
-
-  // Option 1: Custom claims
-  if (decodedToken.admin) {
-    isAdmin = true;
-  } else {
-    // Option 2: Admin email list
-    const adminEmails = (process.env.ADMIN_EMAILS || "")
-      .split(",")
-      .map((e) => e.trim())
-      .filter(Boolean);
-    isAdmin = adminEmails.includes(userEmail);
-  }
+  // Admin status is determined solely by the Firebase Auth `admin` custom
+  // claim, matching `firebase/firestore-admin.rules`. To grant admin, use
+  // `admin.auth().setCustomUserClaims(uid, { admin: true })` (e.g. via the
+  // `setAdminClaims` HTTP function).
+  const isAdmin = decodedToken.admin === true;
 
   return {
     userId,

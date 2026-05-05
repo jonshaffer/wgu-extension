@@ -27,10 +27,26 @@ npm install
 ```bash
 # functions/.env.development
 NODE_ENV=development
-ADMIN_EMAILS=admin@example.com,dev@example.com
 ALLOWED_ORIGINS=chrome-extension://,moz-extension://,http://localhost
 ADMIN_ALLOWED_ORIGINS=http://localhost:3000,http://localhost:5173
+# Required only for granting the very first admin via the
+# `setAdminClaims` HTTP function with the `x-setup-key` header.
+INITIAL_ADMIN_SETUP_KEY=replace-with-a-strong-random-string
 ```
+
+#### Granting Admin Access
+
+Admin authorization is determined solely by the Firebase Auth `admin`
+custom claim (see `firebase/firestore-admin.rules`). To grant admin:
+
+```ts
+import {getAuth} from "firebase-admin/auth";
+await getAuth().setCustomUserClaims(uid, {admin: true});
+```
+
+For the bootstrap case (no admin exists yet), call the `setAdminClaims`
+HTTP function with the `x-setup-key: $INITIAL_ADMIN_SETUP_KEY` header.
+Subsequent admin grants must be made by an already-admin caller.
 
 #### Production Environment  
 Set via Firebase Functions config:
@@ -40,7 +56,6 @@ firebase functions:config:set \
   graphql.complexity_budget="300" \
   graphql.depth_limit="6" \
   graphql.rate_limit="120" \
-  admin.emails="admin@wgu-extension.com" \
   reddit.client_id="your_reddit_client_id" \
   reddit.client_secret="your_reddit_client_secret"
 ```

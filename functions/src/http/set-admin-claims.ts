@@ -78,18 +78,15 @@ export const setAdminClaims = onRequest(
           return;
         }
 
-        // Check if calling user has admin privileges
+        // Check if calling user has admin privileges. Bootstrap (granting
+        // the very first admin) is handled by the `x-setup-key` header
+        // checked above; everyone else must already hold the `admin`
+        // custom claim.
         if (!decodedToken.admin) {
-          const adminEmails = (process.env.ADMIN_EMAILS || "")
-            .split(",")
-            .map((e) => e.trim())
-            .filter(Boolean);
-          if (!adminEmails.includes(decodedToken.email || "")) {
-            response.status(403).json({
-              error: "Forbidden - Admin access required to grant admin privileges",
-            });
-            return;
-          }
+          response.status(403).json({
+            error: "Forbidden - Admin access required to grant admin privileges",
+          });
+          return;
         }
       }
 
