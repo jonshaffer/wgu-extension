@@ -5,7 +5,7 @@ import depthLimit from "graphql-depth-limit";
 import {getComplexity, simpleEstimator} from "graphql-query-complexity";
 import {publicTypeDefs} from "../graphql/public-schema.js";
 import {publicResolvers} from "../graphql/public-resolvers.js";
-import {getAllowedOrigins} from "../lib/cors.js";
+import {getAllowedOrigins, isOriginAllowed} from "../lib/cors.js";
 import * as allowlist from "../graphql/allowlist.json";
 
 const schema = buildSchema(publicTypeDefs);
@@ -80,7 +80,8 @@ const yoga = createYoga({
 
         // CORS handling for GET requests
         const origin = request.headers.get("origin");
-        if (origin && !allowedOrigins.includes(origin) && process.env.NODE_ENV === "production") {
+        const isProd = process.env.NODE_ENV === "production";
+        if (origin && isProd && !isOriginAllowed(origin, allowedOrigins)) {
           return endResponse(
             new fetchAPI.Response(
               JSON.stringify({

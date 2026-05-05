@@ -12,7 +12,7 @@
     "bash -c 'cd graphql-client && npx eslint --fix $(printf \"%s\\n\" \"$@\" | sed \"s:^graphql-client/::\")' --"
   ],
   "functions/**/*.{ts,js}": [
-    "bash -c 'cd functions && npx eslint --fix $(printf \"%s\\n\" \"$@\" | sed \"s:^functions/::\")' --"
+    "bash -c 'cd functions && pnpm exec eslint --fix $(printf \"%s\\n\" \"$@\" | sed \"s:^functions/::\")' --"
   ],
   "*.{json,yml,yaml,md}": [
     "echo 'Non-code files validated. Type checking happens separately.'"
