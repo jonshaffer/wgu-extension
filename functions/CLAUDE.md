@@ -141,16 +141,22 @@ const allowedQueries = require('./allowlist.json');
 - **Storage**: Firestore rate limit tracking
 
 ### CORS Policy
-```typescript
-const corsOptions = {
-  origin: [
-    /^https:\/\/.*\.wgu\.edu$/,
-    /^chrome-extension:\/\/[a-z]{32}$/,
-    /^moz-extension:\/\/[a-f0-9-]{36}$/
-  ],
-  credentials: true
-};
+
+Implemented in `src/lib/cors.ts` via `getAllowedOrigins()` (default allowlist) and `isOriginAllowed()` (regex-aware match). Default allowlist:
+
+```ts
+[
+  /^https:\/\/.*\.wgu\.edu$/,           // any wgu.edu subdomain
+  /^chrome-extension:\/\/[a-z]{32}$/,   // Chrome extension origins
+  /^moz-extension:\/\/[a-f0-9-]{36}$/,  // Firefox extension origins
+  "https://wgu-extension.web.app",      // docs site (Firebase Hosting)
+  "https://wgu-extension.firebaseapp.com",
+  "http://localhost:5173",              // local dev
+  "http://127.0.0.1:5173",
+]
 ```
+
+The `ALLOWED_ORIGINS` environment variable overrides the defaults entirely with a comma-separated list of exact-match strings (regex is not supported in the env override).
 
 ## Data Architecture
 
