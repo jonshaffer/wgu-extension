@@ -1,6 +1,6 @@
 {
   "name": "@wgu-extension/functions",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": false,
   "description": "Firebase Functions and GraphQL schema for WGU Extension",
   "license": "MIT",

@@ -2,7 +2,7 @@
   "name": "unofficial-wgu-extension",
   "description": "Adds simple UI changes to WGU pages. Unofficial student made tool for WGU students. Not endorsed by WGU.",
   "private": false,
-  "version": "0.1.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "wxt",
