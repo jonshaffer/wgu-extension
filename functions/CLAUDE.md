@@ -147,7 +147,7 @@ Implemented in `src/lib/cors.ts` via `getAllowedOrigins()` (default allowlist) a
 ```ts
 [
   /^https:\/\/.*\.wgu\.edu$/,           // any wgu.edu subdomain
-  /^chrome-extension:\/\/[a-z]{32}$/,   // Chrome extension origins
+  /^chrome-extension:\/\/[a-p]{32}$/,   // Chrome extension origins (IDs use a-p only)
   /^moz-extension:\/\/[a-f0-9-]{36}$/,  // Firefox extension origins
   "https://wgu-extension.web.app",      // docs site (Firebase Hosting)
   "https://wgu-extension.firebaseapp.com",
