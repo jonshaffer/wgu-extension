@@ -1,5 +1,6 @@
 import * as admin from "firebase-admin";
 import {getAuth} from "firebase-admin/auth";
+import {adminDb} from "./firebase-admin-db.js";
 
 export interface AdminUser {
   uid: string;
@@ -29,10 +30,12 @@ export async function verifyAdminAuth(token: string): Promise<AdminUser> {
     // Verify the Firebase Auth token
     const decodedToken = await admin.auth().verifyIdToken(token);
 
-    // Check if the user has admin permissions
-    // Canonical signal is the Firebase Auth `admin` custom claim, with the
-    // Firestore `admin_users` collection as a secondary mechanism.
-    const isAdmin = await checkAdminPermissions(decodedToken.uid);
+    // Check if the user has admin permissions.
+    // Fast path: the decoded token already carries the canonical `admin`
+    // custom claim, so we can avoid the extra `getUser` round-trip when set.
+    // Otherwise fall back to the secondary `admin_users` collection check.
+    const isAdmin =
+      decodedToken.admin === true || (await checkAdminPermissions(decodedToken.uid));
 
     if (!isAdmin) {
       throw new Error("User does not have admin permissions");
@@ -75,9 +78,9 @@ async function checkAdminPermissions(uid: string): Promise<boolean> {
     console.warn("Failed to check custom claims:", error);
   }
 
-  // Method 2: Check Firestore admin_users collection
+  // Method 2: Check Firestore admin_users collection (in the admin database)
   try {
-    const adminDoc = await admin.firestore()
+    const adminDoc = await adminDb
       .collection("admin_users")
       .doc(uid)
       .get();
