@@ -11,7 +11,7 @@ export function getAllowedOrigins(raw: string | undefined): AllowedOrigin[] {
   // The env override (ALLOWED_ORIGINS) accepts comma-separated exact-match strings only.
   return [
     /^https:\/\/.*\.wgu\.edu$/,
-    /^chrome-extension:\/\/[a-z]{32}$/,
+    /^chrome-extension:\/\/[a-p]{32}$/,
     /^moz-extension:\/\/[a-f0-9-]{36}$/,
     "https://wgu-extension.web.app",
     "https://wgu-extension.firebaseapp.com",
@@ -25,9 +25,12 @@ export function isOriginAllowed(
   allowed: AllowedOrigin[]
 ): boolean {
   if (!origin) return false;
-  return allowed.some((rule) =>
-    typeof rule === "string" ? rule === origin : rule.test(origin)
-  );
+  return allowed.some((rule) => {
+    if (typeof rule === "string") return rule === origin;
+    // Reset lastIndex so the helper is safe with g/y-flagged regexes.
+    rule.lastIndex = 0;
+    return rule.test(origin);
+  });
 }
 
 export function setCors(req: Request, res: Response, allowedOrigins: AllowedOrigin[]) {

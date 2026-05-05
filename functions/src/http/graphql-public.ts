@@ -25,6 +25,21 @@ function validateVariables(hash: string, variables: unknown) {
 const yoga = createYoga({
   schema,
   graphiql: false, // Disable GraphiQL in production
+  // CORS: Yoga's built-in plugin handles preflight (OPTIONS) and adds headers
+  // to successful responses. We use the factory form so origin matching can
+  // run through `isOriginAllowed` (regex-aware). Returning `false` for a
+  // disallowed origin omits CORS headers and the browser blocks the response.
+  cors: (request) => {
+    const origin = request.headers.get("origin");
+    if (!origin) return false;
+    const isProd = process.env.NODE_ENV === "production";
+    if (isProd && !isOriginAllowed(origin, allowedOrigins)) return false;
+    return {
+      origin: [origin],
+      methods: ["GET", "OPTIONS"],
+      allowedHeaders: ["Content-Type", "Authorization", "X-Extension-Version", "X-Client"],
+    };
+  },
   context: async ({request}) => {
     // Extract user from Authorization header if present
     const authHeader = request.headers.get("authorization");
@@ -60,7 +75,9 @@ const yoga = createYoga({
   plugins: [
     {
       onRequest({request, fetchAPI, endResponse}) {
-        // Only allow GET requests
+        // Public endpoint only accepts GET (queries via persisted hashes).
+        // OPTIONS preflight is handled by Yoga's built-in CORS plugin (registered
+        // via the `cors` option above) and short-circuits before reaching here.
         if (request.method !== "GET") {
           return endResponse(
             new fetchAPI.Response(
@@ -69,26 +86,6 @@ const yoga = createYoga({
               }),
               {
                 status: 405,
-                headers: {
-                  "Content-Type": "application/json",
-                  "Access-Control-Allow-Origin": "*",
-                },
-              }
-            )
-          );
-        }
-
-        // CORS handling for GET requests
-        const origin = request.headers.get("origin");
-        const isProd = process.env.NODE_ENV === "production";
-        if (origin && isProd && !isOriginAllowed(origin, allowedOrigins)) {
-          return endResponse(
-            new fetchAPI.Response(
-              JSON.stringify({
-                errors: [{message: "Origin not allowed"}],
-              }),
-              {
-                status: 403,
                 headers: {"Content-Type": "application/json"},
               }
             )
@@ -153,7 +150,7 @@ const yoga = createYoga({
 
 export const publicApi = onRequest(
   {
-    cors: false, // We handle CORS manually
+    cors: false, // Yoga's built-in CORS plugin handles preflight + headers
     memory: "512MiB",
     timeoutSeconds: 10,
   },

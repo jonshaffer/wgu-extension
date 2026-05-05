@@ -22,7 +22,7 @@ describe("getAllowedOrigins", () => {
     const defaults = getAllowedOrigins(undefined);
     expect(defaults).toEqual([
       /^https:\/\/.*\.wgu\.edu$/,
-      /^chrome-extension:\/\/[a-z]{32}$/,
+      /^chrome-extension:\/\/[a-p]{32}$/,
       /^moz-extension:\/\/[a-f0-9-]{36}$/,
       "https://wgu-extension.web.app",
       "https://wgu-extension.firebaseapp.com",
@@ -86,6 +86,9 @@ describe("isOriginAllowed (default policy)", () => {
     expect(isOriginAllowed(`chrome-extension://${"a".repeat(31)}`, defaults)).toBe(false);
     expect(isOriginAllowed(`chrome-extension://${"a".repeat(33)}`, defaults)).toBe(false);
     expect(isOriginAllowed(`chrome-extension://${"A".repeat(32)}`, defaults)).toBe(false);
+    // Real Chrome IDs are limited to a-p; characters outside that range must be rejected.
+    expect(isOriginAllowed(`chrome-extension://${"q".repeat(32)}`, defaults)).toBe(false);
+    expect(isOriginAllowed(`chrome-extension://${"z".repeat(32)}`, defaults)).toBe(false);
   });
 
   test("accepts moz-extension origin with UUID", () => {
@@ -115,6 +118,17 @@ describe("isOriginAllowed (default policy)", () => {
 
   test("rejects other localhost ports", () => {
     expect(isOriginAllowed("http://localhost:3000", defaults)).toBe(false);
+  });
+
+  test("is idempotent across calls when allowlist contains a stateful regex", () => {
+    // Caller-supplied `g`-flagged regex would have stateful lastIndex; the helper
+    // should reset it so repeated calls return the same result.
+    const stateful = /^https:\/\/example\.com$/g;
+    const rules: typeof defaults = [stateful];
+
+    expect(isOriginAllowed("https://example.com", rules)).toBe(true);
+    expect(isOriginAllowed("https://example.com", rules)).toBe(true);
+    expect(isOriginAllowed("https://example.com", rules)).toBe(true);
   });
 });
 
